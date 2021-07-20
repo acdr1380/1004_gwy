@@ -1,0 +1,60 @@
+@import 'src/app/styles/_layout';
+@import 'src/app/styles/_drawer';
+
+.header_menu {
+    .input_width {
+        width: 200px;
+    }
+    button {
+        margin-right: 16px;
+        border-radius: 4px;
+    }
+    input {
+        margin-right: 10px;
+    }
+}
+
+.job_query {
+    background-color: #f0f2f5;
+    & > b {
+        margin-right: 25px;
+    }
+    & > div {
+        display: inline-block;
+        margin-right: 20px;
+    }
+    .time_input {
+        display: inline-block;
+        width: 200px;
+    }
+    button {
+        margin-right: 20px;
+    }
+}
+
+.person_select {
+    background-color: #fff;
+    z-index: 99;
+    .select_input {
+        width: 230px;
+    }
+}
+
+.display_inlb {
+    display: inline-block;
+}
+
+.tab_width {
+    width: 100%;
+}
+
+.content {
+    margin: 0 10px;
+    margin-top: 10px;
+}
+
+.download_icon {
+    margin-right: 25px;
+    color: #1890ff;
+    cursor: pointer;
+}

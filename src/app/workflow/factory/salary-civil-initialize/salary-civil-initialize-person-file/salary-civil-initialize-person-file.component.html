@@ -1,0 +1,40 @@
+<div class="layout">
+    <div class="container view_scroll">
+        <div class="person_file_tbl">
+            <div class="file_type_list">
+                <ng-container *ngFor="let data of operPersonFileIfy.data">
+                    <div class="title">
+                        <span class="must" *ngIf="data.isMustInput">*</span>{{ data.annexName }}：
+                    </div>
+                    <div class="file_list">
+                        <nz-upload
+                            class="upload-list-inline"
+                            nzMultiple
+                            nzListType="picture"
+                            [nzData]="data"
+                            [(nzFileList)]="data.fileList"
+                            [nzCustomRequest]="operPersonFileIfy.fileCustomRequest"
+                            [nzRemove]="operPersonFileIfy.fileRemove"
+                            [nzPreview]="operPersonFileIfy.preview"
+                            [nzShowUploadList]="{ showRemoveIcon: canEdit }"
+                            [nzShowButton]="canEdit"
+                        >
+                            <button nz-button><i nz-icon nzType="upload"></i>上传附件</button>
+                        </nz-upload>
+                    </div>
+                </ng-container>
+
+                <ng-container *ngIf="operPersonFileIfy.data.length === 0">
+                    <div class="title">无可上传附件类别，请检查后台设置。</div>
+                </ng-container>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- 在线预览附件 -->
+<gl-online-doc
+    #onlineDocOverlayElement
+    [fileList]="operPersonFileIfy.list"
+    [selectedIndex]="operPersonFileIfy.selectedIndex"
+></gl-online-doc>

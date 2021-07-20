@@ -1,0 +1,338 @@
+<div class="layout" [class.full_screen]="isFullScreen">
+    <div class="header">
+        <button
+            [disabled]="!canEdit"
+            nz-button
+            nzType="primary"
+            (click)="personSelectIfy.evtSelectPerson()"
+        >
+            选择人员
+        </button>
+        <div class="right">
+            <button
+                nz-button
+                nzType="link"
+                nz-tooltip
+                nzTooltipTitle="流程图"
+                (click)="operStepFlowIfy.open()"
+            >
+                <i nz-icon nzType="cluster"></i>
+            </button>
+            <button
+                nz-button
+                nzType="link"
+                nz-tooltip
+                nzTooltipTitle="流程跟踪"
+                (click)="operTailIfy.open()"
+            >
+                <i nz-icon nzType="deployment-unit"></i>
+            </button>
+            <button
+                nz-button
+                nzType="link"
+                nz-tooltip
+                nzTooltipTitle="全屏"
+                (click)="fullScreenSwith()"
+            >
+                <i nz-icon nzType="fullscreen"></i>
+            </button>
+        </div>
+    </div>
+    <div class="header salary_status">
+        <nz-tabset
+            [nzTabBarStyle]="{ 'margin.px': 0, 'height.px': 50, 'padding-top': '3px' }"
+            [(nzSelectedIndex)]="riesTabIfy.selectIndex"
+            (nzSelectChange)="riesTabIfy.change()"
+        >
+            <ng-container *ngFor="let item of riesTabIfy.list">
+                <nz-tab nzTitle="{{ item.NAME }}({{ item.COUNT }})"></nz-tab>
+            </ng-container>
+        </nz-tabset>
+    </div>
+    <div class="header" *ngIf="riesTabIfy.radioValue">
+        <nz-radio-group
+            nzButtonStyle="solid"
+            [(ngModel)]="riesTabIfy.radioValue"
+            (ngModelChange)="riesTabIfy.radioChange()"
+        >
+            <ng-container *ngFor="let item of riesTabIfy.list[riesTabIfy.selectIndex]?.DATA">
+                <label nz-radio-button [nzValue]="item.VALUE"
+                    >{{ item.NAME }}({{ item.COUNT }})</label
+                >
+            </ng-container>
+        </nz-radio-group>
+    </div>
+    <div class="container" #personTableElement>
+        <div class="view_scroll tbl">
+            <ng-template
+                [ngTemplateOutlet]="isNotComputeTemp"
+                [ngTemplateOutletContext]="{ data: riesTabIfy.radioTABLE_DATA }"
+            ></ng-template>
+        </div>
+    </div>
+</div>
+
+<!-- 选人组件 -->
+<oper-select-person
+    #operSelectPerson
+    [jobStepInfo]="jobStepInfo"
+    [filterParmas]="personSelectIfy.filterParmas"
+    (selectedChange)="personSelectIfy.evtChange()"
+    [disabledList]="personSelectIfy.psnDataChange()"
+>
+</oper-select-person>
+
+<!-- 未计算 -->
+<ng-template let-data="data" #isNotComputeTemp>
+    <nz-table
+        #isNotComputeTable
+        nzBordered
+        [nzPageSize]="5"
+        nzSize="small"
+        [nzData]="data"
+        [nzLoading]="riesTabIfy.table.loading"
+    >
+        <thead>
+            <tr>
+                <!-- <th nzAlign="center" rowspan="2">序号</th> -->
+                <th nzAlign="center" rowspan="2">姓名</th>
+                <th nzAlign="center" rowspan="2">出生日期</th>
+                <th nzAlign="center" rowspan="2">执行工资职务</th>
+                <th nzAlign="center" rowspan="2">职务工资</th>
+                <th nzAlign="center" rowspan="2">年度考核</th>
+
+                <th nzAlign="center" rowspan="2">变动情况</th>
+                <th nzAlign="center" rowspan="2">级别档次</th>
+                <th nzAlign="center" rowspan="2">级别工资</th>
+                <th nzAlign="center" rowspan="2">级别起考年度</th>
+                <th nzAlign="center" rowspan="2">档次起考年度</th>
+                <th nzAlign="center" rowspan="2">工资合计</th>
+
+                <th nzAlign="center" rowspan="2">增资额</th>
+                <th nzAlign="center" rowspan="2">补发月数</th>
+                <th nzAlign="center" rowspan="2">补发额</th>
+                <th nzAlign="center" rowspan="2">未晋升原因</th>
+                <th nzAlign="center" colspan="3" nzRight="0px">操作</th>
+            </tr>
+            <tr>
+                <th nzAlign="center" colspan="3" nzRight="0px">
+                    <a (click)="salaryExecuteAll()">全部计算</a>
+                </th>
+            </tr>
+        </thead>
+        <tbody>
+            <ng-container *ngFor="let data of isNotComputeTable.data; let ii = index">
+                <tr>
+                    <!-- <td rowSpan="2" nzAlign="center">{{ ii + 1 }}</td> -->
+                    <!-- 姓名 -->
+                    <td rowSpan="2" nzAlign="center" columnName="A0101">{{ data.A0101 }}</td>
+                    <!-- 出生日期 -->
+                    <td rowSpan="2" nzAlign="center" columnName="A0107">{{ data.A0107 }}</td>
+                    <!-- 执行工资职务 -->
+                    <td rowSpan="2" nzAlign="center" columnName="GZDA0705JoinGZDA0712">
+                        {{ data.GZDA0705JoinGZDA0712 }}
+                    </td>
+                    <!-- 职务工资 -->
+                    <td rowSpan="2" nzAlign="center" columnName="GZDA0717PlusGZDA0723">
+                        {{ data.GZDA0717PlusGZDA0723 }}
+                    </td>
+                    <!-- 年度考核 -->
+                    <td
+                        rowSpan="2"
+                        nzAlign="center"
+                        columnName="GZ0601JoinGZ0602"
+                        class="edit"
+                        (click)="assessEditIfy.assessEdit(data)"
+                    >
+                        {{ data.GZ0601JoinGZ0602 }}
+                    </td>
+
+                    <!-- 变动情况 -->
+                    <td nzAlign="center">变动前</td>
+                    <!-- 级别档次 -->
+                    <td nzAlign="center" columnName="GZDA0706JoinGZDA0707">
+                        {{ data.GZDA0706JoinGZDA0707 }}
+                    </td>
+                    <!-- 级别工资 -->
+                    <td nzAlign="center" nzAlign="center" columnName="GZDA0718">
+                        {{ data.GZDA0718 }}
+                    </td>
+                    <!-- 级别起考年度 -->
+                    <td nzAlign="center" columnName="GZDA0725">{{ data.GZDA0725 }}</td>
+                    <!-- 档次起考年度 -->
+                    <td nzAlign="center" columnName="GZDA0726">{{ data.GZDA0726 }}</td>
+                    <!-- 工资合计 -->
+                    <td nzAlign="center" columnName="GZDA0726">{{ data.GZDA0734 }}</td>
+
+                    <!-- 增资额 -->
+                    <td rowSpan="2" nzAlign="center" columnName="GZDA0742">
+                        {{ data.GZDA0742 }}
+                    </td>
+                    <!-- 补发月数 -->
+                    <td rowSpan="2" nzAlign="center" columnName="GZDA0745">
+                        {{ data.GZDA0745 }}
+                    </td>
+                    <!-- 补发额 -->
+                    <td rowSpan="2" nzAlign="center" columnName="GZDA0746">
+                        {{ data.GZDA0746 }}
+                    </td>
+                    <!-- 未晋升原因 -->
+                    <td rowSpan="2" nzAlign="center" (click)="viewIsNotRise(data)">
+                        <a nz-tooltip nzTooltipTitle="查看"><i nz-icon nzType="eye"></i></a>
+                    </td>
+                    <td rowSpan="2" nzAlign="center" (click)="calculation(data)">
+                        <a nz-tooltip nzTooltipTitle="计算工资">
+                            <i nz-icon nzType="calculator"></i>
+                        </a>
+                    </td>
+                    <td rowSpan="2" nzAlign="center" (click)="deletePerson(data)">
+                        <a nz-tooltip nzTooltipTitle="撤销"
+                            ><i nz-icon nzType="minus-square"></i
+                        ></a>
+                    </td>
+                    <td rowSpan="2" nzAlign="center" (click)="wageChange(data)">
+                        <a nz-tooltip nzTooltipTitle="工资变迁"
+                            ><i nz-icon nzType="transaction"></i
+                        ></a>
+                    </td>
+                </tr>
+                <tr>
+                    <!-- 变动情况 -->
+                    <td nzAlign="center">变动后</td>
+                    <!-- 级别档次 -->
+                    <td nzAlign="center" columnName="GZDA0706JoinGZDA0707">
+                        {{ data.GZDA0706JoinGZDA0707 }}
+                    </td>
+                    <!-- 级别工资 -->
+                    <td nzAlign="center" columnName="GZDA0718">{{ data.GZDA0718 }}</td>
+                    <!-- 级别起考年度 -->
+                    <td nzAlign="center" columnName="GZDA0725">{{ data.GZDA0725 }}</td>
+                    <!-- 档次起考年度 -->
+                    <td nzAlign="center" columnName="GZDA0726">{{ data.GZDA0726 }}</td>
+                    <!-- 工资合计 -->
+                    <td nzAlign="center" columnName="GZDA0734">{{ data.GZDA0734 }}</td>
+                </tr>
+            </ng-container>
+        </tbody>
+    </nz-table>
+</ng-template>
+
+<!-- 已晋升 -->
+<ng-template let-data="data" #isRiseTemp> </ng-template>
+
+<!-- 未晋升 -->
+<ng-template let-data="data" #isNotRiseTemp> </ng-template>
+
+<!-- 考核编辑 -->
+<nz-drawer
+    [nzClosable]="true"
+    [nzVisible]="assessEditIfy.visible"
+    nzPlacement="right"
+    [nzTitle]="assessEditIfy.title"
+    [nzWidth]="assessEditIfy.width"
+    (nzOnClose)="assessEditIfy.close()"
+>
+    <div class="drawer_area">
+        <div class="container">
+            <form nz-form [formGroup]="assessEditIfy.form">
+                <nz-form-item>
+                    <nz-form-label>考核年份</nz-form-label>
+                    <nz-form-control>
+                        <input nz-input formControlName="GZ0601" />
+                    </nz-form-control>
+                </nz-form-item>
+                <nz-form-item>
+                    <nz-form-label nzRequired>考核结果</nz-form-label>
+                    <nz-form-control nzHasFeedback>
+                        <dictionary-input
+                            code="CGZCC"
+                            [text]="assessEditIfy.currentRowData['GZ0602_CN']"
+                            formControlName="GZ0602"
+                        >
+                        </dictionary-input>
+                    </nz-form-control>
+                </nz-form-item>
+            </form>
+        </div>
+        <div class="footer">
+            <button nz-button nzType="primary" (click)="assessEditIfy.save()">保存</button>
+        </div>
+    </div>
+</nz-drawer>
+
+<nz-drawer
+    [nzClosable]="true"
+    [nzVisible]="viewIsNotRiseIfy.visible"
+    nzPlacement="right"
+    [nzTitle]="viewIsNotRiseIfy.title"
+    [nzWidth]="viewIsNotRiseIfy.width"
+    (nzOnClose)="viewIsNotRiseIfy.close()"
+>
+    <div class="drawer_area">
+        <div class="container">
+            <div [innerHTML]="viewIsNotRiseIfy.GZDA0760"></div>
+        </div>
+    </div>
+</nz-drawer>
+
+<!-- 工资变迁 -->
+<salary-gz07-drawer
+    #salaryGZ07Element
+    [jobStepInfo]="jobStepInfo"
+    [keyId]="riesTabIfy.table.selectedKeyId"
+></salary-gz07-drawer>
+
+<!-- 业务流程图 -->
+<nz-drawer
+    nzPlacement="top"
+    [nzVisible]="operStepFlowIfy.visible"
+    [nzTitle]="operStepFlowIfy.title"
+    [nzHeight]="operStepFlowIfy.height"
+    (nzOnClose)="operStepFlowIfy.close()"
+>
+    <div class="drawer_area oper_step_flow">
+        <nz-steps [nzCurrent]="operStepFlowIfy.evtGetStepIndex()">
+            <ng-container *ngFor="let item of operStepFlowIfy.list">
+                <nz-step
+                    [nzTitle]="item.stepName"
+                    [nzIcon]="item.icon"
+                    [nzDescription]="item.desc || ''"
+                >
+                </nz-step>
+            </ng-container>
+        </nz-steps>
+    </div>
+</nz-drawer>
+
+<!-- 业务流程监控 -->
+<nz-drawer
+    [nzVisible]="operTailIfy.visible"
+    [nzTitle]="operTailIfy.title"
+    [nzWidth]="operTailIfy.width"
+    (nzOnClose)="operTailIfy.close()"
+>
+    <div class="drawer_area oper_tail">
+        <div class="container">
+            <nz-timeline>
+                <nz-timeline-item [nzDot]="dotTemplate"><span>业务开始</span></nz-timeline-item>
+                <ng-container *ngFor="let item of operTailIfy.list; let i = index">
+                    <nz-timeline-item [nzColor]="['red', 'blue', 'green'][i % 3]">
+                        <p>
+                            <b>{{ item.stateDesc }}</b>
+                            {{ item.auditDate | date: 'yyyy-MM-dd HH:mm' }}
+                        </p>
+                        <p>
+                            <b
+                                ><span>{{ item.contacts }}</span></b
+                            ><span> {{ item.orgName }} {{ item.contactNumber }}</span>
+                        </p>
+                        <p *ngIf="item.auditStateDesc">批复结果： {{ item.auditStateDesc }}</p>
+                    </nz-timeline-item>
+                </ng-container>
+            </nz-timeline>
+            <ng-template #dotTemplate>
+                <i nz-icon type="clock-circle-o" style="font-size: 16px"></i>
+            </ng-template>
+        </div>
+    </div>
+</nz-drawer>

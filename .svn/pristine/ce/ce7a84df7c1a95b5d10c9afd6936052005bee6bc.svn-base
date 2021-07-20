@@ -1,0 +1,23 @@
+<!-- 选择单位抽屉 -->
+<nz-drawer
+    [nzVisible]="selectOrgDrawerIfy.visible"
+    nzPlacement="right"
+    [nzTitle]="selectOrgDrawerIfy.title"
+    [nzWidth]="selectOrgDrawerIfy.width"
+    (nzOnClose)="selectOrgDrawerIfy.close()"
+    #selectOrg
+>
+    <div class="drawer_area select_org_drawer">
+        <div class="container">
+            <div class="view">
+                <select-org
+                    [isLevel]="isLevel"
+                    (selectOrgChange)="evtSelectOrgChange($event)"
+                ></select-org>
+            </div>
+        </div>
+        <div class="footer">
+            <button nz-button (click)="selectOrgDrawerIfy.close()">关闭</button>
+        </div>
+    </div>
+</nz-drawer>

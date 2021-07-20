@@ -1,0 +1,374 @@
+<div class="layout salary_content">
+    <div class="container">
+        <div class="view_scroll">
+            <ng-template [ngTemplateOutlet]="personBaseInfoTemplate"></ng-template>
+            <!-- 分隔符 -->
+            <div class="separator"></div>
+            <ng-template [ngTemplateOutlet]="personsalaryInfoTemplate"></ng-template>
+        </div>
+    </div>
+</div>
+
+<!-- 人员基本情况 -->
+<ng-template #personBaseInfoTemplate>
+    <div class="layout salary_chunk" [class.full_screen]="isUpFullScreen">
+        <div class="header">
+            <nz-radio-group
+                nzButtonStyle="solid"
+                [(ngModel)]="personBaseInfoIfy.TABLE_DISPLAY_CODE"
+                (ngModelChange)="personBaseInfoIfy.tabs.setChange()"
+            >
+                <ng-container *ngFor="let item of personBaseInfoIfy.tabs.setList">
+                    <label nz-radio-button [nzValue]="item.TABLE_DISPLAY_CODE">{{
+                        item.TABLE_NAME
+                    }}</label>
+                </ng-container>
+            </nz-radio-group>
+
+            <div class="right">
+                <div class="arrows" (click)="evtArrows('up')">
+                    <i class="fa fa-arrows-alt"></i>
+                </div>
+            </div>
+        </div>
+        <div class="container">
+            <ng-container *ngFor="let item of personBaseInfoIfy.tabs.setList">
+                <div
+                    class="view pdd_10"
+                    [hidden]="!(item.TABLE_DISPLAY_CODE === personBaseInfoIfy.TABLE_DISPLAY_CODE)"
+                >
+                    <ng-container *ngIf="item.TABLE_DISPLAY_CODE !== 'JBT'; else elseTemplate">
+                        <ng-template
+                            [ngTemplateOutlet]="item.showMain ? mainTemplate : childTemplate"
+                            [ngTemplateOutletContext]="{
+                                TABLE_DISPLAY_CODE: item.TABLE_DISPLAY_CODE,
+                                fields: item.fields,
+                                result: item.result,
+
+                                pageIndex: item.pageIndex
+                            }"
+                        ></ng-template>
+                    </ng-container>
+                    <ng-template #elseTemplate>
+                        <ng-template
+                            [ngTemplateOutlet]="subsidyTemplate"
+                            [ngTemplateOutletContext]="{
+                                TABLE_DISPLAY_CODE: item.TABLE_DISPLAY_CODE,
+                                fields: item.fields || [],
+                                result: item.result
+                            }"
+                        ></ng-template>
+                    </ng-template>
+                </div>
+            </ng-container>
+        </div>
+    </div>
+</ng-template>
+
+<!-- 工资基本情况 -->
+<ng-template #personsalaryInfoTemplate>
+    <div class="layout salary_chunk" [class.full_screen]="isDownFullScreen">
+        <div class="header">
+            <nz-radio-group
+                nzButtonStyle="solid"
+                [(ngModel)]="personsalaryInfoIfy.TABLE_DISPLAY_CODE"
+                (ngModelChange)="personsalaryInfoIfy.tabs.setChange()"
+            >
+                <ng-container *ngFor="let item of personsalaryInfoIfy.tabs.setList">
+                    <label nz-radio-button [nzValue]="item.TABLE_DISPLAY_CODE">{{
+                        item.TABLE_NAME
+                    }}</label>
+                </ng-container>
+            </nz-radio-group>
+            <div class="right">
+                <div class="arrows" (click)="evtArrows('down')">
+                    <i class="fa fa-arrows-alt"></i>
+                </div>
+            </div>
+        </div>
+        <div class="container">
+            <ng-container *ngFor="let item of personsalaryInfoIfy.tabs.setList">
+                <div
+                    class="view pdd_10"
+                    [hidden]="!(item.TABLE_DISPLAY_CODE === personsalaryInfoIfy.TABLE_DISPLAY_CODE)"
+                >
+                    <ng-template
+                        [ngTemplateOutlet]="item.showMain ? mainTemplate : childTemplate"
+                        [ngTemplateOutletContext]="{
+                            TABLE_DISPLAY_CODE: item.TABLE_DISPLAY_CODE,
+                            fields: item.fields,
+                            result: item.result,
+                            pageIndex: item.pageIndex
+                        }"
+                    ></ng-template>
+                </div>
+            </ng-container>
+        </div>
+    </div>
+</ng-template>
+
+<!-- 主集模板 -->
+<ng-template
+    #mainTemplate
+    let-TABLE_DISPLAY_CODE="TABLE_DISPLAY_CODE"
+    let-fields="fields"
+    let-result="result"
+>
+    <table class="custom_table">
+        <tbody>
+            <ng-container *ngFor="let row of fields; let rowIndex = index">
+                <tr *ngIf="rowIndex % 3 === 0">
+                    <ng-container *ngFor="let cell of fields; let cellIndex = index">
+                        <ng-container *ngIf="rowIndex <= cellIndex && cellIndex < rowIndex + 3">
+                            <td class="label">{{ cell.TABLE_COLUMN_NAME }}</td>
+
+                            <td class="value" [attr.itemId]="cell.TABLE_COLUMN_CODE">
+                                <ng-container
+                                    *ngIf="
+                                        !cell?.TABLE_COLUMN_DICTIONARY_CODE;
+                                        else elseCodeTemplate
+                                    "
+                                >
+                                    {{ result[cell.TABLE_COLUMN_CODE] || '' }}
+                                </ng-container>
+                                <ng-template #elseCodeTemplate>
+                                    {{ result[cell.TABLE_COLUMN_CODE + '_CN'] || '' }}
+                                </ng-template>
+                            </td>
+                        </ng-container>
+                    </ng-container>
+                </tr>
+            </ng-container>
+        </tbody>
+    </table>
+</ng-template>
+
+<!-- 子集模板 -->
+<ng-template
+    #childTemplate
+    let-TABLE_DISPLAY_CODE="TABLE_DISPLAY_CODE"
+    let-fields="fields"
+    let-result="result"
+    let-pageIndex="pageIndex"
+>
+    <ng-container *ngIf="TABLE_DISPLAY_CODE === 'GZDA07_OLD'; else elseTableElement">
+        <!-- 业务记录对比结果表格 -->
+        <nz-table
+            #recordTableElement
+            nzBordered
+            nzSize="small"
+            [nzData]="result"
+            [nzScroll]="recordComparativeIfy.scrollConfig"
+            [nzWidthConfig]="recordComparativeIfy.widthConfig"
+            [(nzPageIndex)]="recordComparativeIfy.pageIndex"
+        >
+            <thead>
+                <tr>
+                    <th nzAlign="center" rowspan="2" nzLeft="0px">序号</th>
+                    <th colspan="12">变动前</th>
+                    <th colspan="12">变动后</th>
+                </tr>
+                <tr>
+                    <ng-container *ngFor="let item of fields; let j = index">
+                        <th *ngIf="j > 0" nzAlign="center">{{ item.TABLE_COLUMN_NAME }}</th>
+                    </ng-container>
+                </tr>
+            </thead>
+            <tbody>
+                <tr *ngFor="let row of recordTableElement.data; let k = index">
+                    <td nzLeft="0px">{{ k + 1 + (recordComparativeIfy.pageIndex - 1) * 10 }}</td>
+                    <ng-container *ngFor="let item of fields; let i = index">
+                        <td *ngIf="i > 0" class="value_readly">
+                            {{ row[item.TABLE_COLUMN_CODE] }}
+                        </td>
+                    </ng-container>
+                </tr>
+            </tbody>
+        </nz-table>
+    </ng-container>
+    <ng-template #elseTableElement>
+        <table class="custom_table">
+            <thead>
+                <tr>
+                    <ng-container *ngFor="let item of fields">
+                        <th class="label">{{ item.TABLE_COLUMN_NAME }}</th>
+                    </ng-container>
+                </tr>
+            </thead>
+            <tbody>
+                <ng-container *ngFor="let row of result; let i = index">
+                    <tr *ngIf="(pageIndex - 1) * 10 <= i && i < pageIndex * 10">
+                        <td nzLeft="0px">{{ i + 1 }}</td>
+                        <ng-container *ngFor="let item of fields; index as j">
+                            <td
+                                *ngIf="j > 0"
+                                class="value_readly"
+                                [attr.itemid]="item.TABLE_COLUMN_CODE"
+                            >
+                                <ng-container
+                                    *ngIf="
+                                        !item.TABLE_COLUMN_DICTIONARY_CODE;
+                                        else elseChildTemplate
+                                    "
+                                >
+                                    {{ row[item.TABLE_COLUMN_CODE] || '' }}
+                                </ng-container>
+                                <ng-template #elseChildTemplate>
+                                    {{ row[item.TABLE_COLUMN_CODE + '_CN'] || '' }}
+                                </ng-template>
+                            </td>
+                        </ng-container>
+                    </tr>
+                </ng-container>
+            </tbody>
+        </table>
+        <div style="margin-top: 5px; text-align: right">
+            <nz-pagination
+                [nzPageIndex]="pageIndex"
+                [nzTotal]="result?.length"
+                (nzPageIndexChange)="pageIndexChange($event, TABLE_DISPLAY_CODE)"
+            ></nz-pagination>
+        </div>
+    </ng-template>
+</ng-template>
+<!-- 津补贴模板 -->
+<ng-template
+    #subsidyTemplate
+    let-TABLE_DISPLAY_CODE="TABLE_DISPLAY_CODE"
+    let-fields="fields"
+    let-result="result"
+>
+    <table class="custom_table">
+        <thead>
+            <tr>
+                <th class="label">项目</th>
+                <th class="label">类型</th>
+                <th class="label">金额</th>
+                <th class="label" nzWidth="150px">操作</th>
+            </tr>
+        </thead>
+        <tbody>
+            <ng-container *ngFor="let row of fields; let rowIndex = index">
+                <tr
+                    *ngIf="
+                        (subsidyInformation.nzPageIndex - 1) * 10 <= rowIndex &&
+                        rowIndex < subsidyInformation.nzPageIndex * 10
+                    "
+                >
+                    <!-- 项目 -->
+                    <td [attr.rowName]="row.TABLE_COLUMN_CODE">
+                        {{ row.TABLE_COLUMN_NAME }}
+                    </td>
+                    <!-- 类型 -->
+                    <ng-container
+                        *ngIf="row.IS_SHOW_TYPE === 0 || row.IS_SHOW_TYPE === 1; else elseTemplate"
+                    >
+                        <td>{{ row.IS_SHOW_TYPE ? '标准' : '计算' }}</td>
+                    </ng-container>
+                    <ng-template #elseTemplate>
+                        <td></td>
+                    </ng-template>
+                    <!-- 金额 -->
+                    <td>
+                        {{ result[row.TABLE_COLUMN_CODE] }}
+                    </td>
+                    <td>
+                        <a (click)="subsidyInformation.open(row)">查看明细</a>
+                    </td>
+                </tr>
+            </ng-container>
+        </tbody>
+    </table>
+    <div style="margin-top: 5px; text-align: right">
+        <nz-pagination
+            [(nzPageIndex)]="subsidyInformation.nzPageIndex"
+            [nzTotal]="fields.length"
+        ></nz-pagination>
+    </div>
+</ng-template>
+
+<!-- 津补贴详细信息 -->
+<nz-drawer
+    [nzClosable]="false"
+    [nzVisible]="subsidyInformation.visible"
+    nzPlacement="right"
+    [nzTitle]="subsidyInformation.title"
+    [nzWidth]="subsidyInformation.width"
+    (nzOnClose)="subsidyInformation.close()"
+>
+    <div class="drawer_area">
+        <div class="container" style="overflow: auto">
+            <nz-table #editRowTable nzBordered [nzData]="subsidyInformation.data" nzSize="small">
+                <thead>
+                    <tr>
+                        <ng-container
+                            *ngFor="let item of subsidyInformation.headerList; let i = index"
+                        >
+                            <th nzAlign="center">{{ item.TABLE_COLUMN_NAME }}</th>
+                        </ng-container>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr *ngFor="let data of editRowTable.data; let i = index">
+                        <ng-container *ngFor="let item of subsidyInformation.headerList">
+                            <td nzAlign="center" class="edit">
+                                <ng-container *ngIf="item.TABLE_COLUMN_TYPE !== 4">
+                                    {{
+                                        item.TABLE_COLUMN_DICTIONARY_CODE
+                                            ? data[item.TABLE_COLUMN_CODE + '_CN']
+                                            : data[item.TABLE_COLUMN_CODE]
+                                    }}
+                                </ng-container>
+                                <ng-container *ngIf="item.TABLE_COLUMN_TYPE === 4">
+                                    {{ data[item.TABLE_COLUMN_CODE] | date: 'yyyy-MM-dd' }}
+                                </ng-container>
+                            </td>
+                        </ng-container>
+                    </tr>
+                </tbody>
+            </nz-table>
+            <div *ngIf="subsidyInformation.status.IS_SHOW_TYPE === 0">
+                <nz-table
+                    #editSpecialTable
+                    nzBordered
+                    [nzData]="subsidyInformation.dataSpecial"
+                    nzSize="small"
+                >
+                    <thead>
+                        <tr>
+                            <ng-container
+                                *ngFor="
+                                    let item of subsidyInformation.headerListSpecial;
+                                    let i = index
+                                "
+                            >
+                                <th nzAlign="center">{{ item.TABLE_COLUMN_NAME }}</th>
+                            </ng-container>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr *ngFor="let data of editSpecialTable.data; let i = index">
+                            <ng-container *ngFor="let item of subsidyInformation.headerListSpecial">
+                                <td nzAlign="center" class="edit">
+                                    <ng-container *ngIf="item.TABLE_COLUMN_TYPE !== 4">
+                                        {{
+                                            item.TABLE_COLUMN_DICTIONARY_CODE
+                                                ? data[item.TABLE_COLUMN_CODE + '_CN']
+                                                : data[item.TABLE_COLUMN_CODE]
+                                        }}
+                                    </ng-container>
+                                    <ng-container *ngIf="item.TABLE_COLUMN_TYPE === 4">
+                                        {{ data[item.TABLE_COLUMN_CODE] | date: 'yyyy-MM-dd' }}
+                                    </ng-container>
+                                </td>
+                            </ng-container>
+                        </tr>
+                    </tbody>
+                </nz-table>
+            </div>
+        </div>
+        <div class="footer">
+            <button nz-button nzType="default" (click)="subsidyInformation.close()">关闭</button>
+        </div>
+    </div>
+</nz-drawer>

@@ -1,0 +1,81 @@
+$header-height: 50px;
+$left-width: 290px;
+
+.layout {
+    position: relative;
+    height: 100%;
+    overflow: auto;
+
+    .operation {
+        display: flex;
+        justify-content: space-between;
+
+        padding-left: 10px;
+
+        height: $header-height;
+        line-height: $header-height;
+
+        & > div {
+            display: inline-block;
+        }
+
+        .find {
+            width: 300px;
+        }
+
+        background-color: #fff;
+    }
+
+    .policy-table {
+        top: $header-height;
+        border-top: 10px solid #eee;
+
+        .tabset {
+            bottom: auto;
+            height: $header-height;
+            background-color: #fff;
+            padding-top: 5px;
+        }
+
+        .left-tree {
+            top: $header-height;
+            width: $left-width;
+            right: auto;
+            background-color: #fff;
+            overflow: auto;
+            border-top: 10px solid #eee;
+            border-right: 10px solid #eee;
+        }
+
+        .left0 {
+            left: 0 !important;
+        }
+
+        .table {
+            top: $header-height;
+            left: $left-width;
+            background-color: #fff;
+            padding: 10px;
+            overflow: auto;
+            border-top: 10px solid #eee;
+
+            .reading_state {
+                padding-bottom: 10px;
+            }
+        }
+    }
+}
+
+.policy_info {
+    height: calc(100% - 45px);
+    overflow: auto;
+}
+
+.position_0 {
+    position: absolute;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    left: 0;
+    margin: auto;
+}

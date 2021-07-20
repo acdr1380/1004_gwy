@@ -1,0 +1,394 @@
+<!-- 现工作单位及职务全称 特殊编辑框 -->
+<nz-drawer
+    nzPlacement="right"
+    [nzVisible]="A02TableIfy.visible"
+    [nzWidth]="A02TableIfy.width"
+    [nzTitle]="A02TableIfy.title"
+    (nzOnClose)="A02TableIfy.close()"
+>
+    <div class="drawer_area a02_editor">
+        <!-- <div class="header">
+            <button nz-button nzType="primary" (click)="evtUpdateData()">保存</button>
+        </div> -->
+        <div class="container">
+            <div class="view">
+                <div class="card">
+                    <nz-card nzType="inner" nzSize="small" nzTitle="有关统计项">
+                        <div nz-row>
+                            <div nz-col nzSpan="12" nzOffset="2">
+                                统计关系所在单位： {{ personInfo?.A0195_CN }}
+                            </div>
+                            <div nz-col nzSpan="8" nzOffset="2">
+                                <label nz-checkbox [(ngModel)]="personInfo.A0197"
+                                    >具有两年以上基层工作经历</label
+                                >
+                            </div>
+                        </div>
+                    </nz-card>
+                </div>
+
+                <div class="card">
+                    <nz-card nzType="inner" nzSize="small" nzTitle="职务">
+                        <div class="name" nz-row>
+                            <div class="putt_list" nz-col nzSpan="18">
+                                <div class="item" nz-row>
+                                    <div class="label" nz-col nzSpan="6">全称(用于任免表)</div>
+                                    <div class="putt" nz-col nzSpan="18">
+                                        <!-- <input
+                                            nz-input
+                                            placeholder="职务全称"
+                                            [(ngModel)]="personInfo.A0192A"
+                                        /> -->
+                                        <textarea
+                                            rows="2"
+                                            nz-input
+                                            disabled
+                                            [(ngModel)]="personInfo.A0192A"
+                                        ></textarea>
+                                    </div>
+                                </div>
+                                <div class="item" nz-row>
+                                    <div class="label" nz-col nzSpan="6">简称(用于名册)</div>
+                                    <div class="putt" nz-col nzSpan="18">
+                                        <!-- <input
+                                            nz-input
+                                            placeholder="职务简称"
+                                            [(ngModel)]="personInfo.A0192"
+                                        /> -->
+                                        <textarea
+                                            rows="2"
+                                            nz-input
+                                            disabled
+                                            [(ngModel)]="personInfo.A0192"
+                                        ></textarea>
+                                    </div>
+                                </div>
+                            </div>
+                            <!-- <div class="btns" nz-col nzSpan="4" nzOffset="2">
+                                <div>
+                                    <button
+                                        nz-button
+                                        nzType="primary"
+                                        (click)="updatePersonChange.emit()"
+                                    >
+                                        更新名称
+                                    </button>
+
+                                    <button nz-button nzType="primary" (click)="evtUpdateData()">
+                                        保存
+                                    </button>
+                                </div>
+                            </div> -->
+                        </div>
+                    </nz-card>
+                </div>
+
+                <!-- <div class="handle">
+                    <nz-button-group>
+                        <button nz-button nzType="primary" (click)="A02TableIfy.evtAdd()">
+                            增加
+                        </button>
+                        <button
+                            nz-button
+                            nzType="default"
+                            [disabled]="A02TableIfy.selectRowIndex === -1"
+                            (click)="A02TableIfy.evtEdit()"
+                        >
+                            编辑
+                        </button>
+                        <button
+                            nz-button
+                            nzType="danger"
+                            [disabled]="A02TableIfy.selectRowIndex === -1"
+                            (click)="A02TableIfy.evtDelete()"
+                        >
+                            删除
+                        </button>
+                    </nz-button-group>
+                    <nz-button-group>
+                        <button
+                            nz-button
+                            [disabled]="A02TableIfy.selectRowIndex === -1"
+                            (click)="A02TableIfy.evtMove(0)"
+                        >
+                            上移
+                        </button>
+                        <button
+                            nz-button
+                            [disabled]="A02TableIfy.selectRowIndex === -1"
+                            (click)="A02TableIfy.evtMove(1)"
+                        >
+                            下移
+                        </button>
+                    </nz-button-group>
+                    <nz-button-group>
+                        <button
+                            nz-button
+                            [disabled]="A02TableIfy.selectRowIndex === -1"
+                            nzType="primary"
+                            (click)="A02TableIfy.evtSortJTN()"
+                        >
+                            集体内排序
+                        </button>
+                        <button nz-button (click)="A02TableIfy.evtSortByA0243()">
+                            按任职时间排序
+                        </button>
+                    </nz-button-group>
+                    <nz-divider nzType="vertical"></nz-divider>
+                    <label
+                        nz-checkbox
+                        [(ngModel)]="A02TableIfy.isAll"
+                        (ngModelChange)="A02TableIfy.evtIsAllChange($event)"
+                        >显示以免职务</label
+                    >
+                </div> -->
+                <div class="tbl">
+                    <nz-table
+                        #A0192ATableElement
+                        nzSize="small"
+                        nzBordered
+                        [(nzPageSize)]="A02TableIfy.pageSize"
+                        [(nzPageIndex)]="A02TableIfy.pageIndex"
+                        [nzData]="A02TableIfy.data"
+                    >
+                        <thead>
+                            <tr>
+                                <!-- <th nzWidth="50px">输出</th> -->
+                                <th>任职机构名称</th>
+                                <th nzWidth="100px">职务名称</th>
+                                <th nzWidth="100px">任职状态</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <!-- (dblclick)="A02TableIfy.evtEdit()" -->
+                            <tr
+                                *ngFor="let data of A0192ATableElement.data; let i = index"
+                                [class.active]="A02TableIfy.selectRowIndex === i"
+                                (click)="A02TableIfy.evtSelectRow(i)"
+                            >
+                                <!-- <td
+                                    nzShowCheckbox
+                                    [(nzChecked)]="data.A0281"
+                                    (nzCheckedChange)="evtOutputChange($event, data)"
+                                ></td> -->
+                                <td>{{ data.A0201A }}</td>
+                                <td>{{ data.A0215A }}</td>
+                                <td>{{ data.A0255_CN }}</td>
+                            </tr>
+                        </tbody>
+                    </nz-table>
+                </div>
+            </div>
+        </div>
+    </div>
+</nz-drawer>
+
+<!-- 集体内排序 -->
+<nz-drawer
+    nzPlacement="right"
+    [nzVisible]="sortJTNIfy.visible"
+    [nzWidth]="sortJTNIfy.width"
+    [nzTitle]="sortJTNIfy.title"
+    (nzOnClose)="sortJTNIfy.close()"
+>
+    <div class="drawer_area">
+        <div class="header">
+            <nz-button-group>
+                <button
+                    nz-button
+                    [disabled]="sortJTNIfy.selectRowIndex === -1"
+                    (click)="sortJTNIfy.evtMove(0)"
+                >
+                    上移
+                </button>
+                <button
+                    nz-button
+                    [disabled]="sortJTNIfy.selectRowIndex === -1"
+                    (click)="sortJTNIfy.evtMove(1)"
+                >
+                    下移
+                </button>
+                <!-- <button
+                    [disabled]="sortJTNIfy.selectRowIndex === -1"
+                    nz-button
+                    nzType="default"
+                    [nzLoading]="orderAdjust.btnLoading"
+                    nz-popover
+                    nzPlacement="rightBottom"
+                    nzTrigger="click"
+                    nzTitle="移动位置"
+                    [nzContent]="contentTemplate"
+                    [(nzVisible)]="orderAdjust.visible"
+                    (nzVisibleChange)="orderAdjust.change()"
+                >
+                    <i nz-icon nzType="swap"></i>移动到
+                </button> -->
+                <ng-template #contentTemplate>
+                    <div class="popconfirm_content">
+                        <p>
+                            移动到第<nz-input-number
+                                [(ngModel)]="orderAdjust.location"
+                                [nzMin]="1"
+                                [nzStep]="1"
+                                nzPlaceHolder="位置"
+                            ></nz-input-number
+                            >位
+                        </p>
+                        <nz-button-group>
+                            <button
+                                nz-button
+                                nzType="primary"
+                                nzSize="small"
+                                (click)="orderAdjust.move()"
+                            >
+                                确认
+                            </button>
+                            <button
+                                nz-button
+                                nzType="default"
+                                nzSize="small"
+                                (click)="orderAdjust.visible = false"
+                            >
+                                取消
+                            </button>
+                        </nz-button-group>
+                    </div>
+                </ng-template>
+            </nz-button-group>
+        </div>
+        <div class="container">
+            <div class="tbl">
+                <nz-table
+                    #sortJTNTableElement
+                    nzSize="small"
+                    nzBordered
+                    [nzFrontPagination]="false"
+                    [nzTotal]="sortJTNIfy.totalCount"
+                    [(nzPageSize)]="sortJTNIfy.pageSize"
+                    [(nzPageIndex)]="sortJTNIfy.pageIndex"
+                    [nzData]="sortJTNIfy.data"
+                    (nzPageIndexChange)="sortJTNIfy.evtLoadList()"
+                    (nzPageSizeChange)="sortJTNIfy.evtLoadList(true)"
+                >
+                    <thead>
+                        <tr>
+                            <th nzWidth="40px">序号</th>
+                            <th nzWidth="100px">姓名</th>
+                            <th nzWidth="300px">工作单位及职务</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr
+                            *ngFor="let data of sortJTNTableElement.data; let i = index"
+                            [class.active]="sortJTNIfy.selectRowIndex === i"
+                            (click)="sortJTNIfy.evtSelectRow(i)"
+                        >
+                            <td>{{ data.A0225 }}</td>
+                            <td>{{ data.A0101 }}</td>
+                            <td>{{ data.A0201A }}</td>
+                        </tr>
+                    </tbody>
+                </nz-table>
+            </div>
+        </div>
+    </div>
+</nz-drawer>
+
+<!-- 现工作单位及职务全称 编辑-->
+<nz-drawer
+    nzPlacement="right"
+    [nzVisible]="A02EditorIfy.visible"
+    [nzWidth]="A02EditorIfy.width"
+    [nzTitle]="A02EditorIfy.title"
+    (nzOnClose)="A02EditorIfy.close()"
+>
+    <div class="drawer_area">
+        <div class="container">
+            <ng-template
+                [ngTemplateOutlet]="inputEditElement"
+                [ngTemplateOutletContext]="A02EditorIfy.evtGetTempOutParams()"
+            ></ng-template>
+        </div>
+
+        <div class="footer">
+            <button
+                nz-button
+                nzType="primary"
+                [nzLoading]="A02EditorIfy.loading"
+                (click)="A02EditorIfy.evtSave()"
+            >
+                保存
+            </button>
+        </div>
+    </div>
+</nz-drawer>
+
+<!-- 构造编辑字段 -->
+<ng-template
+    #inputEditElement
+    let-formGroup="formGroup"
+    let-fields="fields"
+    let-formData="formData"
+>
+    <form nz-form [formGroup]="formGroup" nzLayout="vertical">
+        <ng-container *ngFor="let field of fields">
+            <nz-form-item *ngIf="!field.visible">
+                <nz-form-label [nzRequired]="field.SCHEME_EDIT_IS_MUST_INPUT">
+                    {{ field.SCHEME_EDIT_DISPLAY_NAME }}
+                </nz-form-label>
+
+                <nz-form-control [nzErrorTip]="errorTpl">
+                    <ng-container *ngIf="field.TABLE_COLUMN_DICTIONARY_CODE; else elseTempElement">
+                        <dictionary-input
+                            [code]="field.TABLE_COLUMN_DICTIONARY_CODE"
+                            [(text)]="formData[field.TABLE_COLUMN_CODE + '_CN']"
+                            [placeholder]="'请填写' + field.SCHEME_EDIT_DISPLAY_NAME"
+                            [formControlName]="field.TABLE_COLUMN_CODE"
+                        >
+                        </dictionary-input>
+                    </ng-container>
+
+                    <ng-template #elseTempElement>
+                        <ng-container [ngSwitch]="field.TABLE_COLUMN_TYPE">
+                            <ng-template [ngSwitchCase]="columnType.DATE">
+                                <datetime-input
+                                    [formControlName]="field.TABLE_COLUMN_CODE"
+                                    [placeholder]="'请填写' + field.SCHEME_EDIT_DISPLAY_NAME"
+                                ></datetime-input>
+                            </ng-template>
+                            <ng-template [ngSwitchCase]="columnType.NUMBER">
+                                <nz-input-number
+                                    [formControlName]="field.TABLE_COLUMN_CODE"
+                                    [nzPlaceHolder]="'请填写' + field.SCHEME_EDIT_DISPLAY_NAME"
+                                >
+                                </nz-input-number>
+                            </ng-template>
+                            <ng-template [ngSwitchCase]="columnType.CLOB">
+                                <textarea
+                                    nz-input
+                                    [formControlName]="field.TABLE_COLUMN_CODE"
+                                    rows="4"
+                                ></textarea>
+                            </ng-template>
+                            <ng-template ngSwitchDefault>
+                                <input
+                                    [formControlName]="field.TABLE_COLUMN_CODE"
+                                    nz-input
+                                    [placeholder]="'请填写' + field.SCHEME_EDIT_DISPLAY_NAME"
+                                />
+                            </ng-template>
+                        </ng-container>
+                    </ng-template>
+                </nz-form-control>
+                <ng-template #errorTpl let-control>
+                    <ng-container *ngIf="control.hasError('required')">
+                        请填写{{ field.FIELD_EDIT_DISPLAY_NAME }}。
+                    </ng-container>
+                    <ng-container *ngIf="control.hasError('msg')">
+                        {{ control?.getError('msg') || '异常错误。' }}
+                    </ng-container>
+                </ng-template>
+            </nz-form-item>
+        </ng-container>
+    </form>
+</ng-template>

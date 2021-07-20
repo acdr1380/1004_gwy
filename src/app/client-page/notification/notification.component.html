@@ -1,0 +1,337 @@
+<div class="layout">
+    <div class="handle">
+        <button nz-button nzType="primary" (click)="addNotice()">发布通知</button>
+    </div>
+
+    <div class="handle">
+        <!-- tab选项卡 -->
+        <nz-tabset
+            [nzTabBarStyle]="{ 'margin.px': 0, 'height.px': 50 }"
+            [nzTabBarExtraContent]="extraTemplate"
+            (nzSelectChange)="nzSelectChange($event)"
+            [(nzSelectedIndex)]="selectedTabIndex"
+        >
+            <nz-tab nzTitle="收到通知"></nz-tab>
+            <nz-tab nzTitle="发出通知"></nz-tab>
+            <nz-tab nzTitle="草稿箱"></nz-tab>
+        </nz-tabset>
+        <ng-template #extraTemplate>
+            <nz-input-group [nzSuffix]="suffixTemplate">
+                <input
+                    [ngStyle]="{ 'width.px': 200 }"
+                    type="text"
+                    nz-input
+                    [(ngModel)]="searchValue"
+                    (ngModelChange)="searchNoticeData()"
+                    placeholder="请输入关键字"
+                />
+            </nz-input-group>
+            <ng-template #suffixTemplate
+                ><i
+                    nz-icon
+                    nz-tooltip
+                    class="ant-input-clear-icon"
+                    nzTheme="fill"
+                    nzType="close-circle"
+                    *ngIf="searchValue"
+                    (click)="clearSearchValue()"
+                ></i
+            ></ng-template>
+        </ng-template>
+    </div>
+    <div class="content">
+        <ng-container *ngIf="selectedTabIndex === 0">
+            <div class="reading_state">
+                <div>
+                    <nz-checkbox-group
+                        [(ngModel)]="readingState"
+                        (ngModelChange)="loadNoticeData(true)"
+                    >
+                    </nz-checkbox-group>
+                </div>
+                <div style="color: red">
+                    未读通知{{ untreated.unRead }}条; 待反馈{{ untreated.unFeedBack }}条;
+                </div>
+            </div>
+        </ng-container>
+
+        <!-- 通知表格 -->
+        <nz-table
+            #noticeTableView
+            nzShowSizeChanger
+            nzBordered
+            nzSize="small"
+            [nzFrontPagination]="false"
+            [nzTotal]="noticeTable.totalElements"
+            [(nzPageSize)]="noticeTable.size"
+            [(nzPageIndex)]="noticeTable.page"
+            [nzPageSizeOptions]="[5, 10, 20, 50]"
+            [nzData]="noticeTable.content"
+            (nzPageIndexChange)="loadNoticeData()"
+            (nzPageSizeChange)="loadNoticeData(true)"
+            [nzLoading]="!loadingstatus"
+        >
+            <thead>
+                <tr>
+                    <th nzWidth="300px">标题</th>
+                    <th nzWidth="200px">发布单位</th>
+                    <th nzWidth="120px">发布时间</th>
+                    <th nzWidth="80px">通知类型</th>
+                    <ng-container *ngIf="selectedTabIndex !== 2">
+                        <th nzWidth="80px">查看状态</th>
+                    </ng-container>
+                    <ng-container *ngIf="selectedTabIndex === 1">
+                        <th nzWidth="100px">提交意见</th>
+                    </ng-container>
+                    <th nzWidth="60px" *ngIf="selectedTabIndex === 0">是否反馈</th>
+                    <th nzWidth="60px">操作</th>
+                </tr>
+            </thead>
+
+            <tbody>
+                <tr *ngFor="let data of noticeTableView.data" (dblclick)="evtSelectorRow(data)">
+                    <td>{{ data.title }}</td>
+                    <td>{{ data.orgName }}</td>
+                    <td>{{ data.sendTime | date: 'yyyy-MM-dd HH:mm:ss' }}</td>
+                    <td>{{ getNoticeTypeEN(data.type) }}</td>
+                    <ng-container *ngIf="selectedTabIndex === 0">
+                        <td nzWidth="100px">{{ getNoticeStatusEN(data.status) }}</td>
+                    </ng-container>
+                    <td *ngIf="selectedTabIndex === 0">
+                        {{
+                            data.isFeedBack === true
+                                ? '已反馈'
+                                : data.isFeedBack === false
+                                ? '未反馈'
+                                : '-'
+                        }}
+                    </td>
+                    <!-- 查看状态-发出通知 -->
+                    <ng-container *ngIf="selectedTabIndex === 1">
+                        <td nzWidth="100px">
+                            <a (click)="evtLoadReadList(data)">已读（{{ data.readHits }}）</a>
+                        </td>
+                        <td nzWidth="100px" *ngIf="data.type === 1">
+                            <a (click)="evtLoadOpinionList(data)">{{ data.opinionHits }}条</a>
+                        </td>
+                        <td nzWidth="100px" *ngIf="data.type === 0">-</td>
+                    </ng-container>
+                    <ng-container *ngIf="selectedTabIndex === 2">
+                        <td>
+                            <a (click)="evtSelectorRow(data)">编辑</a>
+                            <nz-divider nzType="vertical"></nz-divider>
+                            <a (click)="evtDeleteRow(data)">删除</a>
+                        </td>
+                    </ng-container>
+                    <ng-container *ngIf="selectedTabIndex !== 2">
+                        <td>
+                            <a (click)="evtSelectorRow(data)">查看</a>
+                        </td>
+                    </ng-container>
+                </tr>
+            </tbody>
+        </nz-table>
+    </div>
+</div>
+
+<!-- 纠错反馈 -->
+<!-- 已读、未读单位 -->
+<nz-drawer
+    nzPlacement="right"
+    [nzTitle]="noticeOpinionify.title"
+    [nzWidth]="noticeOpinionify.width"
+    [nzVisible]="noticeOpinionify.visible"
+    (nzOnClose)="noticeOpinionify.close()"
+>
+    <!-- <div class="notice_opinion">
+        <nz-table
+            #noticeOpinionTableTemp
+            nzSize="small"
+            nzBordered
+            [nzFrontPagination]="false"
+            [nzTotal]="noticeOpinionify.table.totalElements"
+            [(nzPageSize)]="noticeOpinionify.table.size"
+            [(nzPageIndex)]="noticeOpinionify.table.page"
+            [nzPageSizeOptions]="[5, 10, 20, 50]"
+            [nzData]="noticeOpinionify.table.content"
+            (nzPageIndexChange)="loadOpinionTableData()"
+            (nzPageSizeChange)="loadOpinionTableData(true)"
+        >
+            <thead>
+                <tr>
+                    <th nzShowExpand></th>
+                    <th>反馈信息</th>
+                </tr>
+            </thead>
+            <tbody>
+                <ng-template ngFor let-data [ngForOf]="noticeOpinionTableTemp.data">
+                    <tr>
+                        <td nzShowExpand [(nzExpand)]="mapOfExpandData[data.opinionId]"></td>
+                        <td>
+                            <p>反馈账号：{{ data.userName }}</p>
+                            <p>反馈内容：{{ data.content }}</p>
+                        </td>
+                    </tr>
+                    <tr [nzExpand]="mapOfExpandData[data.opinionId]">
+                        <td></td>
+                        <td>
+                            <span>反馈相关附件：</span>
+                            <span *ngIf="!data?.fileList || data?.fileList.length == 0">无</span>
+                            <nz-upload
+                                class="upload-list-inline"
+                                nzAction="api/gl-file-service/attachment/upload"
+                                [nzFileList]="data?.fileList"
+                            >
+                            </nz-upload>
+                        </td>
+                    </tr>
+                </ng-template>
+            </tbody>
+        </nz-table>
+    </div> -->
+    <div class="read_content">
+        <div class="tab">
+            <nz-tabset
+                nzSize="small"
+                (nzSelectChange)="noticeOpinionify.tab.change($event)"
+                [(nzSelectedIndex)]="noticeOpinionify.tab.nzSelectedIndex"
+                [nzTabBarStyle]="{ 'margin.px': 0, 'height.px': 50 }"
+            >
+                <nz-tab nzTitle="未读单位"></nz-tab>
+                <nz-tab nzTitle="已读单位"></nz-tab>
+            </nz-tabset>
+        </div>
+        <div class="table">
+            <nz-table
+                #noticeOpinionTableTemp
+                nzSize="small"
+                nzBordered
+                [nzFrontPagination]="false"
+                [nzTotal]="noticeOpinionify.table.totalElements"
+                [(nzPageSize)]="noticeOpinionify.table.size"
+                [(nzPageIndex)]="noticeOpinionify.table.page"
+                [nzPageSizeOptions]="[5, 10, 20, 50]"
+                [nzData]="noticeOpinionify.table.content"
+                (nzPageIndexChange)="loadReadlyTableData()"
+                (nzPageSizeChange)="loadReadlyTableData(true)"
+            >
+                <thead>
+                    <tr>
+                        <th>单位名称</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr *ngFor="let data of noticeOpinionTableTemp.data">
+                        <td>{{ data?.orgName }}</td>
+                    </tr>
+                </tbody>
+            </nz-table>
+        </div>
+    </div>
+</nz-drawer>
+
+<nz-drawer
+    nzPlacement="right"
+    [nzTitle]="readlyListify.title"
+    [nzWidth]="readlyListify.width"
+    [nzVisible]="readlyListify.visible"
+    (nzOnClose)="readlyListify.close()"
+    [nzOffsetX]="annexNotice.visible ? 180 : 0"
+>
+    <div class="read_content">
+        <div class="tab">
+            <nz-tabset
+                nzSize="small"
+                (nzSelectChange)="readlyListify.tab.change($event)"
+                [(nzSelectedIndex)]="readlyListify.tab.selectedIndex"
+                [nzTabBarStyle]="{ 'margin.px': 0, 'height.px': 50 }"
+            >
+                <nz-tab nzTitle="未反馈"></nz-tab>
+                <nz-tab nzTitle="期限内反馈"></nz-tab>
+                <nz-tab nzTitle="期限外反馈"></nz-tab>
+            </nz-tabset>
+        </div>
+        <div>
+            <nz-table
+                class="table"
+                #readlyTableTemp
+                nzSize="small"
+                nzBordered
+                [nzFrontPagination]="false"
+                [nzTotal]="readlyListify.table.totalElements"
+                [(nzPageSize)]="readlyListify.table.size"
+                [(nzPageIndex)]="readlyListify.table.page"
+                [nzPageSizeOptions]="[5, 10, 20, 50]"
+                [nzData]="readlyListify.table.content"
+                (nzPageIndexChange)="loadOpinionTableData()"
+                (nzPageSizeChange)="loadOpinionTableData(true)"
+            >
+                <thead>
+                    <tr>
+                        <th>单位名称</th>
+                        <ng-container *ngIf="readlyListify.tab.selectedIndex !== 0">
+                            <th nzWidth="150px">反馈意见</th>
+                            <th>反馈日期</th>
+                            <th>查看详情</th>
+                        </ng-container>
+                    </tr>
+                </thead>
+                <tbody>
+                    <ng-template ngFor let-data [ngForOf]="readlyTableTemp.data">
+                        <tr>
+                            <td>{{ data?.orgName }}</td>
+                            <ng-container *ngIf="readlyListify.tab.selectedIndex !== 0">
+                                <td class="content_hide" nzWidth="150px">{{ data?.content }}</td>
+                                <td>{{ data?.feedBackTime | date: 'yyyy-MM-dd HH:mm:ss' }}</td>
+                                <td (click)="annexNoticeInf(data)">
+                                    <a> 查看 </a>
+                                </td>
+                            </ng-container>
+                        </tr>
+                    </ng-template>
+                </tbody>
+            </nz-table>
+        </div>
+    </div>
+</nz-drawer>
+
+<nz-drawer
+    nzPlacement="right"
+    nzTitle="通知详情"
+    [nzWidth]="annexNotice.width"
+    [nzVisible]="annexNotice.visible"
+    (nzOnClose)="annexNotice.close()"
+>
+    <form nz-form [formGroup]="annexNotice.form">
+        <nz-form-item>
+            <nz-form-label [nzSpan]="6">反馈单位</nz-form-label>
+            <nz-form-control [nzSpan]="14">
+                <input nz-input formControlName="orgName" />
+            </nz-form-control>
+        </nz-form-item>
+        <nz-form-item>
+            <nz-form-label [nzSpan]="6">反馈内容</nz-form-label>
+            <nz-form-control [nzSpan]="14">
+                <textarea formControlName="content" nz-input rows="6"></textarea>
+            </nz-form-control>
+        </nz-form-item>
+        <nz-form-item>
+            <nz-form-label [nzSpan]="6">反馈附件</nz-form-label>
+            <nz-form-control [nzSpan]="18">
+                <nz-upload
+                    [nzFileList]="annexNotice?.fileList"
+                    nzShowUploadList="false"
+                    [nzPreview]="annexNotice.preview"
+                >
+                </nz-upload>
+            </nz-form-control>
+        </nz-form-item>
+    </form>
+</nz-drawer>
+
+<!-- 在线预览附件 -->
+<gl-online-doc
+    #onlineDocOverlayElement
+    [fileList]="annexNotice?.fileList"
+    [selectedIndex]="annexNotice?.selectedIndex"
+></gl-online-doc>

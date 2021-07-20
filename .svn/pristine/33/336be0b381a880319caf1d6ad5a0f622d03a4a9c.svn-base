@@ -1,0 +1,73 @@
+export default {
+    value: 'DATA_PERSON_BBP14',
+    text: '领导职务问责处分',
+    ledgerChildField: '',
+    childTabItemID: 'BBP1402',
+    childTabCodeID: 'BB020',
+    LedgerDateOrderItemID: '',
+    tblCols: [
+        {
+            text: '序号',
+            field: 'ROWNUM_',
+            dbfield: true,
+            width: 100,
+            isFixed: true,
+            SetID: 'A01',
+            ItemType: 'N'
+        },
+        {
+            text: '单位',
+            field: 'A0195',
+            dbfield: true,
+            width: 300,
+            isFixed: true,
+            SetID: 'A01',
+            ItemType: 'C'
+        }, {
+            text: '姓名',
+            field: 'A0101',
+            dbfield: true,
+            width: 200,
+            isFixed: true,
+            SetID: 'A01',
+            ItemType: 'S',
+        }, {
+            text: '身份证号',
+            field: 'A0184',
+            dbfield: true,
+            width: 200,
+            isFixed: true,
+            SetID: 'A01',
+            ItemType: 'S'
+        }, {
+            text: '人员类别',
+            field: 'A0160',
+            dbfield: true,
+            width: 200,
+            SetID: 'A01',
+            ItemType: 'C',
+            isFilter: true,
+            CodeID: 'STATUS'
+        }, {
+            text: '职务层次',
+            field: 'BBP1401',
+            dbfield: true,
+            width: 200,
+            SetID: 'BBP13',
+            ItemType: 'C',
+            isFilter: true,
+            IsEdit: true,
+            CodeID: 'BB003'
+        }, {
+            text: '曾被问责(处分)情况',
+            field: 'BBP1402',
+            dbfield: true,
+            width: 200,
+            SetID: 'BBP14',
+            ItemType: 'C',
+            isFilter: true,
+            IsEdit: true,
+            CodeID: 'BB020'
+        }
+    ]
+};

@@ -1,0 +1,103 @@
+<div class="layout">
+    <div class="container">
+        <div class="left">
+            <div class="handle">
+                <nz-select
+                    nzPlaceHolder="选择机构分组"
+                    [(ngModel)]="orgTreeIfy.group.value"
+                    (ngModelChange)="orgTreeIfy.group.valueChange()"
+                >
+                    <ng-container *ngFor="let item of orgTreeIfy.group.list">
+                        <nz-option [nzValue]="item.value" [nzLabel]="item.label"></nz-option>
+                    </ng-container>
+                </nz-select>
+            </div>
+            <div class="handle">
+                <nz-select
+                    nzAllowClear
+                    nzShowSearch
+                    nzServerSearch
+                    [nzShowArrow]="false"
+                    nzPlaceHolder="输入搜索关键字"
+                    [(ngModel)]="orgTreeIfy.find.value"
+                    (nzOnSearch)="orgTreeIfy.find.evtOnSearch($event)"
+                    (ngModelChange)="orgTreeIfy.find.evtChange($event)"
+                >
+                    <ng-container *ngFor="let item of orgTreeIfy.find.list">
+                        <nz-option [nzValue]="item.value" [nzLabel]="item.label"></nz-option>
+                    </ng-container>
+                </nz-select>
+            </div>
+            <div class="tree">
+                <cdk-virtual-scroll-viewport #scrollViewport [itemSize]="32" class="view_scroll">
+                    <nz-tree
+                        #orgUnitElement
+                        nzAsyncData
+                        [nzData]="orgTreeIfy.tree.nodes"
+                        [nzTreeTemplate]="nzTreeTemplate"
+                        (nzClick)="orgTreeIfy.tree.evtActiveNode($event)"
+                        (nzExpandChange)="orgTreeIfy.tree.evtChangeNode($event)"
+                    >
+                        <ng-template #nzTreeTemplate let-node>
+                            <span
+                                class="custom-node"
+                                [class.active]="orgTreeIfy.tree.activeNode?.key === node.key"
+                            >
+                                <i
+                                    class="fa fa-{{
+                                        orgTreeIfy.tree.nodeIcon[node.origin?.nodeType]
+                                    }}"
+                                    aria-hidden="true"
+                                ></i>
+                                <span class="node-text" [attr.title]="node.title">{{
+                                    node.title
+                                }}</span>
+                            </span>
+                        </ng-template>
+                    </nz-tree>
+                </cdk-virtual-scroll-viewport>
+            </div>
+        </div>
+        <div class="right">
+            <div class="layout">
+                <div class="header">
+                    <nz-tabset
+                        [nzSelectedIndex]="tabBarIfy.index"
+                        (nzSelectedIndexChange)="tabBarIfy.indexChange($event)"
+                        [nzTabBarStyle]="{ 'margin.px': 0, 'height.px': 50 }"
+                    >
+                        <nz-tab *ngFor="let item of tabBarIfy.list" [nzTitle]="item.title">
+                        </nz-tab>
+                    </nz-tabset>
+                </div>
+                <div class="container">
+                    <ng-container *ngFor="let item of tabBarIfy.list; let i = index">
+                        <div class="view" [hidden]="i !== tabBarIfy.index">
+                            <ng-template [ngTemplateOutlet]="item.temp"></ng-template>
+                        </div>
+                    </ng-container>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- 职数管理界面 -->
+<ng-template #jobNumber>
+    <gl-job-number-view [node]="orgTreeIfy.tree.activeNode"></gl-job-number-view>
+</ng-template>
+
+<!-- 统筹设置界面 -->
+<ng-template #overallArrangement>
+    <gl-overall-arrangement-view [node]="orgTreeIfy.tree.activeNode"></gl-overall-arrangement-view>
+</ng-template>
+
+<!-- 使用情况界面 -->
+<ng-template #usage>
+    <gl-usage-view [node]="orgTreeIfy.tree.activeNode"></gl-usage-view>
+</ng-template>
+
+<!-- 统计查询界面 -->
+<ng-template #statisticalQuery>
+    <gl-statistical-query-view></gl-statistical-query-view>
+</ng-template>

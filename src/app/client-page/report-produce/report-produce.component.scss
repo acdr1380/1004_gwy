@@ -1,0 +1,132 @@
+@import 'src/app/styles/layout';
+@import 'src/app/styles/drawer';
+
+.tbl_content {
+    padding: 10px;
+}
+
+.layout {
+    .header {
+        padding-left: 10px;
+
+        button {
+            margin-right: 20px;
+        }
+    }
+}
+
+.tbl_view {
+    width: 100%;
+    height: 100%;
+    padding: 10px;
+
+    & .fa {
+        margin-right: 5px;
+    }
+    & .fa.error {
+        color: #ff4d4f;
+    }
+    & .fa.succeed {
+        color: #52c41a;
+    }
+    & .fa.stateless {
+        color: #faad14;
+    }
+}
+
+.other_list {
+    border: 1px solid #f0f0f0;
+
+    $other-height: 30px;
+
+    .item {
+        // height: $other-height;
+        line-height: $other-height;
+        border-bottom: 1px solid #f0f0f0;
+
+        display: flex;
+        align-items: center;
+
+        &:last-child {
+            border: none;
+        }
+
+        &:hover {
+            color: #1890ff;
+        }
+
+        &.active {
+            background-color: #e6f7ff;
+            color: #1890ff;
+            border-bottom: 1px solid #fff;
+        }
+
+        & > .title {
+            padding-left: 10px;
+            flex: 1;
+            cursor: pointer;
+        }
+
+        & > .icon {
+            width: 30px;
+            padding: 0 10px;
+        }
+    }
+}
+
+.table_view {
+    height: 100%;
+    width: 100%;
+    padding: 10px;
+
+    & .fa {
+        margin-right: 5px;
+    }
+
+    & .fa.error {
+        color: #ff4d4f;
+    }
+
+    & .fa.succeed {
+        color: #52c41a;
+    }
+
+    & .fa.stateless {
+        color: #faad14;
+    }
+}
+
+.audit_finish {
+    .header {
+        padding-left: 20px;
+    }
+}
+
+.funish_msg {
+    height: 160px;
+    .info {
+        line-height: 30px;
+        p {
+            margin: 0;
+        }
+        td.title {
+            text-align: right;
+        }
+        td {
+            min-width: 60px;
+            white-space: nowrap;
+            overflow: hidden;
+        }
+        .count {
+            cursor: pointer;
+        }
+    }
+}
+
+.tbl {
+    padding: 10px;
+}
+
+.container {
+    overflow: auto !important;
+}

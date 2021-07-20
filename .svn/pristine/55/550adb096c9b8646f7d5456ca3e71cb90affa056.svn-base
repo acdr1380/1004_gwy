@@ -1,0 +1,52 @@
+import { NzIconModule } from 'ng-zorro-antd/icon';
+import { NzButtonModule } from 'ng-zorro-antd/button';
+import { NzTableModule } from 'ng-zorro-antd/table';
+import { NzSelectModule } from 'ng-zorro-antd/select';
+import { NgModule } from '@angular/core';
+import { CommonModule } from '@angular/common';
+import { ExamYearWorkflowComponent } from './exam-year-workflow.component';
+import { RouterModule, Routes } from '@angular/router';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { NzTabsModule } from 'ng-zorro-antd/tabs';
+
+const routes: Routes = [
+    {
+        path: '',
+        component: ExamYearWorkflowComponent,
+        data: { tag: 'workflow' },
+    },
+    {
+        path: 'leader',
+        loadChildren: () =>
+            import('../exam-year-leader/exam-year-leader.module').then(m => m.ExamYearLeaderModule),
+    },
+    {
+        path: 'manager',
+        loadChildren: () =>
+            import('../exam-year-manager/exam-year-manager.module').then(
+                m => m.ExamYearManagerModule
+            ),
+    },
+    {
+        path: 'basic',
+        loadChildren: () =>
+            import('../exam-year-basic/exam-year-basic.module').then(m => m.ExamYearBasicModule),
+    },
+];
+
+@NgModule({
+    declarations: [ExamYearWorkflowComponent],
+    imports: [
+        CommonModule,
+        RouterModule.forChild(routes),
+        FormsModule,
+        ReactiveFormsModule,
+
+        NzSelectModule,
+        NzTableModule,
+        NzTabsModule,
+        NzButtonModule,
+        NzIconModule,
+    ],
+})
+export class ExamYearWorkflowModule {}

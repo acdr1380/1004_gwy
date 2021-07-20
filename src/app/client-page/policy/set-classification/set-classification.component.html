@@ -1,0 +1,170 @@
+<div class="layout">
+    <div class="header">
+        <div class="handle">
+            <nz-button-group>
+                <button nz-button nzType="primary" (click)="addPolicyType()">添加类型</button>
+                <button nz-button nzType="primary" (click)="editPolicyType()">编辑类型</button>
+                <button nz-button nzType="primary" (click)="deletePolicyType()">删除类型</button>
+            </nz-button-group>
+        </div>
+    </div>
+    <div class="container">
+        <div class="left">
+            <div class="find">
+                <nz-select
+                    [ngStyle]="{ 'width.px': policyTypeTree.find.searchWidth || 160 }"
+                    nzShowSearch
+                    nzServerSearch
+                    nzAllowClear
+                    [nzPlaceHolder]="policyTypeTree.find.placeholder || '请输入关键字搜索'"
+                    [nzShowArrow]="false"
+                    [nzFilterOption]="policyTypeTree.find.nzFilterOption"
+                    [(ngModel)]="policyTypeTree.find.searchKey"
+                    (ngModelChange)="policyTypeTree.find.change($event)"
+                    (nzOnSearch)="policyTypeTree.find.search($event)"
+                >
+                    <ng-container *ngFor="let item of policyTypeTree.find.list">
+                        <nz-option [nzLabel]="item.title" [nzValue]="item.key"> </nz-option>
+                    </ng-container>
+                </nz-select>
+            </div>
+            <div class="tree">
+                <nz-tree
+                    #typeTreeElement
+                    [nzSelectedKeys]="policyTypeTree.nzSelectedKeys"
+                    [nzExpandedKeys]="policyTypeTree.nzExpandedKeys"
+                    [nzData]="policyTypeTree.nodes"
+                    (nzClick)="policyTypeTree.evtActiveNode($event)"
+                    (nzExpandChange)="policyTypeTree.expandChange($event)"
+                    [nzTreeTemplate]="nzTreeTemplate"
+                >
+                    <ng-template #nzTreeTemplate let-node>
+                        <span
+                            class="custom-node"
+                            [class.active]="policyTypeTree.activedNode?.key === node.key"
+                        >
+                            <i class="fa fa-sitemap" aria-hidden="true"></i>
+                            <span class="node-text">{{ node.title }}</span>
+                        </span>
+                    </ng-template>
+                </nz-tree>
+            </div>
+        </div>
+        <div class="right">
+            <ng-template [ngTemplateOutlet]="main"></ng-template>
+        </div>
+    </div>
+</div>
+<!-- <section class="layout">
+    <header>
+        <ng-template [ngTemplateOutlet]="header"></ng-template>
+    </header>
+    <aside>
+        <ng-template [ngTemplateOutlet]="aside"></ng-template>
+    </aside>
+    <main>
+        <ng-template [ngTemplateOutlet]="main"></ng-template>
+    </main>
+</section> -->
+
+<ng-template #header>
+    <div class="handle">
+        <nz-button-group>
+            <button nz-button nzType="primary" (click)="addPolicyType()">添加类型</button>
+            <button nz-button nzType="primary" (click)="editPolicyType()">编辑类型</button>
+            <button nz-button nzType="primary" (click)="deletePolicyType()">删除类型</button>
+        </nz-button-group>
+    </div>
+</ng-template>
+
+<ng-template #aside>
+    <div class="left-content">
+        <div class="find">
+            <nz-select
+                [ngStyle]="{ 'width.px': policyTypeTree.find.searchWidth || 160 }"
+                nzShowSearch
+                nzServerSearch
+                nzAllowClear
+                [nzPlaceHolder]="policyTypeTree.find.placeholder || '请输入关键字搜索'"
+                [nzShowArrow]="false"
+                [nzFilterOption]="policyTypeTree.find.nzFilterOption"
+                [(ngModel)]="policyTypeTree.find.searchKey"
+                (ngModelChange)="policyTypeTree.find.change($event)"
+                (nzOnSearch)="policyTypeTree.find.search($event)"
+            >
+                <ng-container *ngFor="let item of policyTypeTree.find.list">
+                    <nz-option [nzLabel]="item.title" [nzValue]="item.key"> </nz-option>
+                </ng-container>
+            </nz-select>
+        </div>
+
+        <div class="tree">
+            <nz-tree
+                #typeTreeElement
+                [nzSelectedKeys]="policyTypeTree.nzSelectedKeys"
+                [nzExpandedKeys]="policyTypeTree.nzExpandedKeys"
+                [nzData]="policyTypeTree.nodes"
+                (nzClick)="policyTypeTree.evtActiveNode($event)"
+                (nzExpandChange)="policyTypeTree.expandChange($event)"
+                [nzTreeTemplate]="nzTreeTemplate"
+            >
+                <ng-template #nzTreeTemplate let-node>
+                    <span
+                        class="custom-node"
+                        [class.active]="policyTypeTree.activedNode?.key === node.key"
+                    >
+                        <i class="fa fa-sitemap" aria-hidden="true"></i>
+                        <span class="node-text">{{ node.title }}</span>
+                    </span>
+                </ng-template>
+            </nz-tree>
+        </div>
+    </div>
+</ng-template>
+
+<ng-template #main> </ng-template>
+
+<ng-template #policyTypeEditTemp let-formGroup="formGroup">
+    <form nz-form [formGroup]="formGroup">
+        <nz-form-item>
+            <nz-form-label nzRequired>分类名称</nz-form-label>
+            <nz-form-control nzHasFeedback>
+                <input nz-input formControlName="groupName" placeholder="输入分类名称" />
+            </nz-form-control>
+        </nz-form-item>
+
+        <ng-container *ngIf="!policyTypeify.isEdit">
+            <nz-form-item>
+                <nz-form-label>是否顶层</nz-form-label>
+                <nz-form-control>
+                    <label nz-checkbox formControlName="isTop">是否顶层</label>
+                </nz-form-control>
+            </nz-form-item>
+
+            <nz-form-item *ngIf="!formGroup.get('isTop').value">
+                <nz-form-label>顶层节点</nz-form-label>
+                <nz-form-control nzHasFeedback>
+                    <input nz-input formControlName="topNodeName" />
+                </nz-form-control>
+            </nz-form-item>
+        </ng-container>
+    </form>
+</ng-template>
+
+<!-- 添加政策文件类型 -->
+<nz-drawer
+    nzPlacement="right"
+    [nzVisible]="policyTypeify.visible"
+    [nzWidth]="policyTypeify.width"
+    [nzTitle]="policyTypeify.title"
+    (nzOnClose)="policyTypeify.close()"
+>
+    <div class="oper-info">
+        <ng-template
+            [ngTemplateOutlet]="policyTypeEditTemp"
+            [ngTemplateOutletContext]="{ formGroup: policyTypeify.form }"
+        >
+        </ng-template>
+        <button nz-button nzType="primary" (click)="policyTypeify.save()">保存</button>
+    </div>
+</nz-drawer>

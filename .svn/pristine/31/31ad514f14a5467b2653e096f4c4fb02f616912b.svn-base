@@ -1,0 +1,41 @@
+import { NgModule } from '@angular/core';
+import { CommonModule } from '@angular/common';
+import { CareerPersonSalaryComponent } from './career-person-salary.component';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { Routes, RouterModule } from '@angular/router';
+import { NzDrawerModule } from 'ng-zorro-antd/drawer';
+import { NzTableModule } from 'ng-zorro-antd/table';
+import { NzTabsModule } from 'ng-zorro-antd/tabs';
+import { SelectOrgModule } from 'app/components/select-org/select-org.module';
+import { NzIconModule } from 'ng-zorro-antd/icon';
+import { NzButtonModule } from 'ng-zorro-antd/button';
+import { NzDropDownModule } from 'ng-zorro-antd/dropdown';
+import { NzSelectModule } from 'ng-zorro-antd/select';
+import { NzAlertModule } from 'ng-zorro-antd/alert';
+import { PersonOrderModule } from './person-order/person-order.module';
+import { NzCheckboxModule } from 'ng-zorro-antd/checkbox';
+
+
+const routes: Routes = [{ path: '', component: CareerPersonSalaryComponent }];
+
+@NgModule({
+    declarations: [CareerPersonSalaryComponent],
+    imports: [
+        CommonModule,
+        RouterModule.forChild(routes),
+        NzTabsModule,
+        NzTableModule,
+        FormsModule,
+        NzDrawerModule,
+        ReactiveFormsModule,
+        SelectOrgModule,
+        NzIconModule,
+        NzButtonModule,
+        NzDropDownModule,
+        NzSelectModule,
+        NzAlertModule,
+        PersonOrderModule,
+        NzCheckboxModule,
+    ]
+})
+export class CareerPersonSalaryModule { }

@@ -1,0 +1,13 @@
+@import 'src/app/styles/_layout';
+
+.select_org {
+    .header {
+        nz-select {
+            width: 100%;
+        }
+    }
+}
+
+.tree {
+    padding: 10px 0;
+}

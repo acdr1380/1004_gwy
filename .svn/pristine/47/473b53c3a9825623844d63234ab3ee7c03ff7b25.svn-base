@@ -1,0 +1,197 @@
+/*导入布局样式*/
+@import "src/app/styles/layout";
+@import "src/app/styles/drawer";
+
+// 左侧条件选项框边距
+$left_handle_margin: 10px;
+$border-color: #e8e8e8;
+
+// 公用样式
+.position_0 {
+    position: absolute;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    left: 0;
+    margin: auto;
+}
+
+/*组件样式重写*/
+
+//表格分页条与表格表框对齐
+::ng-deep .ant-pagination-options-size-changer.ant-select {
+    margin-right: 0;
+}
+
+::ng-deep .ant-tabs-bar {
+    margin-bottom: 0;
+}
+
+:host ::ng-deep .ant-table-footer {
+    line-height: 30px;
+    padding: 0 10px;
+    height: 30px;
+}
+
+::ng-deep {
+    .ant-spin-nested-loading {
+        width: 100%;
+    }
+
+    .ant-spin-container {
+        height: 100%;
+    }
+}
+
+.layout {
+    .container.right-container {
+        display: flex;
+        flex-direction: column;
+        padding: 20px 10px;
+
+        .m-content {
+            display: flex;
+            flex: 1;
+            height: 100%;
+            flex-direction: column;
+
+            nz-tabset {
+                margin-top: 20px;
+                border-top: 1px solid $border-color;
+            }
+
+            .ledger-handle {
+                display: flex;
+                padding: 20px 0;
+                justify-content: space-between;
+                flex-shrink: 0;
+
+                .tbl-find {
+                    width: 180px;
+                    height: 32px;
+                }
+
+                .btn-group {
+                    display: flex;
+                    justify-content: right;
+
+                    button {
+                        margin-left: 10px;
+                    }
+                }
+
+                .switch-edit {
+                    margin-top: 8px;
+                }
+            }
+
+            .tbl-wrap {
+                flex: 1;
+                position: relative;
+                height: 100%;
+            }
+        }
+    }
+}
+
+// 选人抽屉
+.selector_person {
+    .handle {
+        padding-bottom: 10px;
+
+        .find {
+            float: right;
+        }
+    }
+
+    .gl_card {
+        border: 1px solid #eee;
+
+        .title {
+            padding: 10px;
+            border-bottom: 1px solid #eee;
+        }
+
+        .content {
+            padding: 10px;
+
+            & nz-tag {
+                margin: 5px;
+            }
+        }
+    }
+}
+
+// 选择机构抽屉
+.selector_unit {
+    top: 55px;
+
+    .handler {
+        position: sticky;
+        top: 0;
+        padding: 5px 20px;
+        border-bottom: 1px solid #eee;
+    }
+
+    .drawer-tree {
+        height: calc(100% - 50px);
+        overflow: auto;
+    }
+
+    .drawer-tree-view {
+        position: absolute;
+        top: 50px;
+    }
+}
+
+// 批量修改抽屉
+.batch-edit-wrapper,
+.add-record-wrapper {
+    display: flex;
+
+    .left-main {
+        flex: 1;
+        width: 300px;
+        height: 100%;
+        overflow: auto;
+    }
+
+    .right-main {
+        display: flex;
+        flex-direction: column;
+
+        & > .header {
+            height: 50px;
+        }
+
+        & > .container {
+            flex: 1;
+            overflow: auto;
+
+            .form-wrap {
+                width: 100%;
+                padding: 0 20px;
+                overflow: auto;
+
+                .radio-group {
+                    margin: 20px 0;
+                }
+            }
+        }
+    }
+
+    .ellipsis-item {
+        display: inline-block;
+        width: 100%;
+        word-break: keep-all;
+        text-overflow: ellipsis;
+        white-space: pre;
+        overflow: hidden;
+    }
+}
+
+.tips {
+    padding: 0;
+    color: red;
+    line-height: 30px;
+}

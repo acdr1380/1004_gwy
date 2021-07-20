@@ -1,0 +1,162 @@
+@import 'src/app/styles/drawer';
+
+.layout {
+    height: 100%;
+    position: relative;
+
+    .doc_btn {
+        height: 50px;
+        line-height: 50px;
+        background-color: #eee;
+    }
+
+    .document-content {
+        $menu-width: 200px;
+        top: 50px;
+        background-color: #fff;
+        overflow: hidden;
+        overflow-y: auto;
+
+        .msg {
+            padding: 10px;
+        }
+
+        .title {
+            text-align: center;
+
+            h5 {
+                float: right;
+                margin-right: 20px;
+            }
+        }
+
+        main.doc {
+            width: calc(100% - #{$menu-width});
+            padding: 15px;
+            float: left;
+        }
+
+        main.other {
+            width: 100%;
+        }
+
+        div.menu {
+            position: sticky;
+            top: 0;
+            right: 10px;
+            float: right;
+            height: 100%;
+            width: $menu-width;
+            border: 1px solid #eee;
+            border-right: none;
+            overflow: hidden;
+        }
+
+        .file {
+            padding: 15px;
+            float: left;
+            width: 100%;
+        }
+    }
+}
+
+.signmenu {
+    &::before {
+        content: '';
+        display: block;
+        // margin: auto;
+        margin-left: 4px;
+        width: 0;
+        height: 0;
+        background: transparent;
+        border-top: 8px solid transparent;
+        border-bottom: 8px solid #000;
+        border-left: 10px solid transparent;
+        border-right: 10px solid transparent;
+    }
+
+    .btns {
+        background-color: #000;
+        color: #fff;
+        border-radius: 6px;
+        padding: 5px 5px 0 8px;
+
+        & > div {
+            width: 80px;
+            height: 50px;
+            text-align: center;
+            display: inline-block;
+            cursor: pointer;
+
+            span {
+                display: block;
+            }
+
+            &:hover {
+                opacity: 0.6;
+            }
+        }
+    }
+}
+
+.position_0 {
+    position: absolute;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    left: 0;
+    margin: auto;
+}
+
+// 收藏分组
+.collect-info {
+    top: 55px;
+
+    .list {
+        height: 100%;
+        $item-height: 30px;
+
+        .handle {
+            position: sticky;
+            top: 0;
+            padding: 10px;
+            border-bottom: 1px solid #eee;
+            background-color: #fff;
+            z-index: 1;
+
+            .find {
+                display: inline-block;
+            }
+
+            .btns {
+                display: inline-block;
+                margin-left: 10px;
+            }
+        }
+
+        .item {
+            height: $item-height;
+            line-height: $item-height;
+            padding: 0 10px;
+            cursor: pointer;
+            overflow: hidden;
+
+            & > a {
+                float: right;
+                margin-right: 10px;
+            }
+
+            &.selected {
+                background-color: #b9c1ca;
+            }
+        }
+    }
+}
+
+.tabset {
+    border-bottom: none !important;
+}
+
+.tag_context {
+    border: 1px solid #d9d9d9;
+}

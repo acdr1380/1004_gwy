@@ -1,0 +1,39 @@
+// 测试库打包config相关内容
+import { version, description } from './../assets/appsettings.json';
+
+export const environment = {
+    version,
+    description,
+    production: false,
+    config: {
+        /**
+         * 系统名称
+         */
+        PROJECT_NAME: '工资管理系统',
+        /**
+         * 系统名称简拼
+         */
+        PROJECT_NAME_SIGN: '',
+        /**
+         * 项目根目录
+         */
+        PROJECT_PATH_ROOT: 'gl_1004_gwygz',
+        /**
+         * 通用表编码
+         */
+        GENERAL_TABLE_CODE: '3001',
+        /**
+         * 工资表编码
+         */
+        SALARY_TABLE_CODE: '1002',
+        /**
+         * 项目类型
+         */
+        PROJECT_NO: 'CIVIL',
+        // 项目内容相关设置
+        AppSettings: {
+            // 后端约定密码加密key
+            NB_NETWORK_CONFIG_DESKey: 'glsoft88',
+        },
+    },
+};

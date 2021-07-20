@@ -1,0 +1,1120 @@
+<div class="layout">
+    <div class="header report_year">
+        <nz-select
+            style="width: 400px"
+            nzPlaceHolder="选择套表"
+            [(ngModel)]="reportIfy.overlay.value"
+            (ngModelChange)="reportIfy.overlay.evtChange()"
+        >
+            <ng-container *ngFor="let item of reportIfy.overlay.list">
+                <nz-option
+                    [nzLabel]="item.setTableName"
+                    nzValue="{{ item.classId }}_{{ item.setId }}"
+                ></nz-option>
+            </ng-container>
+        </nz-select>
+        <button nz-button nzType="primary" nzGhost style="margin-left: 10px" (click)="help()">
+            帮助
+        </button>
+    </div>
+    <div class="container">
+        <div class="layout report_audit">
+            <div class="header status">
+                <nz-tabset
+                    [nzTabBarExtraContent]="extraTemplate"
+                    [nzTabBarStyle]="{ 'margin.px': 0, border: 'none' }"
+                    (nzSelectChange)="reportStatusIfy.evtTabChange($event)"
+                >
+                    <ng-container *ngFor="let item of reportStatusIfy.list">
+                        <nz-tab
+                            nzTitle="{{ item.text + (item.count ? '(' + item.count + ')' : '') }}"
+                        >
+                        </nz-tab>
+                    </ng-container>
+                </nz-tabset>
+                <ng-template #extraTemplate>
+                    <nz-input-group style="margin-top: 10px" [nzSuffix]="inputClearTpl">
+                        <input
+                            type="text"
+                            nz-input
+                            placeholder="输入关键字回车搜索"
+                            [(ngModel)]="reportStatusIfy.searchKey"
+                            (keydown)="reportStatusIfy.keyDwon($event)"
+                        />
+                    </nz-input-group>
+                    <ng-template #inputClearTpl>
+                        <i
+                            nz-icon
+                            class="ant-input-clear-icon"
+                            nzTheme="fill"
+                            nzType="close-circle"
+                            (click)="reportStatusIfy.closeSearch($event)"
+                        ></i>
+                    </ng-template>
+                </ng-template>
+            </div>
+
+            <ng-container *ngFor="let item of reportStatusIfy.list; let i = index">
+                <div class="container" [hidden]="i !== reportStatusIfy.selectIndex">
+                    <ng-template [ngTemplateOutlet]="item?.template"></ng-template>
+                </div>
+            </ng-container>
+        </div>
+    </div>
+</div>
+
+<!-- 等待审批 -->
+<ng-template #auditWaitingElement>
+    <div class="layout">
+        <div class="container">
+            <div class="view_scroll tbl_content">
+                <nz-table
+                    #mySelfTableElement
+                    nzShowSizeChanger
+                    nzBordered
+                    nzSize="small"
+                    [nzFrontPagination]="false"
+                    [nzTotal]="waitingAuditIfy.totalCount"
+                    [(nzPageSize)]="waitingAuditIfy.pageSize"
+                    [(nzPageIndex)]="waitingAuditIfy.pageIndex"
+                    [nzData]="waitingAuditIfy.data"
+                    (nzPageIndexChange)="waitingAuditIfy.evtLoadPageData()"
+                    (nzPageSizeChange)="waitingAuditIfy.evtLoadPageData(true)"
+                    [nzLoading]="waitingAuditIfy.loading"
+                >
+                    <thead>
+                        <tr>
+                            <th nzAlign="center" nzWidth="160px">状态</th>
+                            <th nzAlign="left" nzWidth="300px">单位名称</th>
+                            <th nzAlign="left">生成名称</th>
+                            <th nzAlign="center" nzWidth="200px">联系人</th>
+                            <th nzAlign="center" nzWidth="160px">校验结果</th>
+
+                            <th nzWidth="80px" nzAlign="center">附件</th>
+                            <th nzWidth="80px" nzAlign="center">审批历史</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr *ngFor="let data of mySelfTableElement.data">
+                            <td nzAlign="center">{{ mySelfIfy.getAuditText(data) }}</td>
+                            <td nzAlign="left">{{ data.orgName }}</td>
+                            <td nzAlign="left">
+                                <a (click)="mySelfIfy.evtLoadReportCommon(data)">{{
+                                    data.reportName
+                                }}</a>
+                            </td>
+                            <td nzAlign="center">
+                                <a (click)="mySelfIfy.evtPrincipal(data)">联系人</a>
+                            </td>
+                            <td nzAlign="center">
+                                <i
+                                    *ngIf="
+                                        data.verifyStatus === verifyStatusEnum.STATUS_NOT_VERIFIED
+                                    "
+                                    class="fa fa-history stateless"
+                                ></i>
+                                <i
+                                    *ngIf="data.verifyStatus === verifyStatusEnum.STATUS_APPROVED"
+                                    class="fa fa-check-circle succeed"
+                                ></i>
+                                <i
+                                    *ngIf="
+                                        data.verifyStatus === verifyStatusEnum.STATUS_NOT_APPROVED
+                                    "
+                                    class="fa fa-times-circle error"
+                                ></i>
+                                {{ mySelfIfy.getVerifyText(data) }}
+                            </td>
+                            <td nzAlign="center">
+                                <a (click)="mySelfIfy.evtLoadAnnexList(data)">查看附件</a>
+                            </td>
+                            <td nzAlign="center">
+                                <a (click)="mySelfIfy.evtLoadAuditData(data)">审批历史</a>
+                            </td>
+                        </tr>
+                    </tbody>
+                </nz-table>
+            </div>
+        </div>
+    </div>
+</ng-template>
+
+<!-- 已审批 -->
+<ng-template #auditFinishedElement>
+    <div class="layout audit_finish">
+        <div class="header">
+            <nz-radio-group
+                [(ngModel)]="auditFinishedIfy.status"
+                (ngModelChange)="auditFinishedIfy.evtLoadPageData(true)"
+            >
+                <label nz-radio nzValue="all">全部</label>
+                <label nz-radio nzValue="pass">审批通过</label>
+                <label nz-radio nzValue="nopass">审批不通过</label>
+            </nz-radio-group>
+        </div>
+        <div class="container">
+            <div class="view_scroll tbl_content">
+                <nz-table
+                    #auditFinishedTable
+                    nzShowSizeChanger
+                    nzBordered
+                    nzSize="small"
+                    [nzFrontPagination]="false"
+                    [nzTotal]="auditFinishedIfy.totalCount"
+                    [(nzPageSize)]="auditFinishedIfy.pageSize"
+                    [(nzPageIndex)]="auditFinishedIfy.pageIndex"
+                    [nzData]="auditFinishedIfy.data"
+                    (nzPageIndexChange)="auditFinishedIfy.evtLoadPageData()"
+                    (nzPageSizeChange)="auditFinishedIfy.evtLoadPageData(true)"
+                    [nzLoading]="auditFinishedIfy.loading"
+                >
+                    <thead>
+                        <tr>
+                            <th nzAlign="center" nzWidth="160px">状态</th>
+                            <th nzAlign="left" nzWidth="300px">单位名称</th>
+                            <th nzAlign="left">生成名称</th>
+                            <th nzWidth="80px" nzAlign="center">审批历史</th>
+                            <th nzAlign="center" nzWidth="100px">联系方式</th>
+                            <th nzWidth="80px" nzAlign="center">附件</th>
+                            <th nzAlign="center" nzWidth="160px">校验结果</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr *ngFor="let data of auditFinishedTable.data">
+                            <td nzAlign="center">{{ mySelfIfy.getAuditText(data) }}</td>
+                            <td nzAlign="left">{{ data.orgName }}</td>
+                            <td nzAlign="left">
+                                <a (click)="mySelfIfy.evtLoadReportCommon(data)">{{
+                                    data.reportName
+                                }}</a>
+                            </td>
+
+                            <td nzAlign="center">
+                                <a (click)="mySelfIfy.evtLoadAuditData(data)">查看</a>
+                            </td>
+                            <td nzAlign="center">
+                                <a (click)="mySelfIfy.evtPrincipal(data)">联系人</a>
+                            </td>
+                            <td nzAlign="center">
+                                <a (click)="mySelfIfy.evtLoadAnnexList(data)">查看附件</a>
+                            </td>
+                            <td nzAlign="center">
+                                <i
+                                    *ngIf="
+                                        data.verifyStatus === verifyStatusEnum.STATUS_NOT_VERIFIED
+                                    "
+                                    class="fa fa-history stateless"
+                                ></i>
+                                <i
+                                    *ngIf="data.verifyStatus === verifyStatusEnum.STATUS_APPROVED"
+                                    class="fa fa-check-circle succeed"
+                                ></i>
+                                <i
+                                    *ngIf="
+                                        data.verifyStatus === verifyStatusEnum.STATUS_NOT_APPROVED
+                                    "
+                                    class="fa fa-times-circle error"
+                                ></i>
+                                {{ mySelfIfy.getVerifyText(data) }}
+                            </td>
+                        </tr>
+                    </tbody>
+                </nz-table>
+            </div>
+        </div>
+    </div>
+</ng-template>
+
+<!-- 我的数据 -->
+<ng-template #mySelfElement>
+    <div class="layout">
+        <div class="header">
+            <!-- <button nz-button nzType="default">设置封面</button> -->
+            <button nz-button nzType="primary" (click)="mySelfIfy.evtBuildReport()">
+                生成报表
+            </button>
+        </div>
+        <div class="container">
+            <div class="view_scroll tbl_content">
+                <nz-table
+                    #mySelfTableElement
+                    nzShowSizeChanger
+                    nzBordered
+                    nzSize="small"
+                    [nzFrontPagination]="false"
+                    [nzTotal]="mySelfIfy.totalCount"
+                    [(nzPageSize)]="mySelfIfy.pageSize"
+                    [(nzPageIndex)]="mySelfIfy.pageIndex"
+                    [nzData]="mySelfIfy.data"
+                    (nzPageIndexChange)="mySelfIfy.evtLoadPageData()"
+                    (nzPageSizeChange)="mySelfIfy.evtLoadPageData(true)"
+                    [nzLoading]="mySelfIfy.loading"
+                >
+                    <thead>
+                        <tr>
+                            <th nzWidth="160px" nzAlign="center">状态</th>
+                            <th nzAlign="left" nzWidth="300px">单位名称</th>
+                            <th nzAlign="left">生成单位</th>
+                            <th nzWidth="160px" nzAlign="center">校验结果</th>
+                            <th nzWidth="80px" nzAlign="center">审批结果</th>
+                            <th nzWidth="300px" nzAlign="center">操作</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr *ngFor="let data of mySelfTableElement.data">
+                            <td nzAlign="center">{{ mySelfIfy.getAuditText(data) }}</td>
+                            <td nzAlign="left">{{ data.orgName }}</td>
+                            <td nzAlign="left">
+                                <a (click)="mySelfIfy.evtLoadReportCommon(data)">{{
+                                    data.reportName
+                                }}</a>
+                            </td>
+                            <td nzAlign="center">
+                                <i
+                                    *ngIf="
+                                        data.verifyStatus === verifyStatusEnum.STATUS_NOT_VERIFIED
+                                    "
+                                    class="fa fa-history stateless"
+                                ></i>
+                                <i
+                                    *ngIf="data.verifyStatus === verifyStatusEnum.STATUS_APPROVED"
+                                    class="fa fa-check-circle succeed"
+                                ></i>
+                                <i
+                                    *ngIf="
+                                        data.verifyStatus === verifyStatusEnum.STATUS_NOT_APPROVED
+                                    "
+                                    class="fa fa-times-circle error"
+                                ></i>
+                                {{ mySelfIfy.getVerifyText(data) }}
+                            </td>
+                            <td nzAlign="center">
+                                <!-- <ng-container
+                                    *ngIf="
+                                        data.processingStatus ===
+                                            processingStatusEnum.STATUS_NOT_APPROVED;
+                                        else notApproved
+                                    "
+                                >
+                                    <a (click)="mySelfIfy.evtLoadAuditData(data)">查看</a>
+                                </ng-container>
+                                <ng-template #notApproved> - </ng-template> -->
+                                <a (click)="mySelfIfy.evtLoadAuditData(data)">查看</a>
+                            </td>
+                            <td nzAlign="center">
+                                <ng-container
+                                    *ngIf="
+                                        data.processingStatus ===
+                                            processingStatusEnum.STATUS_UNPROCESSED ||
+                                            data.processingStatus ===
+                                                processingStatusEnum.STATUS_GENERATED ||
+                                            data.processingStatus ===
+                                                processingStatusEnum.STATUS_NOT_APPROVED;
+                                        else elseOptions
+                                    "
+                                >
+                                    <a (click)="mySelfIfy.evtCovenSetting(data)">设置封面</a>
+                                    <nz-divider nzType="vertical"></nz-divider>
+
+                                    <a (click)="mySelfIfy.evtUploadFile(data)">上传附件</a>
+                                    <nz-divider nzType="vertical"></nz-divider>
+                                    <!-- <a (click)="mySelfIfy.evtPrincipal(data)">联系人</a>
+                                    <nz-divider nzType="vertical"></nz-divider> -->
+
+                                    <!-- <button
+                                        nz-button
+                                        nzSize="small"
+                                        nzType="link"
+                                        [nzLoading]="mySelfIfy.buildReportTableing"
+                                        (click)="mySelfIfy.evtbuildReportTable(data)"
+                                    >
+                                        生成
+                                    </button>
+                                    <nz-divider nzType="vertical"></nz-divider> -->
+                                    <!-- <button
+                                        nz-button
+                                        nzSize="small"
+                                        nzType="link"
+                                        [nzLoading]="mySelfIfy.verifyReporting"
+                                        (click)="mySelfIfy.evtVerifyReportData(data)"
+                                    >
+                                        校验
+                                    </button> 
+                                    <nz-divider nzType="vertical"></nz-divider>-->
+                                    <a (click)="mySelfIfy.evtAuditSubmit(data)">上报</a>
+                                    <nz-divider nzType="vertical"></nz-divider>
+                                    <a (click)="mySelfIfy.evtDeleteReport(data)">删除</a>
+                                </ng-container>
+
+                                <ng-template #elseOptions>
+                                    <a (click)="mySelfIfy.evtLoadAnnexList(data)">查看附件</a>
+                                    <nz-divider nzType="vertical"></nz-divider>
+                                    <a (click)="mySelfIfy.evtRevocation(data)">撤回</a>
+                                </ng-template>
+                            </td>
+                        </tr>
+                    </tbody>
+                </nz-table>
+            </div>
+        </div>
+    </div>
+</ng-template>
+
+<!-- 汇总数据 -->
+<ng-template #collectListElement>
+    <div class="layout">
+        <div class="header">
+            <button nz-button nzType="primary" (click)="collectListIfy.evtReportCollet()">
+                报表汇总
+            </button>
+        </div>
+        <div class="container">
+            <div class="view_scroll tbl_content">
+                <nz-table
+                    #mySelfTableElement
+                    nzShowSizeChanger
+                    nzBordered
+                    nzSize="small"
+                    [nzFrontPagination]="false"
+                    [nzTotal]="collectListIfy.totalCount"
+                    [(nzPageSize)]="collectListIfy.pageSize"
+                    [(nzPageIndex)]="collectListIfy.pageIndex"
+                    [nzData]="collectListIfy.data"
+                    (nzPageIndexChange)="collectListIfy.evtLoadPageData()"
+                    (nzPageSizeChange)="collectListIfy.evtLoadPageData(true)"
+                    [nzLoading]="collectListIfy.loading"
+                >
+                    <thead>
+                        <tr>
+                            <th nzAlign="center" nzWidth="160px">状态</th>
+                            <th nzAlign="left" nzWidth="300px">单位名称</th>
+                            <th nzAlign="left">生成名称</th>
+                            <th nzAlign="center" nzWidth="120px">被汇总单位</th>
+                            <th nzAlign="center" nzWidth="120px">联系人</th>
+                            <th nzAlign="center" nzWidth="160px">校验结果</th>
+                            <th nzAlign="center" nzWidth="80px" nzAlign="center">审批结果</th>
+                            <th nzAlign="center" nzWidth="300px">操作</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr *ngFor="let data of mySelfTableElement.data">
+                            <td nzAlign="center">{{ mySelfIfy.getAuditText(data) }}</td>
+                            <td nzAlign="left">{{ data.orgName }}</td>
+                            <td nzAlign="left">
+                                <a (click)="mySelfIfy.evtLoadReportCommon(data)">{{
+                                    data.reportName
+                                }}</a>
+                            </td>
+                            <td nzAlign="center">
+                                <a (click)="collectListIfy.loadUnitTable(data)">被汇总单位</a>
+                            </td>
+                            <td nzAlign="center">{{ data.contactName }}</td>
+                            <td nzAlign="center">
+                                <i
+                                    *ngIf="
+                                        data.verifyStatus === verifyStatusEnum.STATUS_NOT_VERIFIED
+                                    "
+                                    class="fa fa-history stateless"
+                                ></i>
+                                <i
+                                    *ngIf="data.verifyStatus === verifyStatusEnum.STATUS_APPROVED"
+                                    class="fa fa-check-circle succeed"
+                                ></i>
+                                <i
+                                    *ngIf="
+                                        data.verifyStatus === verifyStatusEnum.STATUS_NOT_APPROVED
+                                    "
+                                    class="fa fa-times-circle error"
+                                ></i>
+                                {{ mySelfIfy.getVerifyText(data) }}
+                            </td>
+                            <td nzAlign="center">
+                                <ng-container
+                                    *ngIf="
+                                        data.processingStatus ===
+                                            processingStatusEnum.STATUS_NOT_APPROVED;
+                                        else notApproved
+                                    "
+                                >
+                                    <a (click)="mySelfIfy.evtLoadAuditData(data)">查看</a>
+                                </ng-container>
+                                <ng-template #notApproved> - </ng-template>
+                            </td>
+                            <td nzAlign="center">
+                                <ng-container
+                                    *ngIf="
+                                        data.processingStatus ===
+                                            processingStatusEnum.STATUS_UNPROCESSED ||
+                                            data.processingStatus ===
+                                                processingStatusEnum.STATUS_GENERATED ||
+                                            data.processingStatus ===
+                                                processingStatusEnum.STATUS_NOT_APPROVED;
+                                        else elseOptions
+                                    "
+                                >
+                                    <a (click)="mySelfIfy.evtCovenSetting(data)">设置封面</a>
+                                    <nz-divider nzType="vertical"></nz-divider>
+                                    <a (click)="mySelfIfy.evtUploadFile(data)">上传附件</a>
+                                    <nz-divider nzType="vertical"></nz-divider>
+                                    <!-- <nz-divider nzType="vertical"></nz-divider>
+                                    <a (click)="mySelfIfy.evtPrincipal(data)">联系人</a> -->
+                                    <nz-divider nzType="vertical"></nz-divider>
+                                    <!-- <button
+                                        nz-button
+                                        nzSize="small"
+                                        nzType="link"
+                                        [nzLoading]="mySelfIfy.buildReportTableing"
+                                        (click)="mySelfIfy.evtbuildReportTable(data)"
+                                    >
+                                        生成
+                                    </button>
+                                    <nz-divider nzType="vertical"></nz-divider> -->
+                                    <a (click)="mySelfIfy.evtAuditSubmit(data)">上报</a>
+                                    <nz-divider nzType="vertical"></nz-divider>
+                                    <a (click)="mySelfIfy.evtDeleteReport(data)">删除</a>
+                                </ng-container>
+                                <ng-template #elseOptions>
+                                    <a (click)="mySelfIfy.evtLoadAnnexList(data)">查看附件</a>
+                                    <nz-divider nzType="vertical"></nz-divider>
+                                    <a (click)="mySelfIfy.evtRevocation(data)">撤回</a>
+                                </ng-template>
+                            </td>
+                        </tr>
+                    </tbody>
+                </nz-table>
+            </div>
+        </div>
+    </div>
+</ng-template>
+
+<!-- 完成情况 -->
+<ng-template #funishingSituationEle>
+    <div style="width: 100%">
+        <div class="funish_msg">
+            <div class="layout" style="border-bottom: 1px solid #eee">
+                <div class="header">报表完成情况</div>
+                <div class="container info tbl_content">
+                    <table style="width: 100%">
+                        <tbody>
+                            <tr>
+                                <td class="title">单位总计：</td>
+                                <td
+                                    colspan="5"
+                                    class="count"
+                                    (click)="finishingSituationIfy.loadB0105('单位总计')"
+                                >
+                                    <a>{{ finishingSituationIfy.msgTotalData['单位总计'] }}</a>
+                                </td>
+                            </tr>
+                            <ng-container>
+                                <tr>
+                                    <ng-container
+                                        *ngFor="
+                                            let item of finishingSituationIfy.msgTitles;
+                                            let i = index
+                                        "
+                                    >
+                                        <td *ngIf="i < 3" class="title">{{ item }}：</td>
+                                        <td
+                                            class="count"
+                                            *ngIf="i < 3"
+                                            (click)="finishingSituationIfy.loadB0105(item)"
+                                        >
+                                            <a>{{ finishingSituationIfy.msgTotalData[item] }}</a>
+                                        </td>
+                                    </ng-container>
+                                </tr>
+                                <tr>
+                                    <ng-container
+                                        *ngFor="
+                                            let item of finishingSituationIfy.msgTitles;
+                                            let i = index
+                                        "
+                                    >
+                                        <td *ngIf="i >= 3" class="title">{{ item }}：</td>
+                                        <td
+                                            class="count"
+                                            *ngIf="i >= 3"
+                                            (click)="finishingSituationIfy.loadB0105(item)"
+                                        >
+                                            <a>{{ finishingSituationIfy.msgTotalData[item] }}</a>
+                                        </td>
+                                    </ng-container>
+                                </tr>
+                            </ng-container>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+        <div class="funish_table">
+            <div class="layout">
+                <div class="header">
+                    <nz-tabset
+                        [(nzSelectedIndex)]="finishingSituationIfy.tabSet.index"
+                        [nzTabBarStyle]="{ 'margin.px': 0, 'height.px': 50, 'padding-top': '3px' }"
+                        (nzSelectChange)="finishingSituationIfy.tabSet.tabIndexChange($event)"
+                        [nzTabBarExtraContent]="extraTemplate"
+                    >
+                        <ng-container *ngFor="let item of finishingSituationIfy.tabSet.titles">
+                            <nz-tab nzTitle="{{ item.text + '(' + item.count + ')' }}"></nz-tab>
+                        </ng-container>
+                        <ng-template #extraTemplate>
+                            <nz-select
+                                nzMode="multiple"
+                                [nzMaxTagCount]="2"
+                                style="width: 480px; margin-right: 10px"
+                                [nzPlaceHolder]="'请选择单位类别'"
+                                [(ngModel)]="finishingSituationIfy.B0105select.currentValue"
+                                (ngModelChange)="
+                                    finishingSituationIfy.B0105select.evtChange($event)
+                                "
+                            >
+                                <ng-container
+                                    *ngFor="let item of finishingSituationIfy.B0105select.list"
+                                >
+                                    <nz-option
+                                        [nzLabel]="item.text"
+                                        [nzValue]="item.value"
+                                    ></nz-option>
+                                </ng-container>
+                            </nz-select>
+
+                            <button
+                                nz-button
+                                nzType="primary"
+                                (click)="finishingSituationIfy.tabSet.downLoad()"
+                            >
+                                输出
+                            </button>
+                        </ng-template>
+                    </nz-tabset>
+                </div>
+                <div class="container tbl">
+                    <div style="width: 100%">
+                        <div
+                            *ngIf="
+                                finishingSituationIfy.tabSet.index === 2 ||
+                                finishingSituationIfy.tabSet.index === 1
+                            "
+                        >
+                            <nz-table
+                                #finishingTableEle
+                                nzShowSizeChanger
+                                nzBordered
+                                nzSize="small"
+                                [nzFrontPagination]="false"
+                                [nzTotal]="finishingSituationIfy.finishTable.totalCount"
+                                [(nzPageSize)]="finishingSituationIfy.finishTable.pageSize"
+                                [(nzPageIndex)]="finishingSituationIfy.finishTable.pageIndex"
+                                [nzData]="finishingSituationIfy.finishTable.data"
+                                (nzPageIndexChange)="
+                                    finishingSituationIfy.finishTable.evtLoadPageData()
+                                "
+                                (nzPageSizeChange)="
+                                    finishingSituationIfy.finishTable.evtLoadPageData(true)
+                                "
+                                [nzLoading]="finishingSituationIfy.finishTable.loading"
+                            >
+                                <thead>
+                                    <tr>
+                                        <th nzAlign="left">单位名称</th>
+                                        <th nzAlign="left">单位类别</th>
+                                        <th nzAlign="left">单位性质类别</th>
+                                        <th nzAlign="left">经费形式</th>
+                                        <th
+                                            nzAlign="center"
+                                            *ngIf="finishingSituationIfy.tabSet.index === 2"
+                                        >
+                                            操作
+                                        </th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr *ngFor="let data of finishingTableEle.data">
+                                        <td nzAlign="left">{{ data.B0101 }}</td>
+                                        <td nzAlign="left">{{ data.B0105_CN }}</td>
+                                        <td nzAlign="left">{{ data.B0131_CN }}</td>
+                                        <td nzAlign="left">{{ data.B0126_CN }}</td>
+                                        <td
+                                            nzAlign="center"
+                                            *ngIf="finishingSituationIfy.tabSet.index === 2"
+                                        >
+                                            <a
+                                                (click)="
+                                                    finishingSituationIfy.finishTable.view(data)
+                                                "
+                                                >查看</a
+                                            >
+                                        </td>
+                                    </tr>
+                                </tbody>
+                            </nz-table>
+                        </div>
+
+                        <div [hidden]="finishingSituationIfy.tabSet.index !== 0">
+                            <nz-table
+                                #unfinishTableEle
+                                nzShowSizeChanger
+                                nzBordered
+                                nzSize="small"
+                                [nzFrontPagination]="false"
+                                [nzTotal]="finishingSituationIfy.unfinishTable.totalCount"
+                                [(nzPageSize)]="finishingSituationIfy.unfinishTable.pageSize"
+                                [(nzPageIndex)]="finishingSituationIfy.unfinishTable.pageIndex"
+                                [nzData]="finishingSituationIfy.unfinishTable.data"
+                                (nzPageIndexChange)="
+                                    finishingSituationIfy.unfinishTable.evtLoadPageData()
+                                "
+                                (nzPageSizeChange)="
+                                    finishingSituationIfy.unfinishTable.evtLoadPageData(true)
+                                "
+                                [nzLoading]="finishingSituationIfy.unfinishTable.loading"
+                            >
+                                <thead>
+                                    <tr>
+                                        <th nzAlign="left">单位名称</th>
+                                        <th nzAlign="left">单位类别</th>
+                                        <th nzAlign="left">单位性质类别</th>
+                                        <th nzAlign="left">经费形式</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr *ngFor="let data of unfinishTableEle.data">
+                                        <td nzAlign="left">{{ data.B0101 }}</td>
+                                        <td nzAlign="left">{{ data.B0105_CN }}</td>
+                                        <td nzAlign="left">{{ data.B0131_CN }}</td>
+                                        <td nzAlign="left">{{ data.B0126_CN }}</td>
+                                    </tr>
+                                </tbody>
+                            </nz-table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</ng-template>
+
+<!-- 数字反查单位抽屉 -->
+<nz-drawer
+    [nzVisible]="B0105Unit.visible"
+    [nzWidth]="600"
+    [nzTitle]="'单位信息'"
+    (nzOnClose)="B0105Unit.close()"
+>
+    <div class="drawer_area">
+        <div class="header">
+            <button nz-button nzType="primary" (click)="B0105Unit.downLoad()">输出</button>
+        </div>
+        <div class="container">
+            <div class="view_scroll">
+                <nz-table
+                    #b0105TableEle
+                    nzShowSizeChanger
+                    nzBordered
+                    nzSize="small"
+                    [nzFrontPagination]="false"
+                    [nzTotal]="B0105Unit.totalCount"
+                    [(nzPageSize)]="B0105Unit.pageSize"
+                    [(nzPageIndex)]="B0105Unit.pageIndex"
+                    [nzData]="B0105Unit.data"
+                    (nzPageIndexChange)="B0105Unit.evtLoadPageData()"
+                    (nzPageSizeChange)="B0105Unit.evtLoadPageData(true)"
+                    [nzLoading]="B0105Unit.loading"
+                >
+                    <thead>
+                        <tr>
+                            <th nzAlign="center">单位名称</th>
+                            <th nzAlign="center">单位类别</th>
+                            <th nzAlign="center">单位性质类别</th>
+                            <th nzAlign="center">经费形式</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr *ngFor="let data of b0105TableEle.data">
+                            <td nzAlign="center">{{ data.B0101 }}</td>
+                            <td nzAlign="center">{{ data.B0105_CN }}</td>
+                            <td nzAlign="center">{{ data.B0131_CN }}</td>
+                            <td nzAlign="center">{{ data.B0126_CN }}</td>
+                        </tr>
+                    </tbody>
+                </nz-table>
+            </div>
+        </div>
+    </div>
+</nz-drawer>
+
+<!-- 选择单位抽屉 -->
+<nz-drawer
+    [nzOffsetX]="reportBuildSettingIfy.visible ? 180 : 0"
+    [nzVisible]="agentUnitIfy.visible"
+    [nzWidth]="agentUnitIfy.width"
+    [nzTitle]="agentUnitIfy.title"
+    (nzOnClose)="agentUnitIfy.close()"
+>
+    <div class="drawer_area">
+        <div class="container">
+            <div class="other_list">
+                <ng-container *ngFor="let item of agentUnitIfy.list; let i = index">
+                    <div
+                        class="item"
+                        [class.active]="item.selected"
+                        (click)="agentUnitIfy.evtSelectUnit(i)"
+                    >
+                        <div class="title">{{ item.orgName }}</div>
+                        <div class="icon" *ngIf="item.selected">
+                            <i class="fa fa-check"></i>
+                        </div>
+                    </div>
+                </ng-container>
+            </div>
+        </div>
+        <div class="footer">
+            <button
+                nz-button
+                nzType="primary"
+                [nzLoading]="agentUnitIfy.londing"
+                [disabled]="agentUnitIfy.evtGetBtnDisabled()"
+                (click)="agentUnitIfy.evtSaveBuildReportUnit()"
+            >
+                选中单位生成报表
+            </button>
+        </div>
+    </div>
+</nz-drawer>
+
+<!-- 报表生成名称 -->
+<nz-drawer
+    [nzVisible]="reportBuildSettingIfy.visible"
+    [nzWidth]="reportBuildSettingIfy.width"
+    [nzTitle]="reportBuildSettingIfy.title"
+    (nzOnClose)="reportBuildSettingIfy.close()"
+>
+    <div class="drawer_area">
+        <div class="container">
+            <form nz-form [formGroup]="reportBuildSettingIfy.form">
+                <nz-form-item>
+                    <nz-form-label nzRequired>生成名称</nz-form-label>
+                    <nz-form-control nzHasFeedback>
+                        <input nz-input formControlName="reportName" />
+                    </nz-form-control>
+                </nz-form-item>
+            </form>
+        </div>
+        <div class="footer">
+            <button nz-button nzType="primary" (click)="reportBuildSettingIfy.evtBuildReportUnit()">
+                生成报表
+            </button>
+        </div>
+    </div>
+</nz-drawer>
+
+<!-- 选择报表数据汇总 -->
+<nz-drawer
+    [nzOffsetX]="collectSettingIfy.visible ? 180 : 0"
+    [nzVisible]="collectDataListIfy.visible"
+    [nzWidth]="collectDataListIfy.width"
+    [nzTitle]="collectDataListIfy.title"
+    (nzOnClose)="collectDataListIfy.close()"
+>
+    <div class="drawer_area">
+        <div class="header">
+            <label
+                nz-checkbox
+                [(ngModel)]="collectDataListIfy.allChecked"
+                (ngModelChange)="collectDataListIfy.updateAllChecked()"
+            >
+                全选
+            </label>
+        </div>
+        <div class="container">
+            <div class="other_list">
+                <ng-container *ngFor="let item of collectDataListIfy.list; let i = index">
+                    <div
+                        class="item"
+                        [class.active]="item.selected"
+                        (click)="collectDataListIfy.evtSelectUnit(i)"
+                    >
+                        <div class="title">{{ item.reportName }}</div>
+                        <div class="icon" *ngIf="item.selected">
+                            <i class="fa fa-check"></i>
+                        </div>
+                    </div>
+                </ng-container>
+            </div>
+        </div>
+        <div class="footer">
+            <button
+                nz-button
+                nzType="primary"
+                [disabled]="collectDataListIfy.evtGetBtnDisabled()"
+                (click)="collectDataListIfy.evtSettingName()"
+            >
+                选中数据汇总
+            </button>
+        </div>
+    </div>
+</nz-drawer>
+
+<!-- 报表生成名称 -->
+<nz-drawer
+    [nzVisible]="collectSettingIfy.visible"
+    [nzWidth]="collectSettingIfy.width"
+    [nzTitle]="collectSettingIfy.title"
+    (nzOnClose)="collectSettingIfy.close()"
+>
+    <div class="drawer_area">
+        <div class="container">
+            <form nz-form [formGroup]="collectSettingIfy.form">
+                <nz-form-item>
+                    <nz-form-label nzRequired>生成名称</nz-form-label>
+                    <nz-form-control nzHasFeedback>
+                        <input nz-input formControlName="reportName" />
+                    </nz-form-control>
+                </nz-form-item>
+            </form>
+        </div>
+        <div class="footer">
+            <button
+                nz-button
+                nzType="primary"
+                [nzLoading]="collectSettingIfy.loading"
+                (click)="collectSettingIfy.evtCollectReportData()"
+            >
+                汇总报表
+            </button>
+        </div>
+    </div>
+</nz-drawer>
+
+<!-- 联系人 -->
+<nz-drawer
+    [nzVisible]="reportPrincipalIfy.visible"
+    [nzWidth]="reportPrincipalIfy.width"
+    [nzTitle]="reportPrincipalIfy.title"
+    (nzOnClose)="reportPrincipalIfy.close()"
+>
+    <div class="drawer_area">
+        <div class="container">
+            <form nz-form [formGroup]="reportPrincipalIfy.form">
+                <nz-form-item>
+                    <nz-form-label nzRequired>填报单位</nz-form-label>
+                    <nz-form-control nzHasFeedback>
+                        <input nz-input formControlName="reportUnitName" />
+                    </nz-form-control>
+                </nz-form-item>
+                <nz-form-item>
+                    <nz-form-label nzRequired>负责人</nz-form-label>
+                    <nz-form-control nzHasFeedback>
+                        <input nz-input formControlName="reportPrincipal" />
+                    </nz-form-control>
+                </nz-form-item>
+                <nz-form-item>
+                    <nz-form-label nzRequired>填报人</nz-form-label>
+                    <nz-form-control nzHasFeedback>
+                        <input nz-input formControlName="reportAuthor" />
+                    </nz-form-control>
+                </nz-form-item>
+                <nz-form-item>
+                    <nz-form-label nzRequired>联系电话</nz-form-label>
+                    <nz-form-control>
+                        <input nz-input formControlName="reportTel" />
+                        <nz-form-explain
+                            *ngIf="
+                                reportPrincipalIfy.form.get('reportTel')?.dirty &&
+                                reportPrincipalIfy.form.get('reportTel')?.errors
+                            "
+                        >
+                            <ng-container
+                                *ngIf="
+                                    reportPrincipalIfy.form.get('reportTel')?.hasError('required')
+                                "
+                            >
+                                联系方式不能为空
+                            </ng-container>
+                            <ng-container
+                                *ngIf="
+                                    reportPrincipalIfy.form.get('reportTel')?.hasError('pattern')
+                                "
+                            >
+                                联系方式格式不正确
+                            </ng-container>
+                        </nz-form-explain>
+                    </nz-form-control>
+                </nz-form-item>
+            </form>
+        </div>
+        <!-- <div class="footer">
+            <button nz-button nzType="primary" (click)="reportPrincipalIfy.evtSave()">保存</button>
+        </div> -->
+    </div>
+</nz-drawer>
+
+<!-- 报表封面设置 -->
+<nz-drawer
+    [nzVisible]="reportCovenSettingIfy.visible"
+    [nzWidth]="reportCovenSettingIfy.width"
+    [nzTitle]="reportCovenSettingIfy.title"
+    (nzOnClose)="reportCovenSettingIfy.close()"
+>
+    <div class="drawer_area">
+        <div class="container">
+            <form nz-form [formGroup]="reportCovenSettingIfy.form">
+                <nz-form-item>
+                    <nz-form-label nzRequired>填报单位</nz-form-label>
+                    <nz-form-control nzHasFeedback>
+                        <input nz-input formControlName="reportUnitName" />
+                    </nz-form-control>
+                </nz-form-item>
+                <nz-form-item>
+                    <nz-form-label nzRequired>负责人</nz-form-label>
+                    <nz-form-control nzHasFeedback>
+                        <input nz-input formControlName="reportPrincipal" />
+                    </nz-form-control>
+                </nz-form-item>
+                <nz-form-item>
+                    <nz-form-label nzRequired>填报人</nz-form-label>
+                    <nz-form-control nzHasFeedback>
+                        <input nz-input formControlName="reportAuthor" />
+                    </nz-form-control>
+                </nz-form-item>
+                <nz-form-item>
+                    <nz-form-label nzRequired>联系电话</nz-form-label>
+                    <nz-form-control>
+                        <input nz-input formControlName="reportTel" />
+                        <nz-form-explain
+                            *ngIf="
+                                reportCovenSettingIfy.form.get('reportTel')?.dirty &&
+                                reportCovenSettingIfy.form.get('reportTel')?.errors
+                            "
+                        >
+                            <ng-container
+                                *ngIf="
+                                    reportCovenSettingIfy.form
+                                        .get('reportTel')
+                                        ?.hasError('required')
+                                "
+                            >
+                                联系方式不能为空
+                            </ng-container>
+                            <ng-container
+                                *ngIf="
+                                    reportCovenSettingIfy.form.get('reportTel')?.hasError('pattern')
+                                "
+                            >
+                                联系方式格式不正确
+                            </ng-container>
+                        </nz-form-explain>
+                    </nz-form-control>
+                </nz-form-item>
+            </form>
+        </div>
+        <div class="footer">
+            <button nz-button nzType="primary" (click)="reportCovenSettingIfy.evtSave()">
+                保存
+            </button>
+        </div>
+    </div>
+</nz-drawer>
+
+<nz-drawer
+    [nzVisible]="reportAuditIfy.visible"
+    [nzWidth]="reportAuditIfy.width"
+    [nzTitle]="reportAuditIfy.title"
+    (nzOnClose)="reportAuditIfy.close()"
+>
+    <div class="drawer_area">
+        <div class="container">
+            <nz-timeline>
+                <ng-container *ngFor="let item of reportAuditIfy.list; let i = index">
+                    <nz-timeline-item>
+                        <p>
+                            <span
+                                ><b>{{ item.userName }}</b></span
+                            >
+                            <span> {{ item.orgName }}</span>
+                        </p>
+
+                        <p>
+                            <b>审批结果：{{ item.auditState ? '通过' : '不通过' }}</b>
+                        </p>
+                        <p>审批时间： {{ item.auditTime | date: 'yyyy-MM-dd HH:mm:ss' }}</p>
+                        <p>审批说明： {{ item.auditContent }}</p>
+                    </nz-timeline-item>
+                </ng-container>
+            </nz-timeline>
+        </div>
+    </div>
+</nz-drawer>
+
+<nz-drawer
+    [nzVisible]="collectListIfy.unitTbl.visible"
+    [nzWidth]="collectListIfy.unitTbl.width"
+    [nzTitle]="collectListIfy.unitTbl.title"
+    (nzOnClose)="collectListIfy.unitTbl.close()"
+>
+    <div class="drawer_area">
+        <div class="container">
+            <nz-table
+                #collUnitTableElement
+                nzBordered
+                nzSize="small"
+                [nzData]="collectListIfy.unitTbl.data"
+            >
+                <thead>
+                    <tr>
+                        <th>单位名称</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr *ngFor="let data of collUnitTableElement.data">
+                        <td>{{ data.reportName }}</td>
+                    </tr>
+                </tbody>
+            </nz-table>
+        </div>
+    </div>
+</nz-drawer>
+
+<nz-drawer
+    [nzVisible]="reportFilesIfy.visible"
+    [nzWidth]="reportFilesIfy.width"
+    [nzTitle]="reportFilesIfy.title"
+    (nzOnClose)="reportFilesIfy.close()"
+>
+    <div class="drawer_area">
+        <div class="header" *ngIf="reportFilesIfy.isEdit">
+            <nz-upload
+                nzAction="api/gl-file-service/attachment/upload"
+                [nzFileList]="reportFilesIfy.fileList"
+                [nzCustomRequest]="reportFilesIfy.fileCustomRequest"
+                [nzShowUploadList]="false"
+            >
+                <button nz-button><i nz-icon nzType="upload"></i><span>添加附件</span></button>
+            </nz-upload>
+        </div>
+        <div class="container">
+            <nz-table #reportAnnexElement nzBordered nzSize="small" [nzData]="reportFilesIfy.data">
+                <thead>
+                    <tr>
+                        <th>附件名称</th>
+                        <th *ngIf="reportFilesIfy.isEdit">操作</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr *ngFor="let data of reportAnnexElement.data">
+                        <td>
+                            <a href="api/gl-file-service/attachment/{{ data.fileId }}">{{
+                                data.fileName
+                            }}</a>
+                        </td>
+                        <td *ngIf="reportFilesIfy.isEdit">
+                            <a (click)="reportFilesIfy.evtDelete(data)">删除</a>
+                        </td>
+                    </tr>
+                </tbody>
+            </nz-table>
+        </div>
+    </div>
+</nz-drawer>

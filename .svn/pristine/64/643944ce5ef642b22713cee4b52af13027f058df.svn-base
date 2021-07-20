@@ -1,0 +1,67 @@
+<div class="layout report_reverse_query">
+    <div class="header">
+        <p class="title">{{ getTitle() }}</p>
+    </div>
+    <div class="container">
+        <div class="left">
+            <!-- <div class="find"></div> -->
+            <div class="tree">
+                <div class="view_scroll">
+                    <nz-tree
+                        #unitFileTreeElement
+                        [nzData]="reverseTreeIfy.nodes"
+                        (nzClick)="reverseTreeIfy.evtActiveNode($event)"
+                        (nzExpandChange)="reverseTreeIfy.expandChange($event)"
+                        [nzTreeTemplate]="nzTreeTemplate"
+                    >
+                        <ng-template #nzTreeTemplate let-node>
+                            <span
+                                class="custom-node"
+                                [class.active]="reverseTreeIfy.activedNode?.key === node.key"
+                            >
+                                <i
+                                    class="fa fa-{{ reverseTreeIfy.icons[node.origin?.orgType] }}"
+                                    aria-hidden="true"
+                                ></i>
+                                <span class="node-text">{{ node.title }}</span>
+                            </span>
+                        </ng-template>
+                    </nz-tree>
+                </div>
+            </div>
+        </div>
+        <div class="right">
+            <div class="view_scroll">
+                <div class="tbl">
+                    <nz-table
+                        #reverseQueryTable
+                        nzSize="small"
+                        nzBordered
+                        nzShowSizeChanger
+                        [nzData]="reverseQueryTblIfy.data"
+                        [nzTotal]="reverseQueryTblIfy.totalCount"
+                        [nzFrontPagination]="false"
+                        [(nzPageIndex)]="reverseQueryTblIfy.pageIndex"
+                        [(nzPageSize)]="reverseQueryTblIfy.pageSize"
+                        (nzPageIndexChange)="reverseQueryTblIfy.loadPage()"
+                        (nzPageSizeChange)="reverseQueryTblIfy.loadPage(true)"
+                        [nzData]="reverseQueryTblIfy.data"
+                    >
+                        <thead>
+                            <tr>
+                                <th>单位名称</th>
+                                <th>数值</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr *ngFor="let data of reverseQueryTable.data">
+                                <td>{{ data.REPORT_NAME }}</td>
+                                <td>{{ data.REPORT_COUNT }}</td>
+                            </tr>
+                        </tbody>
+                    </nz-table>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

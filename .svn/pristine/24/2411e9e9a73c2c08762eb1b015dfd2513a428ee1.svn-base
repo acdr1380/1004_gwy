@@ -1,0 +1,207 @@
+/*导入布局样式*/
+@import 'src/app/styles/layout';
+@import 'src/app/styles/drawer';
+
+:host ::ng-deep .ant-table-pagination {
+    line-height: 30px;
+    margin: 10px 0;
+    padding: 0 10px;
+    height: 30px;
+}
+
+::ng-deep {
+    .ant-spin-nested-loading {
+        width: 100%;
+    }
+
+    .ant-spin-container {
+        height: 100%;
+    }
+}
+
+
+
+.layout {
+    .whereString {
+        min-height: 50px;
+        line-height: 50px;
+        padding-left: 10px;
+        border-bottom: solid 1px #eee;
+        background-color: #ccdfff;
+    }
+    & > .header {
+        button {
+            margin-right: 10px;
+        }
+    }
+    & > .container {
+        padding: 10px;
+        nz-table{
+            width: 100%;
+        }
+    }
+}
+
+.drawer_area{
+    .container{
+        padding: 0;
+    }
+}
+
+/* 字段调整-Start */
+.set_fields_adjust {
+    // top: 55px;
+    display: inline;
+    $handle-height: 50px;
+
+    .handle {
+        height: $handle-height;
+        line-height: $handle-height;
+        padding-left: 10px;
+        border-bottom: 1px solid #eee;
+    }
+
+    .content {
+        // top: $handle-height;
+        height: 100%;
+        display: flex;
+
+        .left-main {
+            flex-grow: 1;
+            width: auto;
+            max-width: calc((100% - 100px) / 2);
+            height: 100%;
+        }
+
+        .aside {
+            height: 100%;
+            width: 100px;
+            border-left: 1px solid #eee;
+            border-right: 1px solid #eee;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .right-main {
+            flex-grow: 1;
+            width: auto;
+
+            .selected {
+
+                .list {
+                    padding: 5px;
+                }
+            }
+        }
+
+        .adjust_fields,
+        .selected {
+            height: 100%;
+        }
+
+        .title {
+            height: $handle-height;
+            line-height: $handle-height;
+            border-bottom: 1px solid #eee;
+            padding-left: 10px;
+            font-size: 16px;
+        }
+
+        .list {
+            height: calc(100% - #{$handle-height});
+            overflow: auto;
+        }
+    }
+}
+
+.selected-table {
+    position: relative;
+
+    &>div {
+        border-left: 1px solid #eee;
+        width: 40px;
+        text-align: center;
+        line-height: 40px;
+        font-size: 18px;
+        color: #ccc;
+    }
+
+    .edit {
+        position: absolute;
+        right: 80px;
+        left: auto;
+        cursor: pointer;
+
+        &:hover {
+            background-color: #eee;
+            color: blueviolet;
+        }
+    }
+
+    .close {
+        position: absolute;
+        right: 40px;
+        left: auto;
+        cursor: pointer;
+
+        &:hover {
+            background-color: #eee;
+            color: blueviolet;
+        }
+    }
+
+    .drag-handle {
+        position: absolute;
+        right: 0px;
+        left: auto;
+        cursor: move;
+    }
+}
+
+// 拖动样式
+.drag-list {
+    display: block;
+    background: white;
+    border: 2px solid #ccc;
+    border-top: 1px solid #ccc;
+    border-bottom: 1px solid #ccc;
+    overflow: hidden;
+}
+
+.drag-item {
+    padding: 10px 0 10px 10px;
+    border-top: solid 1px #ccc;
+    border-bottom: solid 1px #ccc;
+    color: rgba(0, 0, 0, 0.87);
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: space-between;
+    box-sizing: border-box;
+    background-color: white;
+    font-size: 14px;
+}
+
+.cdk-drag-preview {
+    box-sizing: border-box;
+    box-shadow: 0 5px 5px -3px rgba(0, 0, 0, 0.2), 0 8px 10px 1px rgba(0, 0, 0, 0.14),
+        0 3px 14px 2px rgba(0, 0, 0, 0.12);
+}
+
+.cdk-drag-placeholder {
+    opacity: 0;
+}
+
+.cdk-drag-animating {
+    transition: transform 250ms cubic-bezier(0, 0, 0.2, 1);
+}
+
+.cdk-drop-list-dragging {
+
+    & :not(.cdk-drag-placeholder) {
+        transition: transform 250ms cubic-bezier(0, 0, 0.2, 1);
+    }
+}
+
+/* 字段调整 - End*/

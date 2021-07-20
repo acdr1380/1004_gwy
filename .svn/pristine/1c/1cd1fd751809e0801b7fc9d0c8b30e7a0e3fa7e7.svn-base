@@ -1,0 +1,306 @@
+import { AfterViewInit, Component, Input, OnInit, ViewChild } from '@angular/core';
+import { FormControl, FormGroup, Validators } from '@angular/forms';
+import { WorkflowService } from 'app/workflow/workflow.service';
+import { AssessStateEnum, AssessStateEnum_CN } from '../enums/AssessSateEnum';
+import { ExamYearService } from '../exam-year.service';
+import { DatePipe } from '@angular/common';
+import { ActivatedRoute, ParamMap, Router } from '@angular/router';
+import { Base64 } from 'js-base64';
+import * as Highcharts from 'highcharts';
+import { CommonService } from 'app/util/common.service';
+
+@Component({
+    // tslint:disable-next-line:component-selector
+    selector: 'y-start',
+    templateUrl: './exam-year-start.component.html',
+    styleUrls: ['./exam-year-start.component.scss'],
+    providers: [DatePipe],
+})
+export class ExamYearStartComponent implements OnInit, AfterViewInit {
+    AssessStateEnum_CN = AssessStateEnum_CN;
+    // 路由参数
+    URLParams: any;
+
+    // 当前信息
+    operInfo: any;
+
+    checkNodeList = [];
+
+    // 业务状态对象 控制页面禁用操作
+    private _state = <any>{
+        DB: false,
+        YTJ: false,
+        YWC: false,
+        YZF: false,
+    };
+    @Input() set state(v) {
+        if (v) {
+            this._state = v;
+        }
+    }
+    get state() {
+        return this._state;
+    }
+
+    // 统计信息
+    higChart: Highcharts.Chart;
+
+    // @ViewChild('selectUnitLevel', { static: false })
+    // private selectUnitLevelElement: SelectUnitLevelDrawerComponent;
+    operBase = {
+        isEdit: false,
+        /** 表单对象 */
+        form: new FormGroup({
+            ASSESS_TITLE: new FormControl(null, Validators.required),
+            ASSESS_TITLE_CONTENT: new FormControl(null, Validators.required),
+            ASSESS_RESULT: new FormControl(null, Validators.required),
+            ASSESS_DEFAULT_TIME: new FormControl(null, Validators.required),
+            ASSESS_DEADLINE: new FormControl(null, Validators.required),
+            ASSESS_YEAR: new FormControl(null, Validators.required),
+        }),
+        /** 发起 */
+        start: () => {
+            const data = this.operBase.form.getRawValue();
+            this.workflowService.formVerify(this.operBase.form);
+            if (this.operBase.form.status !== 'VALID') {
+                return false;
+            }
+            // 格式化年份
+            const date = new Date(data.ASSESS_YEAR);
+            data.ASSESS_YEAR = this.pie.transform(date, 'yyyy');
+            if (this.operBase.isEdit) {
+                data.ANNUAL_ASSESS_BATCH_ID = this.URLParams.ANNUAL_ASSESS_BATCH_ID;
+                this.service.examYearUpdata(data).subscribe(json => {
+                    this.operInfo = json;
+                    // this.operBase.isEdit = true;
+                });
+            } else {
+                this.service.examYearInsert(data).subscribe(json => {
+                    // 修改状态 显示选择发送对象 以及 附件
+                    this.operBase.isEdit = true;
+                    this.operInfo = json;
+                    this.URLParams = json;
+                });
+            }
+            this.operBase._setDisible();
+        },
+        /** 撤销 */
+        undo: () => {
+            this.service
+                .examYearDelete({ ANNUAL_ASSESS_BATCH_ID: this.operInfo.ANNUAL_ASSESS_BATCH_ID })
+                .subscribe(res => {
+                    this.router.navigate(['/client/person-correl/exam-year/workflow']);
+                });
+        },
+        _setDisible: () => {
+            this.operBase.isEdit ? this.operBase.form.disable() : this.operBase.form.enable();
+        },
+        loadChartData: () => {
+            this.operBase.loadChart({});
+        },
+        loadChart: data => {
+            this.higChart = Highcharts.chart('higcharts', <any>{
+                chart: {
+                    type: 'column',
+                },
+                title: {
+                    text: '',
+                },
+                // subtitle: {
+                //     text: '数据来源: Wikipedia.org'
+                // },
+                xAxis: {
+                    type: 'category',
+                },
+                yAxis: {
+                    title: {
+                        text: '个数',
+                    },
+                },
+                tooltip: {
+                    valueSuffix: '个',
+                },
+                plotOptions: {
+                    series: {
+                        borderWidth: 0,
+                        dataLabels: {
+                            enabled: true,
+                            format: '{point.y}',
+                        },
+                    },
+                },
+                legend: {
+                    layout: 'vertical',
+                    align: 'right',
+                    verticalAlign: 'top',
+                    x: -40,
+                    y: 100,
+                    floating: true,
+                    borderWidth: 1,
+                    shadow: true,
+                },
+                credits: { enabled: false },
+                series: [
+                    {
+                        name: '单位',
+                        data,
+                    },
+                ],
+            });
+
+            setTimeout(() => {
+                this.higChart.reflow();
+            }, 100);
+        },
+    };
+
+    /** 单位表格 */
+    unitTableIfy = {
+        rows: [],
+        pageIndex: 1,
+        pageSize: 5,
+        /** 初始化选择单位 */
+        initUnitList: () => {
+            this.service
+                .examYearInitUnit({ ANNUAL_ASSESS_BATCH_ID: this.operInfo.ANNUAL_ASSESS_BATCH_ID })
+                .subscribe(res => {
+                    this.unitTableIfy.rows = res;
+                });
+        },
+        /** 页面下标改变时 */
+        evtPageIndexChange: () => {
+            this.unitTableIfy.initUnitList();
+        },
+        /** 保存报送对象 */
+        evtSaveUnit: event => {
+            const arr = event.map(x => {
+                return {
+                    ANNUAL_ASSESS_BATCH_ID: this.operInfo.ANNUAL_ASSESS_BATCH_ID,
+                    RELATION_ORG_NAME: x.origin.ORG_NAME,
+                    RELATION_ORG_ID: x.origin.DATA_UNIT_ORG_ID,
+                    RELATION_B01_ID: x.origin.ORG_B01_ID,
+                    RELATION_INCLUDE_LOWER_LAYER: !!x.origin.includeChild,
+                    RELATION_TOP_NODE: true,
+                    RELATION_ORG_GROUP_ID: x.origin.ORG_GROUP_ID,
+                };
+            });
+            this.service.examYearSaveUnit(arr).subscribe(res => {
+                this.unitTableIfy.rows = res;
+            });
+        },
+        /** 撤选已选择单位 */
+        evtDelUnit: event => {
+            const data = {
+                ANNUAL_ASSESS_RELATION_ID: event.ANNUAL_ASSESS_RELATION_ID,
+            };
+            this.service.examYearDelUnit(data).subscribe(res => {
+                this.unitTableIfy.initUnitList();
+            });
+        },
+    };
+
+    /** 附件上传 */
+    uploadIfy = {
+        /**
+         * 上传附件
+         */
+        fileCustomRequest: item => {
+            // 构建一个 FormData 对象，用于存储文件或其他参数
+            const formData = new FormData();
+            // tslint:disable-next-line:no-any
+            formData.append('file', item.file as any, item.file.name);
+            const file = Object.assign(item.file, {
+                fileName: item.file.name,
+            });
+            this.uploadIfy.list.push(file);
+            this.commonService.fileUpload(formData).subscribe(result => {
+                file.url = result.filePath = `${this.commonService.getOpenFileURL(
+                    result.fileId,
+                    result.fileName
+                )}`;
+                // file.url = result.filePath = `api/gl-file-service/attachment/${result.fileId}?fileName=${result.fileName}`;
+                file.operFiles = result;
+                this.uploadIfy.list = [...this.uploadIfy.list];
+                this.uploadIfy.fileSaveMsg(result);
+            });
+        },
+        fileSaveMsg: (file: any) => {
+            const data = {
+                ANNUAL_ASSESS_BATCH_ID: this.operInfo.ANNUAL_ASSESS_BATCH_ID,
+                ASSESS_NAEM: file.fileName,
+                ASSESS_ID: file.fileId,
+                ASSESS_SIZE: file.fileSize,
+                ASSESS_TYPE: file.fileType,
+            };
+            this.service.examYearFileInsert(data).subscribe(res => {});
+        },
+        /**
+         * 删除文件
+         */
+        fileRemove: (file): boolean => {
+            this.service
+                .examYearFileDelete({ ANNUAL_ASSESS_ANNEX_ID: file.ANNUAL_ASSESS_ANNEX_ID })
+                .subscribe(res => {
+                    const _index = this.uploadIfy.list.findIndex(x => x.uid === file.uid);
+                    this.uploadIfy.list.splice(_index, 1);
+                    this.uploadIfy.list = [...this.uploadIfy.list];
+                });
+            return true;
+        },
+        /** 加载附件 */
+        initFile: () => {
+            this.service
+                .examYearFileList({ ANNUAL_ASSESS_BATCH_ID: this.operInfo.ANNUAL_ASSESS_BATCH_ID })
+                .subscribe(res => {
+                    this.uploadIfy.list = res;
+                });
+        },
+
+        list: [],
+    };
+
+    constructor(
+        private workflowService: WorkflowService,
+        private service: ExamYearService,
+        private pie: DatePipe,
+        private activatedRoute: ActivatedRoute,
+        private router: Router,
+        private commonService: CommonService
+    ) {}
+
+    ngOnInit() {
+        this.loadRouterParams();
+    }
+
+    ngAfterViewInit() {
+        this.operBase._setDisible();
+    }
+
+    /** 选择发送对象 */
+    selectUnit() {
+        this.checkNodeList = this.unitTableIfy.rows.map(x => ({
+            key: x.RELATION_ORG_ID,
+            includeChild: x.RELATION_INCLUDE_LOWER_LAYER,
+        }));
+        // this.selectUnitLevelElement.open();
+    }
+
+    private loadRouterParams() {
+        // 获取路由参数
+        this.activatedRoute.paramMap.subscribe(async (params: ParamMap) => {
+            // 判断路由参数是否存在
+            if (params.has('GL')) {
+                this.URLParams = JSON.parse(Base64.decode(params.get('GL')));
+                this.operInfo = JSON.parse(Base64.decode(params.get('GL')));
+                this.operBase.isEdit = true;
+                this.operBase.form.reset(this.URLParams);
+                // 加载附件
+                this.uploadIfy.initFile();
+                // 初始化单位
+                this.unitTableIfy.initUnitList();
+                // 统计信息
+                this.operBase.loadChartData();
+            }
+        });
+    }
+}

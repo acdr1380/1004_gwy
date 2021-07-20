@@ -1,0 +1,105 @@
+import { AfterViewInit, Component, ElementRef, OnDestroy, OnInit, ViewChild } from '@angular/core';
+import { ActivatedRoute, ParamMap, Router } from '@angular/router';
+import { ClientService } from 'app/master-page/client/client.service';
+import { Base64 } from 'js-base64';
+
+@Component({
+    selector: 'app-exam-year-leader',
+    templateUrl: './exam-year-leader.component.html',
+    styleUrls: ['./exam-year-leader.component.scss'],
+})
+export class ExamYearLeaderComponent implements OnInit, AfterViewInit, OnDestroy {
+    operInfo: any;
+
+    state = <any>{
+        DB: false,
+        YTJ: false,
+        YWC: false,
+        YZF: false,
+    };
+
+    @ViewChild('oneStepTemplate', { static: false }) private oneStepTemplate: ElementRef;
+    // @ViewChild('twoStepTemplate', { static: false }) private twoStepTemplate: ElementRef;
+    // @ViewChild('threeStepTemplate', { static: false }) private threeStepTemplate: ElementRef;
+    transactionStepsIfy = {
+        index: -1,
+        list: [
+            {
+                text: '考核部署',
+                template: null,
+            },
+        ],
+        evtStepChange: event => {
+            this.transactionStepsIfy.index = event;
+            switch (event) {
+                case 0:
+                    if (!this.transactionStepsIfy.list[event].template) {
+                        this.transactionStepsIfy.list[event].template = this.oneStepTemplate;
+                    }
+                    break;
+                // case 1:
+                //     if (!this.transactionStepsIfy.list[event].template) {
+                //         this.transactionStepsIfy.list[event].template = this.twoStepTemplate;
+                //     }
+                //     break;
+                // case 2:
+                //     if (!this.transactionStepsIfy.list[event].template) {
+                //         this.transactionStepsIfy.list[event].template = this.threeStepTemplate;
+                //     }
+                //     break;
+            }
+        },
+    };
+
+    constructor(
+        private clientService: ClientService,
+        private router: Router,
+        private activatedRoute: ActivatedRoute
+    ) {}
+
+    ngOnInit() {
+        this.loadBreadcrumbNav();
+        this.loadRouterParams();
+    }
+
+    ngAfterViewInit() {
+        this.transactionStepsIfy.evtStepChange(0);
+    }
+
+    ngOnDestroy() {
+        this.clientService.clearBreadCrumb();
+    }
+
+    loadBreadcrumbNav() {
+        this.clientService.buildBreadCrumb([
+            {
+                type: 'home',
+            },
+            {
+                type: 'event',
+                text: '年度考核工作台',
+                event: () => {
+                    this.router.navigate(['../'], { relativeTo: this.activatedRoute });
+                },
+            },
+            {
+                type: 'text',
+                text: '年度考核部署',
+            },
+        ]);
+    }
+
+    private loadRouterParams() {
+        // 获取路由参数
+        this.activatedRoute.paramMap.subscribe(async (params: ParamMap) => {
+            // 判断路由参数是否存在
+            if (params.has('GL')) {
+                this.operInfo = JSON.parse(Base64.decode(params.get('GL')));
+            }
+
+            if (params.has('state')) {
+                this.state = JSON.parse(Base64.decode(params.get('state')));
+            }
+        });
+    }
+}

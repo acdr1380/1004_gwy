@@ -1,0 +1,151 @@
+<div class="layout">
+    <div class="header">
+        <nz-tabset
+            [nzTabBarStyle]="{ 'margin.px': 0, 'height.px': 50 }"
+            [(nzSelectedIndex)]="personFormIfy.index"
+            (nzSelectedIndexChange)="personFormIfy.evtIndexChange($event)"
+        >
+            <ng-container *ngFor="let item of personFormIfy.permissions">
+                <nz-tab [nzTitle]="item.formName"></nz-tab>
+            </ng-container>
+        </nz-tabset>
+    </div>
+    <div class="container">
+        <div class="left" *ngIf="isShowList">
+            <ng-template [ngTemplateOutlet]="leftListTemplate"></ng-template>
+        </div>
+        <div class="right">
+            <ng-container *ngFor="let item of personFormIfy.permissions; let i = index">
+                <div [hidden]="i !== personFormIfy.index" style="width: 100%">
+                    <ng-template
+                        [ngTemplateOutlet]="item.apply ? formPageTemplate : ''"
+                        [ngTemplateOutletContext]="{ item: item }"
+                    ></ng-template>
+                </div>
+            </ng-container>
+        </div>
+    </div>
+</div>
+
+<!-- 表单模板 -->
+<ng-template #formPageTemplate let-item="item">
+    <div class="form_lyt">
+        <excel-control
+            [permission]="item.formId"
+            [params]="item.param"
+            [isDown]="true"
+        ></excel-control>
+        <!-- <form-mager
+            [isPrint]="true"
+            [permission]="item.formId"
+            [params]="item.param"
+            [isDown]="true"
+        ></form-mager> -->
+    </div>
+</ng-template>
+
+<!-- 审批列表 -->
+<ng-template #leftListTemplate>
+    <div class="handle">
+        <nz-select
+            [ngStyle]="{ 'width.px': 280 }"
+            nzShowSearch
+            nzAllowClear
+            [nzPlaceHolder]="'请输入关键字搜索'"
+            [nzShowArrow]="'false'"
+            [(ngModel)]="leftListIfy.find.searchKey"
+            (ngModelChange)="leftListIfy.find.change($event)"
+            (nzOnSearch)="leftListIfy.find.search($event)"
+        >
+            <ng-container *ngFor="let item of leftListIfy.find.searchList">
+                <nz-option [nzLabel]="item.text" [nzValue]="item.keyId"> </nz-option>
+            </ng-container>
+        </nz-select>
+    </div>
+    <div class="handle">
+        <button
+            nz-button
+            nzType="primary"
+            class="batch-btn"
+            (click)="auditPersonIfy.open(true)"
+            [disabled]="!state.DB"
+        >
+            批量审批
+        </button>
+    </div>
+    <div class="tree">
+        <cdk-virtual-scroll-viewport
+            #scrollViewPersonList
+            [itemSize]="40"
+            class="tree_view audit_list"
+        >
+            <ng-container *ngFor="let item of leftListIfy.list; let i = index">
+                <div
+                    class="item"
+                    [class.active]="i === leftListIfy.selectIndex"
+                    (click)="leftListIfy.evtClickPsn(i)"
+                >
+                    <div class="icon">
+                        <ng-container [ngSwitch]="item.RELATION_STATE">
+                            <ng-template
+                                [ngSwitchCase]="
+                                    RelationStateEnum.PENDING || RelationStateEnum.PROCESSING
+                                "
+                            >
+                                <i class="fa fa-pencil-square-o stateless"></i>
+                            </ng-template>
+                            <ng-template [ngSwitchCase]="RelationStateEnum.AUDIT_PASS">
+                                <i class="fa fa-check-circle-o succeed"></i>
+                            </ng-template>
+                            <ng-template [ngSwitchCase]="RelationStateEnum.AUDIT_NO_PASS">
+                                <i class="fa fa-times-circle-o error"></i>
+                            </ng-template>
+                        </ng-container>
+                    </div>
+                    <div class="title">{{ item.text }}</div>
+                    <div style="margin-right: 5px; float: right" *ngIf="state.DB">
+                        <a (click)="auditPersonIfy.open()">审核</a>
+                    </div>
+                </div>
+            </ng-container>
+        </cdk-virtual-scroll-viewport>
+    </div>
+</ng-template>
+
+<!-- 人员审批 -->
+<nz-drawer
+    [nzVisible]="auditPersonIfy.visible"
+    [nzTitle]="auditPersonIfy.title"
+    [nzWidth]="auditPersonIfy.width"
+    (nzOnClose)="auditPersonIfy.close()"
+>
+    <div class="drawer_area">
+        <div class="container">
+            <form nz-form [formGroup]="auditPersonIfy.form">
+                <nz-form-item>
+                    <nz-form-label nzRequired>审核结果</nz-form-label>
+                    <nz-form-control nzHasFeedback>
+                        <nz-radio-group formControlName="RELATION_STATE">
+                            <label nz-radio [nzValue]="2">审批通过</label>
+                            <label nz-radio [nzValue]="3">审批不通过</label>
+                        </nz-radio-group>
+                    </nz-form-control>
+                </nz-form-item>
+                <nz-form-item *ngIf="auditPersonIfy.form.get('RELATION_STATE').value === 3">
+                    <nz-form-label nzRequired>审核意见</nz-form-label>
+                    <nz-form-control nzHasFeedback>
+                        <textarea rows="4" nz-input formControlName="RELATION_REMARK"></textarea>
+                    </nz-form-control>
+                </nz-form-item>
+            </form>
+            <button
+                nz-button
+                nzType="primary"
+                [disabled]="false"
+                (click)="auditPersonIfy.evtSaveAudit()"
+            >
+                保存
+            </button>
+        </div>
+    </div>
+</nz-drawer>

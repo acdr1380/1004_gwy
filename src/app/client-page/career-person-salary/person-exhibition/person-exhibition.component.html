@@ -1,0 +1,99 @@
+<div class="layout">
+    <div class="container">
+        <div class="left person_list">
+            <div class="find">
+                <nz-select
+                    class="wh_100 mg_lr_10"
+                    nzShowSearch
+                    nzServerSearch
+                    [nzPlaceHolder]="personListIfy.find.placeholder || '请输入关键字搜索'"
+                    [nzShowArrow]="false"
+                    [nzFilterOption]="personListIfy.find.nzFilterOption"
+                    [(ngModel)]="personListIfy.find.value"
+                    (ngModelChange)="personListIfy.find.evtChange($event)"
+                    (nzOnSearch)="personListIfy.find.evtSearch($event)"
+                >
+                    <nz-option
+                        *ngFor="let item of personListIfy.find.list"
+                        [nzLabel]="item.label"
+                        [nzValue]="item.value"
+                    >
+                    </nz-option>
+                </nz-select>
+            </div>
+            <div class="tree">
+                <cdk-virtual-scroll-viewport
+                    class="view_scroll audit_list"
+                    [itemSize]="40"
+                    #personListView
+                >
+                    <ng-container *ngFor="let item of personListIfy.list; let i = index">
+                        <div
+                            class="item"
+                            [class.active]="i === personListIfy.selectedIndex"
+                            (click)="personListIfy.evtSelectedPerson(i)"
+                        >
+                            <div class="title">{{ item.name }}</div>
+                        </div>
+                    </ng-container>
+                </cdk-virtual-scroll-viewport>
+            </div>
+            <div class="handle paging">
+                <nz-pagination
+                    nzSimple
+                    [(nzPageIndex)]="personListIfy.pageIndex"
+                    [nzTotal]="personListIfy.totalCount"
+                    [(nzPageSize)]="personListIfy.pageSize"
+                    (nzPageIndexChange)="personListIfy.pageChange()"
+                ></nz-pagination>
+            </div>
+        </div>
+        <div class="right">
+            <div class="view person_conent">
+                <div class="layout">
+                    <div class="header">
+                        <nz-tabset
+                            nzType="line"
+                            [nzTabBarStyle]="{ 'margin.px': 0, 'height.px': 50 }"
+                            [(nzSelectedIndex)]="patternIfy.selectedIndex"
+                            (nzSelectChange)="patternIfy.evtChange($event)"
+                        >
+                            <ng-container *ngFor="let item of patternIfy.list">
+                                <nz-tab [nzTitle]="item.text"></nz-tab>
+                            </ng-container>
+                        </nz-tabset>
+                    </div>
+                    <div class="container">
+                        <!-- 个人信息 -->
+                        <div
+                            class="view"
+                            [hidden]="patternIfy.list[patternIfy.selectedIndex].value !== 1"
+                        >
+                            <p-person-form-page
+                                [personBaseInfo]="formPageParams"
+                            ></p-person-form-page>
+                        </div>
+
+                        <!-- 工资信息 -->
+                        <div
+                            class="view"
+                            [hidden]="patternIfy.list[patternIfy.selectedIndex].value !== 0"
+                        >
+                            <p-person-salary [personBaseInfo]="salaryParams"></p-person-salary>
+                        </div>
+
+                        <!-- 列表模式 -->
+                        <div
+                            class="view"
+                            [hidden]="patternIfy.list[patternIfy.selectedIndex].value !== 2"
+                        >
+                            <p-personal-details
+                                [personBaseInfo]="salaryDetailsParams"
+                            ></p-personal-details>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

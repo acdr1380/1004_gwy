@@ -1,0 +1,165 @@
+<!-- 编辑抽屉 -->
+<nz-drawer
+    [nzClosable]="true"
+    [nzVisible]="editDrawer.visible"
+    nzPlacement="right"
+    [nzTitle]="editDrawer.title"
+    [nzWidth]="editDrawer.width"
+    (nzOnClose)="editDrawer.close()"
+>
+    <div class="drawer_area">
+        <div class="header">
+            <button
+                nz-button
+                nzType="primary"
+                (click)="editDrawer.add()"
+                [disabled]="disable || !canEdit"
+            >
+                添加
+            </button>
+        </div>
+        <div class="container edit_tbl">
+            <nz-table
+                #editRowTable
+                nzBordered
+                [nzData]="editDrawer.data"
+                nzSize="small"
+                [nzWidthConfig]="editDrawer.widthConfig"
+                [nzScroll]="editDrawer.scrollConfig"
+                [nzLoading]="editDrawer.loading"
+            >
+                <thead>
+                    <tr>
+                        <ng-container *ngFor="let item of editDrawer.headerList; let i = index">
+                            <th nzAlign="center">{{ item.TABLE_COLUMN_NAME }}</th>
+                        </ng-container>
+
+                        <th nzAlign="center" nzWidth="120px" nzRight="0px">操作</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr *ngFor="let data of editRowTable.data; let i = index">
+                        <ng-container *ngFor="let item of editDrawer.headerList">
+                            <!-- 现在添加的业务 -->
+                            <ng-container
+                                *ngIf="
+                                    data?.changeState === 0 || data?.changeState === 1;
+                                    else elseShowTemplate
+                                "
+                            >
+                                <td nzAlign="center" class="edit">
+                                    <!-- 代码项 -->
+                                    <ng-container *ngIf="item.TABLE_COLUMN_DICTIONARY_CODE">
+                                        <dictionary-input
+                                            [disabled]="disable"
+                                            [code]="item.TABLE_COLUMN_DICTIONARY_CODE"
+                                            [text]="data[item.TABLE_COLUMN_CODE + '_CN']"
+                                            [(ngModel)]="data[item.TABLE_COLUMN_CODE]"
+                                        >
+                                        </dictionary-input>
+                                    </ng-container>
+                                    <!-- 时间 -->
+                                    <ng-container *ngIf="item.TABLE_COLUMN_TYPE === 4">
+                                        <datetime-input
+                                            [title]="data[item.TABLE_COLUMN_CODE]"
+                                            [disabled]="disable"
+                                            [(ngModel)]="data[item.TABLE_COLUMN_CODE]"
+                                        ></datetime-input>
+                                    </ng-container>
+                                    <!-- 其他 -->
+                                    <ng-container
+                                        *ngIf="
+                                            !item.TABLE_COLUMN_DICTIONARY_CODE &&
+                                            item.TABLE_COLUMN_TYPE !== 4
+                                        "
+                                    >
+                                        <input
+                                            [disabled]="disable"
+                                            [(ngModel)]="data[item.TABLE_COLUMN_CODE]"
+                                        />
+                                    </ng-container>
+                                </td>
+                            </ng-container>
+                            <!-- 之前的业务只能只读 -->
+                            <ng-template #elseShowTemplate>
+                                <td>
+                                    {{
+                                        item.TABLE_COLUMN_DICTIONARY_CODE
+                                            ? data[item.TABLE_COLUMN_CODE + '_CN']
+                                            : data[item.TABLE_COLUMN_CODE]
+                                    }}
+                                </td>
+                            </ng-template>
+                        </ng-container>
+
+                        <td nzAlign="center" nzRight="0px">
+                            <ng-container
+                                *ngIf="data?.changeState === 0 || data?.changeState === 1"
+                            >
+                                <a (click)="editDrawer.deleteData(data, i)">删除</a>
+                            </ng-container>
+                        </td>
+                    </tr>
+                </tbody>
+            </nz-table>
+        </div>
+        <div class="footer allowance_footer">
+            <div>
+                <button nz-button nzType="default" (click)="editDrawer.close()">取消</button>
+                <button
+                    nz-button
+                    nzType="primary"
+                    (click)="editDrawer.saveAllowanceTable()"
+                    [disabled]="disable || !canEdit"
+                    [nzLoading]="editDrawer.loading"
+                >
+                    保存
+                </button>
+            </div>
+            <div>
+                <button
+                    style="text-align: right"
+                    nz-button
+                    nzType="primary"
+                    (click)="editDrawer.calculation()"
+                    [disabled]="disable || !canEdit"
+                    [nzLoading]="editDrawer.loading"
+                >
+                    计算
+                </button>
+            </div>
+        </div>
+    </div>
+</nz-drawer>
+
+<!-- 校验信息 -->
+<nz-drawer
+    [nzClosable]="true"
+    [nzVisible]="dataVerificationIfy.visible"
+    nzPlacement="right"
+    nzTitle="校验信息"
+    [nzWidth]="dataVerificationIfy.width"
+    (nzOnClose)="dataVerificationIfy.close()"
+>
+    <div class="drawer_area">
+        <nz-table
+            nzBordered
+            nzSize="small"
+            #dataVerificationTblElement
+            [nzData]="dataVerificationIfy.list"
+        >
+            <thead>
+                <tr>
+                    <th>姓名</th>
+                    <th>错误信息</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr *ngFor="let data of dataVerificationTblElement.data">
+                    <td>{{ data.keyName }}</td>
+                    <td>{{ data.result }}</td>
+                </tr>
+            </tbody>
+        </nz-table>
+    </div>
+</nz-drawer>

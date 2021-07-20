@@ -1,0 +1,10 @@
+/*导入布局样式*/
+@import 'src/app/styles/layout';
+
+.putt {
+    // background-color: #fdffdc;
+
+    &[disabled] {
+        background-color: #f5f5f5;
+    }
+}

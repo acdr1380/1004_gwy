@@ -1,0 +1,6 @@
+<router-outlet></router-outlet>
+<ng-template #noticeTemp let-notification>
+    <h1>升级通知</h1>
+    <p>最新程序已发布，请点击 <a (click)="updateWebapp()">升级</a>。</p>
+    <p><b>刷新后此窗口还未消失，请清理缓存！</b></p>
+</ng-template>

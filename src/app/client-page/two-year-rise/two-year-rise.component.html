@@ -1,0 +1,217 @@
+<div class="layout level_rise">
+    <div class="header">
+        <button nz-button (click)="evtDeploy()">
+            <i nz-icon nzType="select"></i>
+            机关工勤两年晋档部署
+        </button>
+    </div>
+    <div class="header year_list">
+        <nz-select
+            style="width: 120px"
+            [(ngModel)]="operDeployIfy.year"
+            (ngModelChange)="operDeployIfy.loadYearDataList()"
+            nzPlaceHolder="选择年份"
+        >
+            <ng-container *ngFor="let item of operDeployIfy.yearList">
+                <nz-option [nzValue]="item" [nzLabel]="item"></nz-option>
+            </ng-container>
+        </nz-select>
+    </div>
+
+    <div class="container">
+        <div class="view_scroll">
+            <div class="deploy_tbl">
+                <ng-template [ngTemplateOutlet]="deployTableElement"></ng-template>
+            </div>
+            <div class="audit_tbl">
+                <ng-template [ngTemplateOutlet]="auditTableElement"></ng-template>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- 部署情况 -->
+<ng-template #deployTableElement>
+    <div class="layout">
+        <div class="header subtitle">部署情况</div>
+        <div class="container">
+            <div class="view">
+                <nz-table
+                    #deployTable
+                    [nzShowPagination]="false"
+                    nzBordered
+                    nzSize="small"
+                    nzPageSize="5"
+                    [nzData]="operDeployIfy.dataList"
+                >
+                    <thead>
+                        <tr>
+                            <th>业务标题</th>
+                            <th>办理年份</th>
+                            <th>开始时间</th>
+                            <th>结束时间</th>
+                            <th>部署单位</th>
+                            <th>已完成</th>
+                            <th>未完成</th>
+                            <th>未启动</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr *ngFor="let data of deployTable.data">
+                            <td>
+                                <a (click)="operDeployIfy.evtEdit(data)">{{ data.title }}</a>
+                            </td>
+                            <td>{{ data.year }}</td>
+                            <td>{{ data.startTime }}</td>
+                            <td>{{ data.endTime }}</td>
+                            <td>{{ data.unitName }}</td>
+                            <td>{{ data.f }}</td>
+                            <td>{{ data.n }}</td>
+                            <td>{{ data.s }}</td>
+                        </tr>
+                    </tbody>
+                </nz-table>
+            </div>
+        </div>
+    </div>
+</ng-template>
+
+<!-- 业务审核 -->
+<ng-template #auditTableElement>
+    <div class="layout">
+        <div class="header subtitle">业务审核</div>
+        <div class="header">
+            <nz-tabset
+                [nzTabBarStyle]="{ 'margin.px': 0, 'height.px': 50, 'padding-top': '3px' }"
+                [(nzSelectedIndex)]="jobStateTabsIfy.selectIndex"
+                (nzSelectChange)="jobStateTabsIfy.evtTabsChange($event)"
+                [nzTabBarExtraContent]="extraTemplate"
+            >
+                <nz-tab *ngFor="let tab of jobStateTabsIfy.list" [nzTitle]="tab.text"></nz-tab>
+            </nz-tabset>
+
+            <ng-template #extraTemplate>
+                <nz-select
+                    [ngStyle]="{ 'width.px': operSearchify.width || 200, margin: '6px 10px' }"
+                    nzShowSearch
+                    nzServerSearch
+                    [nzPlaceHolder]="operSearchify.placeholder || '请输入关键字搜索'"
+                    [nzShowArrow]="false"
+                    [nzFilterOption]="operSearchify.nzFilterOption"
+                    [(ngModel)]="operSearchify.value"
+                    (ngModelChange)="operSearchify.evtChange($event)"
+                    (nzOnSearch)="operSearchify.evtSearch($event)"
+                >
+                    <nz-option
+                        *ngFor="let o of operSearchify.listOfOption"
+                        [nzLabel]="o.text"
+                        [nzValue]="o.value"
+                    >
+                    </nz-option>
+                </nz-select>
+            </ng-template>
+        </div>
+        <div class="container">
+            <div class="view">
+                <nz-table
+                    #operTableElement
+                    nzBordered
+                    nzSize="small"
+                    [nzFrontPagination]="false"
+                    [nzData]="operTableIfy.data"
+                    [nzTotal]="operTableIfy.totalCount"
+                    [(nzPageIndex)]="operTableIfy.pageIndex"
+                    [(nzPageSize)]="operTableIfy.pageSize"
+                    (nzPageIndexChange)="operTableIfy.evtPageChange()"
+                    (nzPageSizeChange)="operTableIfy.evtPageChange(true)"
+                    [nzLoading]="operTableIfy.loading"
+                    [nzShowSizeChanger]="true"
+                    [nzShowTotal]="totalTemplate"
+                >
+                    <thead>
+                        <tr>
+                            <th nzWidth="180px">业务状态</th>
+                            <th nzWidth="220px">业务名称</th>
+                            <th nzWidth="500px">业务标题</th>
+                            <th nzWidth="180px">业务步骤</th>
+                            <th nzWidth="240px">办理人</th>
+                            <th nzWidth="120px">业务跟踪</th>
+                            <th nzWidth="200px">发起时间</th>
+                            <!-- <th nzWidth="120px">操作</th> -->
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <ng-container *ngFor="let item of operTableElement.data; let i = index">
+                            <tr>
+                                <td>{{ jobStateTabsIfy.evtSteteToName(item.jobStepState) }}</td>
+                                <td>{{ item.wfName }}</td>
+                                <td
+                                    style="color: #1890ff; cursor: pointer"
+                                    (click)="operTableIfy.evtRedirectOperPage(item)"
+                                >
+                                    {{ item.title }}
+                                </td>
+                                <td>{{ item.stepName }}</td>
+                                <td>{{ item.userName }}</td>
+                                <td>
+                                    <button
+                                        nzSize="small"
+                                        nz-button
+                                        nzType="link"
+                                        (click)="operTableIfy.evtSeeStep(item)"
+                                    >
+                                        查看
+                                    </button>
+                                </td>
+                                <td>{{ item.startTime | date: 'yyyy-MM-dd' }}</td>
+                                <!-- <td>
+                                        <ng-container [ngSwitch]="jobStateTabsIfy.selectIndex">
+                                            <ng-template [ngSwitchCase]="0">
+                                                <a (click)="operTableIfy.evtStepOper(item)"
+                                                    >终止业务</a
+                                                >
+                                            </ng-template>
+                                        </ng-container>
+                                    </td> -->
+                            </tr>
+                        </ng-container>
+                    </tbody>
+                </nz-table>
+                <ng-template #totalTemplate> 总共：{{ operTableIfy.totalCount }}条</ng-template>
+            </div>
+        </div>
+    </div>
+</ng-template>
+
+<!-- 业务流程监控 -->
+<nz-drawer
+    [nzVisible]="operTailIfy.visible"
+    [nzTitle]="operTailIfy.title"
+    [nzWidth]="operTailIfy.width"
+    (nzOnClose)="operTailIfy.close()"
+>
+    <div class="drawer_area oper_tail">
+        <div class="container">
+            <nz-timeline>
+                <nz-timeline-item [nzDot]="dotTemplate"><span>业务开始</span></nz-timeline-item>
+                <ng-container *ngFor="let item of operTailIfy.list; let i = index">
+                    <nz-timeline-item [nzColor]="['red', 'blue', 'green'][i % 3]">
+                        <p>
+                            <b>{{ item.stateDesc }}</b>
+                            {{ item.auditDate | date: 'yyyy-MM-dd HH:mm' }}
+                        </p>
+                        <p>
+                            <b
+                                ><span>{{ item.contacts }}</span></b
+                            ><span> {{ item.orgName }} {{ item.contactNumber }}</span>
+                        </p>
+                        <p *ngIf="item.auditStateDesc">批复结果： {{ item.auditStateDesc }}</p>
+                    </nz-timeline-item>
+                </ng-container>
+            </nz-timeline>
+            <ng-template #dotTemplate>
+                <i nz-icon nzType="clock-circle"></i>
+            </ng-template>
+        </div>
+    </div>
+</nz-drawer>

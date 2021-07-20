@@ -1,0 +1,625 @@
+<div class="layout">
+    <div class="container right-container">
+        <div class="header">
+            <nz-tabset
+                (nzSelectChange)="ledgerTab.onSelectChange($event)"
+                [nzType]="ledgerTab.nzType"
+                [(nzSelectedIndex)]="ledgerTab.selectedIndex"
+            >
+                <ng-container *ngFor="let item of ledgerTab.data">
+                    <nz-tab [nzTitle]="item.text"></nz-tab>
+                </ng-container>
+            </nz-tabset>
+        </div>
+        <div class="m-content container">
+            <div *ngIf="ledgerChildTab.data.length > 0">
+                <nz-tabset
+                    [nzType]="ledgerChildTab.nzType"
+                    [(nzSelectedIndex)]="ledgerChildTab.selectedIndex"
+                    (nzSelectChange)="ledgerChildTab.selectChange($event)"
+                >
+                    <ng-container *ngFor="let item of ledgerChildTab.data">
+                        <nz-tab [nzTitle]="item.TEXT + '(' + item.COUNT + ')'"></nz-tab>
+                    </ng-container>
+                </nz-tabset>
+            </div>
+
+            <div class="ledger-handle">
+                <nz-input-group class="tbl-find" [nzSuffix]="suffixIconSearch">
+                    <input
+                        type="text"
+                        nz-input
+                        placeholder="按人员姓名搜索"
+                        [(ngModel)]="ledgerTbl.searchValue"
+                        (compositionend)="ledgerTbl.loadData()"
+                        (input)="ledgerTbl.loadData()"
+                    />
+                </nz-input-group>
+                <ng-template #suffixIconSearch>
+                    <i nz-icon nzType="search"></i>
+                </ng-template>
+                <div class="btn-group">
+                    <button
+                        nz-button
+                        [nzType]="'primary'"
+                        *ngIf="canSyncUpdate()"
+                        (click)="syncUpdate()"
+                    >
+                        刷新
+                    </button>
+                    <button
+                        *ngIf="ledgerTab.TABLE_NAME.includes('DATA_TEAM_BZ')"
+                        nz-button
+                        [nzType]="'primary'"
+                        (click)="addRecordDrawer.open()"
+                    >
+                        添加记录
+                    </button>
+                    <button nz-button [nzType]="'primary'" (click)="selectPersonIfy.open()">
+                        选人
+                    </button>
+                    <button
+                        nz-button
+                        [nzType]="'primary'"
+                        [disabled]="ledgerTbl.checkList.length === 0"
+                        (click)="batchEditDrawer.open()"
+                    >
+                        批量修改
+                    </button>
+                    <button
+                        nz-button
+                        [nzType]="'danger'"
+                        [disabled]="ledgerTbl.checkList.length === 0"
+                        (click)="ledgerTbl.deleteCheckData()"
+                    >
+                        删除
+                    </button>
+                    <button nz-button [nzType]="'primary'" (click)="dataCheckDrawer.open()">
+                        数据校验
+                    </button>
+                    <button nz-button [nzType]="'primary'" (click)="exportTbl()">输出表册</button>
+                </div>
+            </div>
+            <div class="tbl-wrap" #tblWrap>
+                <nz-table
+                    #ledgerTable
+                    nzVirtualScroll
+                    nzShowSizeChanger
+                    nzBordered
+                    nzSize="small"
+                    [nzVirtualMinBufferPx]="ledgerTbl.BufferPx"
+                    [nzVirtualMaxBufferPx]="ledgerTbl.BufferPx"
+                    [nzVirtualItemSize]="38"
+                    [nzFrontPagination]="false"
+                    [nzData]="ledgerTbl.listOfAllData"
+                    [nzShowTotal]="totalTemplate"
+                    [nzTotal]="ledgerTbl.totalCount"
+                    [(nzPageSize)]="ledgerTbl.pageSize"
+                    [nzLoading]="ledgerTbl.isLoading"
+                    [(nzPageIndex)]="ledgerTbl.pageIndex"
+                    [nzScroll]="ledgerTbl.scroll"
+                    [nzPageSizeOptions]="ledgerTbl.pageSizeOptions"
+                    (nzPageIndexChange)="ledgerTbl.loadData()"
+                    (nzPageSizeChange)="ledgerTbl.pageSizeChange()"
+                >
+                    <thead (nzSortOrderChange)="ledgerTbl.sortChange($event)">
+                        <tr>
+                            <th
+                                nzShowCheckbox
+                                [(nzChecked)]="ledgerTbl.isCheckAll"
+                                [nzIndeterminate]="ledgerTbl.isIndeterminate"
+                                (nzCheckedChange)="ledgerTbl.checkAll($event)"
+                                [nzWidth]="'60px'"
+                                [nzLeft]="'0px'"
+                            ></th>
+                            <ng-container *ngFor="let item of ledgerTbl.tblCols">
+                                <ng-container *ngIf="item.isFixed; then fixedTh; else scrollTh">
+                                </ng-container>
+                                <ng-template #fixedTh>
+                                    <th
+                                        [nzShowFilter]="item.isFilter"
+                                        [nzFilters]="ledgerTbl.filterFields[item.field] || []"
+                                        (nzFilterChange)="
+                                            ledgerTbl.filterFields.evtChange($event, item.field)
+                                        "
+                                        [nzShowSort]="item.isOrder"
+                                        [nzWidth]="item.width + 'px'"
+                                        [nzAlign]="'center'"
+                                        [nzLeft]="item.left + 'px'"
+                                    >
+                                        {{ item.text }}
+                                    </th>
+                                </ng-template>
+                                <ng-template #scrollTh>
+                                    <th
+                                        [nzShowFilter]="item.isFilter"
+                                        [nzFilters]="ledgerTbl.filterFields[item.field] || []"
+                                        (nzFilterChange)="
+                                            ledgerTbl.filterFields.evtChange($event, item.field)
+                                        "
+                                        [nzShowSort]="item.isOrder"
+                                        [nzWidth]="item.width + 'px'"
+                                        [nzAlign]="'center'"
+                                    >
+                                        {{ item.text }}
+                                    </th>
+                                </ng-template>
+                            </ng-container>
+                        </tr>
+                    </thead>
+                    <tbody class="tbl-body">
+                        <ng-template nz-virtual-scroll let-data let-index="index">
+                            <tr>
+                                <td
+                                    nzShowCheckbox
+                                    [(nzChecked)]="data.checked"
+                                    (nzCheckedChange)="ledgerTbl.checkRow()"
+                                    [nzLeft]="'0px'"
+                                ></td>
+                                <ng-container *ngFor="let colItem of ledgerTbl.tblCols">
+                                    <ng-container
+                                        *ngIf="colItem.isFixed; then fixedTd; else scrollTd"
+                                    >
+                                    </ng-container>
+                                    <ng-template #fixedTd>
+                                        <td [nzAlign]="'center'" [nzLeft]="colItem.left + 'px'">
+                                            <ng-template
+                                                [ngTemplateOutlet]="tdTemplate"
+                                            ></ng-template>
+                                        </td>
+                                    </ng-template>
+                                    <ng-template #scrollTd>
+                                        <td [nzAlign]="'center'">
+                                            <ng-template
+                                                [ngTemplateOutlet]="tdTemplate"
+                                            ></ng-template>
+                                        </td>
+                                    </ng-template>
+                                    <ng-template #tdTemplate>
+                                        <ng-container [ngSwitch]="colItem.ItemType">
+                                            <ng-container *ngSwitchCase="'C'">
+                                                {{ data[colItem.field + '_CN'] }}
+                                            </ng-container>
+                                            <ng-container *ngSwitchCase="'D'">
+                                                {{ data[colItem.field] | date: 'yyyy-MM-dd' }}
+                                            </ng-container>
+                                            <ng-container *ngSwitchDefault>
+                                                {{ data[colItem.field] }}
+                                            </ng-container>
+                                        </ng-container>
+                                    </ng-template>
+                                </ng-container>
+                            </tr>
+                        </ng-template>
+                    </tbody>
+                </nz-table>
+                <ng-template #totalTemplate> 总人数：{{ ledgerTbl.totalCount }}</ng-template>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!--选人抽屉-->
+<nz-drawer
+    [nzOffsetX]="selectPersonIfy.unitify.visible ? 180 : 0"
+    [nzVisible]="selectPersonIfy.visible"
+    nzPlacement="right"
+    [nzTitle]="selectPersonIfy.title"
+    [nzWidth]="selectPersonIfy.width"
+    (nzOnClose)="selectPersonIfy.close()"
+>
+    <div class="selector_person">
+        <div class="handle">
+            <button nz-button nzType="primary" (click)="selectPersonIfy.evtSelected()">
+                确认选择
+            </button>
+
+            <div class="find">
+                <nz-select
+                    [ngStyle]="{ 'width.px': selectPersonIfy.find.searchWidth || 160 }"
+                    nzShowSearch
+                    nzServerSearch
+                    nzAllowClear
+                    [nzPlaceHolder]="selectPersonIfy.find.placeholder || '请输入关键字搜索'"
+                    [nzShowArrow]="false"
+                    [nzFilterOption]="selectPersonIfy.find.nzFilterOption"
+                    [(ngModel)]="selectPersonIfy.find.searchKey"
+                    (ngModelChange)="selectPersonIfy.find.evtChange($event)"
+                    (nzOnSearch)="selectPersonIfy.find.evtSearch($event)"
+                >
+                    <ng-container *ngFor="let item of selectPersonIfy.find.list">
+                        <nz-option [nzLabel]="item.text" [nzValue]="item.DATA_PERSON_A01_ID">
+                        </nz-option>
+                    </ng-container>
+                </nz-select>
+                <nz-divider nzType="vertical"></nz-divider>
+                <button nz-button (click)="selectPersonIfy.evtSwitchUnit()">切换单位</button>
+            </div>
+        </div>
+        <div class="tbl">
+            <p>
+                当前单位：{{
+                    selectPersonIfy.unitify.activedNode?.title || currentOrg.activedNode?.title
+                }}
+            </p>
+            <nz-table
+                #personTableTemp
+                nzShowSizeChanger
+                nzBordered
+                nzSize="small"
+                [nzFrontPagination]="false"
+                [nzLoading]="selectPersonIfy.tableIfy.isloading"
+                [nzData]="selectPersonIfy.tableIfy.data"
+                [nzTotal]="selectPersonIfy.tableIfy.totalCount"
+                [(nzPageIndex)]="selectPersonIfy.tableIfy.pageIndex"
+                [(nzPageSize)]="selectPersonIfy.tableIfy.pageSize"
+                [nzPageSizeOptions]="[5, 10, 20, 50]"
+                (nzPageIndexChange)="selectPersonIfy.tableIfy.loadPersonTable()"
+                (nzPageSizeChange)="selectPersonIfy.tableIfy.loadPersonTable(true)"
+                (nzCurrentPageDataChange)="selectPersonIfy.tableIfy.currentPageDataChange($event)"
+            >
+                <thead>
+                    <tr>
+                        <th
+                            nzWidth="62px"
+                            nzShowCheckbox
+                            [nzIndeterminate]="selectPersonIfy.tableIfy.indeterminate"
+                            [(nzChecked)]="selectPersonIfy.tableIfy.allChecked"
+                            (nzCheckedChange)="selectPersonIfy.tableIfy.checkAll($event)"
+                        ></th>
+                        <th>姓名</th>
+                        <th>身份证</th>
+                        <th>出生年月</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr
+                        *ngFor="let data of personTableTemp.data; let index = index"
+                        [ngClass]="
+                            index === selectPersonIfy.tableIfy.selectedRowIndex ? 'active' : ''
+                        "
+                    >
+                        <td
+                            nzShowCheckbox
+                            [(nzChecked)]="data.checked"
+                            (nzCheckedChange)="selectPersonIfy.tableIfy.refreshStatus($event, data)"
+                        ></td>
+                        <td>{{ data.A0101 }}</td>
+                        <td>{{ data.A0184 }}</td>
+                        <td>{{ data.A0107 }}</td>
+                    </tr>
+                </tbody>
+            </nz-table>
+        </div>
+
+        <div class="gl_card">
+            <div class="title">已选人员：</div>
+            <div class="content">
+                <ng-container *ngFor="let item of selectedPsnList">
+                    <nz-tag
+                        nzMode="closeable"
+                        (nzOnClose)="selectPersonIfy.evtSelectedClose(item)"
+                        >{{ item.A0101 }}</nz-tag
+                    >
+                </ng-container>
+            </div>
+        </div>
+    </div>
+</nz-drawer>
+
+<!-- 选人-选择机构抽屉 -->
+<nz-drawer
+    [nzVisible]="selectPersonIfy.unitify.visible"
+    nzPlacement="right"
+    [nzTitle]="selectPersonIfy.unitify.title"
+    [nzWidth]="selectPersonIfy.unitify.width"
+    (nzOnClose)="selectPersonIfy.unitify.close()"
+>
+    <div class="selector_unit position_0">
+        <div class="handler">
+            <!-- <button nz-button nzType="primary">确认选择</button> -->
+            <!-- <nz-divider nzType="vertical"></nz-divider> -->
+            <!-- <label nz-checkbox [(ngModel)]="unitJurisdiction.checkStrictly">选中下层</label> -->
+            <nz-select
+                [ngStyle]="{ 'width.px': selectPersonIfy.unitify.searchSelect.width || 200 }"
+                nzShowSearch
+                nzServerSearch
+                [nzPlaceHolder]="
+                    selectPersonIfy.unitify.searchSelect.placeholder || '请输入关键字搜索'
+                "
+                [nzShowArrow]="false"
+                [nzFilterOption]="selectPersonIfy.unitify.searchSelect.nzFilterOption"
+                [(ngModel)]="selectPersonIfy.unitify.searchSelect.value"
+                (ngModelChange)="selectPersonIfy.unitify.searchSelect.moduleChange($event)"
+                (nzOnSearch)="selectPersonIfy.unitify.searchSelect.onSearch($event)"
+            >
+                <ng-container *ngFor="let item of selectPersonIfy.unitify.searchSelect.searchList">
+                    <nz-option
+                        *ngIf="!selectPersonIfy.unitify.searchSelect.isSearching"
+                        [nzLabel]="item.label"
+                        [nzValue]="item.value"
+                        nzAllowClear
+                    >
+                    </nz-option>
+                </ng-container>
+                <nz-option
+                    *ngIf="selectPersonIfy.unitify.searchSelect.isSearching"
+                    nzDisabled
+                    nzCustomContent
+                >
+                    <i nz-icon nzType="loading" class="loading-icon"></i> 加载中...
+                </nz-option>
+            </nz-select>
+        </div>
+
+        <div class="drawer-tree">
+            <cdk-virtual-scroll-viewport
+                #scrollViewportDrawer
+                [itemSize]="32"
+                class="drawer-tree-view position_0"
+            >
+                <nz-tree
+                    #unitTreeElement
+                    nzAsyncData
+                    [nzMultiple]="false"
+                    [nzSelectedKeys]="selectPersonIfy.unitify.nzSelectedKeys"
+                    [nzExpandedKeys]="selectPersonIfy.unitify.nzExpandedKeys"
+                    [nzData]="selectPersonIfy.unitify.nodes"
+                    (nzClick)="selectPersonIfy.unitify.evtActiveNode($event)"
+                    (nzExpandChange)="selectPersonIfy.unitify.expandChange($event)"
+                    [nzTreeTemplate]="nzTreeTemplate"
+                >
+                    <ng-template #nzTreeTemplate let-node>
+                        <span
+                            class="custom-node"
+                            [class.active]="selectPersonIfy.unitify.activedNode?.key === node.key"
+                        >
+                            <i
+                                class="fa fa-{{
+                                    selectPersonIfy.unitify.icons[node.origin?.orgType] ||
+                                        selectPersonIfy.unitify.icons[0]
+                                }}"
+                                aria-hidden="true"
+                            ></i>
+                            <span class="node-text">{{ node.title }}</span>
+                        </span>
+                    </ng-template>
+                </nz-tree>
+            </cdk-virtual-scroll-viewport>
+        </div>
+    </div>
+</nz-drawer>
+
+<!--添加记录抽屉-->
+<nz-drawer
+    [nzVisible]="addRecordDrawer.visible"
+    [nzWidth]="addRecordDrawer.width"
+    [nzTitle]="addRecordDrawer.title"
+    (nzOnClose)="addRecordDrawer.close()"
+    [nzZIndex]="200"
+>
+    <div class="drawer_area add-record-wrapper">
+        <div class="layout container">
+            <div class="container">
+                <div class="right right-main">
+                    <div class="container">
+                        <div class="form-wrap">
+                            <ng-template
+                                [ngTemplateOutlet]="editFormTemp"
+                                [ngTemplateOutletContext]="{
+                                    formGroup: addRecordDrawer.formGroup,
+                                    fields: addRecordDrawer.fields
+                                }"
+                            ></ng-template>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="footer">
+            <button nz-button nzType="primary" (click)="addRecordDrawer.save()">保存</button>
+            <button nz-button nzType="default" (click)="addRecordDrawer.close()">关闭</button>
+        </div>
+    </div>
+</nz-drawer>
+
+<!--批量修改抽屉-->
+<nz-drawer
+    [nzVisible]="batchEditDrawer.visible"
+    [nzWidth]="batchEditDrawer.width"
+    [nzTitle]="batchEditDrawer.title"
+    (nzOnClose)="batchEditDrawer.close()"
+    [nzZIndex]="200"
+>
+    <div class="drawer_area batch-edit-wrapper">
+        <div class="layout container">
+            <div class="container">
+                <div class="left left-main">
+                    <nz-table
+                        #personTable
+                        nzSize="small"
+                        nzBordered
+                        nzTableLayout="fixed"
+                        [nzPageSize]="batchEditDrawer.personTableOp.pageSize"
+                        [nzData]="batchEditDrawer.personTableOp.result"
+                        [nzFrontPagination]="'false'"
+                    >
+                        <thead>
+                            <tr>
+                                <th
+                                    [nzWidth]="'30px'"
+                                    nzShowCheckbox
+                                    [(nzChecked)]="batchEditDrawer.personTableOp.allChecked"
+                                    (nzCheckedChange)="
+                                        batchEditDrawer.personTableOp.evtCheckAll($event)
+                                    "
+                                ></th>
+                                <th [nzWidth]="'70px'">姓名</th>
+                                <th>统计关系所在单位</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr *ngFor="let data of personTable.data">
+                                <td nzShowCheckbox [(nzChecked)]="data.checked"></td>
+                                <td>{{ data.A0101 }}</td>
+                                <td>
+                                    <span class="ellipsis-item" [title]="data.A0195_CN">
+                                        {{ data.A0195_CN }}
+                                    </span>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </nz-table>
+                </div>
+                <div class="right right-main">
+                    <div class="container">
+                        <div class="form-wrap">
+                            <ng-template
+                                [ngTemplateOutlet]="editFormTemp"
+                                [ngTemplateOutletContext]="{
+                                    formGroup: batchEditDrawer.formGroup,
+                                    fields: batchEditDrawer.fields
+                                }"
+                            ></ng-template>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="footer">
+            <button nz-button nzType="primary" (click)="batchEditDrawer.save()">保存</button>
+            <button nz-button nzType="default" (click)="batchEditDrawer.close()">关闭</button>
+        </div>
+    </div>
+</nz-drawer>
+
+<!--数据校验-->
+<nz-drawer
+    [nzWidth]="dataCheckDrawer.width"
+    [nzVisible]="dataCheckDrawer.visible"
+    [nzTitle]="dataCheckDrawer.title"
+    (nzOnClose)="dataCheckDrawer.close()"
+    [nzZIndex]="100"
+>
+    <div class="drawer_area">
+        <div class="container">
+            <app-ledger-check
+                #appLedgerCheck
+                [selectOrgDrawer]="selectOrgDrawer"
+                [ledgerParams]="getLedgerParams()"
+                [currentOrg]="currentOrg"
+                [ledgerTabs]="ledgerTab.data"
+            ></app-ledger-check>
+        </div>
+        <div class="footer">
+            <button
+                nz-button
+                nzType="default"
+                (click)="dataCheckDrawer.open()"
+                class="ant-btn"
+                style="margin-right: 8px"
+            >
+                <span>关闭</span>
+            </button>
+            <button
+                nz-button
+                nzType="primary"
+                class="ant-btn ant-btn-primary"
+                (click)="checkLedger()"
+            >
+                <span>开始校验</span>
+            </button>
+        </div>
+    </div>
+    <!-- <nz-table
+            #verificationTableTemp
+            nzSize="small"
+            nzBordered
+            [nzLoading]="'true'"
+            [nzFrontPagination]="false"
+            [(nzPageSize)]="dataCheckDrawer.searchTbl.pageSize"
+            [(nzPageIndex)]="dataCheckDrawer.searchTbl.pageIndex"
+            [nzPageSizeOptions]="[5, 10, 20, 50]"
+            [nzData]="dataCheckDrawer.searchTbl.data"
+            (nzPageIndexChange)="dataCheckDrawer.loadVerify()"
+            (nzPageSizeChange)="dataCheckDrawer.loadVerify()"
+        >
+            <thead>
+                <tr>
+                    <th nzWidth="80px">人员姓名</th>
+                    <th>错误信息</th>
+                </tr>
+            </thead>
+            <tbody>
+                <ng-template ngFor let-data [ngForOf]="verificationTableTemp.data">
+                    <tr>
+                        <td>{{ data.keyName }}</td>
+                        <td>{{ data.content }}</td>
+                    </tr>
+                </ng-template>
+            </tbody>
+        </nz-table> -->
+</nz-drawer>
+
+<ng-template #editFormTemp let-formGroup="formGroup" let-fields="fields">
+    <form nz-form [formGroup]="formGroup" [nzLayout]="'horizontal'">
+        <ng-container *ngFor="let field of fields">
+            <nz-form-item>
+                <nz-form-label
+                    [nzRequired]="field.SCHEME_EDIT_IS_MUST_INPUT"
+                    [style.width]="'auto'"
+                >
+                    {{ field.SCHEME_EDIT_DISPLAY_NAME }}</nz-form-label
+                >
+                <nz-form-control>
+                    <div class="putt" [style.width]="'auto'">
+                        <ng-container
+                            *ngIf="field.TABLE_COLUMN_DICTIONARY_CODE !== ''; else exceptCode"
+                        >
+                            <dictionary-input
+                                [code]="field.TABLE_COLUMN_DICTIONARY_CODE"
+                                [formControlName]="field.TABLE_COLUMN_CODE"
+                                [text]="''"
+                            >
+                            </dictionary-input>
+                        </ng-container>
+                        <ng-template #exceptCode>
+                            <ng-container *ngIf="field.TABLE_COLUMN_TYPE === columnTypeEnum.DATE">
+                                <nz-date-picker
+                                    style="width: 100%"
+                                    [formControlName]="field.TABLE_COLUMN_CODE"
+                                    [nzPlaceHolder]="'请填写' + field.SCHEME_EDIT_DISPLAY_NAME"
+                                >
+                                </nz-date-picker>
+                            </ng-container>
+                            <ng-container *ngIf="field.TABLE_COLUMN_TYPE === columnTypeEnum.CHAR">
+                                <input
+                                    nz-input
+                                    [formControlName]="field.TABLE_COLUMN_CODE"
+                                    [placeholder]="'请填写' + field.SCHEME_EDIT_DISPLAY_NAME"
+                                />
+                            </ng-container>
+                            <ng-container
+                                *ngIf="field.TABLE_COLUMN_TYPE === columnTypeEnum.VARCHAR"
+                            >
+                                <input
+                                    nz-input
+                                    [formControlName]="field.TABLE_COLUMN_CODE"
+                                    [placeholder]="'请填写' + field.SCHEME_EDIT_DISPLAY_NAME"
+                                />
+                            </ng-container>
+                            <ng-container *ngIf="field.TABLE_COLUMN_TYPE === columnTypeEnum.NUMBER">
+                                <nz-input-number
+                                    style="width: 100%"
+                                    [formControlName]="field.TABLE_COLUMN_CODE"
+                                    [nzPlaceHolder]="'请填写' + field.SCHEME_EDIT_DISPLAY_NAME"
+                                >
+                                </nz-input-number>
+                            </ng-container>
+                        </ng-template>
+                    </div>
+                </nz-form-control>
+            </nz-form-item>
+        </ng-container>
+    </form>
+</ng-template>

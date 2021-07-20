@@ -1,0 +1,32 @@
+@import 'src/app/styles/drawer';
+
+.select_person {
+    .gl_card {
+        margin-top: 10px;
+        border: 1px solid #eee;
+
+        .title {
+            padding: 10px;
+            border-bottom: 1px solid #eee;
+        }
+
+        .content {
+            padding: 10px;
+
+            & nz-tag {
+                margin: 5px;
+            }
+        }
+    }
+}
+
+.tree_view {
+    padding: 10px 0 0 0 !important;
+}
+
+.unitAndSearch {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 10px;
+}

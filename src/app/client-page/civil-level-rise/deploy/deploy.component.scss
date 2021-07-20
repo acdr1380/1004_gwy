@@ -1,0 +1,45 @@
+@import 'src/app/styles/layout';
+@import 'src/app/styles/drawer';
+
+.oper_lyt {
+    padding: 30px 0;
+
+    .view_scroll {
+        /*flex 布局*/
+        display: flex;
+        /*实现水平居中*/
+        justify-content: center;
+
+        .deploy_info {
+            margin-right: 50px;
+            width: 900px;
+        }
+
+        .send_obj {
+            .label {
+                text-align: right;
+                line-height: 40px;
+                font-size: 14px;
+                color: #000;
+            }
+
+            .handle,
+            .tbl_view {
+                margin-bottom: 10px;
+            }
+
+            .handle {
+                line-height: 40px;
+            }
+        }
+    }
+
+    .chart {
+        border: 2px solid #ded5d5;
+        padding: 20px;
+        padding-left: 0;
+        height: 440px;
+
+        margin-bottom: 10px;
+    }
+}

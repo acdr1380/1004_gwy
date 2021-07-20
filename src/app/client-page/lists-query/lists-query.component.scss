@@ -1,0 +1,35 @@
+@import 'src/app/styles/layout';
+@import 'src/app/styles/drawer';
+
+.layout {
+    // height: 100%;
+    // position: relative;
+
+    .header {
+        // background-color: #fff;
+        // padding-top: 3px;
+
+        & > button {
+            margin-right: 10px;
+        }
+    }
+}
+
+.self_con {
+    height: 100%;
+    width: 100%;
+    .selectUnit {
+        position: relative;
+    }
+}
+
+.unit_area {
+    height: 100%;
+    flex: 1;
+    overflow: hidden;
+}
+
+._tree_view {
+    height: 100%;
+    width: 100%;
+}

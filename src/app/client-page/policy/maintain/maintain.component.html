@@ -1,0 +1,145 @@
+<div class="layout">
+    <div class="operation">
+        <div class="btn">
+            <button nz-button nzType="primary" (click)="publishPolicy()">发布政策</button>
+        </div>
+
+        <div class="find">
+            <!-- <nz-input-group [nzSuffix]="suffixIconSearch">
+        <input type="text" nz-input placeholder="请输入搜索内容" />
+      </nz-input-group>
+      <ng-template #suffixIconSearch>
+        <i nz-icon type="search"></i>
+      </ng-template> -->
+        </div>
+    </div>
+
+    <div class="policy-table position_0">
+        <div class="tabset position_0">
+            <nz-tabset
+                [nzTabBarStyle]="{ 'margin.px': 0, 'height.px': 50 }"
+                (nzSelectChange)="evtTabSelectChange($event)"
+            >
+                <ng-container *ngFor="let item of tabSetList">
+                    <nz-tab [nzTitle]="item.text"></nz-tab>
+                </ng-container>
+            </nz-tabset>
+        </div>
+
+        <!-- 分类树 -->
+        <div class="left-tree position_0" *ngIf="tabSelectedValue === 0">
+            <nz-tree
+                #typeTreeElement
+                [nzSelectedKeys]="policyTypeTree.nzSelectedKeys"
+                [nzExpandedKeys]="policyTypeTree.nzExpandedKeys"
+                [nzData]="policyTypeTree.nodes"
+                (nzClick)="policyTypeTree.evtActiveNode($event)"
+                (nzExpandChange)="policyTypeTree.expandChange($event)"
+                [nzTreeTemplate]="nzTreeTemplate"
+            >
+                <ng-template #nzTreeTemplate let-node>
+                    <span
+                        class="custom-node"
+                        [class.active]="policyTypeTree.activedNode?.key === node.key"
+                    >
+                        <i class="fa fa-sitemap" aria-hidden="true"></i>
+                        <span class="node-text">{{ node.title }}</span>
+                    </span>
+                </ng-template>
+            </nz-tree>
+        </div>
+
+        <div class="table position_0" [ngClass]="{ left0: tabSelectedValue !== 0 }">
+            <ng-container *ngIf="tabSelectedValue === -1">
+                <div class="reading_state">
+                    <nz-checkbox-group
+                        [(ngModel)]="readingState"
+                        (ngModelChange)="loadPolicyList(true)"
+                    >
+                    </nz-checkbox-group>
+                </div>
+            </ng-container>
+            <nz-table
+                #policyTableView
+                nzShowSizeChanger
+                nzBordered
+                nzSize="small"
+                [nzFrontPagination]="false"
+                [nzTotal]="policyTable.totalElements"
+                [(nzPageSize)]="policyTable.size"
+                [(nzPageIndex)]="policyTable.page"
+                [nzPageSizeOptions]="[5, 10, 20, 50]"
+                [nzData]="policyTable.content"
+                (nzPageIndexChange)="loadPolicyList()"
+                (nzPageSizeChange)="loadPolicyList(true)"
+            >
+                <thead>
+                    <tr>
+                        <th nzWidth="500px">标题</th>
+                        <th nzWidth="300px">文号</th>
+                        <th nzWidth="220px">编辑时间</th>
+                        <th nzWidth="120px">操作</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr *ngFor="let data of policyTableView.data">
+                        <td>{{ data.title }}</td>
+                        <td>{{ data.documentNumber }}</td>
+                        <td>{{ data.addTime | date: 'yyyy-MM-dd HH:mm:ss' }}</td>
+                        <td>
+                            <ng-container *ngIf="tabSelectedValue === -1; else elseTemp">
+                                <a (click)="evtSelectorRow(data)">处理</a>
+                            </ng-container>
+                            <ng-template #elseTemp>
+                                <a (click)="evtSelectorRow(data)">{{
+                                    data.status === 1 ? '编辑' : '查看'
+                                }}</a>
+                                <ng-container *ngIf="data.status === 0">
+                                    <nz-divider nzType="vertical"></nz-divider>
+                                    <a (click)="evtUpdataRow(data)">作废</a>
+                                </ng-container>
+                                <ng-container *ngIf="data.status === 1">
+                                    <nz-divider nzType="vertical"></nz-divider>
+                                    <a (click)="evtDeleteRow(data)">删除</a>
+                                </ng-container>
+                                <ng-container *ngIf="data.status === 2">
+                                    <nz-divider nzType="vertical"></nz-divider>
+                                    <a (click)="evtInvalidInfo(data)">作废原因</a>
+                                </ng-container>
+                            </ng-template>
+                        </td>
+                    </tr>
+                </tbody>
+            </nz-table>
+        </div>
+    </div>
+</div>
+
+<nz-drawer
+    nzPlacement="right"
+    [nzVisible]="policyDrawer.visible"
+    [nzWidth]="policyDrawer.width"
+    [nzTitle]="policyDrawer.title"
+    (nzOnClose)="policyDrawer.close()"
+>
+    <div class="drawer_area">
+        <div class="container">
+            <form nz-form [formGroup]="policyDrawer.form">
+                <nz-form-item>
+                    <nz-form-label nzRequired>作废原因</nz-form-label>
+                    <nz-form-control nzHasFeedback>
+                        <textarea
+                            rows="6"
+                            nz-input
+                            formControlName="content"
+                            placeholder="请填写作废原因"
+                        ></textarea>
+                    </nz-form-control>
+                </nz-form-item>
+            </form>
+        </div>
+        <div class="footer" *ngIf="!policyDrawer.isDisabled">
+            <button nz-button nzType="primary" (click)="policyDrawer.save()">作废</button>
+        </div>
+    </div>
+</nz-drawer>

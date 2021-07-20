@@ -1,0 +1,205 @@
+<div class="layout">
+    <div class="container">
+        <div class="view oper_base">
+            <div class="oper_base_info">
+                <form nz-form nz-row [formGroup]="operBase.form">
+                    <div nz-col nzSpan="24">
+                        <nz-form-item>
+                            <nz-form-label nzSpan="4" nzRequired>业务标题</nz-form-label>
+                            <nz-form-control nzSpan="20">
+                                <input nz-input formControlName="ASSESS_TITLE" />
+                                <nz-form-explain
+                                    *ngIf="
+                                        operBase.form.get('ASSESS_TITLE')?.dirty &&
+                                        operBase.form.get('ASSESS_TITLE')?.errors
+                                    "
+                                >
+                                    业务标题不能为空。
+                                </nz-form-explain>
+                            </nz-form-control>
+                        </nz-form-item>
+                    </div>
+
+                    <div nz-col nzSpan="12">
+                        <nz-form-item>
+                            <nz-form-label nzRequired nzSpan="8">考核截止日期</nz-form-label>
+                            <nz-form-control nzSpan="16">
+                                <nz-date-picker formControlName="ASSESS_DEADLINE"></nz-date-picker>
+                                <nz-form-explain
+                                    *ngIf="
+                                        operBase.form.get('ASSESS_DEADLINE')?.dirty &&
+                                        operBase.form.get('ASSESS_DEADLINE')?.errors
+                                    "
+                                >
+                                    考核截止日期不能为空。
+                                </nz-form-explain>
+                            </nz-form-control>
+                        </nz-form-item>
+                    </div>
+
+                    <div nz-col nzSpan="12">
+                        <nz-form-item>
+                            <nz-form-label nzSpan="8" nzRequired>考核默认日期</nz-form-label>
+                            <nz-form-control nzSpan="16">
+                                <nz-date-picker
+                                    formControlName="ASSESS_DEFAULT_TIME"
+                                ></nz-date-picker>
+                                <nz-form-explain
+                                    *ngIf="
+                                        operBase.form.get('ASSESS_DEFAULT_TIME')?.dirty &&
+                                        operBase.form.get('ASSESS_DEFAULT_TIME')?.errors
+                                    "
+                                >
+                                    考核默认日期不能为空。
+                                </nz-form-explain>
+                            </nz-form-control>
+                        </nz-form-item>
+                    </div>
+
+                    <div nz-col nzSpan="24">
+                        <nz-form-item>
+                            <nz-form-label nzSpan="4" nzRequired>业务内容</nz-form-label>
+                            <nz-form-control nzSpan="20">
+                                <textarea
+                                    nz-input
+                                    formControlName="ASSESS_TITLE_CONTENT"
+                                ></textarea>
+                                <nz-form-explain
+                                    *ngIf="
+                                        operBase.form.get('ASSESS_TITLE_CONTENT')?.dirty &&
+                                        operBase.form.get('ASSESS_TITLE_CONTENT')?.errors
+                                    "
+                                >
+                                    业务内容不能为空。
+                                </nz-form-explain>
+                            </nz-form-control>
+                        </nz-form-item>
+                    </div>
+
+                    <div nz-col nzSpan="12">
+                        <nz-form-item>
+                            <nz-form-label nzSpan="8" nzRequired>考核默认结果</nz-form-label>
+                            <nz-form-control nzSpan="16">
+                                <nz-select formControlName="ASSESS_RESULT">
+                                    <ng-container *ngFor="let item of AssessStateEnum_CN">
+                                        <nz-option
+                                            [nzLabel]="item.text"
+                                            [nzValue]="item.value"
+                                        ></nz-option>
+                                    </ng-container>
+                                </nz-select>
+                            </nz-form-control>
+                        </nz-form-item>
+                    </div>
+
+                    <div nz-col nzSpan="12">
+                        <nz-form-item>
+                            <nz-form-label nzSpan="8" nzRequired>考核年份</nz-form-label>
+                            <nz-form-control nzSpan="16">
+                                <nz-year-picker
+                                    formControlName="ASSESS_YEAR"
+                                    nzPlaceHolder="选择年份"
+                                ></nz-year-picker>
+                            </nz-form-control>
+                        </nz-form-item>
+                    </div>
+
+                    <div nz-col nzSpan="24" [hidden]="!operBase.isEdit">
+                        <nz-form-item>
+                            <nz-form-label nzSpan="4">业务附件</nz-form-label>
+                            <div nz-col nzSpan="20">
+                                <nz-upload
+                                    [nzFileList]="uploadIfy.list"
+                                    [nzCustomRequest]="uploadIfy.fileCustomRequest"
+                                    [nzRemove]="uploadIfy.fileRemove"
+                                    [nzDisabled]="!state.DB"
+                                >
+                                    <button nz-button>
+                                        <span><i nz-icon nzType="upload"></i>上传附件</span>
+                                    </button>
+                                </nz-upload>
+                            </div>
+                        </nz-form-item>
+                    </div>
+
+                    <div nz-col nzSpan="24" [hidden]="!operBase.isEdit">
+                        <nz-form-item>
+                            <nz-form-control nzOffset="4" nzSpan="20">
+                                <div id="higcharts"></div>
+                            </nz-form-control>
+                        </nz-form-item>
+                    </div>
+
+                    <div nz-col nzSpan="24" [hidden]="!operBase.isEdit">
+                        <nz-form-item>
+                            <nz-form-label nzSpan="4">发送对象</nz-form-label>
+                            <nz-form-control nzSpan="6">
+                                <button nz-button nzType="primary" (click)="selectUnit()">
+                                    选择对象
+                                </button>
+                            </nz-form-control>
+                        </nz-form-item>
+                    </div>
+
+                    <div nz-col nzSpan="24" [hidden]="!operBase.isEdit">
+                        <nz-form-item>
+                            <nz-form-control nzOffset="4" nzSpan="20">
+                                <nz-table
+                                    nzSize="small"
+                                    #unitTable
+                                    nzBordered="true"
+                                    [nzData]="unitTableIfy.rows"
+                                    [(nzPageIndex)]="unitTableIfy.pageIndex"
+                                    [(nzPageSize)]="unitTableIfy.pageSize"
+                                    (nzPageIndexChange)="unitTableIfy.evtPageIndexChange()"
+                                    nzHideOnSinglePage="true"
+                                >
+                                    <thead>
+                                        <tr>
+                                            <th nzWidth="80px" nzAlign="center">序号</th>
+                                            <th nzAlign="center">单位名称</th>
+                                            <th nzWidth="80px" nzAlign="center">操作</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr *ngFor="let item of unitTable.data; let i = index">
+                                            <td nzAlign="center">{{ i + 1 }}</td>
+                                            <td>{{ item.RELATION_ORG_NAME }}</td>
+                                            <td nzAlign="center">
+                                                <a (click)="unitTableIfy.evtDelUnit(item)">撤选</a>
+                                            </td>
+                                        </tr>
+                                    </tbody>
+                                </nz-table>
+                            </nz-form-control>
+                        </nz-form-item>
+                    </div>
+
+                    <div nz-col nzSpan="24" class="submit" *ngIf="!state.DB">
+                        <nz-form-item>
+                            <nz-form-control nzOffset="4" nzSpan="6">
+                                <button
+                                    nz-button
+                                    nz-popconfirm
+                                    nzPopconfirmTitle="是否确定撤销?"
+                                    (nzOnConfirm)="operBase.undo()"
+                                >
+                                    撤销业务
+                                </button>
+                                <button nz-button nzType="primary" (click)="operBase.start()">
+                                    发起业务
+                                </button>
+                            </nz-form-control>
+                        </nz-form-item>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- <select-unit-level-drawer
+    #selectUnitLevel
+    (selectUnitLevelChange)="unitTableIfy.evtSaveUnit($event)"
+    [checkNodeList]="checkNodeList"
+></select-unit-level-drawer> -->

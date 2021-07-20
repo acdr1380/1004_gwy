@@ -1,0 +1,45 @@
+<nz-drawer
+    [nzVisible]="recoverDra.visible"
+    [nzTitle]="recoverDra.title"
+    [nzWidth]="recoverDra.width"
+    (nzOnClose)="recoverDra.close()"
+>
+    <div class="drawer_area">
+        <div class="container">
+            <nz-table
+                #recoverTable
+                nzBordered="true"
+                nzSize="small"
+                [nzFrontPagination]="false"
+                [nzData]="recoverDra.table.rows"
+                [nzPageSize]="recoverDra.table.pageSize"
+                [(nzPageIndex)]="recoverDra.table.pageIndex"
+                [nzLoading]="recoverDra.table.loading"
+                [nzTotal]="recoverDra.table.total"
+                (nzPageIndexChange)="recoverDra.table.loadRows()"
+            >
+                <thead>
+                    <tr>
+                        <th nzAlign="center">单位名称</th>
+                        <th nzAlign="center">机构性质</th>
+                        <th nzAlign="center">删除账号</th>
+                        <th nzAlign="center">删除时间</th>
+
+                        <th nzAlign="center">操作</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr *ngFor="let item of recoverTable.data">
+                        <td nzAlign="center">{{ item.ORG_NAME }}</td>
+                        <td nzAlign="center">{{ item.ORG_TYPE_CN }}</td>
+                        <td nzAlign="center">{{ item.SYS_MODIFY_ORG_NAME }}</td>
+                        <td nzAlign="center">{{ item.SYS_MODIFY_TIME }}</td>
+                        <td nzAlign="center">
+                            <a (click)="recoverUnit(item)">找回</a>
+                        </td>
+                    </tr>
+                </tbody>
+            </nz-table>
+        </div>
+    </div>
+</nz-drawer>

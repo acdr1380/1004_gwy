@@ -1,0 +1,68 @@
+import { NgModule } from '@angular/core';
+import { RouterModule, Routes } from '@angular/router';
+import { ClientComponent } from '../master-page/client/client.component';
+
+const routes: Routes = [
+    {
+        path: '',
+        component: ClientComponent,
+        children: [
+            {
+                path: 'index',
+                loadChildren: () => import('./index/index.module').then(m => m.IndexModule),
+            },
+            // 业务跳转
+            {
+                path: 'workflow',
+                loadChildren: () =>
+                    import('app/workflow/workflow.module').then(m => m.WorkflowModule),
+            },
+            {
+                path: 'person-correl',
+                loadChildren: () =>
+                    import('./person-correl/person-correl.module').then(m => m.PersonCorrelModule),
+                data: { tag: 'person-correl' },
+            },
+            // 事业工资人员管理
+            {
+                path: 'career-person-salary',
+                loadChildren: () =>
+                    import('./career-person-salary/career-person-salary.module').then(
+                        m => m.CareerPersonSalaryModule
+                    ),
+                data: { tag: 'career-person-salary' },
+            },
+            {
+                path: 'unit-manage',
+                loadChildren: () =>
+                    import('./unit-manage/unit-manage.module').then(m => m.UnitManageModule),
+            },
+            {
+                path: 'civil-person-salary',
+                loadChildren: () =>
+                    import('./civil-person-salary/civil-person-salary.module').then(
+                        m => m.CivilPersonSalaryModule
+                    ),
+                data: { tag: 'civil-person-salary' },
+            },
+            {
+                path: 'notification',
+                loadChildren: () =>
+                    import('./notification/notification.module').then(m => m.NotificationModule),
+            },
+            {
+                path: 'advanced-query',
+                loadChildren: () =>
+                    import('./advanced-query/advanced-query.module').then(
+                        m => m.AdvancedQueryModule
+                    ),
+            },
+        ],
+    },
+];
+
+@NgModule({
+    imports: [RouterModule.forChild(routes)],
+    exports: [RouterModule],
+})
+export class ClientPageModule {}

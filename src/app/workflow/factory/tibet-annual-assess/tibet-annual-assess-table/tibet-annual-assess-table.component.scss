@@ -1,0 +1,76 @@
+@import "src/app/styles/layout";
+@import "src/app/styles/drawer";
+
+.full_screen {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    margin: auto;
+    z-index: 99;
+}
+
+.tbl {
+    padding: 10px;
+}
+
+:host ::ng-deep {
+    .ant-table {
+        .col_width_format {
+            visibility: collapse;
+        }
+
+        tr.odd {
+            td {
+                background-color: #fafafa;
+            }
+        }
+        tr:hover {
+            td:not(.edit) {
+                background: #fff;
+            }
+        }
+        tr.odd:hover {
+            td {
+                background-color: #fafafa;
+            }
+        }
+        td.edit {
+            background-color: #f0f3ff !important;
+            cursor: pointer;
+        }
+        tr.changeed {
+            td {
+                font-weight: bold;
+            }
+        }
+    }
+}
+.code-input {
+    background-color: #fff !important;
+}
+.add-retire {
+    position: relative;
+    padding: 0 !important;
+    input {
+        border: 0 !important;
+    }
+}
+::ng-deep {
+    .edit {
+        dictionary-input {
+            input {
+                border: none !important;
+            }
+        }
+    }
+}
+
+.oper_step_flow {
+    height: 120px;
+    padding: 40px 10px 0 10px;
+    margin: 20px;
+    background-color: #f0f8ff;
+    border: 1px solid #cce8ff;
+}

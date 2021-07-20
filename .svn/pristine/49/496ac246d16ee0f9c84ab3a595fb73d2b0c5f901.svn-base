@@ -1,0 +1,6 @@
+<div class="layout">
+    <div class="header">
+        <button nz-button nzType="primary">增加统筹</button>
+    </div>
+    <div class="container view"></div>
+</div>

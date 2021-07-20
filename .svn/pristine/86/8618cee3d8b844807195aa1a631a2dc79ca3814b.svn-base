@@ -1,0 +1,83 @@
+<div class="layout">
+    <div class="header">
+        年份： <nz-date-picker nzMode="year"></nz-date-picker>
+
+        <button nz-button nzType="primary" class="add_plan">
+            <i nz-icon nzType="user" nzTheme="outline"></i> 增加公招计划
+        </button>
+    </div>
+    <div class="header">
+        <nz-tabset nzType="card" [nzTabBarStyle]="{ 'marginTop.px': 10 }">
+            <nz-tab nzTitle="进行中"> </nz-tab>
+            <nz-tab nzTitle="已完成"> </nz-tab>
+        </nz-tabset>
+    </div>
+    <div class="container">
+        <div class="left">
+            <div class="handle">
+                <nz-select
+                    style="width: 280px"
+                    nzPlaceHolder="输入关键字搜索"
+                    nzAllowClear
+                    nzShowSearch
+                    nzServerSearch
+                >
+                    <!-- <ng-container *ngFor="let o of optionList">
+                        <nz-option *ngIf="!isLoading" [nzValue]="o" [nzLabel]="o"></nz-option>
+                    </ng-container> -->
+                </nz-select>
+            </div>
+            <div class="tree">
+                <cdk-virtual-scroll-viewport
+                    #scrollViewPersonList
+                    [itemSize]="40"
+                    class="view_scroll audit_list"
+                >
+                    <ng-container *ngFor="let item of startingPlanIfy.list; let i = index">
+                        <div
+                            class="item"
+                            [class.active]="item === startingPlanIfy.selectedItem"
+                            (click)="startingPlanIfy.evtSelected(item)"
+                        >
+                            <div class="title">{{ item.text }}</div>
+
+                            <div class="btns">
+                                <div class="btn danger" nz-tooltip nzTooltipTitle="归档">归档</div>
+                            </div>
+                        </div>
+                    </ng-container>
+                </cdk-virtual-scroll-viewport>
+            </div>
+        </div>
+        <div class="right">
+            <div class="layout">
+                <div class="header">
+                    <div class="right">
+                        <button nz-button>编辑</button>
+                    </div>
+                </div>
+                <div class="header">
+                    <nz-select
+                        style="width: 280px"
+                        nzPlaceHolder="输入关键字搜索"
+                        nzAllowClear
+                        nzShowSearch
+                        nzServerSearch
+                    >
+                        <!-- <ng-container *ngFor="let o of optionList">
+                        <nz-option *ngIf="!isLoading" [nzValue]="o" [nzLabel]="o"></nz-option>
+                    </ng-container> -->
+                    </nz-select>
+
+                    <div class="right">
+                        <nz-button-group>
+                            <button nz-button>全部通过</button>
+                            <button nz-button>导出表格</button>
+                        </nz-button-group>
+                    </div>
+                </div>
+                <div class="container"></div>
+            </div>
+        </div>
+    </div>
+</div>

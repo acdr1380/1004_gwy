@@ -1,0 +1,42 @@
+<nz-table #basicTable [nzData]="data" nzSize="small" [nzShowPagination]="false" [nzPageSize]="12">
+    <thead>
+        <tr>
+            <th nzWidth="100px" nzAlign="center">月份</th>
+            <th>状态</th>
+        </tr>
+    </thead>
+    <tbody>
+        <tr
+            *ngFor="let item of basicTable.data"
+            [class.active]="selectedIndex === item.month"
+            class="pointer"
+            (click)="clickRow(item.month, $event)"
+        >
+            <ng-container *ngIf="item.key === -1">
+                <td nzAlign="center">{{ item.month }}月</td>
+                <td class="gray">
+                    {{ item.value }}
+                </td>
+            </ng-container>
+            <ng-container *ngIf="item.key !== 0 && item.key !== -1">
+                <td nzAlign="center">{{ item.month }}月</td>
+                <td [ngClass]="{ green: item.key == 2 }">
+                    {{ item.value }}
+                </td>
+            </ng-container>
+            <ng-container *ngIf="item.key == 0 && CanDistribute">
+                <td nzAlign="center">{{ item.month }}月</td>
+                <td>
+                    <button
+                        nz-button
+                        nzType="link"
+                        style="padding: 0"
+                        (click)="distribute(item.month, $event)"
+                    >
+                        点击生成
+                    </button>
+                </td>
+            </ng-container>
+        </tr>
+    </tbody>
+</nz-table>

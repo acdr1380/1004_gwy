@@ -1,0 +1,274 @@
+<html xmlns:o="urn:schemas-microsoft-com:office:office"
+xmlns:x="urn:schemas-microsoft-com:office:excel"
+xmlns="http://www.w3.org/TR/REC-html40">
+
+<head>
+<meta http-equiv=Content-Type content="text/html; charset=utf-8">
+<meta name=ProgId content=Excel.Sheet>
+<meta name=Generator content="Microsoft Excel 15">
+<link rel=File-List href="干审表_2.files/filelist.xml">
+<style id="干审表v7_15773_Styles">
+<!--table
+	{mso-displayed-decimal-separator:"\.";
+	mso-displayed-thousand-separator:"\,";}
+.font015773
+	{color:windowtext;
+	font-size:12.0pt;
+	font-weight:400;
+	font-style:normal;
+	text-decoration:none;
+	font-family:宋体;
+	mso-generic-font-family:auto;
+	mso-font-charset:134;}
+.font515773
+	{color:windowtext;
+	font-size:9.0pt;
+	font-weight:400;
+	font-style:normal;
+	text-decoration:none;
+	font-family:宋体;
+	mso-generic-font-family:auto;
+	mso-font-charset:134;}
+.font615773
+	{color:red;
+	font-size:12.0pt;
+	font-weight:400;
+	font-style:normal;
+	text-decoration:none;
+	font-family:宋体;
+	mso-generic-font-family:auto;
+	mso-font-charset:134;}
+.xl1515773
+	{padding-top:1px;
+	padding-right:1px;
+	padding-left:1px;
+	mso-ignore:padding;
+	color:windowtext;
+	font-size:12.0pt;
+	font-weight:400;
+	font-style:normal;
+	text-decoration:none;
+	font-family:宋体;
+	mso-generic-font-family:auto;
+	mso-font-charset:134;
+	mso-number-format:General;
+	text-align:general;
+	vertical-align:middle;
+	mso-background-source:auto;
+	mso-pattern:auto;
+	white-space:nowrap;}
+.xl6315773
+	{padding-top:1px;
+	padding-right:1px;
+	padding-left:1px;
+	mso-ignore:padding;
+	color:windowtext;
+	font-size:12.0pt;
+	font-weight:400;
+	font-style:normal;
+	text-decoration:none;
+	font-family:宋体;
+	mso-generic-font-family:auto;
+	mso-font-charset:134;
+	mso-number-format:General;
+	text-align:center;
+	vertical-align:middle;
+	border:.5pt solid #00B0F0;
+	mso-background-source:auto;
+	mso-pattern:auto;
+	white-space:nowrap;}
+.xl6415773
+	{padding-top:1px;
+	padding-right:1px;
+	padding-left:1px;
+	mso-ignore:padding;
+	color:windowtext;
+	font-size:12.0pt;
+	font-weight:400;
+	font-style:normal;
+	text-decoration:none;
+	font-family:宋体;
+	mso-generic-font-family:auto;
+	mso-font-charset:134;
+	mso-number-format:General;
+	text-align:center;
+	vertical-align:middle;
+	border:.5pt solid #00B0F0;
+	mso-background-source:auto;
+	mso-pattern:auto;
+	white-space:normal;}
+.xl6515773
+	{padding-top:1px;
+	padding-right:1px;
+	padding-left:1px;
+	mso-ignore:padding;
+	color:windowtext;
+	font-size:12.0pt;
+	font-weight:400;
+	font-style:normal;
+	text-decoration:none;
+	font-family:宋体;
+	mso-generic-font-family:auto;
+	mso-font-charset:134;
+	mso-number-format:General;
+	text-align:center;
+	vertical-align:middle;
+	border:.5pt solid #00B0F0;
+	mso-background-source:auto;
+	mso-pattern:auto;
+	white-space:nowrap;
+	layout-flow:vertical-ideographic;}
+.xl6615773
+	{padding-top:1px;
+	padding-right:1px;
+	padding-left:1px;
+	mso-ignore:padding;
+	color:windowtext;
+	font-size:12.0pt;
+	font-weight:400;
+	font-style:normal;
+	text-decoration:none;
+	font-family:宋体;
+	mso-generic-font-family:auto;
+	mso-font-charset:134;
+	mso-number-format:General;
+	text-align:center;
+	vertical-align:middle;
+	mso-background-source:auto;
+	mso-pattern:auto;
+	white-space:nowrap;}
+ruby
+	{ruby-align:left;}
+rt
+	{color:windowtext;
+	font-size:9.0pt;
+	font-weight:400;
+	font-style:normal;
+	text-decoration:none;
+	font-family:宋体;
+	mso-generic-font-family:auto;
+	mso-font-charset:134;
+	mso-char-type:none;}
+-->
+</style>
+</head>
+
+<body>
+<!--[if !excel]>　　<![endif]-->
+<!--下列信息由 Microsoft Excel 的发布为网页向导生成。-->
+<!--如果同一条目从 Excel 中重新发布，则所有位于 DIV 标记之间的信息均将被替换。-->
+<!----------------------------->
+<!--“从 EXCEL 发布网页”向导开始-->
+<!----------------------------->
+
+<div id="干审表v7_15773" align=center x:publishsource="Excel">
+
+<table border=0 cellpadding=0 cellspacing=0 width=1089 style='border-collapse:
+ collapse;table-layout:fixed;width:818pt'>
+ <col width=109 style='mso-width-source:userset;mso-width-alt:3488;width:82pt'>
+ <col width=173 span=4 style='mso-width-source:userset;mso-width-alt:5536;
+ width:130pt'>
+ <col width=72 span=4 style='width:54pt'>
+ <tr height=60 style='mso-height-source:userset;height:45.0pt'>
+  <td colspan=5 height=60 class=xl6615773 width=801 style='height:45.0pt;
+  width:602pt'></td>
+  <td class=xl1515773 width=72 style='width:54pt'></td>
+  <td class=xl1515773 width=72 style='width:54pt'></td>
+  <td class=xl1515773 width=72 style='width:54pt'></td>
+  <td class=xl1515773 width=72 style='width:54pt'></td>
+ </tr>
+ <tr height=60 style='mso-height-source:userset;height:45.0pt'>
+  <td rowspan=6 height=360 class=xl6515773 style='height:270.0pt'>其他信息</td>
+  <td class=xl6315773 style='border-left:none'>是否考录</td>
+  <td class=xl6315773 style='border-left:none'>　</td>
+  <td class=xl6315773 style='border-left:none'>录用时间</td>
+  <td class=xl6315773 style='border-left:none'>　</td>
+  <td class=xl1515773></td>
+  <td class=xl1515773></td>
+  <td class=xl1515773></td>
+  <td class=xl1515773></td>
+ </tr>
+ <tr height=60 style='mso-height-source:userset;height:45.0pt'>
+  <td height=60 class=xl6315773 style='height:45.0pt;border-top:none;
+  border-left:none'><font class="font615773">*</font><font class="font015773">是否选调生</font></td>
+  <td class=xl6315773 style='border-top:none;border-left:none'>　</td>
+  <td class=xl6315773 style='border-top:none;border-left:none'>进入选调生时间</td>
+  <td class=xl6315773 style='border-top:none;border-left:none'>　</td>
+  <td class=xl1515773></td>
+  <td class=xl1515773></td>
+  <td class=xl1515773></td>
+  <td class=xl1515773></td>
+ </tr>
+ <tr height=60 style='mso-height-source:userset;height:45.0pt'>
+  <td height=60 class=xl6315773 style='height:45.0pt;border-top:none;
+  border-left:none'>成长地</td>
+  <td class=xl6315773 style='border-top:none;border-left:none'>　</td>
+  <td class=xl6315773 style='border-top:none;border-left:none'>级别</td>
+  <td class=xl6315773 style='border-top:none;border-left:none'>　</td>
+  <td class=xl1515773></td>
+  <td class=xl1515773></td>
+  <td class=xl1515773></td>
+  <td class=xl1515773></td>
+ </tr>
+ <tr height=60 style='mso-height-source:userset;height:45.0pt'>
+  <td height=60 class=xl6415773 width=173 style='height:45.0pt;border-top:none;
+  border-left:none;width:130pt'>专业技术类公务员任职资格</td>
+  <td class=xl6315773 style='border-top:none;border-left:none'>　</td>
+  <td class=xl6315773 style='border-top:none;border-left:none'>保留待遇</td>
+  <td class=xl6315773 style='border-top:none;border-left:none'>　</td>
+  <td class=xl1515773></td>
+  <td class=xl1515773></td>
+  <td class=xl1515773></td>
+  <td class=xl1515773></td>
+ </tr>
+ <tr height=60 style='mso-height-source:userset;height:45.0pt'>
+  <td height=60 class=xl6315773 style='height:45.0pt;border-top:none;
+  border-left:none'>联系方式</td>
+  <td class=xl6315773 style='border-top:none;border-left:none'>　</td>
+  <td class=xl6315773 style='border-top:none;border-left:none'>　</td>
+  <td class=xl6315773 style='border-top:none;border-left:none'>　</td>
+  <td class=xl1515773></td>
+  <td class=xl1515773></td>
+  <td class=xl1515773></td>
+  <td class=xl1515773></td>
+ </tr>
+ <tr height=60 style='mso-height-source:userset;height:45.0pt'>
+  <td colspan=4 height=60 class=xl6315773 style='height:45.0pt;border-left:
+  none'>　</td>
+  <td class=xl1515773></td>
+  <td class=xl1515773></td>
+  <td class=xl1515773></td>
+  <td class=xl1515773></td>
+ </tr>
+ <tr height=290 style='mso-height-source:userset;height:218.1pt'>
+  <td height=290 class=xl6515773 style='height:218.1pt;border-top:none'>备注</td>
+  <td colspan=4 class=xl6315773 style='border-left:none'>　</td>
+  <td class=xl1515773></td>
+  <td class=xl1515773></td>
+  <td class=xl1515773></td>
+  <td class=xl1515773></td>
+ </tr>
+ <![if supportMisalignedColumns]>
+ <tr height=0 style='display:none'>
+  <td width=109 style='width:82pt'></td>
+  <td width=173 style='width:130pt'></td>
+  <td width=173 style='width:130pt'></td>
+  <td width=173 style='width:130pt'></td>
+  <td width=173 style='width:130pt'></td>
+  <td width=72 style='width:54pt'></td>
+  <td width=72 style='width:54pt'></td>
+  <td width=72 style='width:54pt'></td>
+  <td width=72 style='width:54pt'></td>
+ </tr>
+ <![endif]>
+</table>
+
+</div>
+
+
+<!----------------------------->
+<!--“从 EXCEL 发布网页”向导结束-->
+<!----------------------------->
+</body>
+
+</html>

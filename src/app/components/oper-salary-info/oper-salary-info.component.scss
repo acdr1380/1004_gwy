@@ -1,0 +1,60 @@
+@import 'src/app/styles/layout';
+@import 'src/app/styles/drawer';
+
+.separator {
+    height: 5px;
+    background-color: #f1f2f2;
+}
+
+.wh_100 {
+    width: 100%;
+}
+.mg_lr_10 {
+    margin: 0 10px;
+}
+.bd_none {
+    border: none !important;
+}
+.pdd_10 {
+    padding: 10px;
+}
+
+.salary_chunk {
+    height: auto;
+}
+
+.custom_table {
+    table-layout: fixed;
+    width: 100%;
+    border: 1px solid #e8e8e8;
+
+    &.readly {
+        td {
+            background-color: #fafafa;
+        }
+    }
+    tr {
+        border-bottom: 1px solid #e8e8e8;
+
+        td,
+        th {
+            // padding: 12px 24px;
+            padding: 8px 16px;
+            text-align: left;
+            border-right: 1px solid #e8e8e8;
+        }
+
+        .label {
+            background-color: #f0fbff;
+            color: #000;
+            font-weight: bold;
+        }
+
+        .value {
+            position: relative;
+        }
+    }
+    tr > th[colspan] {
+        text-align: center;
+    }
+}

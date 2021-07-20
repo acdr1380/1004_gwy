@@ -1,0 +1,244 @@
+import { Component, OnInit, ViewChild, AfterViewInit } from '@angular/core';
+import { Router, ActivatedRoute, ParamMap } from '@angular/router';
+import { IndexService } from './index.service';
+
+import { CalendarOptions, FullCalendarComponent } from '@fullcalendar/angular'; // useful for typechecking
+import zhcn from '@fullcalendar/core/locales/zh-cn';
+import { JobStepStateEnum, JobStepStateEnum_CN } from 'app/workflow/enums/JobStepStateEnum';
+
+import { Base64 } from 'js-base64';
+import { WfWorkbenchWfStateEnum } from 'app/workflow/enums/WfWorkbenchWfStateEnum';
+
+import { JobMainStateEnum_CN } from 'app/workflow/enums/JobMainStateEnum';
+@Component({
+    selector: 'gl-index',
+    templateUrl: './index.component.html',
+    styleUrls: ['./index.component.scss'],
+})
+export class IndexComponent implements OnInit, AfterViewInit {
+    /**
+     * 头部标签页
+     */
+    headerTabIfy = {
+        selectedIndex: 0,
+        change: () => {
+            switch (this.headerTabIfy.selectedIndex) {
+                case 0:
+                    break;
+                case 1:
+                    this.workbenchfy.operTable.loadPage(true);
+                    break;
+            }
+        },
+    };
+
+    @ViewChild('scheduleElement') scheduleElement: FullCalendarComponent;
+
+    /**
+     * 日历
+     */
+    scheduleIfy = {
+        date: null,
+        selectChange: event => {
+            const calendarApi = this.scheduleElement.getApi();
+            calendarApi.gotoDate(event);
+            calendarApi.select(event);
+        },
+    };
+
+    recordWfRemind = [];
+    /**
+     * 日程管理
+     */
+    calendarOptions: CalendarOptions = {
+        timeZone: 'UTC',
+        initialView: 'dayGridMonth',
+        locale: zhcn,
+        height: '100%',
+        handleWindowResize: true, //是否随浏览器窗口大小变化而自动变化。
+        headerToolbar: {
+            left: 'dayGridMonth,dayGridWeek,listMonth today',
+            center: 'title',
+            right: 'prev,next',
+        },
+        navLinks: true,
+        // events: [
+        //     { title: 'All Day Event', start: '2021-01-01' },
+        //     { title: 'Long Event', start: '2021-01-07', end: '2021-01-10' },
+        //     { groupId: '999', title: 'Repeating Event', start: '2021-01-09T16:00:00+00:00' },
+        //     { groupId: '999', title: 'Repeating Event', start: '2021-01-16T16:00:00+00:00' },
+        //     { title: 'Conference', start: '2021-01-26', end: '2021-01-28' },
+        //     {
+        //         title: 'Meeting',
+        //         start: '2021-01-27T10:30:00+00:00',
+        //         end: '2021-01-27T12:30:00+00:00',
+        //     },
+        //     { title: 'Lunch', start: '2021-01-27T12:00:00+00:00' },
+        //     { title: 'Birthday Party', start: '2021-01-28T07:00:00+00:00' },
+        //     { title: 'Click for Google', start: '2021-01-28' },
+        // ],
+        events: (info, successCallback, failureCallback) => {
+            if (this.recordWfRemind.length > 0) {
+                successCallback(
+                    this.recordWfRemind.map(item => ({
+                        title: item.title,
+                        start: item.remarks,
+                        id: item.jobId,
+                    }))
+                );
+                return;
+            }
+            this.service.getRecordWfRemind().subscribe(result => {
+                this.recordWfRemind = result;
+                successCallback(
+                    result.map(item => ({
+                        title: item.title,
+                        start: item.remarks,
+                        id: item.jobId,
+                    }))
+                );
+            });
+        },
+        selectable: true,
+        select: info => {
+            // info.startStr
+            this.scheduleIfy.date = info.startStr;
+        },
+        eventClick: ({ event }) => {
+            const item = this.recordWfRemind.find(v => v.jobId === event.id);
+            this.workbenchfy.operTable.navigate(item);
+        },
+    };
+    jobStepState_CN = JobStepStateEnum_CN;
+    jobMainState_CN = JobMainStateEnum_CN;
+    /**
+     * 业务跟踪
+     */
+    tailAfterOper = {
+        title: '业务跟踪',
+        width: 650,
+        visible: false,
+        close: () => (this.tailAfterOper.visible = false),
+        open: data => {
+            this.tailAfterOper.visible = true;
+            this.service
+                .selectListByWfTracking(data['jobId'])
+                .subscribe(result => (this.tailAfterList$ = result));
+        },
+    };
+    /*
+     * 审批历史
+     */
+    tailAfterList$: Array<any>;
+    /**
+     * 业务流程图参数
+     */
+    workFlowChartParam = {
+        operStepList: [],
+        currentStep: 0,
+        visible: false,
+        open: data => {
+            this.workFlowChartParam.visible = true;
+            this.service.getOperStepList(data['wfId']).subscribe(result => {
+                this.workFlowChartParam.operStepList = result;
+                if (result && result.length > 0) {
+                    this.workFlowChartParam.currentStep = this.workFlowChartParam.operStepList.findIndex(
+                        item => {
+                            return item.stepId === data['lastStepId'];
+                        }
+                    );
+                }
+            });
+        },
+        close: () => (this.workFlowChartParam.visible = false),
+    };
+
+    /**
+     * 工作台
+     */
+    workbenchfy = {
+        // 标签页
+        tabs: {
+            list: [],
+            selectedIndex: 0,
+            change: event => {
+                this.workbenchfy.operTable.loadPage();
+            },
+            _init: () => {
+                this.workbenchfy.tabs.list = this.service.getWfListInfo();
+            },
+        },
+
+        // 业务办理
+        operTable: {
+            data: [],
+            page: 0,
+            pageIndex: 1,
+            pageSize: 10,
+            totalCount: 0,
+
+            loadPage: (reset: boolean = false) => {
+                if (reset) {
+                    this.workbenchfy.operTable.pageIndex = 1;
+                }
+                const status = this.workbenchfy.tabs.list[this.workbenchfy.tabs.selectedIndex]
+                    .value;
+                const { pageIndex, pageSize } = this.workbenchfy.operTable;
+                const params = {
+                    pageIndex,
+                    pageSize,
+                };
+                this.service.getWfList(status, params).subscribe(result => {
+                    this.workbenchfy.operTable.data = result.data;
+                    if (result.totalCount > 0) {
+                        this.workbenchfy.operTable.totalCount = result.totalCount;
+                    }
+                });
+            },
+
+            /**
+             * 跳转业务路由
+             */
+            navigate: row => {
+                const url = `client/workflow/factory/${row.wfId}/${row.stepId || ''}`;
+                const params = <any>{
+                    ...row,
+                    redirect: `${this.router.url};selectedIndex=${this.headerTabIfy.selectedIndex}`,
+                    isFinished: false,
+                };
+                if (!params.hasOwnProperty('jobStepState')) {
+                    params.jobStepState = JobStepStateEnum.PROCESSING;
+                }
+                // 如果是已完成，多加一个是否完成状态
+                const status = this.workbenchfy.tabs.list[this.workbenchfy.tabs.selectedIndex]
+                    .value;
+                if (status === WfWorkbenchWfStateEnum.DONE) {
+                    params.isFinished = true;
+                }
+                const GL = Base64.encode(JSON.stringify(params));
+                this.router.navigate([url, { GL }]);
+            },
+        },
+    };
+
+    constructor(
+        private service: IndexService,
+        private router: Router,
+        private activatedRoute: ActivatedRoute
+    ) {}
+
+    ngOnInit() {
+        this.workbenchfy.tabs._init();
+
+        // 获取路由参数
+        this.activatedRoute.paramMap.subscribe((params: ParamMap) => {
+            // 判断路由参数是否存在
+            if (params.has('selectedIndex')) {
+                this.headerTabIfy.selectedIndex = parseInt(params.get('selectedIndex'));
+                this.headerTabIfy.change();
+            }
+        });
+    }
+
+    ngAfterViewInit(): void {}
+}

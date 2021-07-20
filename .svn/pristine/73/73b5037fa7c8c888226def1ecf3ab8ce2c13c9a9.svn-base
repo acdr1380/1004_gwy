@@ -1,0 +1,18 @@
+<div class="layout">
+    <!-- 业务统计 -->
+    <div class="oper">
+        <ng-container *ngFor="let item of operStatusIfy.list">
+            <div class="item" (click)="operStatusIfy.viewOperWorkbench(item)">
+                <div class="content" [style.background]="item.bgColor">
+                    <div class="title">{{ item.text }}</div>
+                    <div class="msg">{{ item.msg }}</div>
+                    <div class="desc">{{ item.desc }}</div>
+                    <div class="icon">
+                        <i nz-icon [nzType]="item.icon" nzTheme="outline"></i>
+                        <div class="count">{{ item.count }}</div>
+                    </div>
+                </div>
+            </div>
+        </ng-container>
+    </div>
+</div>

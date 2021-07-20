@@ -1,0 +1,398 @@
+<div class="layout">
+    <div class="container">
+        <div class="left">
+            <ng-template [ngTemplateOutlet]="personList"></ng-template>
+        </div>
+        <div class="right">
+            <div class="layout">
+                <div class="header">
+                    <nz-tabset
+                        [nzSelectedIndex]="tabIfy.index"
+                        (nzSelectedIndexChange)="tabIfy.indexChange($event)"
+                        [nzTabBarStyle]="{ 'margin.px': 0, 'height.px': 50 }"
+                    >
+                        <nz-tab
+                            *ngFor="let item of tabIfy.list"
+                            [nzTitle]="item.systemSchemeTable.SCHEME_TABLE_DISPLAY_NAME"
+                            [nzDisabled]="!personListIfy.current"
+                        ></nz-tab>
+                    </nz-tabset>
+                </div>
+                <div class="container">
+                    <ng-container *ngFor="let item of tabIfy.list">
+                        <ng-container *ngIf="item.temp">
+                            <div
+                                class="view"
+                                [hidden]="
+                                    item.systemSchemeTable.TABLE_CODE !==
+                                    tabIfy.current.systemSchemeTable.TABLE_CODE
+                                "
+                            >
+                                <ng-template
+                                    [ngTemplateOutlet]="item.temp"
+                                    [ngTemplateOutletContext]="{
+                                        formGroup: item.form,
+                                        fields: item.fields,
+                                        tableData: item.tableData,
+                                        tableFields: item.tableFields
+                                    }"
+                                ></ng-template>
+                            </div>
+                        </ng-container>
+                    </ng-container>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- 人员列表 -->
+<ng-template #personList>
+    <div class="handle">
+        <button nz-button nzType="primary" [style.width.px]="280" (click)="addOutsideSystem()">
+            添加系统外人员
+        </button>
+    </div>
+    <div class="handle">
+        <nz-select
+            [ngStyle]="{ 'width.px': personListIfy.find.searchWidth || 160 }"
+            nzShowSearch
+            nzServerSearch
+            nzAllowClear
+            [nzPlaceHolder]="personListIfy.find.placeholder || '请输入关键字搜索'"
+            [nzShowArrow]="false"
+            [nzFilterOption]="personListIfy.find.nzFilterOption"
+            [(ngModel)]="personListIfy.find.searchKey"
+            (ngModelChange)="personListIfy.find.change($event)"
+            (nzOnSearch)="personListIfy.find.search($event)"
+        >
+            <ng-container *ngFor="let item of personListIfy.find.list">
+                <nz-option [nzLabel]="item.A0101" [nzValue]="item.keyId"> </nz-option>
+            </ng-container>
+        </nz-select>
+    </div>
+    <div class="tree">
+        <cdk-virtual-scroll-viewport #scrollViewPersonList [itemSize]="40" class="view audit_list">
+            <ng-container *ngFor="let item of personListIfy.list; let i = index">
+                <div
+                    class="item"
+                    [class.active]="i === personListIfy.index"
+                    (click)="personListIfy.evtChange(item)"
+                >
+                    <div class="icon">
+                        <i class="fa fa-pencil-square-o stateless"></i>
+                    </div>
+                    <div class="title">{{ item.A0101 }}</div>
+                </div>
+            </ng-container>
+        </cdk-virtual-scroll-viewport>
+    </div>
+</ng-template>
+
+<!-- 主集信息 -->
+<ng-template #maintemp let-formGroup="formGroup" let-fields="fields">
+    <div class="layout">
+        <div class="container">
+            <div class="view_scroll">
+                <div class="imgInfo">
+                    <img
+                        class="psnPhoto"
+                        width="116"
+                        height="130"
+                        [src]="personListIfy.imgSrc || 'assets/images/wf/noPicture.png'"
+                        (click)="personListIfy.uploadPic()"
+                    />
+                </div>
+                <ng-template
+                    [ngTemplateOutlet]="renderFormTemplate"
+                    [ngTemplateOutletContext]="{ formGroup: formGroup, fields: fields }"
+                ></ng-template>
+            </div>
+        </div>
+        <div class="footer">
+            <button nz-button nzType="primary" (click)="savePersonA01Info()">保存</button>
+        </div>
+    </div>
+</ng-template>
+
+<!-- 子集信息 -->
+<ng-template
+    #childtemp
+    let-formGroup="formGroup"
+    let-fields="fields"
+    let-tableData="tableData"
+    let-tableFields="tableFields"
+>
+    <div class="layout">
+        <div class="header">
+            <button nz-button nzType="primary" (click)="childDra.open()">添加信息</button>
+        </div>
+        <div class="container">
+            <div class="view" [style.padding.px]="10">
+                <nz-table
+                    #nzTable
+                    nzBordered="true"
+                    nzSize="small"
+                    [nzData]="tableData"
+                    nzPageSize="7"
+                >
+                    <thead>
+                        <tr>
+                            <th nzAlign="center" *ngFor="let item of tableFields">
+                                {{ item.SCHEME_HEADER_DISPLAY_NAME }}
+                            </th>
+                            <th nzAlign="center">操作</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr *ngFor="let item of nzTable.data">
+                            <td nzAlign="center" *ngFor="let field of tableFields">
+                                {{
+                                    item[field.TABLE_COLUMN_CODE + '_CN'] ||
+                                        item[field.TABLE_COLUMN_CODE]
+                                }}
+                            </td>
+                            <td nzAlign="center">
+                                <a (click)="childDra.edit(item)">编辑</a>
+                                <nz-divider nzType="vertical"></nz-divider>
+                                <a (click)="childDra.delete(item)">删除</a>
+                            </td>
+                        </tr>
+                    </tbody>
+                </nz-table>
+            </div>
+        </div>
+    </div>
+</ng-template>
+
+<!-- 子集抽屉 -->
+<nz-drawer
+    [nzVisible]="childDra.visible"
+    [nzTitle]="childDra.title"
+    [nzWidth]="childDra.width"
+    (nzOnClose)="childDra.close()"
+>
+    <div class="drawer_area">
+        <div class="container">
+            <ng-container *ngIf="tabIfy.current">
+                <ng-template
+                    [ngTemplateOutlet]="renderFormTemplate"
+                    [ngTemplateOutletContext]="{
+                        formGroup: tabIfy.current.form,
+                        fields: tabIfy.current.fields
+                    }"
+                ></ng-template>
+            </ng-container>
+        </div>
+        <div class="footer">
+            <nz-button-group>
+                <button nz-button nzType="primary" (click)="savePersonchnildInfo()">保存</button>
+                <button nz-button nzType="default" (click)="childDra.close()">取消</button>
+            </nz-button-group>
+        </div>
+    </div>
+</nz-drawer>
+
+<!-- 裁剪照片 -->
+<nz-drawer
+    [nzVisible]="cropperPictureIfy.visible"
+    [nzWidth]="cropperPictureIfy.width"
+    [nzTitle]="cropperPictureIfy.title"
+    (nzOnClose)="cropperPictureIfy.close()"
+>
+    <div class="drawer_area">
+        <div class="container">
+            <cropper-images
+                #cropperImageElement
+                (photoChange)="cropperPictureIfy.evtPhotoChange($event)"
+            >
+            </cropper-images>
+        </div>
+    </div>
+</nz-drawer>
+
+<!-- 构造表单 -->
+<ng-template #renderFormTemplate let-formGroup="formGroup" let-fields="fields">
+    <form nz-form [formGroup]="formGroup">
+        <ng-container *ngFor="let field of fields">
+            <nz-form-item [style.display]="'inline-block'" *ngIf="!field.visible">
+                <nz-form-label
+                    [nzRequired]="field.SCHEME_EDIT_IS_MUST_INPUT"
+                    [style.width.px]="field.SCHEME_EDIT_LABEL_WIDTH"
+                    [style.float]="'left'"
+                    >{{ field.SCHEME_EDIT_DISPLAY_NAME }}
+                </nz-form-label>
+                <ng-container *ngIf="!field.SCHEME_EDIT_VIEW_TYPE; else columnViewTpl">
+                    <nz-form-control
+                        [style.display]="'inline-block'"
+                        [style.width.px]="field.SCHEME_EDIT_EDIT_WIDTH"
+                        *ngIf="field.TABLE_COLUMN_DICTIONARY_CODE !== ''"
+                        [nzErrorTip]="errorTipTemplate"
+                    >
+                        <dictionary-input
+                            [code]="field.TABLE_COLUMN_DICTIONARY_CODE"
+                            [(text)]="zh_CN[field.TABLE_COLUMN_CODE + '_CN']"
+                            [formControlName]="field.TABLE_COLUMN_CODE"
+                        ></dictionary-input>
+                    </nz-form-control>
+                    <nz-form-control
+                        [style.display]="'inline-block'"
+                        [style.width.px]="field.SCHEME_EDIT_EDIT_WIDTH"
+                        [nzErrorTip]="errorTipTemplate"
+                        *ngIf="
+                            field.TABLE_COLUMN_TYPE === 2 &&
+                            field.TABLE_COLUMN_DICTIONARY_CODE === ''
+                        "
+                    >
+                        <input nz-input [formControlName]="field.TABLE_COLUMN_CODE" />
+                    </nz-form-control>
+                    <nz-form-control
+                        [style.display]="'inline-block'"
+                        [style.width.px]="field.SCHEME_EDIT_EDIT_WIDTH"
+                        [nzErrorTip]="errorTipTemplate"
+                        *ngIf="field.TABLE_COLUMN_TYPE === 5"
+                    >
+                        <nz-select
+                            [style.width.px]="field.SCHEME_EDIT_EDIT_WIDTH"
+                            [formControlName]="field.TABLE_COLUMN_CODE"
+                        >
+                            <nz-option nzLabel="是" [nzValue]="true"> </nz-option>
+                            <nz-option nzLabel="否" [nzValue]="false"> </nz-option>
+                        </nz-select>
+                    </nz-form-control>
+                    <nz-form-control
+                        [style.display]="'inline-block'"
+                        [style.width.px]="field.SCHEME_EDIT_EDIT_WIDTH"
+                        [nzErrorTip]="errorTipTemplate"
+                        *ngIf="
+                            field.TABLE_COLUMN_TYPE === 4 &&
+                            field.TABLE_COLUMN_DICTIONARY_CODE === ''
+                        "
+                    >
+                        <nz-date-picker
+                            [style.width.px]="field.SCHEME_EDIT_EDIT_WIDTH"
+                            [formControlName]="field.TABLE_COLUMN_CODE"
+                        >
+                        </nz-date-picker>
+                    </nz-form-control>
+                    <nz-form-control
+                        [style.display]="'inline-block'"
+                        [style.width.px]="field.SCHEME_EDIT_EDIT_WIDTH"
+                        [nzErrorTip]="errorTipTemplate"
+                        *ngIf="field.TABLE_COLUMN_TYPE === 6"
+                    >
+                        <textarea
+                            nz-input
+                            [style.width.px]="field.SCHEME_EDIT_EDIT_WIDTH"
+                            rows="6"
+                            [formControlName]="field.TABLE_COLUMN_CODE"
+                        ></textarea>
+                    </nz-form-control>
+                    <nz-form-control
+                        [style.display]="'inline-block'"
+                        [style.width.px]="field.SCHEME_EDIT_EDIT_WIDTH"
+                        [nzErrorTip]="errorTipTemplate"
+                        *ngIf="
+                            field.TABLE_COLUMN_TYPE === 3 &&
+                            field.TABLE_COLUMN_DICTIONARY_CODE === ''
+                        "
+                    >
+                        <nz-input-number
+                            [style.width.px]="field.SCHEME_EDIT_EDIT_WIDTH"
+                            [formControlName]="field.TABLE_COLUMN_CODE"
+                        ></nz-input-number>
+                    </nz-form-control>
+                </ng-container>
+
+                <ng-template #columnViewTpl>
+                    <ng-container [ngSwitch]="field.SCHEME_EDIT_VIEW_TYPE">
+                        <ng-container *ngSwitchCase="SchemeEditViewType.TEXT">
+                            <nz-form-control
+                                [style.display]="'inline-block'"
+                                [style.width.px]="field.SCHEME_EDIT_EDIT_WIDTH"
+                                [nzErrorTip]="errorTipTemplate"
+                            >
+                                <input nz-input [formControlName]="field.TABLE_COLUMN_CODE" />
+                            </nz-form-control>
+                        </ng-container>
+                        <ng-container *ngSwitchCase="SchemeEditViewType.INT">
+                            <nz-form-control
+                                [style.display]="'inline-block'"
+                                [style.width.px]="field.SCHEME_EDIT_EDIT_WIDTH"
+                                [nzErrorTip]="errorTipTemplate"
+                            >
+                                <nz-input-number
+                                    [style.width.px]="field.SCHEME_EDIT_EDIT_WIDTH"
+                                    [formControlName]="field.TABLE_COLUMN_CODE"
+                                ></nz-input-number>
+                            </nz-form-control>
+                        </ng-container>
+                        <ng-container *ngSwitchCase="SchemeEditViewType.DATE">
+                            <nz-form-control
+                                [style.display]="'inline-block'"
+                                [style.width.px]="field.SCHEME_EDIT_EDIT_WIDTH"
+                                [nzErrorTip]="errorTipTemplate"
+                            >
+                                <nz-date-picker
+                                    [style.width.px]="field.SCHEME_EDIT_EDIT_WIDTH"
+                                    [formControlName]="field.TABLE_COLUMN_CODE"
+                                >
+                                </nz-date-picker>
+                            </nz-form-control>
+                        </ng-container>
+                        <ng-container *ngSwitchCase="SchemeEditViewType.MEMO">
+                            <nz-form-control
+                                [style.display]="'inline-block'"
+                                [style.width.px]="field.SCHEME_EDIT_EDIT_WIDTH"
+                                [nzErrorTip]="errorTipTemplate"
+                            >
+                                <textarea
+                                    nz-input
+                                    [style.width.px]="field.SCHEME_EDIT_EDIT_WIDTH"
+                                    [style.height.px]="150"
+                                    [formControlName]="field.TABLE_COLUMN_CODE"
+                                ></textarea>
+                            </nz-form-control>
+                        </ng-container>
+                        <ng-container *ngSwitchDefault>
+                            <nz-form-control
+                                [style.display]="'inline-block'"
+                                [style.width.px]="field.SCHEME_EDIT_EDIT_WIDTH"
+                                [nzErrorTip]="errorTipTemplate"
+                            >
+                                <input nz-input [formControlName]="field.TABLE_COLUMN_CODE" />
+                            </nz-form-control>
+                        </ng-container>
+                    </ng-container>
+                </ng-template>
+                <ng-template #errorTipTemplate let-control="control">
+                    <ng-container
+                        *ngIf="formGroup.get(field.TABLE_COLUMN_CODE)?.hasError('maxlength')"
+                    >
+                        {{ field.SCHEME_EDIT_DISPLAY_NAME }}长度不能超过{{
+                            field.TABLE_COLUMN_LENGTH
+                        }}位!
+                    </ng-container>
+                    <ng-container
+                        *ngIf="formGroup.get(field.TABLE_COLUMN_CODE)?.hasError('required')"
+                    >
+                        {{ field.SCHEME_EDIT_DISPLAY_NAME }}不能为空!
+                    </ng-container>
+                    <ng-container
+                        *ngIf="formGroup.get(field.TABLE_COLUMN_CODE)?.hasError('pattern')"
+                    >
+                        {{ field.SCHEME_EDIT_DISPLAY_NAME }}字段类型不匹配!
+                    </ng-container>
+                    <ng-container
+                        *ngIf="formGroup.get(field.TABLE_COLUMN_CODE)?.hasError('customError')"
+                    >
+                        {{ formGroup.get(field.TABLE_COLUMN_CODE)?.getError('msg') || '异常错误!' }}
+                    </ng-container>
+                    <ng-container *ngIf="formGroup.get(field.TABLE_COLUMN_CODE).hasError('msg')">
+                        {{ formGroup.get(field.TABLE_COLUMN_CODE).getError('msg') || '异常错误。' }}
+                    </ng-container>
+                </ng-template>
+            </nz-form-item>
+        </ng-container>
+    </form>
+</ng-template>

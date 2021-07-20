@@ -1,0 +1,28 @@
+@import 'src/app/styles/layout';
+@import 'src/app/styles/drawer';
+
+.layout {
+    .head-btn {
+        button {
+            margin-right: 10px;
+        }
+    }
+    .container {
+        padding: 10px;
+    }
+}
+
+.drawer_area {
+    .footer {
+        button {
+            margin-left: 10px;
+        }
+    }
+}
+
+nz-date-picker {
+    width: 100%;
+    nz-picker {
+        width: 100%;
+    }
+}

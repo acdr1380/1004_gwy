@@ -1,0 +1,47 @@
+import { NgModule } from '@angular/core';
+import { CommonModule } from '@angular/common';
+import { TransferTableComponent } from './transfer-table.component';
+import { ScrollingModule } from '@angular/cdk/scrolling';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
+
+import { IsTeacherTableModule } from '../is-teacher-table/is-teacher-table.module';
+import { StandingChangeModule } from '../standing-change/standing-change.module';
+import { NzButtonModule } from 'ng-zorro-antd/button';
+
+import { DictionaryInputModule } from 'app/components/dictionary-input/dictionary-input.module';
+import { OnlineDocModule } from 'app/components/online-doc/online-doc.module';
+import { NzSpinModule } from 'ng-zorro-antd/spin';
+import { NzPaginationModule } from 'ng-zorro-antd/pagination';
+import { NzRadioModule } from 'ng-zorro-antd/radio';
+import { OperSelectPersonModule } from 'app/components/oper-select-person/oper-select-person.module';
+
+import { NzDrawerModule } from 'ng-zorro-antd/drawer';
+import { NzUploadModule } from 'ng-zorro-antd/upload';
+import { NzTableModule } from 'ng-zorro-antd/table';
+import { NzSelectModule } from 'ng-zorro-antd/select';
+import { NzIconModule } from 'ng-zorro-antd/icon';
+@NgModule({
+    declarations: [TransferTableComponent],
+    imports: [
+        CommonModule,
+        ScrollingModule,
+        NzRadioModule,
+        FormsModule,
+        ReactiveFormsModule,
+        IsTeacherTableModule,
+        DictionaryInputModule,
+        OnlineDocModule,
+        StandingChangeModule,
+        NzSpinModule,
+        NzPaginationModule,
+        NzButtonModule,
+        NzDrawerModule,
+        NzUploadModule,
+        NzTableModule,
+        NzSelectModule,
+        OperSelectPersonModule,
+        NzIconModule,
+    ],
+    exports: [TransferTableComponent],
+})
+export class TransferTableModule {}

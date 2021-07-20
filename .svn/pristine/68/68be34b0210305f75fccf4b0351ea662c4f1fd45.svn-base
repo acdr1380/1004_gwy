@@ -1,0 +1,254 @@
+import {
+    ChangeDetectorRef,
+    Component,
+    ElementRef,
+    Input,
+    OnInit,
+    ViewChild,
+    AfterViewInit,
+    Output,
+    EventEmitter,
+} from '@angular/core';
+import { RelationStateEnum } from '../enums/RelationStateEnum';
+import { ExamYearService } from '../exam-year.service';
+import { CdkVirtualScrollViewport } from '@angular/cdk/scrolling';
+import { AbstractControl, FormControl, FormGroup, Validators } from '@angular/forms';
+import { debounceTime, distinctUntilChanged, filter } from 'rxjs/operators';
+import { WorkflowService } from 'app/workflow/workflow.service';
+import { NzMessageService } from 'ng-zorro-antd/message';
+
+@Component({
+    // tslint:disable-next-line:component-selector
+    selector: 'y-preview',
+    templateUrl: './exam-year-preview.component.html',
+    styleUrls: ['./exam-year-preview.component.scss'],
+})
+export class ExamYearPreviewComponent implements OnInit, AfterViewInit {
+    /** 是否显示左边列表 */
+    private _isShowList = false;
+    @Input() set isShowList(v) {
+        if (v) {
+            this._isShowList = v;
+        }
+    }
+    get isShowList() {
+        return this._isShowList;
+    }
+
+    /** 当前单位考核信息 */
+    private _operInfo: any;
+    @Input() set operInfo(v) {
+        if (v) {
+            this._operInfo = v;
+            if (this.operInfo) {
+                this.leftListIfy.initList();
+            }
+        }
+    }
+    get operInfo() {
+        return this._operInfo;
+    }
+
+    private _state = <any>{
+        DB: false,
+        YTJ: false,
+        YWC: false,
+        YZF: false,
+    };
+    @Input() set state(v) {
+        if (v) {
+            this._state = v;
+        }
+    }
+    get state() {
+        return this._state;
+    }
+
+    RelationStateEnum = RelationStateEnum;
+
+    /** 人员表册 */
+    personFormIfy = {
+        index: 0,
+        permissions: [
+            {
+                formId: 'assessment_form',
+                formName: '事业单位工作人员年度考核结果备案审核表',
+                param: {},
+                apply: false,
+            },
+            {
+                formId: 'assessment_statistics',
+                formName: '事业单位年度考核结果统计表',
+                param: {},
+                apply: false,
+            },
+        ],
+        evtIndexChange: index => {
+            this.personFormIfy.index = index;
+            this.personFormIfy.permissions[index].apply = true;
+            this.personFormIfy._setParams();
+            this.cdr.detectChanges();
+        },
+        _setPermission: () => {
+            this.personFormIfy._setParams();
+        },
+        _setParams: () => {
+            this.personFormIfy.permissions[this.personFormIfy.index].param = {
+                a: 123,
+            };
+        },
+        evtSave: () => {
+            //  const data = this.personFormMagerElement.getPersonGeneralData();
+        },
+        evtDataChange: event => {
+            // const { jobId, jobStepId, jobDataId } = this.jobStepInfo;
+            // const data = {};
+            // data[event.field.column.TABLE_COLUMN_CODE] = event.value;
+            // const params = {
+            //     ...event.cellConfig,
+            //     jobId,
+            //     jobStepId,
+            //     jobDataId,
+            //     changeType: 1,
+            //     tableId: event.field.tableCode,
+            //     data,
+            // };
+            // this.workflowService.saveChangeData(params).subscribe();
+        },
+    };
+
+    @ViewChild('scrollViewPersonList', { static: false })
+    private scrollViewPersonList: CdkVirtualScrollViewport;
+    /** 左边list */
+    leftListIfy = {
+        list: [],
+        selectIndex: 0,
+        initList: () => {
+            this.service
+                .examYearSelectList({
+                    ANNUAL_ASSESS_RELATION_ID: this.operInfo.ANNUAL_ASSESS_RELATION_ID,
+                })
+                .subscribe(res => {
+                    this.leftListIfy.list = res.map(x => {
+                        return {
+                            ...x,
+                            text: x.RELATION_ORG_NAME,
+                        };
+                    });
+                });
+        },
+        evtClickPsn: index => {
+            this.leftListIfy.selectIndex = index;
+        },
+        find: {
+            searchList: [],
+            searchKey: null,
+            change: value => {
+                const index = this.leftListIfy.list.findIndex(item => item.keyId === value);
+                this.leftListIfy.evtClickPsn(index);
+                this.scrollViewPersonList.scrollToIndex(this.leftListIfy.selectIndex);
+            },
+            search: (searchKey: string) => {
+                if (searchKey) {
+                    this.leftListIfy.find.searchList = this.leftListIfy.list.filter(
+                        item => item.text.indexOf(searchKey) > -1
+                    );
+                }
+            },
+        },
+    };
+
+    /** 审批人员 */
+    auditPersonIfy = {
+        visible: false,
+        title: '人员审批',
+        width: 400,
+        close: () => {
+            this.auditPersonIfy.visible = false;
+            this.auditPersonIfy.isBatch = false;
+            this.auditPersonIfy.form.reset();
+        },
+        open: (isBatch = false) => {
+            this.auditPersonIfy.isBatch = isBatch;
+            if (!isBatch) {
+                this.auditPersonIfy._initAuditState();
+            }
+            this.auditPersonIfy.visible = true;
+        },
+
+        isBatch: false,
+        form: new FormGroup({
+            RELATION_STATE: new FormControl(null, Validators.required),
+            RELATION_REMARK: new FormControl(null, Validators.required),
+        }),
+        _initAuditState: () => {
+            if (!this.auditPersonIfy.isBatch) {
+                const personInfo = this.leftListIfy.list[this.leftListIfy.selectIndex];
+                this.auditPersonIfy.form.reset(personInfo);
+            } else {
+                this.auditPersonIfy.form.reset();
+            }
+            this.auditPersonIfy.form
+                .get('RELATION_STATE')
+                .valueChanges.pipe(
+                    filter(value => value > -1),
+                    distinctUntilChanged(),
+                    debounceTime(100)
+                )
+                .subscribe(value => {
+                    const verifyFields = ['RELATION_REMARK'];
+                    verifyFields.forEach(field => {
+                        const control: AbstractControl = this.auditPersonIfy.form.get(field);
+                        if (value === 0) {
+                            control.setValidators(Validators.required);
+                        } else {
+                            control.setValue(null);
+                            control.clearValidators();
+                        }
+                    });
+                });
+        },
+
+        evtSaveAudit: () => {
+            if (this.workflowService.formVerify(this.auditPersonIfy.form)) {
+                const data = this.auditPersonIfy.form.getRawValue();
+                if (this.auditPersonIfy.isBatch) {
+                    this.service
+                        .examYearBatchAudit({
+                            ANNUAL_ASSESS_RELATION_ID: this.operInfo.ANNUAL_ASSESS_RELATION_ID,
+                            ...data,
+                        })
+                        .subscribe(res => {
+                            this.leftListIfy.initList();
+                            this.auditPersonIfy.close();
+                        });
+                    return;
+                }
+                this.service
+                    .examYearAudit({
+                        ANNUAL_ASSESS_RELATION_ID:
+                            this.leftListIfy.list[this.leftListIfy.selectIndex]
+                                .ANNUAL_ASSESS_RELATION_ID,
+                        ...data,
+                    })
+                    .subscribe(res => {
+                        this.leftListIfy.initList();
+                        this.auditPersonIfy.close();
+                    });
+            }
+        },
+    };
+
+    constructor(
+        private cdr: ChangeDetectorRef,
+        private message: NzMessageService,
+        private service: ExamYearService,
+        private workflowService: WorkflowService
+    ) {}
+
+    ngOnInit() {}
+
+    ngAfterViewInit() {
+        this.personFormIfy.evtIndexChange(0);
+    }
+}

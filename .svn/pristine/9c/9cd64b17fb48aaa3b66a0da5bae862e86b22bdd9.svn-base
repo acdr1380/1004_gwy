@@ -1,0 +1,137 @@
+<!-- 工龄抽屉 -->
+<nz-drawer
+    [nzClosable]="true"
+    [nzVisible]="standChangeDrawer.visible"
+    nzPlacement="right"
+    nzTitle="工龄情况"
+    [nzWidth]="standChangeDrawer.width"
+    (nzOnClose)="standChangeDrawer.close()"
+>
+    <div class="drawer_area">
+        <div class="container">
+            <div>
+                <table class="custom_table">
+                    <tbody>
+                        <tr>
+                            <td class="title label" colspan="4">套改年限情况</td>
+                        </tr>
+                        <tr>
+                            <td class="label">正式参工前工龄</td>
+                            <td class="value">
+                                <input [(ngModel)]="standChangeDrawer.A01AndGZA01.GZA01.W0168" />
+                            </td>
+                            <td class="label">未计算工龄的学习年限</td>
+                            <td class="value">
+                                <input [(ngModel)]="standChangeDrawer.A01AndGZA01.GZA01.W0405" />
+                            </td>
+                        </tr>
+                        <tr>
+                            <td class="label sigle_label" colspan="2">
+                                1993以来年度考核不计等次或不合格次数
+                            </td>
+                            <td class="value" colspan="2">
+                                <input [(ngModel)]="standChangeDrawer.A01AndGZA01.GZA01.W0152" />
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+
+            <div class="editAdd_btn">
+                <button nz-button nzType="primary" (click)="standChangeDrawer.addRow()">
+                    增加
+                </button>
+            </div>
+            <div class="edit_tbl">
+                <nz-table
+                    #standChangeTable
+                    nzBordered
+                    [nzShowPagination]
+                    nzShowSizeChanger
+                    [nzData]="standChangeDrawer.data"
+                >
+                    <thead>
+                        <tr>
+                            <th nzAlign="center" colspan="5">工龄间断情况</th>
+                        </tr>
+                        <tr>
+                            <th nzAlign="center">间断工作时间</th>
+                            <th nzAlign="center">间断月数</th>
+                            <th nzAlign="center">影响类型</th>
+                            <th nzAlign="center">附件</th>
+                            <th nzAlign="center">操作</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr *ngFor="let data of standChangeTable.data; let i = index">
+                            <td nzAlign="center" class="edit">
+                                <!-- <input [(ngModel)]="data.GZ1401" /> -->
+
+                                <datetime-input [(ngModel)]="data.GZ1401"></datetime-input>
+                            </td>
+                            <td nzAlign="center" class="edit">
+                                <input [(ngModel)]="data.GZ1402" />
+                            </td>
+
+                            <td class="code-input edit" nzAlign="center">
+                                <dictionary-input
+                                    code="CGZYX"
+                                    [text]="data['GZ1403' + '_CN']"
+                                    [(ngModel)]="data.GZ1403"
+                                >
+                                </dictionary-input>
+                            </td>
+                            <td nzAlign="center" (click)="upload.open(data, i)">
+                                <a>操作附件</a>
+                            </td>
+                            <td nzAlign="center" (click)="standChangeDrawer.deleteRow(data, i)">
+                                <a>删除</a>
+                            </td>
+                        </tr>
+                    </tbody>
+                </nz-table>
+            </div>
+        </div>
+        <div class="footer">
+            <nz-button-group>
+                <button nz-button nzType="default" (click)="standChangeDrawer.close()">取消</button>
+                <button nz-button nzType="primary" (click)="standChangeDrawer.saveGZA01AndGZ14()">
+                    保存
+                </button>
+            </nz-button-group>
+        </div>
+    </div>
+</nz-drawer>
+
+<!-- 上传附件 -->
+<nz-drawer
+    [nzClosable]="true"
+    [nzVisible]="upload.visible"
+    nzPlacement="right"
+    nzTitle="上传附件材料"
+    [nzWidth]="upload.width"
+    (nzOnClose)="upload.close()"
+>
+    <div>
+        <!-- <button nz-button (click)="evtOnlineViewFiles()">在线预览</button> -->
+        <nz-upload
+            nzMultiple
+            [nzLimit]="5"
+            [nzFileList]="upload.uploadIfy.list"
+            [nzCustomRequest]="upload.uploadIfy.fileCustomRequest"
+            [nzRemove]="upload.uploadIfy.fileRemove"
+            [nzPreview]="upload.uploadIfy.preview"
+        >
+            <button nz-button>
+                <span><i nz-icon nzType="upload"></i>上传附件</span>
+            </button>
+        </nz-upload>
+    </div>
+</nz-drawer>
+
+<!-- 在线预览附件 -->
+<gl-online-doc
+    #onlineDocOverlayElement
+    [fileList]="upload.uploadIfy.list"
+    [selectedIndex]="upload.uploadIfy.selectedIndex"
+></gl-online-doc>

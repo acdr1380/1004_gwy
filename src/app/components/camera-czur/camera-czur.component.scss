@@ -1,0 +1,140 @@
+/*导入布局样式*/
+@import 'src/app/styles/_layout';
+
+$btnbg: #101010;
+$side-width: 360px;
+
+.opbg {
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    margin: auto;
+    background-color: rgba(0, 0, 0, 0.8);
+    opacity: 0.8;
+    z-index: -1;
+}
+
+.fx_middle {
+    /*flex 布局*/
+    display: flex;
+    /*实现垂直居中*/
+    align-items: center;
+    /*实现水平居中*/
+    justify-content: center;
+}
+
+.lyt {
+    width: 100%;
+    height: 100%;
+    position: fixed;
+
+    .camera {
+        position: absolute;
+        top: 0;
+        bottom: 0;
+        left: 0;
+        right: 0;
+        margin: auto;
+        overflow: hidden;
+
+        &.show_side {
+            right: $side-width;
+        }
+
+        .camera_video {
+            background-color: black;
+            width: 70%;
+            height: 80%;
+        }
+
+        .operation {
+            position: absolute;
+            right: 0;
+            bottom: 0;
+            display: inline-block;
+            z-index: 10;
+
+            .btn_item {
+                width: 45px;
+                height: 45px;
+                float: left;
+                text-align: center;
+                line-height: 45px;
+                color: #ccc;
+                cursor: pointer;
+                transition: opacity 0.25s ease, visibility 0s ease 0.25s;
+                font-size: 16px;
+                background-color: $btnbg;
+                cursor: pointer;
+
+                &:hover {
+                    color: #fff;
+                }
+            }
+        }
+
+        .take {
+            position: absolute;
+            bottom: 0;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding-bottom: 20px;
+
+            .take_btn {
+                width: 70px;
+                height: 70px;
+                background-color: #fff;
+                border-radius: 35px;
+                border: 10px solid rgb(80 80 80 / 90%);
+                cursor: pointer;
+            }
+        }
+    }
+
+    .setting {
+        position: absolute;
+        right: 0;
+        top: 0;
+        bottom: 0;
+        width: $side-width;
+        margin: auto;
+        background-color: #fff;
+        height: 100%;
+        overflow: hidden;
+        overflow-y: auto;
+
+        .close {
+            font-size: 16px;
+            padding-right: 5px;
+            cursor: pointer;
+        }
+    }
+
+    .setting {
+        .area {
+            flex-direction: column;
+        }
+
+        .setting_content {
+            padding: 20px;
+            flex: 1;
+        }
+        .log_content {
+            height: 300px;
+            border: 1px solid #eee;
+
+            .view_scroll {
+                padding: 20px;
+            }
+
+            p {
+                line-height: 25px;
+                margin: 0;
+                padding: 0;
+            }
+        }
+    }
+}

@@ -1,0 +1,72 @@
+import { NzMessageService } from 'ng-zorro-antd/message';
+import { HttpClient } from '@angular/common/http';
+import { Injectable } from '@angular/core';
+import { R } from 'app/entity/vo/R';
+import { tap, filter, map } from 'rxjs/operators';
+import { WfTableHelper } from 'app/util/classes/wf-table-helper';
+
+@Injectable({
+    providedIn: 'root',
+})
+export class FormPageService {
+    constructor(
+        private http: HttpClient,
+        private message: NzMessageService,
+        private tableHelper: WfTableHelper
+    ) {}
+
+    /**
+     * 查询人员信息
+     * @param params 参数
+     * @returns
+     */
+    selectPersonOtherInfo(params) {
+        const url = 'api/gl-service-data-civil/v1/data/person/a01/selectPersonOtherInfo';
+        return this.http.post<R>(url, params).pipe(
+            tap(json => {
+                if (json.code === 1) {
+                    this.message.error(json.msg);
+                }
+            }),
+            filter(json => json.code === 0),
+            map(json => json.data)
+        );
+    }
+
+    /**
+     * 获得用户信息
+     * @param ID 人员ID
+     */
+    getPersonDataByID(id) {
+        const url = 'api/gl-service-data-civil/v1/data/person/a01/selectOne';
+        const data = {};
+        const key = `${this.tableHelper.getTableCode('A01')}_ID`;
+        data[key] = id;
+        return this.http.post<R>(url, data).pipe(
+            tap(json => {
+                if (json.code !== 0) {
+                    this.message.error(json.msg);
+                }
+            }),
+            filter(json => json.code === 0),
+            map(json => json.data)
+        );
+    }
+
+    /**
+     * 获得子集列表
+     * @param setId 子集编码
+     * @param id 主键
+     */
+    getSetChildList(setId, id) {
+        const url = `api/gl-service-data-civil/v1/data/person/${setId.toLocaleLowerCase()}/selectListKeyId`;
+        const data = {};
+
+        const key = `${this.tableHelper.getTableCode(setId)}_A01_ID`;
+        data[key] = id;
+        return this.http.post<R>(url, data).pipe(
+            filter(json => json.code === 0),
+            map(json => json.data)
+        );
+    }
+}

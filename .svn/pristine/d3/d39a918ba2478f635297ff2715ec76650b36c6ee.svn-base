@@ -1,0 +1,99 @@
+@import 'src/app/styles/layout';
+@import 'src/app/styles/drawer';
+
+.container {
+    & > .right {
+        overflow-y: auto !important;
+    }
+}
+
+.form_lyt {
+    height: 100%;
+    width: 100%;
+
+    position: relative;
+
+    .btns {
+        position: absolute;
+        right: 20px;
+        bottom: 10px;
+        margin: auto;
+    }
+}
+.tree_view {
+    height: 100%;
+    width: 100%;
+    overflow: auto;
+}
+.audit_list {
+    $item-height: 40px;
+
+    width: 100%;
+
+    .item {
+        height: $item-height;
+        line-height: $item-height;
+        border-bottom: 1px solid #eee;
+
+        display: flex;
+        align-items: center;
+
+        &:before {
+            content: '';
+            display: inline-block;
+            width: 3px;
+            height: $item-height;
+        }
+        &:hover {
+            color: #1890ff;
+        }
+
+        &.active {
+            background-color: #e6f7ff;
+
+            &:before {
+                background-color: #1890ff;
+            }
+        }
+
+        & > .icon {
+            width: 30px;
+            padding: 0 10px;
+        }
+
+        & > .title {
+            flex: 1;
+            cursor: pointer;
+            padding: 0 10px;
+        }
+
+        & > .btns {
+            .btn {
+                padding: 0 10px;
+                // border-left: 1px solid #eee;
+                color: #40a9ff;
+                cursor: pointer;
+            }
+        }
+    }
+
+    & .fa {
+        margin-right: 5px;
+    }
+
+    & .fa.error {
+        color: #1890ff;
+    }
+
+    & .fa.succeed {
+        color: #52c41a;
+    }
+
+    & .fa.stateless {
+        color: #1890ff;
+    }
+}
+.batch-btn {
+    width: 100%;
+    margin: 0 10px;
+}

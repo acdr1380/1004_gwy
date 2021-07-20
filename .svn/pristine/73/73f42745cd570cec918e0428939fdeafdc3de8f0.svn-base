@@ -1,0 +1,62 @@
+@import "src/app/styles/layout";
+@import "src/app/styles/drawer";
+.edit_tbl {
+    tr {
+        th,
+        td {
+            padding: 8px 0px !important;
+        }
+        td {
+            background-color: #f5f5f5;
+        }
+        td.edit {
+            position: relative;
+            background-color: #fff;
+            padding: 0 8px !important;
+            input {
+                position: absolute;
+                top: 0;
+                bottom: 0;
+                left: 0;
+                width: 100%;
+                margin: auto;
+                border: none;
+                // padding: 0 8px;
+            }
+        }
+    }
+}
+.footer {
+    div {
+        // float: right;
+        button {
+            margin-left: 10px;
+        }
+    }
+}
+::ng-deep {
+    .edit {
+        dictionary-input {
+            input {
+                border: none !important;
+            }
+        }
+        datetime-input {
+            input {
+                border: none !important;
+            }
+        }
+        input {
+            border: none !important;
+        }
+    }
+}
+.status {
+    width: 100px;
+}
+.drawer_area {
+    .allowance_footer {
+        display: flex;
+        justify-content: space-between;
+    }
+}

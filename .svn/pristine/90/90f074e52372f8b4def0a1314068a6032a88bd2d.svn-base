@@ -1,0 +1,72 @@
+# 前端项目
+
+## 前端项目自动格式化统一
+
+    vs code 安装：
+    1.prettier-vscode
+        安装地址：https://marketplace.visualstudio.com/items?itemName=esbenp.prettier-vscode
+        每个项目中包含 .prettierrc
+    2.Debugger for Chrome 前端断点调试
+    3.ESLint 前端代码约束风格
+    4.TSLint (deprecated) 前端typescript代码约束
+
+    vs code 文件 -> 首选项 -> 设置 -> 打开设置.json，配置如下：
+        "editor.tabSize": 4,
+        "editor.detectIndentation": false,
+        "editor.renderControlCharacters": true,
+        "editor.formatOnPaste": true,
+        "editor.formatOnSave": true,
+        "editor.formatOnType": true,
+
+## 所需框架
+
+### 项目主框架
+
+-   angular 地址：https://angular.cn/docs
+
+### UI 控件库
+
+-   ng-zorro 地址：https://ng.ant.design/docs/introduce/zh
+
+### 图标库
+
+-   font-awesome 地址：http://www.fontawesome.com.cn/faicons
+
+### 工具库
+
+-   统计图
+
+    -   highcharts 地址： https://www.highcharts.com.cn/
+
+-   js 函数库
+
+    -   lodash 地址： https://lodash.com/
+
+-   时间处理库
+
+    -   Moment.js 地址：https://momentjs.com/
+
+-   富文本编辑器
+    -   tiny 地址：https://www.tiny.cloud/docs/demo/full-featured/
+
+前端包括：主框架 Angular8 +
+其它控件库有：
+UI 控件库：ng-zorro
+统计图：highcharts
+js 函数库：lodash
+时间处理库：Moment.js
+富文本编辑器：tiny
+图标库：font-awesome
+excel 库：excel_v4.js
+代码编辑：codemirror
+日历（日程）控件：Calendar
+
+## 涉及服务
+
+| 服务名称                 | 地址                | 端口号 | 所用到的 |
+| :----------------------- | :------------------ | :----: | -------- |
+| gl-service-sys-core      | http://192.168.0.58 |  8701  |
+| gl-service-sys-user      | http://192.168.0.58 |  8702  |
+| gl-service-data          | http://192.168.0.58 |  8710  |
+| gl-8001-workflow-daily   | http://192.168.0.58 |        | 业务服务 |
+| gl-service-data-archives | http://192.168.0.58 |        | 人员管理 |

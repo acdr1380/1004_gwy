@@ -1,0 +1,92 @@
+<ng-template #loadingTemplate>
+    <div class="loading">
+        <div class="content">
+            <div class="lds-facebook" *ngIf="loadingType.facebook.status">
+                <div></div>
+                <div></div>
+                <div></div>
+            </div>
+
+            <div class="lds-spinner" *ngIf="loadingType.spinner.status">
+                <div></div>
+                <div></div>
+                <div></div>
+                <div></div>
+                <div></div>
+                <div></div>
+                <div></div>
+                <div></div>
+                <div></div>
+                <div></div>
+                <div></div>
+                <div></div>
+            </div>
+
+            <div class="lds-roller" *ngIf="loadingType.roller.status">
+                <div></div>
+                <div></div>
+                <div></div>
+                <div></div>
+                <div></div>
+                <div></div>
+                <div></div>
+                <div></div>
+            </div>
+
+            <div class="lds-grid" *ngIf="loadingType.grid.status">
+                <div></div>
+                <div></div>
+                <div></div>
+                <div></div>
+                <div></div>
+                <div></div>
+                <div></div>
+                <div></div>
+                <div></div>
+            </div>
+
+            <div class="lds-dual-ring" *ngIf="loadingType.dualRing.status"></div>
+
+            <div class="lds-ring" *ngIf="loadingType.ring.status">
+                <div></div>
+                <div></div>
+                <div></div>
+                <div></div>
+            </div>
+
+            <div class="lds-ellipsis" *ngIf="loadingType.ellipsis.status">
+                <div></div>
+                <div></div>
+                <div></div>
+                <div></div>
+            </div>
+
+            <div class="lds-ripple" *ngIf="loadingType.ripple.status">
+                <div></div>
+                <div></div>
+            </div>
+
+            <div class="lds-circle" *ngIf="loadingType.circle.status"><div></div></div>
+
+            <div class="lds-heart" *ngIf="loadingType.heart.status"><div></div></div>
+
+            <div class="lds-default" *ngIf="loadingType.default.status">
+                <div></div>
+                <div></div>
+                <div></div>
+                <div></div>
+                <div></div>
+                <div></div>
+                <div></div>
+                <div></div>
+                <div></div>
+                <div></div>
+                <div></div>
+                <div></div>
+            </div>
+
+            <div class="lds-hourglass" *ngIf="loadingType.hourglass.status"></div>
+            <div class="title">{{ message }}</div>
+        </div>
+    </div>
+</ng-template>

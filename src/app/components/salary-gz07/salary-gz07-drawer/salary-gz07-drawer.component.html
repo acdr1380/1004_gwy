@@ -1,0 +1,20 @@
+<!-- 选择单位抽屉 -->
+<nz-drawer
+    [nzVisible]="salaryGZ07DrawerIfy.visible"
+    nzPlacement="right"
+    [nzTitle]="salaryGZ07DrawerIfy.title"
+    [nzWidth]="salaryGZ07DrawerIfy.width"
+    (nzOnClose)="salaryGZ07DrawerIfy.close()"
+    #selectOrg
+>
+    <div class="drawer_area select_org_drawer">
+        <div class="container">
+            <salary-gz07
+                [jobStepInfo]="jobStepInfo"
+                [keyId]="keyId"
+                [type]="type"
+                #salaryGZ07
+            ></salary-gz07>
+        </div>
+    </div>
+</nz-drawer>

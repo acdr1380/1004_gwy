@@ -1,0 +1,66 @@
+<div class="layout">
+    <div class="header">
+        <nz-tabset
+            [nzTabBarStyle]="{ 'margin.px': 0, 'height.px': 50 }"
+            [(nzSelectedIndex)]="formTypeTabsetIfy.selectedIndex"
+            (nzSelectChange)="formTypeTabsetIfy.evtChange($event)"
+        >
+            <nz-tab nzTitle="花名册"></nz-tab>
+            <nz-tab nzTitle="统计表"></nz-tab>
+        </nz-tabset>
+    </div>
+    <div class="container">
+        <div class="layout">
+            <div class="header">
+                <ng-container *ngFor="let item of formTypeTabsetIfy.formList; let i = index">
+                    <button nz-button [disabled]="item.disabled" (click)="evtLoadFormPage(item)">
+                        {{ item.FORM_NAME }}
+                    </button>
+                </ng-container>
+            </div>
+            <div class="container">
+                <div class="view_scroll">
+                    <ng-template [ngTemplateOutlet]="unitTemp"></ng-template>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<ng-template #unitTemp>
+    <div class="selectUnit">
+        <nz-card [nzTitle]="UnitTemp" style="border-top: none">
+            <ng-container *ngFor="let item of unitSelectedIfy.list; let i = index">
+                <nz-tag class="item" nzMode="closeable" (nzOnClose)="delSendObject(i)">
+                    {{ item.orgName }}
+                    <ng-container *ngIf="item.includeChild">
+                        (及下层{{ item.count }}个单位)
+                    </ng-container>
+                </nz-tag>
+            </ng-container>
+        </nz-card>
+        <ng-template #UnitTemp>
+            <nz-button-group>
+                <button nz-button nzType="primary" nzSize="small" (click)="evtLoadSelectUnit()">
+                    选择单位
+                </button>
+                <button nz-button nzType="danger" nzSize="small" (click)="clearAllUnits()">
+                    清空发送单位
+                </button>
+            </nz-button-group>
+        </ng-template>
+    </div>
+    <div class="form_mager" *ngIf="unitFormMagerIfy.permission">
+        <excel-control
+            [isDown]="true"
+            [params]="unitFormMagerIfy.params"
+            [permission]="unitFormMagerIfy.permission"
+        ></excel-control>
+    </div>
+</ng-template>
+
+<!-- 选择单位 -->
+<select-unit-level-drawer
+    #selectUnitDrawer
+    (selectedUnitChange)="evtSelectedUnit($event)"
+></select-unit-level-drawer>

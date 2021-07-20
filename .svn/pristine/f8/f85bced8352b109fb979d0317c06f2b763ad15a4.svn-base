@@ -1,0 +1,204 @@
+<div class="layout">
+    <div class="container">
+        <div class="left">
+            <div class="view">
+                <select-unit-level
+                    #selectUnitLevelElement
+                    (CheckedChange)="salaryTable.loadTableData()"
+                ></select-unit-level>
+            </div>
+        </div>
+        <div class="right">
+            <div class="layout">
+                <div class="header">
+                    <span class="header-item">直发状态：</span>
+                    <nz-select
+                        [(ngModel)]="salaryTable.filterValue.state"
+                        [style.width.px]="90"
+                        (ngModelChange)="salaryTable.filterChange('state', $event)"
+                    >
+                        <nz-option [nzValue]="0" nzLabel="全部"></nz-option>
+                        <nz-option [nzValue]="1" nzLabel="草稿"></nz-option>
+                        <nz-option [nzValue]="2" nzLabel="已存档"></nz-option>
+                    </nz-select>
+                    <span class="header-item">年份：</span>
+                    <nz-select
+                        [(ngModel)]="salaryTable.filterValue.year"
+                        [style.width.px]="80"
+                        (ngModelChange)="salaryTable.filterChange('year', $event)"
+                    >
+                        <nz-option [nzValue]="0" nzLabel="全部"></nz-option>
+                        <nz-option
+                            *ngFor="let y of service.yearRange"
+                            [nzValue]="y"
+                            [nzLabel]="y"
+                        ></nz-option>
+                    </nz-select>
+                    <span class="header-item">月份：</span>
+                    <nz-select
+                        [(ngModel)]="salaryTable.filterValue.month"
+                        [style.width.px]="70"
+                        (ngModelChange)="salaryTable.filterChange('month', $event)"
+                    >
+                        <nz-option [nzValue]="0" nzLabel="全部"></nz-option>
+                        <nz-option
+                            *ngFor="let m of salaryTable.month"
+                            [nzValue]="m"
+                            [nzLabel]="m"
+                        ></nz-option>
+                    </nz-select>
+                    <div class="right">
+                        <button nz-button nzType="primary" (click)="drawer.open()">
+                            生成直发数据
+                        </button>
+                        <button nz-button class="header-item">导出数据</button>
+                    </div>
+                </div>
+                <div class="container">
+                    <div class="view_scroll">
+                        <div [style.padding.px]="10">
+                            <nz-table
+                                #Table
+                                nzBordered="true"
+                                nzSize="small"
+                                [nzData]="salaryTable.data"
+                                [nzLoading]="salaryTable.loading"
+                                [nzShowSizeChanger]="true"
+                                [nzPageSizeOptions]="[10, 15, 20, 25, 30]"
+                                [nzScroll]="salaryTable.scroll"
+                            >
+                                <thead>
+                                    <tr>
+                                        <th nzWidth="50px" nzAlign="center">序号</th>
+                                        <th nzWidth="120px">单位名称</th>
+                                        <th nzWidth="50px" nzAlign="center">人数</th>
+                                        <th nzWidth="80px">发放年月</th>
+                                        <th nzWidth="150px">基本工资总额（元）</th>
+                                        <th nzWidth="130px">津补贴总额（元）</th>
+                                        <th nzWidth="160px">一次性发放总额（元）</th>
+                                        <th nzWidth="130px">补扣发总额（元）</th>
+                                        <th nzWidth="120px">扣款总额（元）</th>
+                                        <th nzWidth="120px">应发总额（元）</th>
+                                        <th nzWidth="60px" nzAlign="center">状态</th>
+                                        <th nzWidth="120px" nzAlign="center">操作</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr
+                                        *ngFor="let item of Table.data; let i = index"
+                                        [class.active]="salaryTable.selectedIndex === i"
+                                        (click)="salaryTable.selectorRow(i)"
+                                    >
+                                        <td nzAlign="center">{{ i + 1 }}</td>
+                                        <td>{{ item.allValues.SYS_CREATE_ORG_NAME }}</td>
+                                        <td nzAlign="center">
+                                            {{ item.allValues.B6202 }}
+                                        </td>
+                                        <td>{{ item.allValues.B6203 | date: 'yyyy-MM' }}</td>
+                                        <td>{{ item.allValues.B6204 }}</td>
+                                        <td>{{ item.allValues.B6205 }}</td>
+                                        <td>{{ item.allValues.B6206 }}</td>
+                                        <td>{{ item.allValues.B6207 }}</td>
+                                        <td>{{ item.allValues.B6208 }}</td>
+                                        <td>{{ item.allValues.B6209 }}</td>
+                                        <td *ngIf="item.allValues.B6210 == 1">——</td>
+                                        <td
+                                            nzAlign="center"
+                                            class="green"
+                                            *ngIf="item.allValues.B6210 == 2"
+                                        >
+                                            已办结
+                                        </td>
+                                        <td nzAlign="center">
+                                            <div class="operGroup">
+                                                <a
+                                                    title="查看详细"
+                                                    (click)="salaryTable.viewDetail(item.allValues)"
+                                                    ><i
+                                                        nz-icon
+                                                        nzType="file-text"
+                                                        nzTheme="twotone"
+                                                    ></i
+                                                ></a>
+                                                <a
+                                                    title="归档"
+                                                    (click)="salaryTable.changeState(item)"
+                                                    *ngIf="item.allValues.B6210 == 1"
+                                                    ><i
+                                                        nz-icon
+                                                        nzType="carry-out"
+                                                        nzTheme="twotone"
+                                                    ></i
+                                                ></a>
+                                                <a
+                                                    title="删除记录"
+                                                    (click)="salaryTable.delete(item)"
+                                                    *ngIf="item.allValues.B6210 == 1"
+                                                    ><i
+                                                        nz-icon
+                                                        nzType="delete"
+                                                        nzTheme="twotone"
+                                                    ></i
+                                                ></a>
+                                            </div>
+                                        </td>
+                                    </tr>
+                                </tbody>
+                            </nz-table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<nz-drawer
+    [nzBodyStyle]="{ overflow: 'auto', padding: 0 }"
+    [nzWidth]="500"
+    [nzVisible]="drawer.visible"
+    nzTitle="生成直发数据"
+    (nzOnClose)="drawer.close()"
+>
+    <div class="drawer_area">
+        <div class="header">
+            <button nz-button nzType="primary" (click)="personDrawer.show()">选择单位与人员</button>
+            <span class="header-item">当前单位：</span
+            >{{ drawer.param['unitName'] || '未选择单位' }}
+            <div class="right">
+                <span class="header-item">年份：</span>
+                <nz-select
+                    [disabled]="!drawer.param['unitName']"
+                    [(ngModel)]="drawer.year"
+                    [style.width.px]="80"
+                    (ngModelChange)="drawer.yearChange($event)"
+                >
+                    <nz-option
+                        *ngFor="let y of service.yearRange"
+                        [nzValue]="y"
+                        [nzLabel]="y"
+                    ></nz-option>
+                </nz-select>
+            </div>
+        </div>
+        <div class="view">
+            <div class="view_scroll">
+                <gl-month-state-info
+                    #monthState
+                    [year]="drawer.year"
+                    [unitId]="drawer.param['unitId']"
+                    [list]="drawer.param['list']"
+                    [CanDistribute]="true"
+                    (loadTableData)="salaryTable.loadTableData()"
+                ></gl-month-state-info>
+            </div>
+        </div>
+    </div>
+</nz-drawer>
+
+<distribute-select-person
+    [isSelectUnit]="true"
+    [isImportSelf]="true"
+    (selectedChange)="drawer.checkPerson($event)"
+    #personDrawer
+></distribute-select-person>

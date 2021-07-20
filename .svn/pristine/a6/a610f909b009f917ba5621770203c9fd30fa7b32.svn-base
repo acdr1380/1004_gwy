@@ -1,0 +1,498 @@
+<nz-drawer
+    [nzVisible]="unitInfoDra.visible"
+    [nzTitle]="unitInfoDra.title"
+    [nzWidth]="unitInfoDra.width"
+    (nzOnClose)="unitInfoDra.close()"
+>
+    <div class="drawer_area">
+        <div class="container">
+            <form nz-form [formGroup]="unitInfoDra.form">
+                <nz-form-item>
+                    <nz-form-control>
+                        <label nz-checkbox formControlName="isTop">是否顶层</label>
+                        <nz-divider nzType="vertical"></nz-divider>
+                        <span *ngIf="!unitInfoDra.form.get('isTop').value">
+                            上层节点：{{ node?.title }}
+                        </span>
+                    </nz-form-control>
+                </nz-form-item>
+                <nz-form-item [style.display]="'inline-block'" [style.width.px]="370">
+                    <nz-form-label>上级机构名称</nz-form-label>
+                    <nz-form-control [style.display]="'inline-block'">
+                        <input nz-input formControlName="P_B0101" />
+                    </nz-form-control>
+                </nz-form-item>
+                <nz-form-item [style.display]="'inline-block'" [style.width.px]="370">
+                    <nz-form-label>上级机构编码</nz-form-label>
+                    <nz-form-control [style.display]="'inline-block'">
+                        <input nz-input formControlName="P_B0114" />
+                    </nz-form-control>
+                </nz-form-item>
+                <nz-form-item>
+                    <nz-form-control>
+                        <nz-radio-group
+                            formControlName="UNIT_TYPE"
+                            [ngStyle]="{ display: 'flex', 'justify-content': 'center' }"
+                        >
+                            <label nz-radio [nzValue]="'0'" *ngIf="power.isAddVirtual">
+                                虚拟节点
+                            </label>
+                            <label nz-radio [nzValue]="'1'" *ngIf="power.isAddUnit">
+                                单位
+                            </label>
+                            <label nz-radio [nzValue]="'2'" *ngIf="power.isAddDepartment">
+                                部门
+                            </label>
+                        </nz-radio-group>
+                    </nz-form-control>
+                </nz-form-item>
+                <div [hidden]="unitInfoDra.form.get('UNIT_TYPE').value !== '0'">
+                    <ng-template [ngTemplateOutlet]="virtualView"></ng-template>
+                </div>
+                <div [hidden]="unitInfoDra.form.get('UNIT_TYPE').value !== '1'">
+                    <ng-template [ngTemplateOutlet]="unitView"></ng-template>
+                </div>
+                <div [hidden]="unitInfoDra.form.get('UNIT_TYPE').value !== '2'">
+                    <ng-template [ngTemplateOutlet]="departmentView"></ng-template>
+                </div>
+                <nz-form-item>
+                    <nz-form-control>
+                        <textarea
+                            nz-input
+                            formControlName="B0180"
+                            rows="5"
+                            placeholder="输入备注信息"
+                        ></textarea>
+                    </nz-form-control>
+                </nz-form-item>
+            </form>
+        </div>
+        <div class="footer">
+            <nz-button-group>
+                <button nz-button nzType="primary" (click)="unitInfoDra.save()">确定</button>
+                <button nz-button (click)="unitInfoDra.close()">取消</button>
+            </nz-button-group>
+        </div>
+    </div>
+</nz-drawer>
+
+<!-- 虚拟节点视图 -->
+<ng-template #virtualView>
+    <div class="org_flex">
+        <div class="org_flex_item">
+            <div class="org_flex_title">
+                <span>机构信息</span>
+            </div>
+            <div class="org_flex_content">
+                <form nz-form [formGroup]="unitInfoDra.form">
+                    <nz-form-item>
+                        <nz-form-label nzRequired [style.width.px]="115"> 机构编码 </nz-form-label>
+                        <nz-form-control [style.display]="'inline-block'">
+                            <input nz-input formControlName="B0114" placeholder="请输入机构编码" />
+                        </nz-form-control>
+                    </nz-form-item>
+                    <nz-form-item>
+                        <nz-form-label nzRequired [style.width.px]="115"> 机构名称 </nz-form-label>
+                        <nz-form-control [style.display]="'inline-block'">
+                            <input nz-input formControlName="B0101" placeholder="请输入机构名称" />
+                        </nz-form-control>
+                    </nz-form-item>
+                    <nz-form-item>
+                        <nz-form-label [style.width.px]="115"> 机构简称 </nz-form-label>
+                        <nz-form-control [style.display]="'inline-block'">
+                            <input nz-input formControlName="B0104" placeholder="请输入机构简称" />
+                        </nz-form-control>
+                    </nz-form-item>
+                </form>
+            </div>
+        </div>
+    </div>
+</ng-template>
+
+<!-- 单位节点视图 -->
+<ng-template #unitView>
+    <div class="org_flex">
+        <div class="org_flex_item">
+            <div class="org_flex_title">
+                <span>机构信息</span>
+            </div>
+            <div class="org_flex_content">
+                <form nz-form [formGroup]="unitInfoDra.form">
+                    <nz-form-item>
+                        <nz-form-label nzRequired [style.width.px]="115"> 机构编码 </nz-form-label>
+                        <nz-form-control [style.display]="'inline-block'">
+                            <input nz-input formControlName="B0114" placeholder="请输入机构编码" />
+                        </nz-form-control>
+                    </nz-form-item>
+                    <nz-form-item>
+                        <nz-form-label nzRequired [style.width.px]="115"> 机构名称 </nz-form-label>
+                        <nz-form-control [style.display]="'inline-block'">
+                            <input nz-input formControlName="B0101" placeholder="请输入机构名称" />
+                        </nz-form-control>
+                    </nz-form-item>
+                    <nz-form-item>
+                        <nz-form-label [style.width.px]="115"> 机构简称 </nz-form-label>
+                        <nz-form-control [style.display]="'inline-block'">
+                            <input nz-input formControlName="B0104" placeholder="请输入机构简称" />
+                        </nz-form-control>
+                    </nz-form-item>
+                    <nz-form-item>
+                        <nz-form-label nzRequired [style.width.px]="115"> 所在政区 </nz-form-label>
+                        <nz-form-control [style.display]="'inline-block'">
+                            <dictionary-input
+                                formControlName="B0117"
+                                code="ZB01"
+                                [text]="formData['B0117_CN']"
+                            >
+                            </dictionary-input>
+                        </nz-form-control>
+                    </nz-form-item>
+                    <nz-form-item>
+                        <nz-form-label nzRequired [style.width.px]="115"> 隶属关系 </nz-form-label>
+                        <nz-form-control [style.display]="'inline-block'">
+                            <dictionary-input
+                                formControlName="B0124"
+                                code="ZB87"
+                                [text]="formData['B0124_CN']"
+                            >
+                            </dictionary-input>
+                        </nz-form-control>
+                    </nz-form-item>
+                    <nz-form-item>
+                        <nz-form-label nzRequired [style.width.px]="115"> 机构类别 </nz-form-label>
+                        <nz-form-control [style.display]="'inline-block'">
+                            <dictionary-input
+                                formControlName="B0131"
+                                code="ZB04G"
+                                [text]="formData['B0131_CN']"
+                            >
+                            </dictionary-input>
+                        </nz-form-control>
+                    </nz-form-item>
+                    <nz-form-item>
+                        <nz-form-label nzRequired [style.width.px]="115"> 机构级别 </nz-form-label>
+                        <nz-form-control [style.display]="'inline-block'">
+                            <dictionary-input
+                                formControlName="B0127"
+                                code="ZB03G"
+                                [text]="formData['B0127_CN']"
+                            >
+                            </dictionary-input>
+                        </nz-form-control>
+                    </nz-form-item>
+                    <nz-form-item>
+                        <nz-form-label nzRequired [style.width.px]="115"> 机构性质 </nz-form-label>
+                        <nz-form-control [style.display]="'inline-block'">
+                            <dictionary-input
+                                formControlName="B0115"
+                                code="AL"
+                                [text]="formData['B0115_CN']"
+                            >
+                            </dictionary-input>
+                        </nz-form-control>
+                    </nz-form-item>
+                    <nz-form-item>
+                        <nz-form-label nzRequired [style.width.px]="115"> 单位类别 </nz-form-label>
+                        <nz-form-control [style.display]="'inline-block'">
+                            <dictionary-input
+                                formControlName="B0105"
+                                code="DA"
+                                [text]="formData['B0105_CN']"
+                            >
+                            </dictionary-input>
+                        </nz-form-control>
+                    </nz-form-item>
+                </form>
+            </div>
+        </div>
+        <div class="org_flex_item">
+            <div class="org_flex_title">
+                <span>职数与编制信息</span>
+            </div>
+            <div class="org_flex_content">
+                <form nz-form [formGroup]="unitInfoDra.form">
+                    <nz-form-item>
+                        <nz-form-label [style.width.px]="125"> 政职领导职数 </nz-form-label>
+                        <nz-form-control [style.display]="'inline-block'">
+                            <nz-input-number
+                                formControlName="B0183"
+                                nzPlaceHolder="应配领导职数"
+                            ></nz-input-number>
+                            <nz-input-number
+                                formControlName="_B0183"
+                                nzPlaceHolder="实配领导职数"
+                            ></nz-input-number>
+                        </nz-form-control>
+                    </nz-form-item>
+                    <nz-form-item>
+                        <nz-form-label [style.width.px]="125"> 副职领导职数 </nz-form-label>
+                        <nz-form-control [style.display]="'inline-block'">
+                            <nz-input-number
+                                formControlName="B0185"
+                                nzPlaceHolder="应配副职领导职数"
+                            ></nz-input-number>
+                            <nz-input-number
+                                formControlName="_B0185"
+                                nzPlaceHolder="实配副职领导职数"
+                            ></nz-input-number>
+                        </nz-form-control>
+                    </nz-form-item>
+                    <nz-form-item>
+                        <nz-form-label [style.width.px]="125"> 行政编制数 </nz-form-label>
+                        <nz-form-control [style.display]="'inline-block'">
+                            <nz-input-number
+                                formControlName="B0227"
+                                nzPlaceHolder="应配行政编制数"
+                            ></nz-input-number>
+                            <nz-input-number
+                                formControlName="_B0227"
+                                nzPlaceHolder="实配行政编制数"
+                            ></nz-input-number>
+                        </nz-form-control>
+                    </nz-form-item>
+                    <nz-form-item>
+                        <nz-form-label [style.width.px]="125"> 事业编制(参公) </nz-form-label>
+                        <nz-form-control [style.display]="'inline-block'">
+                            <nz-input-number
+                                formControlName="B0232"
+                                nzPlaceHolder="应配事业编制(参公)"
+                            ></nz-input-number>
+                            <nz-input-number
+                                formControlName="_B0232"
+                                nzPlaceHolder="实配事业编制(参公)"
+                            ></nz-input-number>
+                        </nz-form-control>
+                    </nz-form-item>
+                    <nz-form-item>
+                        <nz-form-label [style.width.px]="125"> 事业编制(非参公) </nz-form-label>
+                        <nz-form-control [style.display]="'inline-block'">
+                            <nz-input-number
+                                formControlName="B0233"
+                                nzPlaceHolder="应配事业编制(非参公)"
+                            ></nz-input-number>
+                            <nz-input-number
+                                formControlName="_B0233"
+                                nzPlaceHolder="实配事业编制(非参公)"
+                            ></nz-input-number>
+                        </nz-form-control>
+                    </nz-form-item>
+                    <nz-form-item>
+                        <nz-form-label [style.width.px]="125"> 工勤编制数 </nz-form-label>
+                        <nz-form-control [style.display]="'inline-block'">
+                            <nz-input-number
+                                formControlName="B0236"
+                                nzPlaceHolder="应配工勤编制数"
+                            ></nz-input-number>
+                            <nz-input-number
+                                formControlName="_B0236"
+                                nzPlaceHolder="实配工勤编制数"
+                            ></nz-input-number>
+                        </nz-form-control>
+                    </nz-form-item>
+                    <nz-form-item>
+                        <nz-form-label [style.width.px]="125"> 其他编制数 </nz-form-label>
+                        <nz-form-control [style.display]="'inline-block'">
+                            <nz-input-number
+                                formControlName="B0234"
+                                nzPlaceHolder="应配其他编制数"
+                            ></nz-input-number>
+                            <nz-input-number
+                                formControlName="_B0234"
+                                nzPlaceHolder="实配其他编制数"
+                            ></nz-input-number>
+                        </nz-form-control>
+                    </nz-form-item>
+                </form>
+            </div>
+        </div>
+    </div>
+    <!-- 日期 -->
+    <div class="org_flex">
+        <div class="org_flex_item">
+            <div class="org_flex_content">
+                <form nz-form [formGroup]="unitInfoDra.form">
+                    <nz-form-item [style.display]="'inline-block'" [style.width.px]="330">
+                        <nz-form-label [style.width.px]="155"> 机构成立批准日期 </nz-form-label>
+                        <nz-form-control [style.display]="'inline-block'">
+                            <nz-date-picker formControlName="D0173"></nz-date-picker>
+                        </nz-form-control>
+                    </nz-form-item>
+                    <nz-form-item [style.display]="'inline-block'" [style.width.px]="330">
+                        <nz-form-label [style.width.px]="155"> 机构成立批准文号 </nz-form-label>
+                        <nz-form-control [style.display]="'inline-block'">
+                            <input nz-input formControlName="H0109" />
+                        </nz-form-control>
+                    </nz-form-item>
+                    <nz-form-item [style.display]="'inline-block'" [style.width.px]="330">
+                        <nz-form-label [style.width.px]="155"> 公务员法管理申请日期 </nz-form-label>
+                        <nz-form-control [style.display]="'inline-block'">
+                            <nz-date-picker formControlName="B0268"></nz-date-picker>
+                        </nz-form-control>
+                    </nz-form-item>
+                    <nz-form-item [style.display]="'inline-block'" [style.width.px]="330">
+                        <nz-form-label [style.width.px]="155"> 公务员法管理申请文号 </nz-form-label>
+                        <nz-form-control [style.display]="'inline-block'">
+                            <input nz-input formControlName="B0269" />
+                        </nz-form-control>
+                    </nz-form-item>
+                    <nz-form-item [style.display]="'inline-block'" [style.width.px]="330">
+                        <nz-form-label [style.width.px]="155"> 公务员法管理审批日期 </nz-form-label>
+                        <nz-form-control [style.display]="'inline-block'">
+                            <nz-date-picker formControlName="B0238"></nz-date-picker>
+                        </nz-form-control>
+                    </nz-form-item>
+                    <nz-form-item [style.display]="'inline-block'" [style.width.px]="330">
+                        <nz-form-label [style.width.px]="155"> 公务员法管理审批文号 </nz-form-label>
+                        <nz-form-control [style.display]="'inline-block'">
+                            <input nz-input formControlName="B0239" />
+                        </nz-form-control>
+                    </nz-form-item>
+                </form>
+            </div>
+        </div>
+    </div>
+</ng-template>
+
+<!-- 部门节点视图 -->
+<ng-template #departmentView>
+    <div class="org_flex">
+        <div class="org_flex_item">
+            <div class="org_flex_title">
+                <span>机构信息</span>
+            </div>
+            <div class="org_flex_content">
+                <form nz-form [formGroup]="unitInfoDra.form">
+                    <nz-form-item>
+                        <nz-form-label nzRequired [style.width.px]="115"> 机构编码 </nz-form-label>
+                        <nz-form-control [style.display]="'inline-block'">
+                            <input nz-input formControlName="B0114" placeholder="请输入机构编码" />
+                        </nz-form-control>
+                    </nz-form-item>
+                    <nz-form-item>
+                        <nz-form-label nzRequired [style.width.px]="115"> 机构名称 </nz-form-label>
+                        <nz-form-control [style.display]="'inline-block'">
+                            <input nz-input formControlName="B0101" placeholder="请输入机构名称" />
+                        </nz-form-control>
+                    </nz-form-item>
+                    <nz-form-item>
+                        <nz-form-label [style.width.px]="115"> 机构简称 </nz-form-label>
+                        <nz-form-control [style.display]="'inline-block'">
+                            <input nz-input formControlName="B0104" placeholder="请输入机构简称" />
+                        </nz-form-control>
+                    </nz-form-item>
+                    <nz-form-item>
+                        <nz-form-label nzRequired [style.width.px]="115"> 所在政区 </nz-form-label>
+                        <nz-form-control [style.display]="'inline-block'">
+                            <dictionary-input
+                                formControlName="B0117"
+                                code="ZB01"
+                                [text]="formData['B0117_CN']"
+                            >
+                            </dictionary-input>
+                        </nz-form-control>
+                    </nz-form-item>
+                </form>
+            </div>
+        </div>
+        <div class="org_flex_item">
+            <div class="org_flex_title">
+                <span>职数与编制信息</span>
+            </div>
+            <div class="org_flex_content">
+                <form nz-form [formGroup]="unitInfoDra.form">
+                    <nz-form-item>
+                        <nz-form-label [style.width.px]="125"> 政职领导职数 </nz-form-label>
+                        <nz-form-control [style.display]="'inline-block'">
+                            <nz-input-number
+                                formControlName="B0183"
+                                nzPlaceHolder="应配领导职数"
+                            ></nz-input-number>
+                            <nz-input-number
+                                formControlName="_B0183"
+                                nzPlaceHolder="实配领导职数"
+                            ></nz-input-number>
+                        </nz-form-control>
+                    </nz-form-item>
+                    <nz-form-item>
+                        <nz-form-label [style.width.px]="125"> 副职领导职数 </nz-form-label>
+                        <nz-form-control [style.display]="'inline-block'">
+                            <nz-input-number
+                                formControlName="B0185"
+                                nzPlaceHolder="应配副职领导职数"
+                            ></nz-input-number>
+                            <nz-input-number
+                                formControlName="_B0185"
+                                nzPlaceHolder="实配副职领导职数"
+                            ></nz-input-number>
+                        </nz-form-control>
+                    </nz-form-item>
+                    <nz-form-item>
+                        <nz-form-label [style.width.px]="125"> 行政编制数 </nz-form-label>
+                        <nz-form-control [style.display]="'inline-block'">
+                            <nz-input-number
+                                formControlName="B0227"
+                                nzPlaceHolder="应配行政编制数"
+                            ></nz-input-number>
+                            <nz-input-number
+                                formControlName="_B0227"
+                                nzPlaceHolder="实配行政编制数"
+                            ></nz-input-number>
+                        </nz-form-control>
+                    </nz-form-item>
+                    <nz-form-item>
+                        <nz-form-label [style.width.px]="125"> 事业编制(参公) </nz-form-label>
+                        <nz-form-control [style.display]="'inline-block'">
+                            <nz-input-number
+                                formControlName="B0232"
+                                nzPlaceHolder="应配事业编制(参公)"
+                            ></nz-input-number>
+                            <nz-input-number
+                                formControlName="_B0232"
+                                nzPlaceHolder="实配事业编制(参公)"
+                            ></nz-input-number>
+                        </nz-form-control>
+                    </nz-form-item>
+                    <nz-form-item>
+                        <nz-form-label [style.width.px]="125"> 事业编制(非参公) </nz-form-label>
+                        <nz-form-control [style.display]="'inline-block'">
+                            <nz-input-number
+                                formControlName="B0233"
+                                nzPlaceHolder="应配事业编制(非参公)"
+                            ></nz-input-number>
+                            <nz-input-number
+                                formControlName="_B0233"
+                                nzPlaceHolder="实配事业编制(非参公)"
+                            ></nz-input-number>
+                        </nz-form-control>
+                    </nz-form-item>
+                    <nz-form-item>
+                        <nz-form-label [style.width.px]="125"> 工勤编制数 </nz-form-label>
+                        <nz-form-control [style.display]="'inline-block'">
+                            <nz-input-number
+                                formControlName="B0236"
+                                nzPlaceHolder="应配工勤编制数"
+                            ></nz-input-number>
+                            <nz-input-number
+                                formControlName="_B0236"
+                                nzPlaceHolder="实配工勤编制数"
+                            ></nz-input-number>
+                        </nz-form-control>
+                    </nz-form-item>
+                    <nz-form-item>
+                        <nz-form-label [style.width.px]="125"> 其他编制数 </nz-form-label>
+                        <nz-form-control [style.display]="'inline-block'">
+                            <nz-input-number
+                                formControlName="B0234"
+                                nzPlaceHolder="应配其他编制数"
+                            ></nz-input-number>
+                            <nz-input-number
+                                formControlName="_B0234"
+                                nzPlaceHolder="实配其他编制数"
+                            ></nz-input-number>
+                        </nz-form-control>
+                    </nz-form-item>
+                </form>
+            </div>
+        </div>
+    </div>
+</ng-template>

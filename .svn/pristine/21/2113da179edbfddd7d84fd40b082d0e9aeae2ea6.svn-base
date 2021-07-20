@@ -1,0 +1,5 @@
+<excel-control
+    permission="personnel_table"
+    [params]="personBaseInfo"
+    [isDown]="true"
+></excel-control>

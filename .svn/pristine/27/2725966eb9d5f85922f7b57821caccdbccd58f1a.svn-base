@@ -1,0 +1,23 @@
+import { NgModule } from '@angular/core';
+import { Routes, RouterModule } from '@angular/router';
+
+const routes: Routes = [
+    {
+        path: '',
+        children: [
+            // {
+            //     path: 'mss_person_enter',
+            //     loadChildren: () =>
+            //         import('./mss-person-enter/mss-person-enter.module').then(
+            //             m => m.MssPersonEnterModule
+            //         ),
+            // },
+        ],
+    },
+];
+
+@NgModule({
+    imports: [RouterModule.forChild(routes)],
+    exports: [RouterModule],
+})
+export class FactoryRoutingModule {}

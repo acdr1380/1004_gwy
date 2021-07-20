@@ -1,0 +1,1065 @@
+<html xmlns:o="urn:schemas-microsoft-com:office:office"
+xmlns:x="urn:schemas-microsoft-com:office:excel"
+xmlns="http://www.w3.org/TR/REC-html40">
+
+<head>
+<meta http-equiv=Content-Type content="text/html; charset=gb2312">
+<meta name=ProgId content=Excel.Sheet>
+<meta name=Generator content="Microsoft Excel 15">
+<link rel=File-List href="事业单位工作人员工资变动核定(统计)表.files/filelist.xml">
+<style id="事业单位工作人员工资变动核定(统计)表_19403_Styles">
+<!--table
+	{mso-displayed-decimal-separator:"\.";
+	mso-displayed-thousand-separator:"\,";}
+.font519403
+	{color:windowtext;
+	font-size:9.0pt;
+	font-weight:400;
+	font-style:normal;
+	text-decoration:none;
+	font-family:宋体;
+	mso-generic-font-family:auto;
+	mso-font-charset:134;}
+.font619403
+	{color:windowtext;
+	font-size:9.0pt;
+	font-weight:400;
+	font-style:normal;
+	text-decoration:none;
+	font-family:Arial, sans-serif;
+	mso-font-charset:0;}
+.xl6519403
+	{padding-top:1px;
+	padding-right:1px;
+	padding-left:1px;
+	mso-ignore:padding;
+	color:windowtext;
+	font-size:10.0pt;
+	font-weight:400;
+	font-style:normal;
+	text-decoration:none;
+	font-family:宋体;
+	mso-generic-font-family:auto;
+	mso-font-charset:134;
+	mso-number-format:General;
+	text-align:center;
+	vertical-align:middle;
+	border:.5pt solid windowtext;
+	mso-background-source:auto;
+	mso-pattern:auto;
+	white-space:normal;}
+.xl6619403
+	{padding-top:1px;
+	padding-right:1px;
+	padding-left:1px;
+	mso-ignore:padding;
+	color:windowtext;
+	font-size:10.0pt;
+	font-weight:400;
+	font-style:normal;
+	text-decoration:none;
+	font-family:宋体;
+	mso-generic-font-family:auto;
+	mso-font-charset:134;
+	mso-number-format:General;
+	text-align:left;
+	vertical-align:middle;
+	border-top:none;
+	border-right:none;
+	border-bottom:.5pt solid windowtext;
+	border-left:.5pt solid windowtext;
+	mso-background-source:auto;
+	mso-pattern:auto;
+	white-space:nowrap;}
+.xl6719403
+	{padding-top:1px;
+	padding-right:1px;
+	padding-left:1px;
+	mso-ignore:padding;
+	color:windowtext;
+	font-size:10.0pt;
+	font-weight:400;
+	font-style:normal;
+	text-decoration:none;
+	font-family:宋体;
+	mso-generic-font-family:auto;
+	mso-font-charset:134;
+	mso-number-format:"\@";
+	text-align:center;
+	vertical-align:middle;
+	border:.5pt solid windowtext;
+	mso-background-source:auto;
+	mso-pattern:auto;
+	white-space:normal;
+	mso-text-control:shrinktofit;}
+.xl6819403
+	{padding-top:1px;
+	padding-right:1px;
+	padding-left:1px;
+	mso-ignore:padding;
+	color:windowtext;
+	font-size:10.0pt;
+	font-weight:400;
+	font-style:normal;
+	text-decoration:none;
+	font-family:宋体;
+	mso-generic-font-family:auto;
+	mso-font-charset:134;
+	mso-number-format:General;
+	text-align:center;
+	vertical-align:bottom;
+	border:.5pt solid windowtext;
+	mso-background-source:auto;
+	mso-pattern:auto;
+	white-space:nowrap;}
+.xl6919403
+	{padding-top:1px;
+	padding-right:1px;
+	padding-left:1px;
+	mso-ignore:padding;
+	color:windowtext;
+	font-size:10.0pt;
+	font-weight:400;
+	font-style:normal;
+	text-decoration:none;
+	font-family:宋体;
+	mso-generic-font-family:auto;
+	mso-font-charset:134;
+	mso-number-format:General;
+	text-align:general;
+	vertical-align:bottom;
+	border:.5pt solid windowtext;
+	mso-background-source:auto;
+	mso-pattern:auto;
+	white-space:nowrap;}
+.xl7019403
+	{padding-top:1px;
+	padding-right:1px;
+	padding-left:1px;
+	mso-ignore:padding;
+	color:windowtext;
+	font-size:10.0pt;
+	font-weight:400;
+	font-style:normal;
+	text-decoration:none;
+	font-family:宋体;
+	mso-generic-font-family:auto;
+	mso-font-charset:134;
+	mso-number-format:General;
+	text-align:center;
+	vertical-align:middle;
+	border-top:.5pt solid windowtext;
+	border-right:.5pt solid windowtext;
+	border-bottom:none;
+	border-left:.5pt solid windowtext;
+	mso-background-source:auto;
+	mso-pattern:auto;
+	white-space:normal;}
+.xl7119403
+	{padding-top:1px;
+	padding-right:1px;
+	padding-left:1px;
+	mso-ignore:padding;
+	color:windowtext;
+	font-size:10.0pt;
+	font-weight:400;
+	font-style:normal;
+	text-decoration:none;
+	font-family:宋体;
+	mso-generic-font-family:auto;
+	mso-font-charset:134;
+	mso-number-format:General;
+	text-align:general;
+	vertical-align:bottom;
+	border-top:.5pt solid windowtext;
+	border-right:.5pt solid windowtext;
+	border-bottom:none;
+	border-left:.5pt solid windowtext;
+	mso-background-source:auto;
+	mso-pattern:auto;
+	white-space:nowrap;}
+.xl7219403
+	{padding-top:1px;
+	padding-right:1px;
+	padding-left:1px;
+	mso-ignore:padding;
+	color:windowtext;
+	font-size:14.0pt;
+	font-weight:400;
+	font-style:normal;
+	text-decoration:none;
+	font-family:宋体;
+	mso-generic-font-family:auto;
+	mso-font-charset:134;
+	mso-number-format:"0\.00_ ";
+	text-align:right;
+	vertical-align:middle;
+	border-top:none;
+	border-right:none;
+	border-bottom:.5pt solid windowtext;
+	border-left:none;
+	mso-background-source:auto;
+	mso-pattern:auto;
+	white-space:nowrap;}
+.xl7319403
+	{padding-top:1px;
+	padding-right:1px;
+	padding-left:1px;
+	mso-ignore:padding;
+	color:windowtext;
+	font-size:14.0pt;
+	font-weight:400;
+	font-style:normal;
+	text-decoration:none;
+	font-family:宋体;
+	mso-generic-font-family:auto;
+	mso-font-charset:134;
+	mso-number-format:"0\.00_ ";
+	text-align:right;
+	vertical-align:middle;
+	border-top:none;
+	border-right:none;
+	border-bottom:.5pt solid windowtext;
+	border-left:.5pt solid windowtext;
+	mso-background-source:auto;
+	mso-pattern:auto;
+	white-space:nowrap;}
+.xl7419403
+	{padding-top:1px;
+	padding-right:1px;
+	padding-left:1px;
+	mso-ignore:padding;
+	color:windowtext;
+	font-size:10.0pt;
+	font-weight:400;
+	font-style:normal;
+	text-decoration:none;
+	font-family:宋体;
+	mso-generic-font-family:auto;
+	mso-font-charset:134;
+	mso-number-format:General;
+	text-align:center;
+	vertical-align:middle;
+	border:.5pt solid windowtext;
+	mso-background-source:auto;
+	mso-pattern:auto;
+	white-space:nowrap;}
+.xl7519403
+	{padding-top:1px;
+	padding-right:1px;
+	padding-left:1px;
+	mso-ignore:padding;
+	color:windowtext;
+	font-size:12.0pt;
+	font-weight:400;
+	font-style:normal;
+	text-decoration:none;
+	font-family:宋体;
+	mso-generic-font-family:auto;
+	mso-font-charset:134;
+	mso-number-format:General;
+	text-align:center;
+	vertical-align:middle;
+	mso-background-source:auto;
+	mso-pattern:auto;
+	white-space:normal;}
+.xl7619403
+	{padding-top:1px;
+	padding-right:1px;
+	padding-left:1px;
+	mso-ignore:padding;
+	color:windowtext;
+	font-size:12.0pt;
+	font-weight:400;
+	font-style:normal;
+	text-decoration:none;
+	font-family:宋体;
+	mso-generic-font-family:auto;
+	mso-font-charset:134;
+	mso-number-format:General;
+	text-align:center;
+	vertical-align:middle;
+	border-top:none;
+	border-right:.5pt solid windowtext;
+	border-bottom:none;
+	border-left:none;
+	mso-background-source:auto;
+	mso-pattern:auto;
+	white-space:normal;}
+.xl7719403
+	{padding-top:1px;
+	padding-right:1px;
+	padding-left:1px;
+	mso-ignore:padding;
+	color:windowtext;
+	font-size:14.0pt;
+	font-weight:400;
+	font-style:normal;
+	text-decoration:none;
+	font-family:宋体;
+	mso-generic-font-family:auto;
+	mso-font-charset:134;
+	mso-number-format:General;
+	text-align:left;
+	vertical-align:middle;
+	border-top:.5pt solid windowtext;
+	border-right:none;
+	border-bottom:none;
+	border-left:.5pt solid windowtext;
+	mso-background-source:auto;
+	mso-pattern:auto;
+	white-space:nowrap;}
+.xl7819403
+	{padding-top:1px;
+	padding-right:1px;
+	padding-left:1px;
+	mso-ignore:padding;
+	color:windowtext;
+	font-size:14.0pt;
+	font-weight:400;
+	font-style:normal;
+	text-decoration:none;
+	font-family:宋体;
+	mso-generic-font-family:auto;
+	mso-font-charset:134;
+	mso-number-format:General;
+	text-align:left;
+	vertical-align:middle;
+	border-top:.5pt solid windowtext;
+	border-right:none;
+	border-bottom:none;
+	border-left:none;
+	mso-background-source:auto;
+	mso-pattern:auto;
+	white-space:nowrap;}
+.xl7919403
+	{padding-top:1px;
+	padding-right:1px;
+	padding-left:1px;
+	mso-ignore:padding;
+	color:windowtext;
+	font-size:14.0pt;
+	font-weight:400;
+	font-style:normal;
+	text-decoration:none;
+	font-family:宋体;
+	mso-generic-font-family:auto;
+	mso-font-charset:134;
+	mso-number-format:General;
+	text-align:left;
+	vertical-align:middle;
+	border-top:.5pt solid windowtext;
+	border-right:.5pt solid windowtext;
+	border-bottom:none;
+	border-left:none;
+	mso-background-source:auto;
+	mso-pattern:auto;
+	white-space:nowrap;}
+.xl8019403
+	{padding-top:1px;
+	padding-right:1px;
+	padding-left:1px;
+	mso-ignore:padding;
+	color:windowtext;
+	font-size:12.0pt;
+	font-weight:400;
+	font-style:normal;
+	text-decoration:none;
+	font-family:宋体;
+	mso-generic-font-family:auto;
+	mso-font-charset:134;
+	mso-number-format:General;
+	text-align:center;
+	vertical-align:middle;
+	border-top:none;
+	border-right:none;
+	border-bottom:none;
+	border-left:.5pt solid windowtext;
+	mso-background-source:auto;
+	mso-pattern:auto;
+	white-space:normal;}
+.xl8119403
+	{padding-top:1px;
+	padding-right:1px;
+	padding-left:1px;
+	mso-ignore:padding;
+	color:windowtext;
+	font-size:14.0pt;
+	font-weight:400;
+	font-style:normal;
+	text-decoration:none;
+	font-family:宋体;
+	mso-generic-font-family:auto;
+	mso-font-charset:134;
+	mso-number-format:"0\.00_ ";
+	text-align:right;
+	vertical-align:middle;
+	border-top:none;
+	border-right:.5pt solid windowtext;
+	border-bottom:.5pt solid windowtext;
+	border-left:none;
+	mso-background-source:auto;
+	mso-pattern:auto;
+	white-space:nowrap;}
+.xl8219403
+	{padding-top:1px;
+	padding-right:1px;
+	padding-left:1px;
+	mso-ignore:padding;
+	color:windowtext;
+	font-size:14.0pt;
+	font-weight:400;
+	font-style:normal;
+	text-decoration:none;
+	font-family:宋体;
+	mso-generic-font-family:auto;
+	mso-font-charset:134;
+	mso-number-format:"Long Date";
+	text-align:right;
+	vertical-align:middle;
+	border-top:none;
+	border-right:none;
+	border-bottom:.5pt solid windowtext;
+	border-left:.5pt solid windowtext;
+	mso-background-source:auto;
+	mso-pattern:auto;
+	white-space:nowrap;}
+.xl8319403
+	{padding-top:1px;
+	padding-right:1px;
+	padding-left:1px;
+	mso-ignore:padding;
+	color:windowtext;
+	font-size:14.0pt;
+	font-weight:400;
+	font-style:normal;
+	text-decoration:none;
+	font-family:宋体;
+	mso-generic-font-family:auto;
+	mso-font-charset:134;
+	mso-number-format:"Long Date";
+	text-align:right;
+	vertical-align:middle;
+	border-top:none;
+	border-right:none;
+	border-bottom:.5pt solid windowtext;
+	border-left:none;
+	mso-background-source:auto;
+	mso-pattern:auto;
+	white-space:nowrap;}
+.xl8419403
+	{padding-top:1px;
+	padding-right:1px;
+	padding-left:1px;
+	mso-ignore:padding;
+	color:windowtext;
+	font-size:14.0pt;
+	font-weight:400;
+	font-style:normal;
+	text-decoration:none;
+	font-family:宋体;
+	mso-generic-font-family:auto;
+	mso-font-charset:134;
+	mso-number-format:"Long Date";
+	text-align:right;
+	vertical-align:middle;
+	border-top:none;
+	border-right:.5pt solid windowtext;
+	border-bottom:.5pt solid windowtext;
+	border-left:none;
+	mso-background-source:auto;
+	mso-pattern:auto;
+	white-space:nowrap;}
+.xl8519403
+	{padding-top:1px;
+	padding-right:1px;
+	padding-left:1px;
+	mso-ignore:padding;
+	color:windowtext;
+	font-size:20.0pt;
+	font-weight:700;
+	font-style:normal;
+	text-decoration:none;
+	font-family:宋体;
+	mso-generic-font-family:auto;
+	mso-font-charset:134;
+	mso-number-format:General;
+	text-align:center;
+	vertical-align:middle;
+	border-top:.5pt solid windowtext;
+	border-right:none;
+	border-bottom:none;
+	border-left:.5pt solid windowtext;
+	mso-background-source:auto;
+	mso-pattern:auto;
+	white-space:normal;}
+.xl8619403
+	{padding-top:1px;
+	padding-right:1px;
+	padding-left:1px;
+	mso-ignore:padding;
+	color:windowtext;
+	font-size:20.0pt;
+	font-weight:700;
+	font-style:normal;
+	text-decoration:none;
+	font-family:宋体;
+	mso-generic-font-family:auto;
+	mso-font-charset:134;
+	mso-number-format:General;
+	text-align:center;
+	vertical-align:middle;
+	border-top:.5pt solid windowtext;
+	border-right:none;
+	border-bottom:none;
+	border-left:none;
+	mso-background-source:auto;
+	mso-pattern:auto;
+	white-space:normal;}
+.xl8719403
+	{padding-top:1px;
+	padding-right:1px;
+	padding-left:1px;
+	mso-ignore:padding;
+	color:windowtext;
+	font-size:20.0pt;
+	font-weight:400;
+	font-style:normal;
+	text-decoration:none;
+	font-family:宋体;
+	mso-generic-font-family:auto;
+	mso-font-charset:134;
+	mso-number-format:General;
+	text-align:general;
+	vertical-align:bottom;
+	border-top:.5pt solid windowtext;
+	border-right:.5pt solid windowtext;
+	border-bottom:none;
+	border-left:none;
+	mso-background-source:auto;
+	mso-pattern:auto;
+	white-space:nowrap;}
+.xl8819403
+	{padding-top:1px;
+	padding-right:1px;
+	padding-left:1px;
+	mso-ignore:padding;
+	color:windowtext;
+	font-size:10.0pt;
+	font-weight:400;
+	font-style:normal;
+	text-decoration:none;
+	font-family:宋体;
+	mso-generic-font-family:auto;
+	mso-font-charset:134;
+	mso-number-format:General;
+	text-align:left;
+	vertical-align:middle;
+	border-top:none;
+	border-right:none;
+	border-bottom:.5pt solid windowtext;
+	border-left:none;
+	mso-background-source:auto;
+	mso-pattern:auto;
+	white-space:nowrap;}
+.xl8919403
+	{padding-top:1px;
+	padding-right:1px;
+	padding-left:1px;
+	mso-ignore:padding;
+	color:windowtext;
+	font-size:10.0pt;
+	font-weight:400;
+	font-style:normal;
+	text-decoration:none;
+	font-family:宋体;
+	mso-generic-font-family:auto;
+	mso-font-charset:134;
+	mso-number-format:General;
+	text-align:left;
+	vertical-align:middle;
+	border-top:none;
+	border-right:.5pt solid windowtext;
+	border-bottom:.5pt solid windowtext;
+	border-left:none;
+	mso-background-source:auto;
+	mso-pattern:auto;
+	white-space:nowrap;}
+.xl9019403
+	{padding-top:1px;
+	padding-right:1px;
+	padding-left:1px;
+	mso-ignore:padding;
+	color:windowtext;
+	font-size:12.0pt;
+	font-weight:400;
+	font-style:normal;
+	text-decoration:none;
+	font-family:宋体;
+	mso-generic-font-family:auto;
+	mso-font-charset:134;
+	mso-number-format:General;
+	text-align:center;
+	vertical-align:middle;
+	border-top:none;
+	border-right:none;
+	border-bottom:none;
+	border-left:.5pt solid windowtext;
+	mso-background-source:auto;
+	mso-pattern:auto;
+	white-space:nowrap;}
+.xl9119403
+	{padding-top:1px;
+	padding-right:1px;
+	padding-left:1px;
+	mso-ignore:padding;
+	color:windowtext;
+	font-size:12.0pt;
+	font-weight:400;
+	font-style:normal;
+	text-decoration:none;
+	font-family:宋体;
+	mso-generic-font-family:auto;
+	mso-font-charset:134;
+	mso-number-format:General;
+	text-align:center;
+	vertical-align:middle;
+	mso-background-source:auto;
+	mso-pattern:auto;
+	white-space:nowrap;}
+.xl9219403
+	{padding-top:1px;
+	padding-right:1px;
+	padding-left:1px;
+	mso-ignore:padding;
+	color:windowtext;
+	font-size:12.0pt;
+	font-weight:400;
+	font-style:normal;
+	text-decoration:none;
+	font-family:宋体;
+	mso-generic-font-family:auto;
+	mso-font-charset:134;
+	mso-number-format:General;
+	text-align:center;
+	vertical-align:middle;
+	border-top:none;
+	border-right:.5pt solid windowtext;
+	border-bottom:none;
+	border-left:none;
+	mso-background-source:auto;
+	mso-pattern:auto;
+	white-space:nowrap;}
+.xl9319403
+	{padding-top:1px;
+	padding-right:1px;
+	padding-left:1px;
+	mso-ignore:padding;
+	color:windowtext;
+	font-size:10.0pt;
+	font-weight:400;
+	font-style:normal;
+	text-decoration:none;
+	font-family:宋体;
+	mso-generic-font-family:auto;
+	mso-font-charset:134;
+	mso-number-format:General;
+	text-align:center;
+	vertical-align:middle;
+	border-top:.5pt solid windowtext;
+	border-right:none;
+	border-bottom:.5pt solid windowtext;
+	border-left:.5pt solid windowtext;
+	mso-background-source:auto;
+	mso-pattern:auto;
+	white-space:nowrap;}
+.xl9419403
+	{padding-top:1px;
+	padding-right:1px;
+	padding-left:1px;
+	mso-ignore:padding;
+	color:windowtext;
+	font-size:10.0pt;
+	font-weight:400;
+	font-style:normal;
+	text-decoration:none;
+	font-family:宋体;
+	mso-generic-font-family:auto;
+	mso-font-charset:134;
+	mso-number-format:General;
+	text-align:center;
+	vertical-align:middle;
+	border-top:.5pt solid windowtext;
+	border-right:none;
+	border-bottom:.5pt solid windowtext;
+	border-left:none;
+	mso-background-source:auto;
+	mso-pattern:auto;
+	white-space:nowrap;}
+.xl9519403
+	{padding-top:1px;
+	padding-right:1px;
+	padding-left:1px;
+	mso-ignore:padding;
+	color:windowtext;
+	font-size:10.0pt;
+	font-weight:400;
+	font-style:normal;
+	text-decoration:none;
+	font-family:宋体;
+	mso-generic-font-family:auto;
+	mso-font-charset:134;
+	mso-number-format:General;
+	text-align:center;
+	vertical-align:middle;
+	border-top:.5pt solid windowtext;
+	border-right:.5pt solid windowtext;
+	border-bottom:.5pt solid windowtext;
+	border-left:none;
+	mso-background-source:auto;
+	mso-pattern:auto;
+	white-space:nowrap;}
+ruby
+	{ruby-align:left;}
+rt
+	{color:windowtext;
+	font-size:9.0pt;
+	font-weight:400;
+	font-style:normal;
+	text-decoration:none;
+	font-family:宋体;
+	mso-generic-font-family:auto;
+	mso-font-charset:134;
+	mso-char-type:none;}
+-->
+</style>
+</head>
+
+<body>
+<!--[if !excel]>　　<![endif]-->
+<!--下列信息由 Microsoft Excel 的发布为网页向导生成。-->
+<!--如果同一条目从 Excel 中重新发布，则所有位于 DIV 标记之间的信息均将被替换。-->
+<!----------------------------->
+<!--“从 EXCEL 发布网页”向导开始-->
+<!----------------------------->
+
+<div id="事业单位工作人员工资变动核定(统计)表_19403" align=center x:publishsource="Excel">
+
+<table border=0 cellpadding=0 cellspacing=0 width=1374 class=xl6553519403
+ style='border-collapse:collapse;table-layout:fixed;width:1036pt'>
+ <col class=xl6553519403 width=101 style='mso-width-source:userset;mso-width-alt:
+ 3693;width:76pt'>
+ <col class=xl6553519403 width=61 span=19 style='mso-width-source:userset;
+ mso-width-alt:2230;width:46pt'>
+ <col class=xl6553519403 width=57 span=2 style='mso-width-source:userset;
+ mso-width-alt:2084;width:43pt'>
+ <tr height=71 style='mso-height-source:userset;height:53.25pt'>
+  <td colspan=22 height=71 class=xl8519403 width=1374 style='border-right:.5pt solid black;
+  height:53.25pt;width:1036pt'>事业单位工作人员工资变动核定(统计)表</td>
+ </tr>
+ <tr height=30 style='mso-height-source:userset;height:22.5pt'>
+  <td height=30 class=xl6619403 style='height:22.5pt'><span
+  style='mso-spacerun:yes'>&nbsp;</span>单位名称:<span
+  style='mso-spacerun:yes'>&nbsp;</span></td>
+  <td colspan=19 class=xl8819403>　</td>
+  <td colspan=2 class=xl8819403 style='border-right:.5pt solid black'>单位:
+  元<span style='mso-spacerun:yes'>&nbsp;&nbsp;&nbsp;</span></td>
+ </tr>
+ <tr height=28 style='mso-height-source:userset;height:21.0pt'>
+  <td rowspan=2 height=136 class=xl6519403 width=101 style='height:102.0pt;
+  border-top:none;width:76pt'>岗位序列</td>
+  <td rowspan=2 class=xl6519403 width=61 style='border-top:none;width:46pt'>人数</td>
+  <td colspan=8 class=xl7419403 style='border-left:none'>变动前工资</td>
+  <td colspan=8 class=xl9319403 style='border-right:.5pt solid black;
+  border-left:none'>变动后工资</td>
+  <td rowspan=2 class=xl6519403 width=61 style='border-top:none;width:46pt'>月增资</td>
+  <td rowspan=2 class=xl6519403 width=61 style='border-top:none;width:46pt'>补（扣）发工资</td>
+  <td rowspan=2 class=xl6519403 width=57 style='border-top:none;width:43pt'>执行时间</td>
+  <td rowspan=2 class=xl6519403 width=57 style='border-top:none;width:43pt'>备注</td>
+ </tr>
+ <tr height=108 style='mso-height-source:userset;height:81.0pt'>
+  <td height=108 class=xl6519403 width=61 style='height:81.0pt;border-top:none;
+  border-left:none;width:46pt'>小计</td>
+  <td class=xl6519403 width=61 style='border-top:none;border-left:none;
+  width:46pt'>岗位<br>
+    <br>
+    工资</td>
+  <td class=xl6519403 width=61 style='border-top:none;border-left:none;
+  width:46pt'>薪级<br>
+    <br>
+    工资</td>
+  <td class=xl6519403 width=61 style='border-top:none;border-left:none;
+  width:46pt'>见习期工资</td>
+  <td class=xl6519403 width=61 style='border-top:none;border-left:none;
+  width:46pt'>教护提高10%</td>
+  <td class=xl6519403 width=61 style='border-top:none;border-left:none;
+  width:46pt'>按比例提高津补贴</td>
+  <td class=xl6519403 width=61 style='border-top:none;border-left:none;
+  width:46pt'>基础性绩效工资</td>
+  <td class=xl6519403 width=61 style='border-top:none;border-left:none;
+  width:46pt'>其他津补贴</td>
+  <td class=xl6519403 width=61 style='border-top:none;border-left:none;
+  width:46pt'>小计</td>
+  <td class=xl6519403 width=61 style='border-top:none;border-left:none;
+  width:46pt'>岗位<br>
+    <br>
+    工资</td>
+  <td class=xl6519403 width=61 style='border-top:none;border-left:none;
+  width:46pt'>薪级<br>
+    <br>
+    工资</td>
+  <td class=xl6519403 width=61 style='border-top:none;border-left:none;
+  width:46pt'>见习期工资</td>
+  <td class=xl6519403 width=61 style='border-top:none;border-left:none;
+  width:46pt'>教护提高10%</td>
+  <td class=xl6519403 width=61 style='border-top:none;border-left:none;
+  width:46pt'>按比例提高津补贴</td>
+  <td class=xl6519403 width=61 style='border-top:none;border-left:none;
+  width:46pt'>基础性绩效工资</td>
+  <td class=xl6519403 width=61 style='border-top:none;border-left:none;
+  width:46pt'>其他津补贴</td>
+ </tr>
+ <tr height=33 style='mso-height-source:userset;height:24.95pt'>
+  <td height=33 class=xl6519403 width=101 style='height:24.95pt;border-top:
+  none;width:76pt'>一、管理岗位</td>
+  <td class=xl6519403 width=61 style='border-top:none;border-left:none;
+  width:46pt'>　</td>
+  <td class=xl6519403 width=61 style='border-top:none;border-left:none;
+  width:46pt'>　</td>
+  <td class=xl6719403 width=61 style='border-top:none;border-left:none;
+  width:46pt'>　</td>
+  <td class=xl6719403 width=61 style='border-top:none;border-left:none;
+  width:46pt'>　</td>
+  <td class=xl6719403 width=61 style='border-top:none;border-left:none;
+  width:46pt'>　</td>
+  <td class=xl6719403 width=61 style='border-top:none;border-left:none;
+  width:46pt'>　</td>
+  <td class=xl6719403 width=61 style='border-top:none;border-left:none;
+  width:46pt'>　</td>
+  <td class=xl6719403 width=61 style='border-top:none;border-left:none;
+  width:46pt'>　</td>
+  <td class=xl6719403 width=61 style='border-top:none;border-left:none;
+  width:46pt'>　</td>
+  <td class=xl6519403 width=61 style='border-top:none;border-left:none;
+  width:46pt'>　</td>
+  <td class=xl6719403 width=61 style='border-top:none;border-left:none;
+  width:46pt'>　</td>
+  <td class=xl6719403 width=61 style='border-top:none;border-left:none;
+  width:46pt'>　</td>
+  <td class=xl6719403 width=61 style='border-top:none;border-left:none;
+  width:46pt'>　</td>
+  <td class=xl6719403 width=61 style='border-top:none;border-left:none;
+  width:46pt'>　</td>
+  <td class=xl6719403 width=61 style='border-top:none;border-left:none;
+  width:46pt'>　</td>
+  <td class=xl6719403 width=61 style='border-top:none;border-left:none;
+  width:46pt'>　</td>
+  <td class=xl6719403 width=61 style='border-top:none;border-left:none;
+  width:46pt'>　</td>
+  <td class=xl6519403 width=61 style='border-top:none;border-left:none;
+  width:46pt'>　</td>
+  <td class=xl6519403 width=61 style='border-top:none;border-left:none;
+  width:46pt'>　</td>
+  <td class=xl6519403 width=57 style='border-top:none;border-left:none;
+  width:43pt'>　</td>
+  <td class=xl6819403 style='border-top:none;border-left:none'>　</td>
+ </tr>
+ <tr height=33 style='mso-height-source:userset;height:24.95pt'>
+  <td height=33 class=xl6519403 width=101 style='height:24.95pt;border-top:
+  none;width:76pt'>二、专技岗位</td>
+  <td class=xl6519403 width=61 style='border-top:none;border-left:none;
+  width:46pt'>　</td>
+  <td class=xl6519403 width=61 style='border-top:none;border-left:none;
+  width:46pt'>　</td>
+  <td class=xl6719403 width=61 style='border-top:none;border-left:none;
+  width:46pt'>　</td>
+  <td class=xl6719403 width=61 style='border-top:none;border-left:none;
+  width:46pt'>　</td>
+  <td class=xl6719403 width=61 style='border-top:none;border-left:none;
+  width:46pt'>　</td>
+  <td class=xl6719403 width=61 style='border-top:none;border-left:none;
+  width:46pt'>　</td>
+  <td class=xl6719403 width=61 style='border-top:none;border-left:none;
+  width:46pt'>　</td>
+  <td class=xl6719403 width=61 style='border-top:none;border-left:none;
+  width:46pt'>　</td>
+  <td class=xl6719403 width=61 style='border-top:none;border-left:none;
+  width:46pt'>　</td>
+  <td class=xl6519403 width=61 style='border-top:none;border-left:none;
+  width:46pt'>　</td>
+  <td class=xl6719403 width=61 style='border-top:none;border-left:none;
+  width:46pt'>　</td>
+  <td class=xl6719403 width=61 style='border-top:none;border-left:none;
+  width:46pt'>　</td>
+  <td class=xl6719403 width=61 style='border-top:none;border-left:none;
+  width:46pt'>　</td>
+  <td class=xl6719403 width=61 style='border-top:none;border-left:none;
+  width:46pt'>　</td>
+  <td class=xl6719403 width=61 style='border-top:none;border-left:none;
+  width:46pt'>　</td>
+  <td class=xl6719403 width=61 style='border-top:none;border-left:none;
+  width:46pt'>　</td>
+  <td class=xl6719403 width=61 style='border-top:none;border-left:none;
+  width:46pt'>　</td>
+  <td class=xl6519403 width=61 style='border-top:none;border-left:none;
+  width:46pt'>　</td>
+  <td class=xl6519403 width=61 style='border-top:none;border-left:none;
+  width:46pt'>　</td>
+  <td class=xl6519403 width=57 style='border-top:none;border-left:none;
+  width:43pt'>　</td>
+  <td class=xl6919403 style='border-top:none;border-left:none'>　</td>
+ </tr>
+ <tr height=33 style='mso-height-source:userset;height:24.95pt'>
+  <td height=33 class=xl7019403 width=101 style='height:24.95pt;border-top:
+  none;width:76pt'>三、工勤岗位</td>
+  <td class=xl7019403 width=61 style='border-top:none;border-left:none;
+  width:46pt'>　</td>
+  <td class=xl7019403 width=61 style='border-top:none;border-left:none;
+  width:46pt'>　</td>
+  <td class=xl6719403 width=61 style='border-top:none;border-left:none;
+  width:46pt'>　</td>
+  <td class=xl6719403 width=61 style='border-top:none;border-left:none;
+  width:46pt'>　</td>
+  <td class=xl6719403 width=61 style='border-top:none;border-left:none;
+  width:46pt'>　</td>
+  <td class=xl6719403 width=61 style='border-top:none;border-left:none;
+  width:46pt'>　</td>
+  <td class=xl6719403 width=61 style='border-top:none;border-left:none;
+  width:46pt'>　</td>
+  <td class=xl6719403 width=61 style='border-top:none;border-left:none;
+  width:46pt'>　</td>
+  <td class=xl6719403 width=61 style='border-top:none;border-left:none;
+  width:46pt'>　</td>
+  <td class=xl6519403 width=61 style='border-top:none;border-left:none;
+  width:46pt'>　</td>
+  <td class=xl6719403 width=61 style='border-top:none;border-left:none;
+  width:46pt'>　</td>
+  <td class=xl6719403 width=61 style='border-top:none;border-left:none;
+  width:46pt'>　</td>
+  <td class=xl6719403 width=61 style='border-top:none;border-left:none;
+  width:46pt'>　</td>
+  <td class=xl6719403 width=61 style='border-top:none;border-left:none;
+  width:46pt'>　</td>
+  <td class=xl6719403 width=61 style='border-top:none;border-left:none;
+  width:46pt'>　</td>
+  <td class=xl6719403 width=61 style='border-top:none;border-left:none;
+  width:46pt'>　</td>
+  <td class=xl6719403 width=61 style='border-top:none;border-left:none;
+  width:46pt'>　</td>
+  <td class=xl6519403 width=61 style='border-top:none;border-left:none;
+  width:46pt'>　</td>
+  <td class=xl6519403 width=61 style='border-top:none;border-left:none;
+  width:46pt'>　</td>
+  <td class=xl6519403 width=57 style='border-top:none;border-left:none;
+  width:43pt'>　</td>
+  <td class=xl7119403 style='border-top:none;border-left:none'>　</td>
+ </tr>
+ <tr height=40 style='mso-height-source:userset;height:30.0pt'>
+  <td height=40 class=xl6519403 width=101 style='height:30.0pt;width:76pt'>合计</td>
+  <td class=xl6519403 width=61 style='border-left:none;width:46pt'>　</td>
+  <td class=xl6519403 width=61 style='border-left:none;width:46pt'>　</td>
+  <td class=xl6519403 width=61 style='border-top:none;border-left:none;
+  width:46pt'>　</td>
+  <td class=xl6519403 width=61 style='border-top:none;border-left:none;
+  width:46pt'>　</td>
+  <td class=xl6519403 width=61 style='border-top:none;border-left:none;
+  width:46pt'>　</td>
+  <td class=xl6519403 width=61 style='border-top:none;border-left:none;
+  width:46pt'>　</td>
+  <td class=xl6519403 width=61 style='border-top:none;border-left:none;
+  width:46pt'>　</td>
+  <td class=xl6519403 width=61 style='border-top:none;border-left:none;
+  width:46pt'>　</td>
+  <td class=xl6519403 width=61 style='border-top:none;border-left:none;
+  width:46pt'>　</td>
+  <td class=xl6519403 width=61 style='border-top:none;border-left:none;
+  width:46pt'>　</td>
+  <td class=xl6519403 width=61 style='border-top:none;border-left:none;
+  width:46pt'>　</td>
+  <td class=xl6519403 width=61 style='border-top:none;border-left:none;
+  width:46pt'>　</td>
+  <td class=xl6519403 width=61 style='border-top:none;border-left:none;
+  width:46pt'>　</td>
+  <td class=xl6519403 width=61 style='border-top:none;border-left:none;
+  width:46pt'>　</td>
+  <td class=xl6519403 width=61 style='border-top:none;border-left:none;
+  width:46pt'>　</td>
+  <td class=xl6519403 width=61 style='border-top:none;border-left:none;
+  width:46pt'>　</td>
+  <td class=xl6519403 width=61 style='border-top:none;border-left:none;
+  width:46pt'>　</td>
+  <td class=xl6519403 width=61 style='border-top:none;border-left:none;
+  width:46pt'>　</td>
+  <td class=xl6519403 width=61 style='border-top:none;border-left:none;
+  width:46pt'>　</td>
+  <td class=xl6519403 width=57 style='border-top:none;border-left:none;
+  width:43pt'>——</td>
+  <td class=xl7419403 style='border-left:none'>　</td>
+ </tr>
+ <tr height=36 style='mso-height-source:userset;height:27.0pt'>
+  <td colspan=6 height=36 class=xl7719403 style='border-right:.5pt solid black;
+  height:27.0pt'><span style='mso-spacerun:yes'>&nbsp;</span>填报单位（章）：</td>
+  <td colspan=9 class=xl7819403 style='border-right:.5pt solid black'>主管部门意见（章）：</td>
+  <td colspan=7 class=xl7719403 style='border-right:.5pt solid black;
+  border-left:none'><span style='mso-spacerun:yes'>&nbsp;</span>核准意见（章）：</td>
+ </tr>
+ <tr height=131 style='mso-height-source:userset;height:98.25pt'>
+  <td colspan=6 height=131 class=xl9019403 style='border-right:.5pt solid black;
+  height:98.25pt'>　</td>
+  <td colspan=9 class=xl7519403 width=549 style='border-right:.5pt solid black;
+  width:414pt'></td>
+  <td colspan=7 class=xl8019403 width=419 style='border-right:.5pt solid black;
+  border-left:none;width:316pt'>　</td>
+ </tr>
+ <tr height=30 style='mso-height-source:userset;height:22.5pt'>
+  <td colspan=6 height=30 class=xl8219403 style='border-right:.5pt solid black;
+  height:22.5pt'><span style='mso-spacerun:yes'>&nbsp; </span>年<span
+  style='mso-spacerun:yes'>&nbsp;&nbsp; </span>月<span
+  style='mso-spacerun:yes'>&nbsp;&nbsp; </span>日</td>
+  <td colspan=9 class=xl7219403 style='border-right:.5pt solid black'><span
+  style='mso-spacerun:yes'>&nbsp; </span>年<span
+  style='mso-spacerun:yes'>&nbsp;&nbsp;&nbsp; </span>月<span
+  style='mso-spacerun:yes'>&nbsp;&nbsp; </span>日</td>
+  <td class=xl7319403 style='border-left:none'>　</td>
+  <td class=xl7219403>　</td>
+  <td colspan=5 class=xl7219403 style='border-right:.5pt solid black'>年<span
+  style='mso-spacerun:yes'>&nbsp;&nbsp; </span>月<span
+  style='mso-spacerun:yes'>&nbsp;&nbsp; </span>日</td>
+ </tr>
+ <![if supportMisalignedColumns]>
+ <tr height=0 style='display:none'>
+  <td width=101 style='width:76pt'></td>
+  <td width=61 style='width:46pt'></td>
+  <td width=61 style='width:46pt'></td>
+  <td width=61 style='width:46pt'></td>
+  <td width=61 style='width:46pt'></td>
+  <td width=61 style='width:46pt'></td>
+  <td width=61 style='width:46pt'></td>
+  <td width=61 style='width:46pt'></td>
+  <td width=61 style='width:46pt'></td>
+  <td width=61 style='width:46pt'></td>
+  <td width=61 style='width:46pt'></td>
+  <td width=61 style='width:46pt'></td>
+  <td width=61 style='width:46pt'></td>
+  <td width=61 style='width:46pt'></td>
+  <td width=61 style='width:46pt'></td>
+  <td width=61 style='width:46pt'></td>
+  <td width=61 style='width:46pt'></td>
+  <td width=61 style='width:46pt'></td>
+  <td width=61 style='width:46pt'></td>
+  <td width=61 style='width:46pt'></td>
+  <td width=57 style='width:43pt'></td>
+  <td width=57 style='width:43pt'></td>
+ </tr>
+ <![endif]>
+</table>
+
+</div>
+
+
+<!----------------------------->
+<!--“从 EXCEL 发布网页”向导结束-->
+<!----------------------------->
+</body>
+
+</html>

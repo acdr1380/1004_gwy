@@ -1,0 +1,158 @@
+import { FormControl, FormGroup, Validators } from '@angular/forms';
+import { Component, OnInit } from '@angular/core';
+import { StartingPlanService } from './starting-plan.service';
+import { CommonService } from 'app/util/common.service';
+import { ColumnTypeEnum } from 'app/entity/enums/ColumnTypeEnum';
+
+@Component({
+    selector: 'gl-starting-plan',
+    templateUrl: './starting-plan.component.html',
+    styleUrls: ['./starting-plan.component.scss'],
+})
+export class StartingPlanComponent implements OnInit {
+    columnType = ColumnTypeEnum;
+
+    /**
+     * 计划头部操作
+     */
+    planHandleIfy = {
+        year: new Date(),
+        yearChange: () => {
+            this.startingPlanIfy.selectChange({ index: 0 });
+        },
+        addPlan: () => {
+            this.startingPlanEditIfy.open();
+        },
+    };
+
+    /**
+     * 考录计划相关
+     */
+    startingPlanIfy = {
+        list: [],
+        value: 0,
+        selectChange: ({ index }) => {
+            switch (index) {
+                case 0:
+                    this.startingPlanIfy.value = 0;
+                    break;
+                case 1:
+                    this.startingPlanIfy.value = 1;
+                    break;
+                case 2:
+                    break;
+            }
+            this.startingPlanIfy.loadList();
+        },
+        loadList: () => {
+            const params = {
+                PLAN02: this.planHandleIfy.year.getFullYear(),
+                PLAN05: this.startingPlanIfy.value,
+            };
+            this.service.selectListByYear(params).subscribe(result => {
+                this.startingPlanIfy.list = result;
+                const [first] = result;
+                this.startingPlanIfy.selectedItem = first;
+            });
+        },
+        selectedItem: null,
+        evtSelected: item => {
+            this.startingPlanIfy.selectedItem = item;
+        },
+    };
+
+    /**
+     * 计划信息编辑
+     */
+    startingPlanEditIfy = {
+        // 抽屉内容
+        width: 420,
+        visible: false,
+        title: '计划信息',
+        close: () => {
+            this.startingPlanEditIfy.isEdit = false;
+            this.startingPlanEditIfy.visible = false;
+        },
+        open: () => {
+            this.startingPlanEditIfy.loadFields();
+            this.startingPlanEditIfy.visible = true;
+        },
+
+        permission: 'starting_plan_edit',
+        fields: [],
+        loadFields: () => {
+            if (this.startingPlanEditIfy.fields.length > 0) {
+                return;
+            }
+            this.commonService
+                .getFieldSchemeConent(this.startingPlanEditIfy.permission)
+                .subscribe(result => {
+                    this.startingPlanEditIfy.fields = result.systemSchemeEdit;
+                    result.systemSchemeEdit.forEach(v => {
+                        this.startingPlanEditIfy.form.addControl(
+                            v.TABLE_COLUMN_CODE,
+                            new FormControl(
+                                { value: null, disabled: false },
+                                [
+                                    v.SCHEME_EDIT_IS_MUST_INPUT ? Validators.required : null,
+                                    v.SCHEME_EDIT_CHECK_SCRIPT
+                                        ? this.commonService.buildValidatorsFn(
+                                              v,
+                                              v.SCHEME_EDIT_CHECK_SCRIPT
+                                          )
+                                        : null,
+                                ].filter(s => s)
+                            )
+                        );
+                    });
+                    if (this.startingPlanEditIfy.isEdit) {
+                        this.startingPlanEditIfy.form.reset(this.startingPlanIfy.selectedItem);
+                    }
+                });
+        },
+        form: new FormGroup({}),
+        evtGetTempOutParams: () => {
+            return {
+                formGroup: this.startingPlanEditIfy.form,
+                fields: this.startingPlanEditIfy.fields,
+                inline: false,
+                formData: {},
+            };
+        },
+
+        isEdit: false,
+        edit: () => {
+            this.startingPlanEditIfy.isEdit = true;
+            this.startingPlanEditIfy.form.reset(this.startingPlanIfy.selectedItem);
+            this.startingPlanEditIfy.open();
+        },
+        save: () => {
+            if (this.commonService.formVerify(this.startingPlanEditIfy.form)) {
+                const data = this.startingPlanEditIfy.form.getRawValue();
+                // 计划状态默认
+                data.PLAN05 = 0;
+                if (this.startingPlanEditIfy.isEdit) {
+                    data.DATA_3001_OTHER_PLAN_ID = this.startingPlanIfy.selectedItem.DATA_3001_OTHER_PLAN_ID;
+                    this.service.updatePlanData(data).subscribe(result => {
+                        const index = this.startingPlanIfy.list.findIndex(
+                            item => item.DATA_3001_OTHER_PLAN_ID === result.DATA_3001_OTHER_PLAN_ID
+                        );
+                        this.startingPlanIfy.list[index] = result;
+                        this.startingPlanIfy.selectedItem = result;
+                        this.startingPlanEditIfy.close();
+                    });
+                    return;
+                }
+                this.service.insertPlanData(data).subscribe(result => {
+                    this.startingPlanIfy.list.push(result);
+                    this.startingPlanEditIfy.close();
+                });
+            }
+        },
+    };
+    constructor(private service: StartingPlanService, private commonService: CommonService) {}
+
+    ngOnInit(): void {
+        this.planHandleIfy.yearChange();
+    }
+}

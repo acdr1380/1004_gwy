@@ -1,0 +1,114 @@
+<nz-drawer
+    [nzVisible]="transferDra.visible"
+    [nzTitle]="transferDra.title"
+    [nzWidth]="transferDra.width"
+    (nzOnClose)="transferDra.close()"
+>
+    <div class="drawer_area">
+        <div class="container">
+            <div class="div-flex">
+                <div class="div-flex-items">
+                    <div class="header">选择需要调整的节点</div>
+                    <div class="header">
+                        <nz-select
+                            nzAllowClear
+                            nzShowSearch
+                            nzServerSearch
+                            [nzShowArrow]="false"
+                            nzPlaceHolder="输入搜索关键字"
+                            [(ngModel)]="leftTreeIfy.find.value"
+                            (nzOnSearch)="leftTreeIfy.find.evtOnSearch($event)"
+                            (ngModelChange)="leftTreeIfy.find.evtChange($event)"
+                            [style.width.%]="100"
+                        >
+                            <ng-container *ngFor="let item of leftTreeIfy.find.list">
+                                <nz-option
+                                    [nzValue]="item.value"
+                                    [nzLabel]="item.label"
+                                ></nz-option>
+                            </ng-container>
+                        </nz-select>
+                    </div>
+                    <div class="content">
+                        <cdk-virtual-scroll-viewport
+                            #scrollViewport_left
+                            [itemSize]="32"
+                            class="view_scroll"
+                        >
+                            <nz-tree
+                                #orgUnitElement_left
+                                nzAsyncData
+                                [nzData]="leftTreeIfy.nodes"
+                                [nzTreeTemplate]="lnodeView"
+                                (nzClick)="leftTreeIfy.evtActiveNode($event)"
+                                (nzExpandChange)="leftTreeIfy.evtChangeNode($event)"
+                            >
+                            <ng-template #lnodeView let-node>
+                                <span class="custom-node" [class.active]="leftTreeIfy.activeNode?.key === node.key">
+                                    <i
+                                        class="fa fa-{{ leftTreeIfy.nodeIcon[node.origin?.nodeType] }}"
+                                        aria-hidden="true"
+                                    ></i>
+                                    <span class="node-text" [attr.title]="node.title">{{ node.title }}</span>
+                                </span>
+                            </ng-template>
+                            </nz-tree>
+                        </cdk-virtual-scroll-viewport>
+                    </div>
+                </div>
+                <div class="div-flex-item">
+                    <button nz-button nzType="primary" (click)="transferDra.save()">确认转移</button>
+                </div>
+                <div class="div-flex-items">
+                    <div class="header">选择调整之后的节点位置</div>
+                    <div class="header">
+                        <nz-select
+                            nzAllowClear
+                            nzShowSearch
+                            nzServerSearch
+                            [nzShowArrow]="false"
+                            nzPlaceHolder="输入搜索关键字"
+                            [(ngModel)]="rightTreeIfy.find.value"
+                            (nzOnSearch)="rightTreeIfy.find.evtOnSearch($event)"
+                            (ngModelChange)="rightTreeIfy.find.evtChange($event)"
+                            [style.width.%]="100"
+                        >
+                            <ng-container *ngFor="let item of rightTreeIfy.find.list">
+                                <nz-option
+                                    [nzValue]="item.value"
+                                    [nzLabel]="item.label"
+                                ></nz-option>
+                            </ng-container>
+                        </nz-select>
+                    </div>
+                    <div class="content">
+                        <cdk-virtual-scroll-viewport
+                            #scrollViewport_right
+                            [itemSize]="32"
+                            class="view_scroll"
+                        >
+                            <nz-tree
+                                #orgUnitElement_right
+                                nzAsyncData
+                                [nzData]="rightTreeIfy.nodes"
+                                [nzTreeTemplate]="rnodeView"
+                                (nzClick)="rightTreeIfy.evtActiveNode($event)"
+                                (nzExpandChange)="rightTreeIfy.evtChangeNode($event)"
+                            >
+                            <ng-template #rnodeView let-node>
+                                <span class="custom-node" [class.active]="rightTreeIfy.activeNode?.key === node.key">
+                                    <i
+                                        class="fa fa-{{ rightTreeIfy.nodeIcon[node.origin?.nodeType] }}"
+                                        aria-hidden="true"
+                                    ></i>
+                                    <span class="node-text" [attr.title]="node.title">{{ node.title }}</span>
+                                </span>
+                            </ng-template>
+                            </nz-tree>
+                        </cdk-virtual-scroll-viewport>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</nz-drawer>

@@ -1,0 +1,11 @@
+<!-- 字典选择器 -->
+
+<input
+    #dataTimeInputElement
+    nz-input
+    [ngModel]="value"
+    [disabled]="disabled"
+    [placeholder]="placeholder"
+    (blur)="formatDataTime($event)"
+    (keyup)="keyUp($event)"
+/>

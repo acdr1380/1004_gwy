@@ -1,0 +1,91 @@
+<!-- 入党时间 特殊编辑框 -->
+<nz-drawer
+    nzPlacement="right"
+    [nzVisible]="A0144EditorIfy.visible"
+    [nzWidth]="A0144EditorIfy.width"
+    [nzTitle]="A0144EditorIfy.title"
+    (nzOnClose)="A0144EditorIfy.close()"
+>
+    <div class="drawer_area a0144_editor">
+        <div class="container">
+            <ng-template
+                [ngTemplateOutlet]="inputEditElement"
+                [ngTemplateOutletContext]="A0144EditorIfy.evtGetTempOutParams()"
+            ></ng-template>
+        </div>
+        <!-- 
+        <div class="footer">
+            <button nz-button nzType="primary" (click)="evtUpdateData()">保存</button>
+        </div> -->
+    </div>
+</nz-drawer>
+
+<!-- 构造编辑字段 -->
+<ng-template
+    #inputEditElement
+    let-formGroup="formGroup"
+    let-fields="fields"
+    let-formData="formData"
+>
+    <form nz-form [formGroup]="formGroup" nzLayout="vertical">
+        <ng-container *ngFor="let field of fields">
+            <nz-form-item *ngIf="!field.visible">
+                <nz-form-label [nzRequired]="field.SCHEME_EDIT_IS_MUST_INPUT">
+                    {{ field.SCHEME_EDIT_DISPLAY_NAME }}
+                </nz-form-label>
+
+                <nz-form-control [nzErrorTip]="errorTpl">
+                    <ng-container *ngIf="field.TABLE_COLUMN_DICTIONARY_CODE; else elseTempElement">
+                        <dictionary-input
+                            [code]="field.TABLE_COLUMN_DICTIONARY_CODE"
+                            [(text)]="formData[field.TABLE_COLUMN_CODE + '_CN']"
+                            [placeholder]="'请填写' + field.SCHEME_EDIT_DISPLAY_NAME"
+                            [formControlName]="field.TABLE_COLUMN_CODE"
+                        >
+                        </dictionary-input>
+                    </ng-container>
+
+                    <ng-template #elseTempElement>
+                        <ng-container [ngSwitch]="field.TABLE_COLUMN_TYPE">
+                            <ng-template [ngSwitchCase]="columnType.DATE">
+                                <datetime-input
+                                    [formControlName]="field.TABLE_COLUMN_CODE"
+                                    [placeholder]="'请填写' + field.SCHEME_EDIT_DISPLAY_NAME"
+                                ></datetime-input>
+                            </ng-template>
+                            <ng-template [ngSwitchCase]="columnType.NUMBER">
+                                <nz-input-number
+                                    [formControlName]="field.TABLE_COLUMN_CODE"
+                                    [nzPlaceHolder]="'请填写' + field.SCHEME_EDIT_DISPLAY_NAME"
+                                >
+                                </nz-input-number>
+                            </ng-template>
+                            <ng-template [ngSwitchCase]="columnType.CLOB">
+                                <textarea
+                                    nz-input
+                                    [formControlName]="field.TABLE_COLUMN_CODE"
+                                    rows="4"
+                                ></textarea>
+                            </ng-template>
+                            <ng-template ngSwitchDefault>
+                                <input
+                                    [formControlName]="field.TABLE_COLUMN_CODE"
+                                    nz-input
+                                    [placeholder]="'请填写' + field.SCHEME_EDIT_DISPLAY_NAME"
+                                />
+                            </ng-template>
+                        </ng-container>
+                    </ng-template>
+                </nz-form-control>
+                <ng-template #errorTpl let-control>
+                    <ng-container *ngIf="control.hasError('required')">
+                        请填写{{ field.FIELD_EDIT_DISPLAY_NAME }}。
+                    </ng-container>
+                    <ng-container *ngIf="control.hasError('msg')">
+                        {{ control?.getError('msg') || '异常错误。' }}
+                    </ng-container>
+                </ng-template>
+            </nz-form-item>
+        </ng-container>
+    </form>
+</ng-template>

@@ -1,0 +1,59 @@
+/*导入布局样式*/
+@import 'src/app/styles/_layout';
+
+$header-height: 50px;
+
+.cropper_images {
+    height: 460px;
+    border: 1px solid #eee;
+
+    .header {
+        overflow: hidden;
+    }
+
+    .container {
+        .left {
+            width: 380px;
+
+            .image {
+                height: 100%;
+                width: 100%;
+                display: flex;
+                align-items: center;
+                justify-content: center;
+
+                img {
+                    max-width: 100%;
+                    max-height: 100%;
+                }
+            }
+        }
+
+        .right {
+            .preview {
+                height: 100%;
+                width: 100%;
+                display: flex;
+                align-items: center;
+                justify-content: center;
+
+                .photo {
+                    // 二代身份证照片是26mm×32mm
+                    width: 98px;
+                    height: 121px;
+                    display: block;
+                    max-width: 100%;
+                    overflow: hidden;
+                }
+            }
+        }
+    }
+
+    .footer {
+        height: $header-height;
+        line-height: $header-height;
+        text-align: right;
+        padding-right: 10px;
+        border-top: 1px solid #eee;
+    }
+}

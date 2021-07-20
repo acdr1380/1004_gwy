@@ -1,0 +1,66 @@
+@import 'src/app/styles/layout';
+@import 'src/app/styles/drawer';
+
+.layout {
+    & > .header {
+        .header-item {
+            display: inline-block;
+            margin-right: 10px;
+            nz-select {
+                width: 150px;
+            }
+        }
+        & > .right {
+            .header-item {
+                margin: 0 0 0 10px;
+            }
+            .header-icon {
+                width: 50px;
+                text-align: center;
+                cursor: pointer;
+            }
+        }
+    }
+    & > .container {
+        padding: 10px;
+    }
+}
+.opreate_icon {
+    font-size: 20px;
+    cursor: pointer;
+    color: #828282;
+
+    &:hover {
+        color: #1890ff;
+    }
+}
+.condition{
+    padding: 10px !important;
+    height: 170px !important;
+    animation: slide-down 0.3s ease-in;
+
+    nz-form-label{
+        width: 80px;
+    }
+    nz-form-control{
+        max-width: 180px;
+    }
+}
+
+@keyframes slide-down {
+    0% {
+        transform: scale(1, 0);
+    }
+    25% {
+        transform: scale(1, 0.25);
+    }
+    50% {
+        transform: scale(1, 0.5);
+    }
+    75% {
+        transform: scale(1, 0.75);
+    }
+    100% {
+        transform: scale(1, 1);
+    }
+}

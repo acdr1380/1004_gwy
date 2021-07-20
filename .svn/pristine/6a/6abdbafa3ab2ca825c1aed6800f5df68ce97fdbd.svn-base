@@ -1,0 +1,38 @@
+<nz-table
+    #personJBTChangeTableElement
+    nzBordered
+    nzSize="small"
+    [nzPageSize]="100"
+    [nzHideOnSinglePage]="true"
+    [nzData]="rowList"
+>
+    <thead>
+        <tr>
+            <th>项目</th>
+            <th>变动前</th>
+            <th>变动后</th>
+            <th>增资额</th>
+        </tr>
+    </thead>
+    <tbody>
+        <ng-container *ngFor="let data of rowList">
+            <tr
+                [class.change]="
+                    data['New' + data.TABLE_COLUMN_CODE + 'Change'] !== 0 &&
+                    data['New' + data.TABLE_COLUMN_CODE + 'Change']
+                "
+            >
+                <td>{{ data.TABLE_COLUMN_NAME }}</td>
+                <td [attr.columnName]="data.TABLE_COLUMN_CODE">
+                    {{ data[data.TABLE_COLUMN_CODE] }}
+                </td>
+                <td [attr.columnName]="'New' + data.TABLE_COLUMN_CODE">
+                    {{ data['New' + data.TABLE_COLUMN_CODE] }}
+                </td>
+                <td [attr.columnName]="'New' + data.TABLE_COLUMN_CODE + 'Change'">
+                    {{ data['New' + data.TABLE_COLUMN_CODE + 'Change'] }}
+                </td>
+            </tr>
+        </ng-container>
+    </tbody>
+</nz-table>

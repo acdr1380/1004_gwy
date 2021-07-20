@@ -1,0 +1,551 @@
+<div class="layout">
+    <div class="header">
+        <nz-button-group>
+            <button nz-button nzType="primary" class="link" (click)="evtSelectorFields()">
+                <i nz-icon nzType="plus" nzTheme="outline"></i>
+                增加条件
+            </button>
+            <button nz-button nzType="default" (click)="saveCondition.save()">
+                <i nz-icon nzType="save" nzTheme="outline"></i>保存条件
+            </button>
+            <button nz-button nzType="default" class="link" (click)="existCondition.evtHaveExist()">
+                <i nz-icon nzType="unordered-list" nzTheme="outline"></i>
+                已存条件
+            </button>
+        </nz-button-group>
+    </div>
+    <div class="header query_condition_area">
+        <button nz-button nzType="primary" (click)="queryStart(true)">
+            <i nz-icon nzType="search" nzTheme="outline"></i>开始查询
+        </button>
+
+        <!-- 查询已选条件 -->
+        <ng-container *ngFor="let field of queryTable.conditionFieldIds">
+            <div
+                class="item"
+                *ngIf="field.selectedQuery"
+                (click)="queryTable.evtSelectConditionItem(field)"
+            >
+                {{ field.TABLE_COLUMN_NAME }}:
+                {{ transOperatorEnumEN(field.operator) }}
+                <ng-container *ngIf="field.operator !== operatorEnum.BETWEEN">
+                    <ng-container [ngSwitch]="field.TABLE_COLUMN_TYPE">
+                        <ng-template [ngSwitchCase]="4">
+                            {{ field.value | date: 'yyyy-MM-dd' }}
+                        </ng-template>
+                        <ng-container *ngIf="!!field.TABLE_COLUMN_DICTIONARY_CODE">
+                            <ng-template [ngSwitchCase]="2">
+                                {{ field.itemCodeText }}
+                            </ng-template>
+                        </ng-container>
+                        <ng-container *ngIf="!field.TABLE_COLUMN_DICTIONARY_CODE">
+                            <ng-template ngSwitchDefault>
+                                {{ field.value }}
+                            </ng-template>
+                        </ng-container>
+                    </ng-container>
+                </ng-container>
+
+                <ng-container *ngIf="field.operator === operatorEnum.BETWEEN">
+                    <ng-container [ngSwitch]="field.TABLE_COLUMN_TYPE">
+                        <ng-template [ngSwitchCase]="4">
+                            {{ field.value | date: 'yyyy-MM-dd' }}~{{
+                                field.value2 | date: 'yyyy-MM-dd'
+                            }}
+                        </ng-template>
+                        <ng-template [ngSwitchCase]="2">
+                            {{ field.value }}~{{ field.value2 }}
+                        </ng-template>
+                    </ng-container>
+                </ng-container>
+                <div class="close" (click)="queryTable.deleteQueryCondition(field)">x</div>
+            </div>
+        </ng-container>
+    </div>
+
+    <!-- 查询条件 -->
+    <div
+        class="query_condition_list header"
+        *ngIf="queryTable.conditionFieldIds && queryTable.conditionFieldIds.length > 0"
+        [hidden]="!queryTable.switch"
+    >
+        <cdk-virtual-scroll-viewport
+            #scrollQueryCondition
+            [itemSize]="50"
+            [style.height.px]="50 * queryTable.conditionFieldIds.length"
+            class="view_scroll"
+        >
+            <div class="condition">
+                <ng-container *ngFor="let field of queryTable.conditionFieldIds">
+                    <div class="c_item">
+                        <button
+                            nz-button
+                            nzType="link"
+                            (click)="selectorFieldsIfy.delFields(field)"
+                        >
+                            删除
+                        </button>
+                        <div class="title">
+                            <label nz-checkbox [(ngModel)]="field.selectedQuery">{{
+                                field.TABLE_COLUMN_NAME
+                            }}</label>
+                        </div>
+                        <div class="scope">
+                            <nz-input-group nzCompact>
+                                <nz-select
+                                    style="width: 120px"
+                                    [(ngModel)]="field.operator"
+                                    nzPlaceHolder="查询关系"
+                                >
+                                    <ng-container *ngFor="let item of operatorEnumList">
+                                        <nz-option
+                                            [nzLabel]="item.text"
+                                            [nzValue]="item.value"
+                                        ></nz-option>
+                                    </ng-container>
+                                </nz-select>
+
+                                <ng-container *ngIf="field.operator !== operatorEnum.BETWEEN">
+                                    <ng-container
+                                        *ngIf="field.TABLE_COLUMN_DICTIONARY_CODE; else fieldTemp"
+                                    >
+                                        <dictionary-input
+                                            [code]="field.TABLE_COLUMN_DICTIONARY_CODE"
+                                            [(ngModel)]="field.value"
+                                            [(text)]="field.itemCodeText"
+                                        ></dictionary-input>
+                                    </ng-container>
+
+                                    <ng-template #fieldTemp>
+                                        <ng-container *ngIf="field.TABLE_COLUMN_TYPE === 4">
+                                            <datetime-input
+                                                [(ngModel)]="field.value"
+                                            ></datetime-input>
+                                        </ng-container>
+
+                                        <ng-container *ngIf="field.TABLE_COLUMN_TYPE === 2">
+                                            <input
+                                                nz-input
+                                                [(ngModel)]="field.value"
+                                                style="width: auto"
+                                                placeholder="请填写"
+                                            />
+                                        </ng-container>
+
+                                        <ng-container *ngIf="field.TABLE_COLUMN_TYPE === 3">
+                                            <nz-input-number
+                                                [(ngModel)]="field.value"
+                                                nzPlaceHolder="请填写"
+                                            ></nz-input-number>
+                                        </ng-container>
+                                    </ng-template>
+                                </ng-container>
+
+                                <ng-container *ngIf="field.operator === operatorEnum.BETWEEN">
+                                    <ng-container
+                                        *ngIf="
+                                            field.TABLE_COLUMN_TYPE === 2 &&
+                                            !field.TABLE_COLUMN_DICTIONARY_CODE
+                                        "
+                                    >
+                                        <input
+                                            type="text"
+                                            [(ngModel)]="field.value"
+                                            nz-input
+                                            placeholder="开始值"
+                                            style="width: 100px; text-align: center"
+                                        />
+                                        <input
+                                            type="text"
+                                            disabled
+                                            nz-input
+                                            placeholder="~"
+                                            style="
+                                                width: 30px;
+                                                border-left: 0px;
+                                                pointer-events: none;
+                                                background-color: rgb(255, 255, 255);
+                                            "
+                                        />
+                                        <input
+                                            type="text"
+                                            [(ngModel)]="field.value2"
+                                            nz-input
+                                            placeholder="结束值"
+                                            style="
+                                                width: 100px;
+                                                text-align: center;
+                                                border-left: 0px;
+                                            "
+                                        />
+                                    </ng-container>
+
+                                    <ng-container *ngIf="field.TABLE_COLUMN_TYPE === 4">
+                                        <nz-range-picker
+                                            style="width: 420px"
+                                            [(ngModel)]="field.rangePicker"
+                                            (ngModelChange)="evtDateBetweenChange($event, field)"
+                                        ></nz-range-picker>
+                                    </ng-container>
+                                </ng-container>
+                            </nz-input-group>
+                        </div>
+                    </div>
+                </ng-container>
+            </div>
+        </cdk-virtual-scroll-viewport>
+    </div>
+
+    <!-- 收缩表格开关 -->
+    <div
+        class="header query_result_switch"
+        *ngIf="queryTable.conditionFieldIds && queryTable.conditionFieldIds.length > 0"
+    >
+        <button nz-button nzType="link" (click)="queryTable.evtSwith()">
+            <ng-container *ngIf="queryTable.switch">
+                <i nz-icon nzType="up" nzTheme="outline"></i>
+            </ng-container>
+            <ng-container *ngIf="!queryTable.switch">
+                <i nz-icon nzType="down" nzTheme="outline"></i>
+            </ng-container>
+        </button>
+    </div>
+
+    <div class="container">
+        <div class="layout query_result_area">
+            <!-- 查询匹配结果 -->
+            <div class="query_count_area header">
+                <div class="count">
+                    查询结果：共有<span style="color: red">{{ queryTable.totalCount }}</span
+                    >条满足条件的记录
+                </div>
+                <div class="right">
+                    <nz-radio-group
+                        [(ngModel)]="oldAndNewData.isNewOrOldStatus"
+                        style="margin-right: 10px"
+                        (ngModelChange)="oldAndNewData.NewOrOldData()"
+                    >
+                        <ng-container *ngFor="let item of oldAndNewData.checkOptionsOne">
+                            <label nz-radio-button [nzValue]="item.value">{{ item.label }}</label>
+                        </ng-container>
+                    </nz-radio-group>
+                    <nz-button-group>
+                        <button nz-button (click)="customDisplay()">
+                            <i nz-icon nzType="ordered-list" nzTheme="outline"></i>
+                            定制显示
+                        </button>
+                        <!-- <button nz-button nzType="primary" (click)="downLoadFile()">输出</button> -->
+                        <button nz-button nz-dropdown [nzDropdownMenu]="downExcel">
+                            <i nz-icon nzType="download" nzTheme="outline"></i>
+                            输出
+                            <i nz-icon nzType="down"></i>
+                        </button>
+                        <nz-dropdown-menu #downExcel="nzDropdownMenu">
+                            <ul nz-menu>
+                                <li nz-menu-item>公务员名册</li>
+                                <li nz-menu-item>干部任免审批表</li>
+                                <li nz-menu-item>公务员登记表</li>
+                                <li nz-menu-item>参公登记表</li>
+                                                        <li nz-menu-item (click)="documentOutputIfy.downloadLRMX()">Lrmx文件导出</li>
+                                <li nz-menu-item>人员列表</li>
+                            </ul>
+                        </nz-dropdown-menu>
+                    </nz-button-group>
+                </div>
+            </div>
+            <div class="container query_table_area">
+                <div class="view_scroll">
+                    <nz-table
+                        #queryResultTable
+                        [nzData]="queryTable.data"
+                        nzShowSizeChanger
+                        nzBordered
+                        nzSize="small"
+                        [nzFrontPagination]="false"
+                        [nzTotal]="queryTable.totalCount"
+                        [(nzPageSize)]="queryTable.pageSize"
+                        [(nzPageIndex)]="queryTable.pageIndex"
+                        [nzPageSizeOptions]="[5, 10, 20, 50]"
+                        (nzPageIndexChange)="queryStart()"
+                        (nzPageSizeChange)="queryStart(true)"
+                        [nzLoading]="queryTable.nzLoading"
+                    >
+                        <thead>
+                            <tr>
+                                <th
+                                    nzWidth="40px"
+                                    nzShowCheckbox
+                                    [(nzChecked)]="queryTable.isCheckAll"
+                                    [nzIndeterminate]="queryTable.isIndeterminate"
+                                    (nzCheckedChange)="queryTable.evtCheckAll($event)"
+                                ></th>
+                                <ng-container *ngFor="let field of queryTable.Fields">
+                                    <th [nzWidth]="field.SCHEME_HEADER_DISPLAY_WIDTH + 'px'">
+                                        {{ field.TABLE_COLUMN_NAME }}
+                                    </th>
+                                </ng-container>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr *ngFor="let data of queryResultTable.data">
+                                <td
+                                    nzLeft="0px"
+                                    nzWidth="40px"
+                                    nzShowCheckbox
+                                    [(nzChecked)]="queryTable.mapOfCheckedId[data.keyId]"
+                                    (nzCheckedChange)="queryTable.evtRowCheckedChange()"
+                                ></td>
+                                <ng-container *ngFor="let field of queryTable.Fields">
+                                    <td *ngIf="oldAndNewData.isNewOrOldStatus === 0">
+                                        <ng-container
+                                            *ngIf="
+                                                field.TABLE_COLUMN_CODE !== 'A0101';
+                                                else elseA0101Temp0
+                                            "
+                                        >
+                                            {{
+                                                field.TABLE_COLUMN_DICTIONARY_CODE
+                                                    ? data[field.TABLE_COLUMN_CODE + '_CN']
+                                                    : field.TABLE_COLUMN_TYPE !== 4
+                                                    ? data[field.TABLE_COLUMN_CODE]
+                                                    : (data[field.TABLE_COLUMN_CODE]
+                                                      | date: 'yyyy-MM-dd')
+                                            }}
+                                        </ng-container>
+
+                                        <ng-template #elseA0101Temp0>
+                                            <a (click)="queryTable.evtViewDetails(data)">{{
+                                                data[field.TABLE_COLUMN_CODE]
+                                            }}</a>
+                                        </ng-template>
+                                    </td>
+                                    <ng-container *ngIf="oldAndNewData.isNewOrOldStatus === 1">
+                                        <td
+                                            *ngIf="!data.isHide || field.tableId !== 'A01'"
+                                            [rowSpan]="field.tableId !== 'A01' ? 1 : data.rowSpan"
+                                        >
+                                            <ng-container
+                                                *ngIf="
+                                                    field.TABLE_COLUMN_CODE !== 'A0101';
+                                                    else elseA0101Temp1
+                                                "
+                                            >
+                                                {{
+                                                    field.TABLE_COLUMN_DICTIONARY_CODE
+                                                        ? data[field.TABLE_COLUMN_CODE + '_CN']
+                                                        : field.TABLE_COLUMN_TYPE !== 4
+                                                        ? data[field.TABLE_COLUMN_CODE]
+                                                        : (data[field.TABLE_COLUMN_CODE]
+                                                          | date: 'yyyy-MM-dd')
+                                                }}
+                                            </ng-container>
+                                            <ng-template #elseA0101Temp1>
+                                                <a (click)="queryTable.evtViewDetails(data)">{{
+                                                    data[field.TABLE_COLUMN_CODE]
+                                                }}</a>
+                                            </ng-template>
+                                        </td>
+                                    </ng-container>
+                                </ng-container>
+                            </tr>
+                        </tbody>
+                    </nz-table>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- 显示字段调整 -->
+<nz-drawer
+    [nzVisible]="fieldsAdjust.visible"
+    nzPlacement="right"
+    [nzTitle]="fieldsAdjust.title"
+    [nzWidth]="fieldsAdjust.width"
+    (nzOnClose)="fieldsAdjust.close()"
+>
+    <div class="drawer_area">
+        <div class="header">
+            <nz-button-group>
+                <button nz-button nzType="primary" (click)="fieldsAdjust.save()">完成调整</button>
+                <button nz-button nzType="default" (click)="fieldsAdjust.close()">关闭</button>
+            </nz-button-group>
+        </div>
+        <div class="table_header_field container">
+            <main class="left_main">
+                <div class="adjust_fields">
+                    <div class="title">
+                        <nz-input-group
+                            class="search_put"
+                            nzAddOnBefore="备选指标"
+                            [nzSuffix]="suffixIconSearch"
+                        >
+                            <input
+                                type="text"
+                                nz-input
+                                [(ngModel)]="fieldsAdjust.searchValue"
+                                placeholder="输入关键字搜索"
+                            />
+                        </nz-input-group>
+                        <ng-template #suffixIconSearch>
+                            <i nz-icon nzType="search"></i>
+                        </ng-template>
+                    </div>
+                    <div class="list">
+                        <nz-tree
+                            #typeTreeElement
+                            [nzShowIcon]="true"
+                            [nzSearchValue]="fieldsAdjust.searchValue"
+                            [nzData]="fieldsAdjust.alternativeTree.nodes"
+                            (nzClick)="fieldsAdjust.alternativeTree.evtActiveNode($event)"
+                            (nzDblClick)="fieldsAdjust.alternativeTree.evtDblActiveNode($event)"
+                        >
+                        </nz-tree>
+                    </div>
+                </div>
+            </main>
+            <aside class="aside">
+                <button nz-button nzType="primary" (click)="fieldsAdjust.evtChoose()">选择</button>
+            </aside>
+            <main class="right_main">
+                <div class="selected">
+                    <div class="title">已选指标：</div>
+                    <div class="list" *ngIf="fieldsAdjust.selectedIfy.list.length > 0">
+                        <div
+                            cdkDropList
+                            class="drag-list"
+                            (cdkDropListDropped)="fieldsAdjust.selectedIfy.drop($event)"
+                        >
+                            <div
+                                class="drag-item selected-table"
+                                *ngFor="let item of fieldsAdjust.selectedIfy.list; let i = index"
+                                cdkDragLockAxis="y"
+                                cdkDrag
+                            >
+                                {{ item?.TABLE_COLUMN_NAME }}
+                                <ng-container
+                                    *ngIf="
+                                        fieldsAdjust.selectedIfy.defaultFilelds.indexOf(
+                                            item?.TABLE_COLUMN_CODE
+                                        ) === -1
+                                    "
+                                >
+                                    <div
+                                        class="close position_0"
+                                        title="撤选"
+                                        (click)="fieldsAdjust.selectedIfy.delete(item, i)"
+                                    >
+                                        <i class="fa fa-times" aria-hidden="true"></i>
+                                    </div>
+                                    <div class="drag-handle position_0" cdkDragHandle>
+                                        <i class="fa fa-arrows" aria-hidden="true"></i>
+                                    </div>
+                                </ng-container>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </main>
+        </div>
+    </div>
+</nz-drawer>
+
+<!-- 添加-选择字段 -->
+<nz-drawer
+    [nzVisible]="selectorFieldsIfy.visible"
+    nzPlacement="right"
+    [nzTitle]="selectorFieldsIfy.title"
+    [nzWidth]="selectorFieldsIfy.width"
+    (nzOnClose)="selectorFieldsIfy.close()"
+>
+    <div class="drawer_area">
+        <div class="header">
+            <nz-input-group [nzSuffix]="suffixIcon">
+                <input
+                    type="text"
+                    nz-input
+                    placeholder="输入关键字搜索"
+                    [(ngModel)]="selectorFieldsIfy.searchValue"
+                />
+            </nz-input-group>
+            <ng-template #suffixIcon>
+                <i nz-icon nzType="search"></i>
+            </ng-template>
+        </div>
+        <div class="container">
+            <nz-tree
+                #conditionFieldsTree
+                nzCheckable
+                [nzShowIcon]="true"
+                [nzSearchValue]="selectorFieldsIfy.searchValue"
+                [nzData]="selectorFieldsIfy.tree.nodes"
+                (nzClick)="selectorFieldsIfy.tree.evtActiveNode($event)"
+            >
+            </nz-tree>
+        </div>
+        <div class="footer">
+            <nz-button-group>
+                <button nz-button nzType="primary" (click)="selectorFieldsIfy.evtSelected()">
+                    选择
+                </button>
+            </nz-button-group>
+        </div>
+    </div>
+</nz-drawer>
+
+<!-- 已存条件 -->
+<nz-drawer
+    [nzClosable]="true"
+    [nzVisible]="existCondition.visible"
+    nzPlacement="right"
+    [nzWidth]="500"
+    nzTitle="已存条件"
+    (nzOnClose)="existCondition.close()"
+>
+    <nz-table #exist [nzData]="existCondition.tableData" nzSize="small" nzBordered>
+        <thead>
+            <tr>
+                <th>名称</th>
+                <th>保存时间</th>
+                <th [nzAlign]="'center'">操作</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr *ngFor="let data of exist.data">
+                <td>{{ data.QUERY_HISTORY_NAME }}</td>
+                <td>{{ data.QUERY_HISTORY_TIME | date: 'yyyy-MM-dd' }}</td>
+                <td [nzAlign]="'center'">
+                    <a (click)="existCondition.query(data)">查看 </a>
+                    <nz-divider nzType="vertical"></nz-divider>
+                    <a (click)="existCondition.deleteCondition(data)"> 删除</a>
+                </td>
+            </tr>
+        </tbody>
+    </nz-table>
+</nz-drawer>
+
+<!-- 保存条件 -->
+<nz-drawer
+    [nzClosable]="true"
+    [nzVisible]="saveCondition.visible"
+    nzPlacement="right"
+    [nzWidth]="380"
+    nzTitle="保存条件"
+    (nzOnClose)="saveCondition.close()"
+>
+    <div class="drawer_area">
+        <div class="container">
+            <form nz-form [formGroup]="saveCondition.form" style="width: 100%" nzLayout="vertical">
+                <nz-form-item>
+                    <nz-form-label nzRequired>查询名称</nz-form-label>
+                    <nz-form-control>
+                        <input formControlName="name" nz-input placeholder="请输入条件名称" />
+                    </nz-form-control>
+                </nz-form-item>
+            </form>
+        </div>
+        <div class="footer">
+            <button nz-button nzType="primary" (click)="saveCondition.saveCondition()">确认</button>
+        </div>
+    </div>
+</nz-drawer>

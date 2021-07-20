@@ -1,0 +1,18 @@
+@import 'src/app/styles/drawer';
+
+.drawer_area{
+    .header{
+        border-bottom: solid 1px #eee;
+    }
+    .container{
+        border-top: none;
+    }
+}
+.label-item {
+    margin: 0 0 0 20px;
+    font-weight: bold;
+}
+
+.include-not-working {
+    margin-left: 20px;
+}

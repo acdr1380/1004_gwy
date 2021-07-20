@@ -1,0 +1,23 @@
+@import 'src/app/styles/layout';
+@import 'src/app/styles/drawer';
+
+.oper_base {
+    padding: 20px;
+    /*flex 布局*/
+    display: flex;
+    /*实现垂直居中*/
+    // align-items: center;
+    /*实现水平居中*/
+    justify-content: center;
+
+    overflow-y: auto;
+
+    .oper_base_info {
+        max-width: 800px;
+        .submit {
+            button {
+                margin-right: 10px;
+            }
+        }
+    }
+}

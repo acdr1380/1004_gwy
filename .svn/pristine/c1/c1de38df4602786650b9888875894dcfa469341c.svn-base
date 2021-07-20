@@ -1,0 +1,120 @@
+import { AfterViewInit, Component, ElementRef, OnDestroy, OnInit, ViewChild } from '@angular/core';
+import { ActivatedRoute, ParamMap, Router } from '@angular/router';
+import { ExamYearService } from '../exam-year.service';
+import { Base64 } from 'js-base64';
+import { ClientService } from 'app/master-page/client/client.service';
+
+@Component({
+    selector: 'app-exam-year-basic',
+    templateUrl: './exam-year-basic.component.html',
+    styleUrls: ['./exam-year-basic.component.scss'],
+})
+export class ExamYearBasicComponent implements OnInit, AfterViewInit, OnDestroy {
+    operInfo: any;
+
+    state = <any>{
+        DB: false,
+        YTJ: false,
+        YWC: false,
+        YZF: false,
+    };
+
+    // @ViewChild('oneStepTemplate', { static: false }) private oneStepTemplate: ElementRef;
+    @ViewChild('twoStepTemplate', { static: false }) private twoStepTemplate: ElementRef;
+    @ViewChild('threeStepTemplate', { static: false }) private threeStepTemplate: ElementRef;
+    transactionStepsIfy = {
+        index: -1,
+        list: [
+            {
+                text: '选择人员',
+                template: null,
+            },
+            {
+                text: '预览表册',
+                template: null,
+            },
+        ],
+        evtStepChange: event => {
+            this.transactionStepsIfy.index = event;
+            switch (event) {
+                case 0:
+                    if (!this.transactionStepsIfy.list[event].template) {
+                        this.transactionStepsIfy.list[event].template = this.twoStepTemplate;
+                    }
+                    break;
+                case 1:
+                    if (!this.transactionStepsIfy.list[event].template) {
+                        this.transactionStepsIfy.list[event].template = this.threeStepTemplate;
+                    }
+                    break;
+                // case 2:
+                //     if (!this.transactionStepsIfy.list[event].template) {
+                //         this.transactionStepsIfy.list[event].template = this.threeStepTemplate;
+                //     }
+                //     break;
+            }
+        },
+    };
+
+    constructor(
+        private clientService: ClientService,
+        private router: Router,
+        private service: ExamYearService,
+        private activatedRoute: ActivatedRoute
+    ) {}
+
+    ngOnInit() {
+        this.loadBreadcrumbNav();
+        this.loadRouterParams();
+    }
+
+    ngAfterViewInit() {
+        this.transactionStepsIfy.evtStepChange(0);
+    }
+
+    ngOnDestroy() {
+        this.clientService.clearBreadCrumb();
+    }
+
+    loadBreadcrumbNav() {
+        this.clientService.buildBreadCrumb([
+            {
+                type: 'home',
+            },
+            {
+                type: 'event',
+                text: '年度考核工作台',
+                event: () => {
+                    this.router.navigate(['/client/person-correl/exam-year/workflow']);
+                },
+            },
+            {
+                type: 'text',
+                text: '年度考核部署',
+            },
+        ]);
+    }
+
+    submit() {
+        const data = {
+            ANNUAL_ASSESS_RELATION_ID: this.operInfo.ANNUAL_ASSESS_RELATION_ID,
+        };
+        this.service
+            .examYearSubmitManager(data)
+            .subscribe(res => this.router.navigate(['/client/person-correl/exam-year/workflow']));
+    }
+
+    private loadRouterParams() {
+        // 获取路由参数
+        this.activatedRoute.paramMap.subscribe(async (params: ParamMap) => {
+            // 判断路由参数是否存在
+            if (params.has('GL')) {
+                this.operInfo = JSON.parse(Base64.decode(params.get('GL')));
+            }
+
+            if (params.has('state')) {
+                this.state = JSON.parse(Base64.decode(params.get('state')));
+            }
+        });
+    }
+}

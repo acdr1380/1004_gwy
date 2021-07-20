@@ -1,0 +1,15 @@
+import { Component, OnInit } from '@angular/core';
+
+@Component({
+  selector: 'gl-tibet-person-quit-form',
+  templateUrl: './tibet-person-quit-form.component.html',
+  styleUrls: ['./tibet-person-quit-form.component.scss']
+})
+export class TibetPersonQuitFormComponent implements OnInit {
+
+  constructor() { }
+
+  ngOnInit(): void {
+  }
+
+}

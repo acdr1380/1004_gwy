@@ -1,0 +1,364 @@
+<html xmlns:o="urn:schemas-microsoft-com:office:office"
+xmlns:x="urn:schemas-microsoft-com:office:excel"
+xmlns="http://www.w3.org/TR/REC-html40">
+
+<head>
+<meta http-equiv=Content-Type content="text/html; charset=utf-8">
+<meta name=ProgId content=Excel.Sheet>
+<meta name=Generator content="Microsoft Excel 15">
+<link rel=File-List href="干审表_1.files/filelist.xml">
+<style id="干审表v7_14954_Styles">
+<!--table
+	{mso-displayed-decimal-separator:"\.";
+	mso-displayed-thousand-separator:"\,";}
+.font014954
+	{color:windowtext;
+	font-size:12.0pt;
+	font-weight:400;
+	font-style:normal;
+	text-decoration:none;
+	font-family:宋体;
+	mso-generic-font-family:auto;
+	mso-font-charset:134;}
+.font514954
+	{color:windowtext;
+	font-size:9.0pt;
+	font-weight:400;
+	font-style:normal;
+	text-decoration:none;
+	font-family:宋体;
+	mso-generic-font-family:auto;
+	mso-font-charset:134;}
+.font614954
+	{color:windowtext;
+	font-size:12.0pt;
+	font-weight:400;
+	font-style:normal;
+	text-decoration:none;
+	font-family:宋体;
+	mso-generic-font-family:auto;
+	mso-font-charset:134;}
+.font714954
+	{color:red;
+	font-size:12.0pt;
+	font-weight:400;
+	font-style:normal;
+	text-decoration:none;
+	font-family:宋体;
+	mso-generic-font-family:auto;
+	mso-font-charset:134;}
+.xl1514954
+	{padding-top:1px;
+	padding-right:1px;
+	padding-left:1px;
+	mso-ignore:padding;
+	color:windowtext;
+	font-size:12.0pt;
+	font-weight:400;
+	font-style:normal;
+	text-decoration:none;
+	font-family:宋体;
+	mso-generic-font-family:auto;
+	mso-font-charset:134;
+	mso-number-format:General;
+	text-align:general;
+	vertical-align:middle;
+	mso-background-source:auto;
+	mso-pattern:auto;
+	white-space:nowrap;}
+.xl6314954
+	{padding-top:1px;
+	padding-right:1px;
+	padding-left:1px;
+	mso-ignore:padding;
+	color:windowtext;
+	font-size:12.0pt;
+	font-weight:400;
+	font-style:normal;
+	text-decoration:none;
+	font-family:宋体;
+	mso-generic-font-family:auto;
+	mso-font-charset:134;
+	mso-number-format:General;
+	text-align:center;
+	vertical-align:middle;
+	border:.5pt solid #00B0F0;
+	mso-background-source:auto;
+	mso-pattern:auto;
+	white-space:nowrap;}
+.xl6414954
+	{padding-top:1px;
+	padding-right:1px;
+	padding-left:1px;
+	mso-ignore:padding;
+	color:windowtext;
+	font-size:12.0pt;
+	font-weight:400;
+	font-style:normal;
+	text-decoration:none;
+	font-family:宋体;
+	mso-generic-font-family:auto;
+	mso-font-charset:134;
+	mso-number-format:General;
+	text-align:general;
+	vertical-align:middle;
+	border:.5pt solid #00B0F0;
+	mso-background-source:auto;
+	mso-pattern:auto;
+	white-space:nowrap;}
+.xl6514954
+	{padding-top:1px;
+	padding-right:1px;
+	padding-left:1px;
+	mso-ignore:padding;
+	color:windowtext;
+	font-size:12.0pt;
+	font-weight:400;
+	font-style:normal;
+	text-decoration:none;
+	font-family:宋体;
+	mso-generic-font-family:auto;
+	mso-font-charset:134;
+	mso-number-format:General;
+	text-align:left;
+	vertical-align:middle;
+	border:.5pt solid #00B0F0;
+	mso-background-source:auto;
+	mso-pattern:auto;
+	white-space:nowrap;}
+.xl6614954
+	{padding-top:1px;
+	padding-right:1px;
+	padding-left:1px;
+	mso-ignore:padding;
+	color:windowtext;
+	font-size:12.0pt;
+	font-weight:400;
+	font-style:normal;
+	text-decoration:none;
+	font-family:宋体;
+	mso-generic-font-family:auto;
+	mso-font-charset:134;
+	mso-number-format:General;
+	text-align:center;
+	vertical-align:middle;
+	mso-background-source:auto;
+	mso-pattern:auto;
+	white-space:nowrap;}
+.xl6714954
+	{padding-top:1px;
+	padding-right:1px;
+	padding-left:1px;
+	mso-ignore:padding;
+	color:windowtext;
+	font-size:12.0pt;
+	font-weight:400;
+	font-style:normal;
+	text-decoration:none;
+	font-family:宋体;
+	mso-generic-font-family:auto;
+	mso-font-charset:134;
+	mso-number-format:General;
+	text-align:center;
+	vertical-align:middle;
+	border:.5pt solid #00B0F0;
+	mso-background-source:auto;
+	mso-pattern:auto;
+	white-space:normal;
+	layout-flow:vertical-ideographic;}
+.xl6814954
+	{padding-top:1px;
+	padding-right:1px;
+	padding-left:1px;
+	mso-ignore:padding;
+	color:windowtext;
+	font-size:12.0pt;
+	font-weight:400;
+	font-style:normal;
+	text-decoration:none;
+	font-family:宋体;
+	mso-generic-font-family:auto;
+	mso-font-charset:134;
+	mso-number-format:General;
+	text-align:center;
+	vertical-align:middle;
+	border:.5pt solid #00B0F0;
+	mso-background-source:auto;
+	mso-pattern:auto;
+	white-space:nowrap;
+	layout-flow:vertical-ideographic;}
+ruby
+	{ruby-align:left;}
+rt
+	{color:windowtext;
+	font-size:9.0pt;
+	font-weight:400;
+	font-style:normal;
+	text-decoration:none;
+	font-family:宋体;
+	mso-generic-font-family:auto;
+	mso-font-charset:134;
+	mso-char-type:none;}
+-->
+</style>
+</head>
+
+<body>
+<!--[if !excel]>　　<![endif]-->
+<!--下列信息由 Microsoft Excel 的发布为网页向导生成。-->
+<!--如果同一条目从 Excel 中重新发布，则所有位于 DIV 标记之间的信息均将被替换。-->
+<!----------------------------->
+<!--“从 EXCEL 发布网页”向导开始-->
+<!----------------------------->
+
+<div id="干审表v7_14954" align=center x:publishsource="Excel">
+
+<table border=0 cellpadding=0 cellspacing=0 width=811 style='border-collapse:
+ collapse;table-layout:fixed;width:610pt'>
+ <col width=101 style='mso-width-source:userset;mso-width-alt:3232;width:76pt'>
+ <col width=53 style='mso-width-source:userset;mso-width-alt:1696;width:40pt'>
+ <col width=93 style='mso-width-source:userset;mso-width-alt:2976;width:70pt'>
+ <col width=109 style='mso-width-source:userset;mso-width-alt:3488;width:82pt'>
+ <col width=125 style='mso-width-source:userset;mso-width-alt:4000;width:94pt'>
+ <col width=109 style='mso-width-source:userset;mso-width-alt:3488;width:82pt'>
+ <col width=221 style='mso-width-source:userset;mso-width-alt:7072;width:166pt'>
+ <tr height=46 style='mso-height-source:userset;height:35.1pt'>
+  <td colspan=7 height=46 class=xl6614954 width=811 style='height:35.1pt;
+  width:610pt'></td>
+ </tr>
+ <tr height=115 style='mso-height-source:userset;height:86.45pt'>
+  <td height=115 class=xl6314954 style='height:86.45pt'>奖惩综述</td>
+  <td colspan=6 class=xl6514954 style='border-left:none'>　</td>
+ </tr>
+ <tr height=115 style='mso-height-source:userset;height:86.45pt'>
+  <td height=115 class=xl6314954 style='height:86.45pt;border-top:none'><font
+  class="font714954">*</font><font class="font614954">考核综述</font></td>
+  <td colspan=6 class=xl6514954 style='border-left:none'>　</td>
+ </tr>
+ <tr height=40 style='mso-height-source:userset;height:30.0pt'>
+  <td height=40 class=xl6314954 style='height:30.0pt;border-top:none'>编辑</td>
+  <td class=xl6314954 style='border-top:none;border-left:none'>序号</td>
+  <td class=xl6314954 style='border-top:none;border-left:none'><font
+  class="font714954">*</font><font class="font014954">称 谓</font></td>
+  <td class=xl6314954 style='border-top:none;border-left:none'><font
+  class="font714954">*</font><font class="font014954">姓 名</font></td>
+  <td class=xl6314954 style='border-top:none;border-left:none'>出生日期</td>
+  <td class=xl6314954 style='border-top:none;border-left:none'><font
+  class="font714954">*</font><font class="font014954">政治面貌</font></td>
+  <td class=xl6314954 style='border-top:none;border-left:none'><font
+  class="font714954">*</font><font class="font014954">工作单位及职务</font></td>
+ </tr>
+ <tr height=40 style='mso-height-source:userset;height:30.0pt'>
+  <td rowspan=10 height=400 class=xl6714954 width=101 style='height:300.0pt;
+  border-top:none;width:76pt'><font class="font714954">*</font><font
+  class="font614954">家庭成员及重要社会关系</font></td>
+  <td class=xl6414954 style='border-top:none;border-left:none'>　</td>
+  <td class=xl6414954 style='border-top:none;border-left:none'>　</td>
+  <td class=xl6414954 style='border-top:none;border-left:none'>　</td>
+  <td class=xl6414954 style='border-top:none;border-left:none'>　</td>
+  <td class=xl6414954 style='border-top:none;border-left:none'>　</td>
+  <td class=xl6414954 style='border-top:none;border-left:none'>　</td>
+ </tr>
+ <tr height=40 style='mso-height-source:userset;height:30.0pt'>
+  <td height=40 class=xl6414954 style='height:30.0pt;border-top:none;
+  border-left:none'>　</td>
+  <td class=xl6414954 style='border-top:none;border-left:none'>　</td>
+  <td class=xl6414954 style='border-top:none;border-left:none'>　</td>
+  <td class=xl6414954 style='border-top:none;border-left:none'>　</td>
+  <td class=xl6414954 style='border-top:none;border-left:none'>　</td>
+  <td class=xl6414954 style='border-top:none;border-left:none'>　</td>
+ </tr>
+ <tr height=40 style='mso-height-source:userset;height:30.0pt'>
+  <td height=40 class=xl6414954 style='height:30.0pt;border-top:none;
+  border-left:none'>　</td>
+  <td class=xl6414954 style='border-top:none;border-left:none'>　</td>
+  <td class=xl6414954 style='border-top:none;border-left:none'>　</td>
+  <td class=xl6414954 style='border-top:none;border-left:none'>　</td>
+  <td class=xl6414954 style='border-top:none;border-left:none'>　</td>
+  <td class=xl6414954 style='border-top:none;border-left:none'>　</td>
+ </tr>
+ <tr height=40 style='mso-height-source:userset;height:30.0pt'>
+  <td height=40 class=xl6414954 style='height:30.0pt;border-top:none;
+  border-left:none'>　</td>
+  <td class=xl6414954 style='border-top:none;border-left:none'>　</td>
+  <td class=xl6414954 style='border-top:none;border-left:none'>　</td>
+  <td class=xl6414954 style='border-top:none;border-left:none'>　</td>
+  <td class=xl6414954 style='border-top:none;border-left:none'>　</td>
+  <td class=xl6414954 style='border-top:none;border-left:none'>　</td>
+ </tr>
+ <tr height=40 style='mso-height-source:userset;height:30.0pt'>
+  <td height=40 class=xl6414954 style='height:30.0pt;border-top:none;
+  border-left:none'>　</td>
+  <td class=xl6414954 style='border-top:none;border-left:none'>　</td>
+  <td class=xl6414954 style='border-top:none;border-left:none'>　</td>
+  <td class=xl6414954 style='border-top:none;border-left:none'>　</td>
+  <td class=xl6414954 style='border-top:none;border-left:none'>　</td>
+  <td class=xl6414954 style='border-top:none;border-left:none'>　</td>
+ </tr>
+ <tr height=40 style='mso-height-source:userset;height:30.0pt'>
+  <td height=40 class=xl6414954 style='height:30.0pt;border-top:none;
+  border-left:none'>　</td>
+  <td class=xl6414954 style='border-top:none;border-left:none'>　</td>
+  <td class=xl6414954 style='border-top:none;border-left:none'>　</td>
+  <td class=xl6414954 style='border-top:none;border-left:none'>　</td>
+  <td class=xl6414954 style='border-top:none;border-left:none'>　</td>
+  <td class=xl6414954 style='border-top:none;border-left:none'>　</td>
+ </tr>
+ <tr height=40 style='mso-height-source:userset;height:30.0pt'>
+  <td height=40 class=xl6414954 style='height:30.0pt;border-top:none;
+  border-left:none'>　</td>
+  <td class=xl6414954 style='border-top:none;border-left:none'>　</td>
+  <td class=xl6414954 style='border-top:none;border-left:none'>　</td>
+  <td class=xl6414954 style='border-top:none;border-left:none'>　</td>
+  <td class=xl6414954 style='border-top:none;border-left:none'>　</td>
+  <td class=xl6414954 style='border-top:none;border-left:none'>　</td>
+ </tr>
+ <tr height=40 style='mso-height-source:userset;height:30.0pt'>
+  <td height=40 class=xl6414954 style='height:30.0pt;border-top:none;
+  border-left:none'>　</td>
+  <td class=xl6414954 style='border-top:none;border-left:none'>　</td>
+  <td class=xl6414954 style='border-top:none;border-left:none'>　</td>
+  <td class=xl6414954 style='border-top:none;border-left:none'>　</td>
+  <td class=xl6414954 style='border-top:none;border-left:none'>　</td>
+  <td class=xl6414954 style='border-top:none;border-left:none'>　</td>
+ </tr>
+ <tr height=40 style='mso-height-source:userset;height:30.0pt'>
+  <td height=40 class=xl6414954 style='height:30.0pt;border-top:none;
+  border-left:none'>　</td>
+  <td class=xl6414954 style='border-top:none;border-left:none'>　</td>
+  <td class=xl6414954 style='border-top:none;border-left:none'>　</td>
+  <td class=xl6414954 style='border-top:none;border-left:none'>　</td>
+  <td class=xl6414954 style='border-top:none;border-left:none'>　</td>
+  <td class=xl6414954 style='border-top:none;border-left:none'>　</td>
+ </tr>
+ <tr height=40 style='mso-height-source:userset;height:30.0pt'>
+  <td height=40 class=xl6414954 style='height:30.0pt;border-top:none;
+  border-left:none'>　</td>
+  <td class=xl6414954 style='border-top:none;border-left:none'>　</td>
+  <td class=xl6414954 style='border-top:none;border-left:none'>　</td>
+  <td class=xl6414954 style='border-top:none;border-left:none'>　</td>
+  <td class=xl6414954 style='border-top:none;border-left:none'>　</td>
+  <td class=xl6414954 style='border-top:none;border-left:none'>　</td>
+ </tr>
+ <![if supportMisalignedColumns]>
+ <tr height=0 style='display:none'>
+  <td width=101 style='width:76pt'></td>
+  <td width=53 style='width:40pt'></td>
+  <td width=93 style='width:70pt'></td>
+  <td width=109 style='width:82pt'></td>
+  <td width=125 style='width:94pt'></td>
+  <td width=109 style='width:82pt'></td>
+  <td width=221 style='width:166pt'></td>
+ </tr>
+ <![endif]>
+</table>
+
+</div>
+
+
+<!----------------------------->
+<!--“从 EXCEL 发布网页”向导结束-->
+<!----------------------------->
+</body>
+
+</html>

@@ -1,0 +1,31 @@
+import { NgModule } from '@angular/core';
+import { Routes, RouterModule } from '@angular/router';
+import { IrregularComponent } from 'app/master-page/irregular/irregular.component';
+
+const routes: Routes = [
+    {
+        path: '',
+        component: IrregularComponent,
+        // canActivateChild: [InitGuardService],
+        children: [
+            {
+                path: 'oper-salary-info-page',
+                loadChildren: () =>
+                    import('./oper-salary-info-page/oper-salary-info-page.module').then(
+                        m => m.OperSalaryInfoPageModule
+                    ),
+            },
+            {
+                path: 'form-page',
+                loadChildren: () =>
+                    import('./form-page/form-page.module').then(m => m.FormPageModule),
+            },
+        ],
+    },
+];
+
+@NgModule({
+    imports: [RouterModule.forChild(routes)],
+    exports: [RouterModule],
+})
+export class IrregularPageRoutingModule {}

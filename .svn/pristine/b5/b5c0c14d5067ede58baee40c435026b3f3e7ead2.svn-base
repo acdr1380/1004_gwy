@@ -1,0 +1,24 @@
+@import 'src/app/styles/layout';
+@import 'src/app/styles/drawer';
+@import '../salary-distribute.component.scss';
+
+.layout {
+    .left {
+        width: 200px !important;
+    }
+}
+
+.detail-info {
+    height: 100px !important;
+    span {
+        color: rgba(0, 0, 0, 0.65);
+    }
+}
+
+input::-webkit-outer-spin-button,
+input::-webkit-inner-spin-button {
+    -webkit-appearance: none;
+}
+input[type='number'] {
+    -moz-appearance: textfield;
+}

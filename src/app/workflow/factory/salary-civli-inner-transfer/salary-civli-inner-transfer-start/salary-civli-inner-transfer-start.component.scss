@@ -1,0 +1,111 @@
+/*导入布局样式*/
+@import "src/app/styles/layout";
+@import "src/app/styles/drawer";
+
+$header-height: 70px;
+$footer-height: 50px;
+
+.oper_main {
+    background-color: transparent;
+
+    & > .header {
+        height: $header-height;
+        line-height: $header-height;
+        background-color: #f0f2f5;
+        padding-bottom: 5px;
+
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+
+        .trans_step {
+            min-width: 800px;
+        }
+    }
+
+    & > .footer {
+        padding-top: 5px;
+        background-color: #f0f2f5;
+
+        button {
+            margin-right: 10px;
+        }
+    }
+}
+
+.oper_handle {
+    button {
+        margin-right: 10px;
+    }
+}
+
+.oper_base {
+    /*flex 布局*/
+    display: flex;
+    /*实现垂直居中*/
+    align-items: center;
+    /*实现水平居中*/
+    justify-content: center;
+
+    .oper_base_info {
+        max-width: 700px;
+        // padding: 50px;
+        // padding-top: 50px;
+    }
+}
+
+.other_list {
+    border: 1px solid #f0f0f0;
+    $other-height: 30px;
+
+    .item {
+        height: $other-height;
+        line-height: $other-height;
+        border-bottom: 1px solid #f0f0f0;
+
+        display: flex;
+        align-items: center;
+
+        &:last-child {
+            border: none;
+        }
+
+        &:hover {
+            color: #1890ff;
+        }
+
+        &.active {
+            background-color: #e6f7ff;
+            color: #1890ff;
+
+            &:before {
+                background-color: #1890ff;
+            }
+        }
+
+        & > .title {
+            padding-left: 10px;
+            flex: 1;
+            cursor: pointer;
+        }
+
+        & > .icon {
+            width: 30px;
+            padding: 0 10px;
+        }
+    }
+}
+
+.opreate_icon {
+    font-size: 22px;
+    cursor: pointer;
+    color: #828282;
+
+    &:hover {
+        color: #1890ff;
+    }
+}
+
+.special_icon {
+    font-size: 17px;
+}

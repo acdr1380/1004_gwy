@@ -1,0 +1,7 @@
+@import 'src/app/styles/_drawer';
+
+.select_org_drawer {
+    .container {
+        padding: 0;
+    }
+}

@@ -1,0 +1,159 @@
+<div class="layout oper_lyt">
+    <div class="container">
+        <div class="view_scroll">
+            <div class="deploy_info">
+                <ng-template
+                    [ngTemplateOutlet]="operDeployInfoEditor"
+                    [ngTemplateOutletContext]="{
+                        formGroup: operDeployInfoIfy.form
+                    }"
+                >
+                </ng-template>
+                <div class="opt_btns" nz-row *ngIf="!URLParams?.batchId">
+                    <div nz-col nzSpan="8" nzOffset="4">
+                        <button nz-button nzType="primary" (click)="operDeployInfoIfy.start()">
+                            发布业务
+                        </button>
+                    </div>
+                </div>
+
+                <div nz-row *ngIf="URLParams?.batchId">
+                    <div nz-col nzSpan="20" nzOffset="4">
+                        <div class="view chart">
+                            <div id="batchStatisticalChart"></div>
+                        </div>
+                    </div>
+                </div>
+
+                <div nz-row class="send_obj" *ngIf="URLParams?.batchId">
+                    <div class="label" nz-col nzSpan="4">发送对象：</div>
+                    <div nz-col nzSpan="20">
+                        <div class="handle">
+                            <button
+                                nz-button
+                                nzType="primary"
+                                (click)="operDeployInfoIfy.evtSelectUnit()"
+                            >
+                                选择发送对象
+                            </button>
+                        </div>
+
+                        <div class="tbl_view">
+                            <nz-table
+                                #deployUnitTable
+                                nzBordered
+                                nzSize="small"
+                                [(nzPageIndex)]="operDeployInfoIfy.pageIndex"
+                                [nzPageSize]="operDeployInfoIfy.pageSize"
+                                [nzData]="operDeployInfoIfy.unitList"
+                            >
+                                <thead>
+                                    <tr>
+                                        <th nzWidth="60px">序号</th>
+                                        <th>单位名称</th>
+                                        <th nzWidth="60px">操作</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr *ngFor="let data of deployUnitTable.data; let i = index">
+                                        <td>
+                                            {{
+                                                i +
+                                                    (operDeployInfoIfy.pageIndex - 1) *
+                                                        operDeployInfoIfy.pageSize +
+                                                    1
+                                            }}
+                                        </td>
+                                        <td>{{ data.unitName }}</td>
+                                        <td>
+                                            <a (click)="operDeployInfoIfy.delete(data)">撤选</a>
+                                        </td>
+                                    </tr>
+                                </tbody>
+                            </nz-table>
+                        </div>
+                    </div>
+                    <div nz-col nzSpan="20" nzOffset="4">
+                        <button nz-button nzType="primary" (click)="operDeployInfoIfy.save()">
+                            保存批次信息
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- 部署信息 -->
+<ng-template #operDeployInfoEditor let-formGroup="formGroup">
+    <form nz-form nz-row [formGroup]="formGroup">
+        <div nz-col nzSpan="24">
+            <nz-form-item>
+                <nz-form-label nzSpan="4" nzRequired>业务标题</nz-form-label>
+                <nz-form-control nzSpan="20" nzErrorTip="业务标题不能为空。">
+                    <input nz-input placeholder="业务标题" formControlName="title" />
+                </nz-form-control>
+            </nz-form-item>
+        </div>
+
+        <div nz-col nzSpan="24">
+            <nz-form-item>
+                <nz-form-label nzSpan="4" nzRequired>办理年份</nz-form-label>
+                <nz-form-control nzSpan="20" nzErrorTip="年份不能为空。">
+                    <!-- <nz-year-picker formControlName="year" nzPlaceHolder="选择年份"></nz-year-picker> -->
+                    <input
+                        style="width: 120px"
+                        nz-input
+                        formControlName="year"
+                        placeHolder="录入年份"
+                    />
+                </nz-form-control>
+            </nz-form-item>
+        </div>
+
+        <div nz-col nzSpan="24">
+            <nz-form-item>
+                <nz-form-label nzSpan="4" nzRequired>开始日期</nz-form-label>
+                <nz-form-control nzSpan="20" nzErrorTip="开始日期不能为空。">
+                    <nz-date-picker
+                        style="width: 180px"
+                        formControlName="startTime"
+                        nzFormat="yyyy-MM-dd"
+                    ></nz-date-picker>
+                </nz-form-control>
+            </nz-form-item>
+        </div>
+
+        <div nz-col nzSpan="24">
+            <nz-form-item>
+            <nz-form-label nzSpan="4" nzRequired>截止日期</nz-form-label>
+            <nz-form-control nzSpan="20" nzErrorTip="截止日期不能为空。">
+                <nz-date-picker
+                    style="width: 180px"
+                    formControlName="endTime"
+                    nzFormat="yyyy-MM-dd"
+                ></nz-date-picker>
+            </nz-form-control>
+        </nz-form-item>
+        </div>
+
+        <div nz-col nzSpan="24">
+            <nz-form-item>
+                <nz-form-label nzSpan="4">业务内容</nz-form-label>
+                <nz-form-control nzSpan="20">
+                    <textarea
+                        rows="4"
+                        nz-input
+                        placeholder="业务内容"
+                        formControlName="content"
+                    ></textarea>
+                </nz-form-control>
+            </nz-form-item>
+        </div>
+    </form>
+</ng-template>
+
+<select-unit-level
+    #selectUnitLevel
+    (selectUnitChange)="evtSelectUnitChange($event)"
+></select-unit-level>

@@ -1,0 +1,63 @@
+<nz-drawer
+    [nzVisible]="sortDra.visible"
+    [nzTitle]="sortDra.title"
+    [nzWidth]="sortDra.width"
+    (nzOnClose)="sortDra.close()"
+>
+    <div class="drawer_area">
+        <div class="header">
+            <nz-button-group>
+                <button nz-button nzType="primary" (click)="sortDra.evtMove(0)">
+                    <i nz-icon nzType="up"></i> 上移
+                </button>
+                <button nz-button nzType="primary" (click)="sortDra.evtMove(1)">
+                    <i nz-icon nzType="down"></i> 下移
+                </button>
+            </nz-button-group>
+        </div>
+        <div class="header">
+            <nz-select
+                nzAllowClear
+                nzShowSearch
+                nzServerSearch
+                [nzShowArrow]="false"
+                nzPlaceHolder="输入搜索关键字"
+                [(ngModel)]="treeIfy.find.value"
+                (nzOnSearch)="treeIfy.find.evtOnSearch($event)"
+                (ngModelChange)="treeIfy.find.evtChange($event)"
+                [style.width.%]="100"
+            >
+                <ng-container *ngFor="let item of treeIfy.find.list">
+                    <nz-option [nzValue]="item.value" [nzLabel]="item.label"></nz-option>
+                </ng-container>
+            </nz-select>
+        </div>
+        <div class="container">
+            <cdk-virtual-scroll-viewport #scrollViewport [itemSize]="32" class="view_scroll">
+                <nz-tree
+                    #orgUnitElement
+                    nzAsyncData
+                    [nzData]="treeIfy.nodes"
+                    [nzTreeTemplate]="nodeView"
+                    (nzClick)="treeIfy.evtActiveNode($event)"
+                    (nzExpandChange)="treeIfy.evtChangeNode($event)"
+                >
+                    <ng-template #nodeView let-node>
+                        <span
+                            class="custom-node"
+                            [class.active]="treeIfy.activeNode?.key === node.key"
+                        >
+                            <i
+                                class="fa fa-{{ treeIfy.nodeIcon[node.origin?.nodeType] }}"
+                                aria-hidden="true"
+                            ></i>
+                            <span class="node-text" [attr.title]="node.title">{{
+                                node.title
+                            }}</span>
+                        </span>
+                    </ng-template>
+                </nz-tree>
+            </cdk-virtual-scroll-viewport>
+        </div>
+    </div>
+</nz-drawer>

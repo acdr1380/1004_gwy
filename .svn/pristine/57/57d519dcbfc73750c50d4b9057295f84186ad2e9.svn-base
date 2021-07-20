@@ -1,0 +1,18 @@
+/*导入布局样式*/
+@import "src/app/styles/layout";
+@import "src/app/styles/drawer";
+.layout {
+    .header-item{
+        display: inline-block;
+        margin-right: 10px;
+
+        label{
+            padding: 0 5px;
+            display: inline-block;
+        }
+        nz-select{
+            min-width: 200px;
+            display: inline-block;
+        }
+    }
+}

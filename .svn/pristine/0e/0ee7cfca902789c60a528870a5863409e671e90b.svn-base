@@ -1,0 +1,46 @@
+<!-- 人员信息校验 -->
+<nz-drawer
+    [nzVisible]="personVerifyIfy.visible"
+    nzPlacement="right"
+    [nzTitle]="personVerifyIfy.title"
+    [nzWidth]="personVerifyIfy.width"
+    (nzOnClose)="personVerifyIfy.close()"
+>
+    <div class="drawer_area">
+        <div class="container">
+            <div class="view_scroll">
+                <nz-table
+                    #personResultTable
+                    nzShowSizeChanger
+                    nzBordered
+                    [nzPageSize]="15"
+                    nzSize="small"
+                    [nzLoading]="personVerifyIfy.table.loading"
+                    [nzFrontPagination]="true"
+                    [nzTotal]="personVerifyIfy.table.data.length"
+                    [nzPageSizeOptions]="[7, 10, 20, 50]"
+                    [nzData]="personVerifyIfy.table.data"
+                >
+                    <thead>
+                        <tr>
+                            <th nzWidth="80px">姓名</th>
+                            <th nzWidth="120px">身份证号</th>
+                            <th nzWidth="400px">提示信息</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr *ngFor="let data of personResultTable.data">
+                            <td>
+                                {{ data.keyName }}
+                            </td>
+                            <td>
+                                {{ data.idCard }}
+                            </td>
+                            <td>{{ data.result }}</td>
+                        </tr>
+                    </tbody>
+                </nz-table>
+            </div>
+        </div>
+    </div>
+</nz-drawer>

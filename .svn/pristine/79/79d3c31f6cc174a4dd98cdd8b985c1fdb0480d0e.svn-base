@@ -1,0 +1,136 @@
+@import "src/app/styles/drawer";
+.footer {
+    div {
+        float: right;
+        button {
+            margin-left: 10px;
+        }
+    }
+}
+.calculation {
+    margin-top: 20px;
+}
+.edit_tbl {
+    tr {
+        th,
+        td {
+            padding: 8px 0px !important;
+        }
+        td {
+            background-color: #f5f5f5;
+        }
+        th.edit,
+        td.edit {
+            position: relative;
+            background-color: #fff;
+            input {
+                position: absolute;
+                top: 0;
+                bottom: 0;
+                left: 0;
+                width: 100%;
+                margin: auto;
+                border: none;
+                // padding: 0 8px;
+            }
+        }
+    }
+}
+
+::ng-deep {
+    .col_width_format {
+        visibility: collapse;
+    }
+    .edit {
+        dictionary-input {
+            input {
+                border: none !important;
+            }
+        }
+    }
+}
+
+.custom_table {
+    table-layout: fixed;
+    width: 100%;
+    border: 1px solid #e8e8e8;
+    &.stateless {
+        table-layout: auto;
+    }
+
+    &.readly {
+        td {
+            background-color: #fafafa;
+        }
+    }
+    tr {
+        border-bottom: 1px solid #e8e8e8;
+        &.active {
+            background-color: #e6f7ff;
+        }
+
+        td {
+            input {
+                &.active {
+                    background-color: #e6f7ff;
+                }
+            }
+        }
+
+        td,
+        th {
+            padding: 4px;
+            text-align: left;
+            border-right: 1px solid #e8e8e8;
+        }
+
+        td.value_readly {
+            cursor: pointer;
+            background-color: #f5f5f5;
+        }
+
+        td.title {
+            padding: 8px 0 !important;
+            text-align: center;
+        }
+
+        td.sigle_label {
+            padding: 8px 4px;
+        }
+
+        .label {
+            background-color: #fafafa;
+            color: #000;
+            font-weight: bold;
+        }
+
+        .value {
+            position: relative;
+
+            input {
+                position: absolute;
+                top: 0;
+                bottom: 0;
+                left: 0;
+                right: 0;
+                width: 100%;
+                margin: auto;
+                border: none;
+                padding: 0 16px;
+            }
+        }
+    }
+}
+
+::ng-deep {
+    td.edit {
+        datetime-input {
+            .ant-input-affix-wrapper {
+                border: none;
+                &:focus {
+                    box-shadow: none;
+                }
+            }
+        }
+    }
+}

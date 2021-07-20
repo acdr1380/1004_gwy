@@ -1,0 +1,12 @@
+import { NgModule } from '@angular/core';
+import { CommonModule } from '@angular/common';
+import { DatetimeInputComponent } from './datetime-input.component';
+import { FormsModule } from '@angular/forms';
+import { NzInputModule } from 'ng-zorro-antd/input';
+
+@NgModule({
+    declarations: [DatetimeInputComponent],
+    imports: [CommonModule, FormsModule, NzInputModule],
+    exports: [DatetimeInputComponent],
+})
+export class DatetimeInputModule {}

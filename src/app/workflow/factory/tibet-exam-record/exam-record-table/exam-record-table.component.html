@@ -1,0 +1,594 @@
+<div class="layout" [class.full_screen]="isFullScreen">
+    <div class="header">
+        <!-- <ng-container *ngIf="canEdit">
+            <button nz-button nzType="primary" (click)="personSelectIfy.evtSelectPerson()">
+                选择人员
+            </button>
+        </ng-container>
+        -->
+        <div class="left">
+            <span>1、招录方案为：</span>
+            <input
+                nz-input
+                disabled
+                [value]="selectPlan.currentPlan?.BP0102"
+                style="width: 300px"
+            />
+        </div>
+        <!-- <nz-select [(ngModel)]="selectPlan.currentPlan" style="width: 200px">
+            <ng-container *ngFor="let item of selectPlan.allPlans">
+                <nz-option [nzValue]="item.value" [nzLabel]="item.label"></nz-option>
+            </ng-container>
+        </nz-select> -->
+        <div class="right">
+            <button
+                nz-button
+                nzType="link"
+                nz-tooltip
+                nzTooltipTitle="流程图"
+                (click)="flowChart.open()"
+            >
+                <i nz-icon nzType="cluster"></i>
+            </button>
+            <button
+                nz-button
+                nzType="link"
+                nz-tooltip
+                nzTooltipTitle="流程跟踪"
+                (click)="tailAfterOper.open()"
+            >
+                <i nz-icon nzType="deployment-unit"></i>
+            </button>
+            <button
+                nz-button
+                nzType="link"
+                nz-tooltip
+                nzTooltipTitle="全屏"
+                (click)="fullScreenSwith()"
+            >
+                <i nz-icon nzType="fullscreen"></i>
+            </button>
+        </div>
+    </div>
+    <div class="container">
+        <div class="layout">
+            <div class="header">
+                <span>2、确定录用人员：</span>
+            </div>
+            <div class="container">
+                <div class="left" style="width: 200px">
+                    <div class="find">
+                        <nz-select
+                            [ngStyle]="{ 'width.px': personListIfy.find.searchWidth || 160 }"
+                            nzShowSearch
+                            nzServerSearch
+                            nzAllowClear
+                            [nzPlaceHolder]="personListIfy.find.placeholder || '请输入关键字搜索'"
+                            [nzShowArrow]="false"
+                            [nzFilterOption]="personListIfy.find.nzFilterOption"
+                            [(ngModel)]="personListIfy.find.searchKey"
+                            (ngModelChange)="personListIfy.find.change($event)"
+                            (nzOnSearch)="personListIfy.find.search($event)"
+                        >
+                            <ng-container *ngFor="let item of personListIfy.find.list">
+                                <nz-option [nzLabel]="item.text" [nzValue]="item.keyId">
+                                </nz-option>
+                            </ng-container>
+                        </nz-select>
+                    </div>
+                    <div class="tree">
+                        <cdk-virtual-scroll-viewport
+                            #scrollViewPersonList
+                            [itemSize]="40"
+                            class="view_scroll audit_list"
+                        >
+                            <ng-container *ngFor="let item of personListIfy.list; let i = index">
+                                <div
+                                    class="item"
+                                    [class.active]="item === personListIfy.selectPerson"
+                                    (click)="personListIfy.evtSelectedPerson(item)"
+                                >
+                                    <ng-container *ngIf="jobStepInfo.stepId !== 'start'">
+                                        <div class="icon">
+                                            <ng-container [ngSwitch]="item?.auditState">
+                                                <ng-template ngSwitchDefault>
+                                                    <i class="fa fa-clock-o stateless"></i>
+                                                </ng-template>
+                                                <ng-template [ngSwitchCase]="1">
+                                                    <i class="fa fa-check-circle-o succeed"></i>
+                                                </ng-template>
+                                                <ng-template [ngSwitchCase]="0">
+                                                    <i class="fa fa-times-circle-o error"></i>
+                                                </ng-template>
+                                            </ng-container>
+                                        </div>
+                                    </ng-container>
+
+                                    <div class="title">
+                                        {{
+                                            (personListIfy.pagination.pageIndex - 1) *
+                                                personListIfy.pagination.pageSize +
+                                                (i + 1)
+                                        }}.{{ item.text }}
+                                    </div>
+                                    <div class="btns" [hidden]="!canEdit">
+                                        <button
+                                            nz-button
+                                            nzType="link"
+                                            nz-tooltip
+                                            nzTooltipTitle="撤销当前人员"
+                                            class="btn danger"
+                                            (click)="personListIfy.evtDeletePerson(item)"
+                                        >
+                                            <i nz-icon nzType="minus-square"></i>
+                                        </button>
+                                    </div>
+                                </div>
+                            </ng-container>
+                        </cdk-virtual-scroll-viewport>
+                    </div>
+                </div>
+                <div class="right">
+                    <div class="layout">
+                        <div class="header">
+                            <nz-tabset
+                                nzTabPosition="top"
+                                [nzTabBarStyle]="{ 'margin.px': 0, 'height.px': 50 }"
+                                [(nzSelectedIndex)]="interfaceSchemeIfy.index"
+                            >
+                                <nz-tab
+                                    *ngFor="
+                                        let item of interfaceSchemeIfy.result?.systemSchemeList;
+                                        let i = index
+                                    "
+                                    [nzTitle]="item.systemSchemeTable.SCHEME_TABLE_DISPLAY_NAME"
+                                    (nzClick)="interfaceSchemeIfy.evtSelectorTable(item)"
+                                >
+                                </nz-tab>
+                            </nz-tabset>
+                        </div>
+                        <div class="container">
+                            <div class="layout oper-lay">
+                                <div
+                                    class="header"
+                                    [hidden]="
+                                        interfaceSchemeIfy.selectedTable?.systemSchemeTable
+                                            .TABLE_CODE === interfaceSchemeIfy.mainField ||
+                                        !canEdit ||
+                                        interfaceSchemeIfy.selectedTable?.systemSchemeTable
+                                            .TABLE_CODE === 'fileAttacment'
+                                    "
+                                >
+                                    <nz-button-group>
+                                        <button
+                                            nz-button
+                                            nzType="primary"
+                                            (click)="interfaceSchemeIfy.evtAddChildData()"
+                                        >
+                                            添加
+                                        </button>
+                                        <button
+                                            nz-button
+                                            nzType="primary"
+                                            (click)="adjustChild.open()"
+                                        >
+                                            调整子集顺序
+                                        </button>
+                                    </nz-button-group>
+                                </div>
+                                <div class="container set_child_info">
+                                    <div
+                                        [hidden]="
+                                            interfaceSchemeIfy.selectedTable?.systemSchemeTable
+                                                .TABLE_CODE !== interfaceSchemeIfy.mainField
+                                        "
+                                        style="text-align: center; margin: 5px"
+                                    >
+                                        <img
+                                            class="psnPhoto"
+                                            width="116"
+                                            height="130"
+                                            [src]="
+                                                personListIfy.selectedImg ||
+                                                'assets/images/wf/noPictureNoFun.png'
+                                            "
+                                            (click)="cropperPictureIfy.open()"
+                                        />
+                                    </div>
+                                    <ng-container
+                                        *ngFor="
+                                            let item of interfaceSchemeIfy.result?.systemSchemeList
+                                        "
+                                    >
+                                        <div
+                                            class="person_data"
+                                            [hidden]="
+                                                item.systemSchemeTable?.TABLE_CODE !==
+                                                interfaceSchemeIfy.selectedTable?.systemSchemeTable
+                                                    .TABLE_CODE
+                                            "
+                                        >
+                                            <ng-template
+                                                [ngTemplateOutlet]="item?.elTemp"
+                                                [ngTemplateOutletContext]="
+                                                    interfaceSchemeIfy.evtGetTempOutParams(item)
+                                                "
+                                            ></ng-template>
+                                        </div>
+                                    </ng-container>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="footer">
+                            <nz-button-group>
+                                <ng-container
+                                    *ngIf="
+                                        interfaceSchemeIfy.selectedTable?.systemSchemeTable
+                                            .TABLE_CODE === interfaceSchemeIfy.mainField
+                                    "
+                                >
+                                    <button
+                                        nz-button
+                                        nzType="primary"
+                                        (click)="interfaceSchemeIfy.evtSave()"
+                                        [hidden]="!canEdit"
+                                    >
+                                        保存
+                                    </button>
+                                </ng-container>
+                                <ng-container *ngIf="interfaceSchemeIfy.index !== 0">
+                                    <button
+                                        nz-button
+                                        nzType="primary"
+                                        nzGhost
+                                        (click)="
+                                            interfaceSchemeIfy.evtNextBack(
+                                                interfaceSchemeIfy.index - 1
+                                            )
+                                        "
+                                    >
+                                        上一个：{{
+                                            interfaceSchemeIfy.result?.systemSchemeList[
+                                                interfaceSchemeIfy.index - 1
+                                            ]?.systemSchemeTable.SCHEME_TABLE_DISPLAY_NAME
+                                        }}
+                                    </button>
+                                </ng-container>
+
+                                <ng-container
+                                    *ngIf="
+                                        interfaceSchemeIfy.index <
+                                        interfaceSchemeIfy.result?.systemSchemeList.length - 1
+                                    "
+                                >
+                                    <button
+                                        nz-button
+                                        nzType="primary"
+                                        nzGhost
+                                        (click)="
+                                            interfaceSchemeIfy.evtNextBack(
+                                                interfaceSchemeIfy.index + 1
+                                            )
+                                        "
+                                    >
+                                        下一个：{{
+                                            interfaceSchemeIfy.result?.systemSchemeList[
+                                                interfaceSchemeIfy.index + 1
+                                            ]?.systemSchemeTable.SCHEME_TABLE_DISPLAY_NAME
+                                        }}
+                                    </button>
+                                </ng-container>
+                            </nz-button-group>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<!-- 上传照片抽屉 -->
+<nz-drawer
+    nzPlacement="right"
+    [nzVisible]="cropperPictureIfy.visible"
+    [nzWidth]="cropperPictureIfy.width"
+    [nzTitle]="cropperPictureIfy.title"
+    (nzOnClose)="cropperPictureIfy.close()"
+>
+    <div class="drawer_area">
+        <div class="container">
+            <cropper-images
+                #cropperImageElement
+                (photoChange)="cropperPictureIfy.evtPhotoChange($event)"
+            ></cropper-images>
+        </div>
+    </div>
+</nz-drawer>
+<!-- 调整顺序表格 -->
+<gl-exam-adjust-child-order
+    #adjustElement
+    [jobStepInfo]="jobStepInfo"
+    [tableData]="adjustChild.tableData"
+    [tableHeaderList]="adjustChild.tableHeaderList"
+    [tableCode]="adjustChild.tableCode"
+    (childDataChange)="adjustChild.change($event)"
+></gl-exam-adjust-child-order>
+<!-- 业务流程图 -->
+<nz-drawer
+    nzPlacement="top"
+    [nzVisible]="flowChart.visible"
+    [nzTitle]="flowChart.title"
+    [nzHeight]="flowChart.height"
+    (nzOnClose)="flowChart.close()"
+>
+    <div class="drawer_area oper_step_flow">
+        <nz-steps [nzCurrent]="flowChart.evtGetStepIndex()">
+            <ng-container *ngFor="let item of flowChart.operStepList">
+                <nz-step
+                    [nzTitle]="item.stepName"
+                    [nzIcon]="item.icon"
+                    [nzDescription]="item.desc || ''"
+                >
+                </nz-step>
+            </ng-container>
+        </nz-steps>
+    </div>
+</nz-drawer>
+
+<!-- 办理历史 -->
+<nz-drawer
+    [nzVisible]="tailAfterOper.visible"
+    [nzTitle]="tailAfterOper.title"
+    [nzWidth]="tailAfterOper.width"
+    (nzOnClose)="tailAfterOper.close()"
+>
+    <div class="drawer_area oper_tail">
+        <div class="container">
+            <nz-timeline>
+                <nz-timeline-item [nzDot]="dotTemplate"><span>业务开始</span></nz-timeline-item>
+                <ng-container *ngFor="let item of tailAfterOper.tailAfterList; let i = index">
+                    <nz-timeline-item [nzColor]="['red', 'blue', 'green'][i % 3]">
+                        <p>
+                            <b>{{ item.stateDesc }}</b>
+                            {{ item.auditDate | date: 'yyyy-MM-dd HH:mm' }}
+                        </p>
+                        <p>
+                            <b
+                                ><span>{{ item.contacts }}</span></b
+                            ><span> {{ item.orgName }} {{ item.contactNumber }}</span>
+                        </p>
+                        <p *ngIf="item.auditStateDesc">批复结果： {{ item.auditStateDesc }}</p>
+                    </nz-timeline-item>
+                </ng-container>
+            </nz-timeline>
+            <ng-template #dotTemplate>
+                <i nz-icon type="clock-circle-o" style="font-size: 16px"></i>
+            </ng-template>
+        </div>
+    </div>
+</nz-drawer>
+
+<!-- 选择人员 -->
+<!-- <oper-select-person
+    #operSelectPerson
+    [jobStepInfo]="jobStepInfo"
+    [filterParmas]="personSelectIfy.filterParmas"
+    (selectedChange)="personSelectIfy.evtChange()"
+    [disabledList]="personSelectIfy.psnKeyIds"
+></oper-select-person> -->
+
+<!-- 在线预览附件 -->
+<gl-online-doc
+    #onlineDocOverlayElement
+    [fileList]="operPersonFileIfy.list"
+    [selectedIndex]="operPersonFileIfy.selectedIndex"
+></gl-online-doc>
+
+<!-- 构造编辑字段 -->
+<ng-template
+    #inputEditElement
+    let-formGroup="formGroup"
+    let-fields="fields"
+    let-inline="inline"
+    let-formData="formData"
+>
+    <form
+        nz-form
+        [formGroup]="formGroup"
+        [nzLayout]="
+            interfaceSchemeIfy.selectedTable?.systemSchemeTable.TABLE_CODE ===
+            interfaceSchemeIfy.mainField
+                ? 'horizontal'
+                : 'vertical'
+        "
+    >
+        <ng-container *ngFor="let field of fields">
+            <nz-form-item [style.display]="inline && 'inline-block'" *ngIf="!field.visible">
+                <!-- field.SCHEME_EDIT_LABEL_WIDTH -->
+                <nz-form-label
+                    [nzRequired]="field.SCHEME_EDIT_IS_MUST_INPUT"
+                    [style.width.px]="inline && '160'"
+                    [style.float]="inline && 'left'"
+                >
+                    {{ field.SCHEME_EDIT_DISPLAY_NAME }}
+                </nz-form-label>
+                <!-- field.SCHEME_EDIT_EDIT_WIDTH -->
+                <nz-form-control
+                    [style.display]="inline && 'inline-block'"
+                    [style.width.px]="inline && '280'"
+                    [nzErrorTip]="errorTpl"
+                >
+                    <ng-container *ngIf="field.TABLE_COLUMN_DICTIONARY_CODE; else elseTempElement">
+                        <dictionary-input
+                            [code]="field.TABLE_COLUMN_DICTIONARY_CODE"
+                            [(text)]="formData[field.TABLE_COLUMN_CODE + '_CN']"
+                            [placeholder]="'请填写' + field.SCHEME_EDIT_DISPLAY_NAME"
+                            [formControlName]="field.TABLE_COLUMN_CODE"
+                        >
+                        </dictionary-input>
+                    </ng-container>
+
+                    <ng-template #elseTempElement>
+                        <ng-container *ngIf="field.TABLE_COLUMN_TYPE === columnType.DATE">
+                            <datetime-input
+                                [formControlName]="field.TABLE_COLUMN_CODE"
+                                [placeholder]="'请填写' + field.SCHEME_EDIT_DISPLAY_NAME"
+                            >
+                            </datetime-input>
+                        </ng-container>
+                        <ng-container *ngIf="field.TABLE_COLUMN_TYPE === columnType.VARCHAR">
+                            <input
+                                nz-input
+                                [formControlName]="field.TABLE_COLUMN_CODE"
+                                [placeholder]="'请填写' + field.SCHEME_EDIT_DISPLAY_NAME"
+                            />
+                        </ng-container>
+                        <ng-container *ngIf="field.TABLE_COLUMN_TYPE === columnType.NUMBER">
+                            <nz-input-number
+                                [formControlName]="field.TABLE_COLUMN_CODE"
+                                [nzPlaceHolder]="'请填写' + field.SCHEME_EDIT_DISPLAY_NAME"
+                            >
+                            </nz-input-number>
+                        </ng-container>
+                        <ng-container *ngIf="field.TABLE_COLUMN_TYPE === columnType.CLOB">
+                            <textarea
+                                nz-input
+                                [formControlName]="field.TABLE_COLUMN_CODE"
+                                rows="4"
+                            ></textarea>
+                        </ng-container>
+                    </ng-template>
+
+                    <ng-template #errorTpl let-control>
+                        <ng-container *ngIf="control.hasError('required')">
+                            请填写{{ field.FIELD_EDIT_DISPLAY_NAME }}。
+                        </ng-container>
+                        <ng-container *ngIf="control.hasError('msg')">
+                            {{ control?.getError('msg') || '异常错误。' }}
+                        </ng-container>
+                    </ng-template>
+                </nz-form-control>
+            </nz-form-item>
+        </ng-container>
+    </form>
+</ng-template>
+<!-- 子集列表显示 -->
+<ng-template #chileTableElement let-tableData="tableData" let-headerList="headerList">
+    <div style="width: 100%; height: 100%">
+        <nz-table #chileSetTable nzSize="small" nzBordered [nzPageSize]="10" [nzData]="tableData">
+            <thead>
+                <tr>
+                    <ng-container *ngFor="let item of headerList">
+                        <th [nzWidth]="item.SCHEME_HEADER_DISPLAY_WIDTH">
+                            {{ item.SCHEME_HEADER_DISPLAY_NAME }}
+                        </th>
+                    </ng-container>
+                    <th nzWidth="120px">操作</th>
+                </tr>
+            </thead>
+            <tbody>
+                <ng-container *ngFor="let data of chileSetTable.data">
+                    <tr (dblclick)="interfaceSchemeIfy.evtEditChildData(data)">
+                        <ng-container *ngFor="let item of headerList">
+                            <td>
+                                {{
+                                    item.TABLE_COLUMN_DICTIONARY_CODE
+                                        ? data[item.TABLE_COLUMN_CODE + '_CN']
+                                        : item.TABLE_COLUMN_TYPE === 4
+                                        ? (data[item.TABLE_COLUMN_CODE] | date: 'YYYY-MM-dd')
+                                        : data[item.TABLE_COLUMN_CODE]
+                                }}
+                            </td>
+                        </ng-container>
+                        <td>
+                            <ng-container *ngIf="canEdit; else elseTemplate">
+                                <a (click)="interfaceSchemeIfy.evtEditChildData(data)">编辑</a>
+                                <nz-divider nzType="vertical"></nz-divider>
+                                <a (click)="interfaceSchemeIfy.evtDeleteChildData(data)">删除</a>
+                            </ng-container>
+                            <ng-template #elseTemplate>
+                                <a (click)="interfaceSchemeIfy.evtEditChildData(data)">查看</a>
+                            </ng-template>
+                        </td>
+                    </tr>
+                </ng-container>
+            </tbody>
+        </nz-table>
+    </div>
+</ng-template>
+<!-- 子集编辑抽屉 -->
+<nz-drawer
+    nzPlacement="right"
+    [nzVisible]="interfaceSchemeIfy.childEditIfy.visible"
+    [nzWidth]="interfaceSchemeIfy.childEditIfy.width"
+    [nzTitle]="interfaceSchemeIfy.childEditIfy.title"
+    (nzOnClose)="interfaceSchemeIfy.childEditIfy.close()"
+>
+    <div class="drawer_area">
+        <ng-container *ngFor="let item of interfaceSchemeIfy.result?.systemSchemeList">
+            <div
+                class="container"
+                [hidden]="
+                    item.systemSchemeTable?.SCHEME_TABLE_TABLE_ID !==
+                    interfaceSchemeIfy.selectedTable?.systemSchemeTable.SCHEME_TABLE_TABLE_ID
+                "
+            >
+                <ng-template
+                    [ngTemplateOutlet]="item.drawerTemp"
+                    [ngTemplateOutletContext]="
+                        interfaceSchemeIfy.childEditIfy.evtGetTempOutParams(item)
+                    "
+                ></ng-template>
+            </div>
+        </ng-container>
+        <div class="footer">
+            <button
+                nz-button
+                nzType="primary"
+                (click)="interfaceSchemeIfy.childEditIfy.evtSave()"
+                style="margin-right: 5px"
+                [hidden]="!canEdit"
+            >
+                保存
+            </button>
+            <button nz-button nzType="default" (click)="interfaceSchemeIfy.childEditIfy.close()">
+                关闭
+            </button>
+        </div>
+    </div>
+</nz-drawer>
+<!-- 人员附件 -->
+<ng-template #personFileTemplate>
+    <div class="layout">
+        <div class="header">
+            <h3>请上传资料文件</h3>
+        </div>
+        <div class="container" style="margin: 5px">
+            <div class="person_file_tbl view_scroll">
+                <div class="file_type_list">
+                    <ng-container *ngFor="let data of operPersonFileIfy.data">
+                        <div class="title">
+                            <span class="must" *ngIf="data.isMustInput">*</span>{{ data.annexName }}
+                        </div>
+                        <div class="file_list" style="width: 200px">
+                            <nz-upload
+                                class="upload-list-inline"
+                                nzMultiple
+                                nzListType="picture"
+                                [nzData]="data"
+                                [(nzFileList)]="data.fileList"
+                                [nzCustomRequest]="operPersonFileIfy.fileCustomRequest"
+                                [nzRemove]="operPersonFileIfy.fileRemove"
+                                [nzShowUploadList]="{ showRemoveIcon: canEdit }"
+                                [nzPreview]="operPersonFileIfy.preview"
+                                [nzShowButton]="canEdit"
+                                [nzDisabled]="personListIfy.list.length === 0"
+                            >
+                                <button nz-button><i nz-icon nzType="upload"></i>上传附件</button>
+                            </nz-upload>
+                        </div>
+                    </ng-container>
+                </div>
+            </div>
+        </div>
+    </div>
+</ng-template>

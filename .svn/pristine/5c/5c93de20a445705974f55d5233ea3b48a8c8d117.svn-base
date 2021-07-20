@@ -1,0 +1,168 @@
+<div class="layout oper_salary_info">
+    <div class="container">
+        <div class="view_scroll">
+            <ng-template [ngTemplateOutlet]="personBaseInfoTemplate"></ng-template>
+            <div class="separator"></div>
+            <ng-template [ngTemplateOutlet]="personsalaryInfoTemplate"></ng-template>
+        </div>
+    </div>
+</div>
+
+<!-- 人员基本情况 -->
+<ng-template #personBaseInfoTemplate>
+    <div class="layout salary_chunk">
+        <div class="header">
+            <nz-radio-group
+                nzButtonStyle="solid"
+                [(ngModel)]="personBaseInfoIfy.TABLE_DISPLAY_CODE"
+            >
+                <ng-container *ngFor="let item of personBaseInfoIfy.tabs.setList">
+                    <label nz-radio-button [nzValue]="item.TABLE_DISPLAY_CODE">{{
+                        item.TABLE_NAME
+                    }}</label>
+                </ng-container>
+            </nz-radio-group>
+
+            <div class="right"></div>
+        </div>
+        <div class="container">
+            <ng-container *ngFor="let item of personBaseInfoIfy.tabs.setList">
+                <div
+                    class="view pdd_10"
+                    [hidden]="!(item.TABLE_DISPLAY_CODE === personBaseInfoIfy.TABLE_DISPLAY_CODE)"
+                >
+                    <ng-template
+                        [ngTemplateOutlet]="item.showMain ? mainTemplate : childTemplate"
+                        [ngTemplateOutletContext]="{
+                            TABLE_DISPLAY_CODE: item.TABLE_DISPLAY_CODE,
+                            fields: item.fields,
+                            result: item.result
+                        }"
+                    ></ng-template>
+                </div>
+            </ng-container>
+        </div>
+    </div>
+</ng-template>
+
+<!-- 工资基本情况 -->
+<ng-template #personsalaryInfoTemplate>
+    <div class="layout salary_chunk">
+        <div class="header">
+            <nz-radio-group
+                nzButtonStyle="solid"
+                [(ngModel)]="personsalaryInfoIfy.TABLE_DISPLAY_CODE"
+            >
+                <ng-container *ngFor="let item of personsalaryInfoIfy.tabs.setList">
+                    <label nz-radio-button [nzValue]="item.TABLE_DISPLAY_CODE">{{
+                        item.TABLE_NAME
+                    }}</label>
+                </ng-container>
+            </nz-radio-group>
+            <div class="right"></div>
+        </div>
+        <div class="container">
+            <ng-container *ngFor="let item of personsalaryInfoIfy.tabs.setList">
+                <div
+                    class="view pdd_10"
+                    [hidden]="!(item.TABLE_DISPLAY_CODE === personsalaryInfoIfy.TABLE_DISPLAY_CODE)"
+                >
+                    <ng-template
+                        [ngTemplateOutlet]="item.showMain ? mainTemplate : childTemplate"
+                        [ngTemplateOutletContext]="{
+                            TABLE_DISPLAY_CODE: item.TABLE_DISPLAY_CODE,
+                            fields: item.fields,
+                            result: item.result
+                        }"
+                    ></ng-template>
+                </div>
+            </ng-container>
+        </div>
+    </div>
+</ng-template>
+
+<!-- 主集模板 -->
+<ng-template
+    #mainTemplate
+    let-TABLE_DISPLAY_CODE="TABLE_DISPLAY_CODE"
+    let-fields="fields"
+    let-result="result"
+>
+    <table class="custom_table">
+        <tbody>
+            <ng-container *ngFor="let row of fields; let rowIndex = index">
+                <tr *ngIf="rowIndex % 3 === 0">
+                    <ng-container *ngFor="let item of fields; let cellIndex = index">
+                        <ng-container *ngIf="rowIndex <= cellIndex && cellIndex < rowIndex + 3">
+                            <td class="label">{{ item.TABLE_COLUMN_NAME }}</td>
+                            <td class="value" [attr.itemId]="item.TABLE_COLUMN_CODE">
+                                <ng-container
+                                    *ngIf="
+                                        !item?.TABLE_COLUMN_DICTIONARY_CODE;
+                                        else elseCodeTemplate
+                                    "
+                                >
+                                    <ng-container [ngSwitch]="item.TABLE_COLUMN_TYPE">
+                                        <ng-template [ngSwitchCase]="columnTypeEnum.DATE">
+                                            {{
+                                                result[item.TABLE_COLUMN_CODE] | date: 'yyyy-MM-dd'
+                                            }}
+                                        </ng-template>
+                                        <ng-template ngSwitchDefault>
+                                            {{ result[item.TABLE_COLUMN_CODE] }}</ng-template
+                                        >
+                                    </ng-container>
+                                </ng-container>
+                                <ng-template #elseCodeTemplate>
+                                    {{ result[item.TABLE_COLUMN_CODE + '_CN'] || '' }}
+                                </ng-template>
+                            </td>
+                        </ng-container>
+                    </ng-container>
+                </tr>
+            </ng-container>
+        </tbody>
+    </table>
+</ng-template>
+
+<!-- 子集模板 -->
+<ng-template
+    #childTemplate
+    let-TABLE_DISPLAY_CODE="TABLE_DISPLAY_CODE"
+    let-fields="fields"
+    let-result="result"
+>
+    <table class="custom_table">
+        <thead>
+            <tr>
+                <ng-container *ngFor="let item of fields">
+                    <th class="label">{{ item.TABLE_COLUMN_NAME }}</th>
+                </ng-container>
+            </tr>
+        </thead>
+        <tbody>
+            <tr *ngFor="let row of result; let i = index">
+                <td>{{ i + 1 }}</td>
+                <ng-container *ngFor="let item of fields; index as j">
+                    <td *ngIf="j > 0" class="value_readly" [attr.itemid]="item.TABLE_COLUMN_CODE">
+                        <ng-container
+                            *ngIf="!item.TABLE_COLUMN_DICTIONARY_CODE; else elseChildTemplate"
+                        >
+                            <ng-container [ngSwitch]="item.TABLE_COLUMN_TYPE">
+                                <ng-template [ngSwitchCase]="columnTypeEnum.DATE">
+                                    {{ row[item.TABLE_COLUMN_CODE] | date: 'yyyy-MM-dd' }}
+                                </ng-template>
+                                <ng-template ngSwitchDefault>
+                                    {{ row[item.TABLE_COLUMN_CODE] }}</ng-template
+                                >
+                            </ng-container>
+                        </ng-container>
+                        <ng-template #elseChildTemplate>
+                            {{ row[item.TABLE_COLUMN_CODE + '_CN'] || '' }}
+                        </ng-template>
+                    </td>
+                </ng-container>
+            </tr>
+        </tbody>
+    </table>
+</ng-template>

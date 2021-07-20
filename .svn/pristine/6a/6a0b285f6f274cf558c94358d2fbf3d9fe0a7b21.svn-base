@@ -1,0 +1,13 @@
+import { NgModule } from '@angular/core';
+import { CommonModule } from '@angular/common';
+import { IrregularComponent } from './irregular.component';
+
+
+
+@NgModule({
+  declarations: [IrregularComponent],
+  imports: [
+    CommonModule
+  ]
+})
+export class IrregularModule { }

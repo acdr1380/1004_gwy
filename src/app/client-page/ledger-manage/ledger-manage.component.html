@@ -1,0 +1,157 @@
+<div class="layout">
+    <div class="container">
+        <!-- <div class="left unit_area">
+            <ng-template [ngTemplateOutlet]="leftMain"></ng-template>
+        </div> -->
+        <div class="right">
+            <ng-template [ngTemplateOutlet]="rightMain"></ng-template>
+        </div>
+    </div>
+</div>
+
+<ng-template #leftMain>
+    <div class="handle">
+        <nz-select
+            nzPlaceHolder="选择机构分组"
+            [(ngModel)]="selectOrgDrawer.orgTreeIfy.group.value"
+            (ngModelChange)="selectOrgDrawer.orgTreeIfy.group.evtChange()"
+        >
+            <ng-container *ngFor="let item of selectOrgDrawer.orgTreeIfy.group.list">
+                <nz-option [nzValue]="item.value" [nzLabel]="item.label"></nz-option>
+            </ng-container>
+        </nz-select>
+    </div>
+    <div class="handle person_condition" nz-row>
+        <div nz-col nzSpan="16">
+            <ng-template [ngTemplateOutlet]="selectOrgTemp"></ng-template>
+        </div>
+        <div nz-col nzSpan="8">
+            <label nz-checkbox [(ngModel)]="selectOrgDrawer.orgTreeIfy.level.yeNo">包含下层</label>
+        </div>
+    </div>
+
+    <div class="tree">
+        <cdk-virtual-scroll-viewport #scrollViewport [itemSize]="32" class="org_tree">
+            <nz-tree
+                #OrgTree
+                nzAsyncData
+                [nzData]="selectOrgDrawer.orgTreeIfy.tree.nodes"
+                [nzTreeTemplate]="nzTreeTemplate"
+                (nzClick)="selectOrgDrawer.orgTreeIfy.tree.evtActiveNode($event)"
+                (nzExpandChange)="selectOrgDrawer.orgTreeIfy.tree.evtExpandChange($event)"
+            >
+                <ng-template #nzTreeTemplate let-node>
+                    <span
+                        class="custom-node"
+                        [class.active]="
+                            selectOrgDrawer.orgTreeIfy.tree.activedNode?.key === node.key
+                        "
+                    >
+                        <i
+                            class="fa fa-{{
+                                selectOrgDrawer.orgTreeIfy.tree.nodeIcon[node.origin?.nodeType]
+                            }}"
+                            aria-hidden="true"
+                        ></i>
+                        <span class="node-text" [attr.title]="node.title">{{ node.title }}</span>
+                    </span>
+                </ng-template>
+            </nz-tree>
+        </cdk-virtual-scroll-viewport>
+    </div>
+</ng-template>
+
+<ng-template #rightMain>
+    <div class="layout">
+        <div class="header">
+            <div class="org-select-wrap">
+                <button nz-button [nzType]="'primary'" (click)="selectOrgDrawer.open()">
+                    选择单位
+                </button>
+                <div class="selected-org">
+                    <span class="label-item">当前单位:</span>
+                    <ng-template [ngTemplateOutlet]="selectOrgTemp"></ng-template>
+                </div>
+                <label
+                    nz-checkbox
+                    [(ngModel)]="selectOrgDrawer.orgTreeIfy.level.yeNo"
+                    class="include-child"
+                    >包含下层</label
+                >
+            </div>
+            <div class="ledger-title label-item">台账年份:</div>
+            <nz-select class="year-select" [(ngModel)]="ledgerYearSelect.value">
+                <ng-container *ngFor="let item of ledgerYearSelect.data">
+                    <nz-option [nzValue]="item.value" [nzLabel]="item.labelName"></nz-option>
+                </ng-container>
+            </nz-select>
+            <div class="ledger-title label-item">台账类型:</div>
+            <nz-select
+                class="type-select"
+                [(ngModel)]="ledgerTypeSelect.value"
+                (ngModelChange)="ledgerTypeSelect.evtModelChange($event)"
+            >
+                <ng-container *ngFor="let item of ledgerTypeSelect.data">
+                    <nz-option [nzValue]="item.value" [nzLabel]="item.labelName"></nz-option>
+                </ng-container>
+            </nz-select>
+        </div>
+        <app-ledger-content
+            style="height: 100%"
+            [currentYear]="ledgerYearSelect.value"
+            [ledgerType]="ledgerTypeSelect.value"
+            [currentOrg]="{
+                isInclude: selectOrgDrawer.orgTreeIfy.level.yeNo,
+                groupValue: selectOrgDrawer.orgTreeIfy.group.value,
+                activedNode: {
+                    title: selectedNode.title,
+                    key: selectedNode.key,
+                    nodeType: selectedNode.nodeType,
+                    unitId: selectedNode.unitId
+                }
+            }"
+        ></app-ledger-content>
+    </div>
+</ng-template>
+
+<!-- 选择单位抽屉 -->
+<nz-drawer
+    [nzVisible]="selectOrgDrawer.visible"
+    nzPlacement="right"
+    [nzTitle]="selectOrgDrawer.title"
+    [nzWidth]="selectOrgDrawer.width"
+    (nzOnClose)="selectOrgDrawer.close()"
+>
+    <div class="drawer_area drawer_org">
+        <div class="container">
+            <div class="left unit_area">
+                <ng-template [ngTemplateOutlet]="leftMain"></ng-template>
+            </div>
+        </div>
+        <div class="footer">
+            <button nz-button nzType="primary" (click)="selectOrgDrawer.close()">关闭</button>
+        </div>
+    </div>
+</nz-drawer>
+
+<ng-template #selectOrgTemp>
+    <nz-select
+        nzAllowClear
+        nzShowSearch
+        nzServerSearch
+        [nzShowArrow]="false"
+        [nzPlaceHolder]="selectedNode.title"
+        [(ngModel)]="selectOrgDrawer.orgTreeIfy.find.keyword"
+        (nzOpenChange)="selectOrgDrawer.orgTreeIfy.find.evtOpenChange($event)"
+        (nzOnSearch)="selectOrgDrawer.orgTreeIfy.find.evtOnSearch($event)"
+        (ngModelChange)="selectOrgDrawer.orgTreeIfy.find.evtChange($event)"
+        style="width: 220px; z-index: 1000"
+    >
+        <ng-container *ngFor="let item of selectOrgDrawer.orgTreeIfy.find.list">
+            <nz-option [nzValue]="item.value" [nzLabel]="item.label"></nz-option>
+        </ng-container>
+        <nz-option *ngIf="selectOrgDrawer.orgTreeIfy.find.isSearching" nzDisabled nzCustomContent>
+            <i nz-icon nzType="loading" class="loading-icon"></i> 加载中...
+        </nz-option>
+    </nz-select>
+</ng-template>

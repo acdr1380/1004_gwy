@@ -1,0 +1,365 @@
+<div class="layout" [class.full_screen]="isFullScreen">
+    <div class="header">
+        <button
+            [disabled]="!canEdit"
+            nz-button
+            nzType="primary"
+            (click)="personSelectIfy.evtSelectPerson()"
+        >
+            选择人员
+        </button>
+
+        <div class="right">
+            <button
+                nz-button
+                nzType="link"
+                nz-tooltip
+                nzTooltipTitle="流程图"
+                (click)="operStepFlowIfy.open()"
+            >
+                <i nz-icon nzType="cluster"></i>
+            </button>
+            <button
+                nz-button
+                nzType="link"
+                nz-tooltip
+                nzTooltipTitle="流程跟踪"
+                (click)="operTailIfy.open()"
+            >
+                <i nz-icon nzType="deployment-unit"></i>
+            </button>
+            <button
+                nz-button
+                nzType="link"
+                nz-tooltip
+                nzTooltipTitle="全屏"
+                (click)="fullScreenSwith()"
+            >
+                <i nz-icon nzType="fullscreen"></i>
+            </button>
+        </div>
+    </div>
+    <div class="header salary_status">
+        <nz-tabset
+            [nzTabBarStyle]="{ 'margin.px': 0, 'height.px': 50, 'padding-top': '3px' }"
+            [(nzSelectedIndex)]="riesTabIfy.selectIndex"
+            (nzSelectChange)="riesTabIfy.change($event)"
+        >
+            <nz-tab nzTitle="全部"></nz-tab>
+            <nz-tab nzTitle="已晋升"></nz-tab>
+            <nz-tab nzTitle="未晋升"></nz-tab>
+        </nz-tabset>
+    </div>
+    <div class="container tbl" #personTableElement>
+        <div class="view">
+            <nz-table
+                #personTblElement
+                nzBordered
+                nzSize="small"
+                [(nzPageSize)]="personTableIfy.pageSize"
+                [(nzPageIndex)]="personTableIfy.pageIndex"
+                [nzData]="personTableIfy.data"
+                [nzLoading]="personTableIfy.loading"
+                [nzWidthConfig]="personTableIfy.widthConfig"
+                [nzScroll]="personTableIfy.scrollConfig"
+            >
+                <thead>
+                    <tr>
+                        <th nzAlign="center" rowspan="2" nzLeft="0px">序号</th>
+                        <th nzAlign="center" rowspan="2" nzLeft="40px">姓名</th>
+                        <th nzAlign="center" rowspan="2">出生日期</th>
+                        <th nzAlign="center" rowspan="2">技术工等级</th>
+                        <th nzAlign="center" rowspan="2">技术工等级工资</th>
+                        <th nzAlign="center" rowspan="2">年度考核</th>
+
+                        <th nzAlign="center" rowspan="2">变动情况</th>
+                        <th nzAlign="center" rowspan="2">岗位档次</th>
+                        <th nzAlign="center" rowspan="2">岗位工资</th>
+                        <th nzAlign="center" rowspan="2">按比例提高津补贴</th>
+                        <th nzAlign="center" rowspan="2">津补贴合计</th>
+                        <th nzAlign="center" rowspan="2">工资合计</th>
+                        <th nzAlign="center" rowspan="2">档次起考年度</th>
+
+                        <th nzAlign="center" rowspan="2">增资额</th>
+                        <th nzAlign="center" rowspan="2">补发月数</th>
+                        <th nzAlign="center" rowspan="2">补发额</th>
+                        <th nzAlign="center" rowspan="2">未晋升原因</th>
+                        <th nzAlign="center" colspan="3" nzRight="0px">操作</th>
+                    </tr>
+                    <tr>
+                        <th nzAlign="center" colspan="3" nzRight="0px">
+                            <a (click)="personTableIfy.salaryExecuteAll()">全部计算</a>
+                        </th>
+                    </tr>
+
+                    <tr class="col_width_format">
+                        <ng-container *ngFor="let item of personTableIfy.headArr">
+                            <th [height]="0"></th>
+                        </ng-container>
+                    </tr>
+                </thead>
+                <tbody>
+                    <ng-container *ngFor="let data of personTblElement.data; let i = index">
+                        <tr>
+                            <td rowspan="2" nzAlign="center" nzLeft="0px">
+                                {{
+                                    i + 1 + (personTableIfy.pageIndex - 1) * personTableIfy.pageSize
+                                }}
+                            </td>
+                            <!-- 姓名 -->
+                            <td rowSpan="2" nzAlign="center" columnName="A0101" nzLeft="40px">
+                                <a (click)="personTableIfy.loadSalaryInfo(data)"
+                                    ><b>{{ data.A0101 }}</b></a
+                                >
+                            </td>
+                            <!-- 出生日期 -->
+                            <td rowSpan="2" nzAlign="center" columnName="A0107">
+                                {{ data.A0107 }}
+                            </td>
+                            <!-- 技术工等级 -->
+                            <td rowSpan="2" nzAlign="center" columnName="GZDA0708">
+                                {{ data.GZDA0708 }}
+                            </td>
+                            <!-- 技术工等级工资 -->
+                            <td rowSpan="2" nzAlign="center" columnName="GZDA0721PlusGZDA0723">
+                                {{ data.GZDA0721PlusGZDA0723 }}
+                            </td>
+                            <!-- 年度考核 -->
+                            <td
+                                rowSpan="2"
+                                nzAlign="center"
+                                columnName="GZ0601JoinGZ0602"
+                                class="edit"
+                                (click)="assessEditIfy.assessEdit(data)"
+                            >
+                                {{ data.GZ0601JoinGZ0602 }}
+                            </td>
+
+                            <!-- 变动情况 变动前-->
+                            <td nzAlign="center"><i nz-icon nzType="swap-left"></i></td>
+                            <!-- 岗位档次 -->
+                            <td nzAlign="center" columnName="GZDA0709">
+                                {{ data.GZDA0709 }}
+                            </td>
+                            <!-- 岗位工资 -->
+                            <td nzAlign="center" nzAlign="center" columnName="GZDA0718">
+                                {{ data.GZDA0719 }}
+                            </td>
+                            <!-- 按比例提高津补贴 -->
+                            <td nzAlign="center" columnName="GZDA0732">{{ data.GZDA0732 }}</td>
+                            <!-- 津补贴合计 -->
+                            <td nzAlign="center" columnName="GZDA0724">{{ data.GZDA0724 }}</td>
+                            <!-- 工资合计 -->
+                            <td nzAlign="center" columnName="GZDA0726">{{ data.GZDA0734 }}</td>
+                            <!-- 档次起考年度 -->
+                            <td nzAlign="center" columnName="GZDA0726">{{ data.GZDA0726 }}</td>
+
+                            <!-- 增资额 -->
+                            <td rowSpan="2" nzAlign="center" columnName="NewGZDA0742">
+                                {{ data.NewGZDA0742 }}
+                            </td>
+                            <!-- 补发月数 -->
+                            <td rowSpan="2" nzAlign="center" columnName="NewGZDA0745">
+                                {{ data.NewGZDA0745 }}
+                            </td>
+                            <!-- 补发额 -->
+                            <td rowSpan="2" nzAlign="center" columnName="NewGZDA0746">
+                                {{ data.NewGZDA0746 }}
+                            </td>
+                            <!-- 未晋升原因 -->
+                            <td
+                                rowSpan="2"
+                                nzAlign="center"
+                                (click)="personTableIfy.viewIsNotRise(data)"
+                            >
+                                <a nz-tooltip nzTooltipTitle="查看"><i nz-icon nzType="eye"></i></a>
+                            </td>
+                            <td
+                                nzRight="80px"
+                                rowSpan="2"
+                                nzAlign="center"
+                                (click)="personTableIfy.calculation(data)"
+                            >
+                                <a nz-tooltip nzTooltipTitle="计算工资">
+                                    <i nz-icon nzType="calculator"></i>
+                                </a>
+                            </td>
+                            <td
+                                nzRight="40px"
+                                rowSpan="2"
+                                nzAlign="center"
+                                (click)="personTableIfy.evtDeletePerson(data)"
+                            >
+                                <a nz-tooltip nzTooltipTitle="撤销"
+                                    ><i nz-icon nzType="minus-square"></i
+                                ></a>
+                            </td>
+                            <td
+                                nzRight="0px"
+                                rowSpan="2"
+                                nzAlign="center"
+                                (click)="personTableIfy.wageChange(data)"
+                            >
+                                <a nz-tooltip nzTooltipTitle="工资变迁"
+                                    ><i nz-icon nzType="transaction"></i
+                                ></a>
+                            </td>
+                        </tr>
+                        <tr>
+                            <!-- 变动情况 变动后-->
+                            <td nzAlign="center"><i nz-icon nzType="swap-right"></i></td>
+                            <!-- 岗位档次 -->
+                            <td nzAlign="center" columnName="NewGZDA0709">
+                                {{ data.NewGZDA0709 }}
+                            </td>
+                            <!-- 岗位工资 -->
+                            <td nzAlign="center" nzAlign="center" columnName="NewGZDA0718">
+                                {{ data.NewGZDA0719 }}
+                            </td>
+                            <!-- 按比例提高津补贴 -->
+                            <td nzAlign="center" columnName="NewGZDA0732">
+                                {{ data.NewGZDA0732 }}
+                            </td>
+                            <!-- 津补贴合计 -->
+                            <td nzAlign="center" columnName="NewGZDA0724">
+                                {{ data.NewGZDA0724 }}
+                            </td>
+                            <!-- 工资合计 -->
+                            <td nzAlign="center" columnName="NewGZDA0726">
+                                {{ data.NewGZDA0734 }}
+                            </td>
+                            <!-- 档次起考年度 -->
+                            <td nzAlign="center" columnName="NewGZDA0726">
+                                {{ data.NewGZDA0726 }}
+                            </td>
+                        </tr>
+                    </ng-container>
+                </tbody>
+            </nz-table>
+        </div>
+    </div>
+</div>
+
+<!-- 选人组件 -->
+<oper-select-person
+    #operSelectPerson
+    [filterParmas]="personSelectIfy.filterParmas"
+    [jobStepInfo]="jobStepInfo"
+    (selectedChange)="personSelectIfy.evtChange()"
+    [disabledList]="personSelectIfy.psnDataChange()"
+>
+</oper-select-person>
+
+<!-- 业务流程图 -->
+<nz-drawer
+    nzPlacement="top"
+    [nzVisible]="operStepFlowIfy.visible"
+    [nzTitle]="operStepFlowIfy.title"
+    [nzHeight]="operStepFlowIfy.height"
+    (nzOnClose)="operStepFlowIfy.close()"
+>
+    <div class="drawer_area oper_step_flow">
+        <nz-steps [nzCurrent]="operStepFlowIfy.evtGetStepIndex()">
+            <ng-container *ngFor="let item of operStepFlowIfy.list">
+                <nz-step
+                    [nzTitle]="item.stepName"
+                    [nzIcon]="item.icon"
+                    [nzDescription]="item.desc || ''"
+                >
+                </nz-step>
+            </ng-container>
+        </nz-steps>
+    </div>
+</nz-drawer>
+
+<!-- 业务流程监控 -->
+<nz-drawer
+    [nzVisible]="operTailIfy.visible"
+    [nzTitle]="operTailIfy.title"
+    [nzWidth]="operTailIfy.width"
+    (nzOnClose)="operTailIfy.close()"
+>
+    <div class="drawer_area oper_tail">
+        <div class="container">
+            <nz-timeline>
+                <nz-timeline-item [nzDot]="dotTemplate"><span>业务开始</span></nz-timeline-item>
+                <ng-container *ngFor="let item of operTailIfy.list; let i = index">
+                    <nz-timeline-item [nzColor]="['red', 'blue', 'green'][i % 3]">
+                        <p>
+                            <b>{{ item.stateDesc }}</b>
+                            {{ item.auditDate | date: 'yyyy-MM-dd HH:mm' }}
+                        </p>
+                        <p>
+                            <b
+                                ><span>{{ item.contacts }}</span></b
+                            ><span> {{ item.orgName }} {{ item.contactNumber }}</span>
+                        </p>
+                        <p *ngIf="item.auditStateDesc">批复结果： {{ item.auditStateDesc }}</p>
+                    </nz-timeline-item>
+                </ng-container>
+            </nz-timeline>
+            <ng-template #dotTemplate>
+                <i nz-icon type="clock-circle-o" style="font-size: 16px"></i>
+            </ng-template>
+        </div>
+    </div>
+</nz-drawer>
+
+<!-- 考核编辑 -->
+<nz-drawer
+    [nzClosable]="true"
+    [nzVisible]="assessEditIfy.visible"
+    nzPlacement="right"
+    [nzTitle]="assessEditIfy.title"
+    [nzWidth]="assessEditIfy.width"
+    (nzOnClose)="assessEditIfy.close()"
+>
+    <div class="drawer_area">
+        <div class="container">
+            <form nz-form [formGroup]="assessEditIfy.form">
+                <nz-form-item>
+                    <nz-form-label>考核年份</nz-form-label>
+                    <nz-form-control>
+                        <input nz-input formControlName="GZ0601" />
+                    </nz-form-control>
+                </nz-form-item>
+                <nz-form-item>
+                    <nz-form-label nzRequired>考核结果</nz-form-label>
+                    <nz-form-control nzHasFeedback>
+                        <dictionary-input
+                            code="CGZCC"
+                            [text]="assessEditIfy.currentRowData['GZ0602_CN']"
+                            formControlName="GZ0602"
+                        >
+                        </dictionary-input>
+                    </nz-form-control>
+                </nz-form-item>
+            </form>
+        </div>
+        <div class="footer">
+            <button nz-button nzType="primary" (click)="assessEditIfy.save()">保存</button>
+        </div>
+    </div>
+</nz-drawer>
+
+<nz-drawer
+    [nzClosable]="true"
+    [nzVisible]="viewIsNotRiseIfy.visible"
+    nzPlacement="right"
+    [nzTitle]="viewIsNotRiseIfy.title"
+    [nzWidth]="viewIsNotRiseIfy.width"
+    (nzOnClose)="viewIsNotRiseIfy.close()"
+>
+    <div class="drawer_area">
+        <div class="container">
+            <div [innerHTML]="viewIsNotRiseIfy.GZDA0760"></div>
+        </div>
+    </div>
+</nz-drawer>
+
+<!-- 工资变迁 -->
+<salary-gz07-drawer
+    #salaryGZ07Element
+    [jobStepInfo]="jobStepInfo"
+    [keyId]="personTableIfy.selectedKeyId"
+></salary-gz07-drawer>

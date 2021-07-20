@@ -1,0 +1,300 @@
+/*导入布局样式*/
+@import 'src/app/styles/layout';
+@import 'src/app/styles/drawer';
+
+$line-height: 34px;
+
+.report_common {
+    & > .header {
+        text-align: center;
+
+        .title {
+            font-size: 18px;
+            font-weight: 500;
+            padding-left: 20px;
+            position: relative;
+            float: left;
+
+            &:before {
+                content: '';
+                width: 5px;
+                display: inline-block;
+                position: absolute;
+                left: 0;
+                top: 5px;
+                bottom: 5px;
+                margin: -1px auto;
+                background-color: #1890ff;
+            }
+        }
+
+        .child_name {
+            font-size: 18px;
+        }
+    }
+
+    .left {
+        .handle {
+            text-align: center;
+        }
+    }
+
+    .sublist {
+        height: 100%;
+        width: 100%;
+        overflow: hidden;
+        overflow-y: auto;
+
+        .item {
+            height: $line-height;
+            line-height: $line-height;
+            font-size: 14px;
+            color: #000;
+            padding: 0 20px;
+            cursor: pointer;
+            position: relative;
+            transition: border-color 0.3s, color 0.3s, color 0.3s;
+            box-sizing: border-box;
+            white-space: nowrap;
+            border-bottom: 1px solid #e6e6e6;
+
+            & > .fa {
+                margin-right: 5px;
+            }
+            & > .fa.error {
+                color: #ff4d4f;
+            }
+            & > .fa.succeed {
+                color: #52c41a;
+            }
+            &:hover {
+                color: #3f9ffe;
+            }
+
+            &.active {
+                background-color: #e6f7ff;
+                color: #3f9ffe;
+
+                &:before {
+                    content: '';
+                    width: 3px;
+                    display: inline-block;
+                    position: absolute;
+                    left: 0;
+                    top: 0;
+                    bottom: 0;
+                    margin: -1px auto;
+                    background-color: #1890ff;
+                }
+            }
+        }
+    }
+}
+
+.sublist_exhibition {
+    height: 100%;
+    width: 100%;
+    position: relative;
+    overflow: hidden;
+}
+
+.arrows_alt {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    margin: auto;
+    z-index: 99;
+}
+
+.excel_show {
+    .header {
+        padding-left: 10px;
+
+        nz-button-group {
+            margin: 0 10px;
+        }
+
+        nz-dropdown {
+            margin: 0 10px;
+        }
+    }
+}
+
+.child_list {
+    position: relative;
+
+    .switch {
+        display: inline-block;
+        height: 45px;
+        width: 20px;
+        position: absolute;
+        right: -21px;
+        top: 0;
+        bottom: 0;
+        margin: auto;
+        background: #bfb8b8;
+        text-align: center;
+        line-height: 45px;
+        border-radius: 0 5px 5px 0;
+        cursor: pointer;
+        z-index: 1;
+    }
+
+    &.hide {
+        width: 0px !important;
+
+        .handle {
+            z-index: -1;
+        }
+    }
+}
+
+.other_list {
+    border: 1px solid #f0f0f0;
+
+    $other-height: 30px;
+
+    .item {
+        // height: $other-height;
+        line-height: $other-height;
+        border-bottom: 1px solid #f0f0f0;
+
+        display: flex;
+        align-items: center;
+
+        &:last-child {
+            border: none;
+        }
+
+        &:hover {
+            color: #1890ff;
+        }
+
+        &.active {
+            background-color: #e6f7ff;
+            color: #1890ff;
+            border-bottom: 1px solid #fff;
+        }
+
+        & > .title {
+            padding-left: 10px;
+            flex: 1;
+            cursor: pointer;
+        }
+
+        & > .icon {
+            width: 30px;
+            padding: 0 10px;
+        }
+    }
+}
+
+.selected_item {
+    position: relative;
+
+    & > div {
+        border-left: 1px solid #eee;
+        width: 40px;
+
+        text-align: center;
+        line-height: 40px;
+        font-size: 18px;
+        color: #ccc;
+    }
+
+    .edit {
+        position: absolute;
+        right: 40px;
+        left: auto;
+        cursor: pointer;
+
+        &:hover {
+            background-color: #eee;
+            color: blueviolet;
+        }
+    }
+
+    .close {
+        position: absolute;
+        right: 40px;
+        left: auto;
+        cursor: pointer;
+
+        &:hover {
+            background-color: #eee;
+            color: blueviolet;
+        }
+    }
+
+    .drag-handle {
+        position: absolute;
+        right: 0px;
+        left: auto;
+        cursor: move;
+    }
+}
+
+// 拖动样式
+.drag-list {
+    display: block;
+    background: white;
+    border: 2px solid #ccc;
+    border-top: 1px solid #ccc;
+    border-bottom: 1px solid #ccc;
+    overflow: hidden;
+}
+
+.drag-item {
+    padding: 10px 0 10px 10px;
+    border-top: solid 1px #ccc;
+    border-bottom: solid 1px #ccc;
+    color: rgba(0, 0, 0, 0.87);
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: space-between;
+    box-sizing: border-box;
+    background-color: white;
+    font-size: 14px;
+    position: relative;
+
+    & > div {
+        position: absolute;
+        top: 0;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        margin: auto;
+    }
+}
+
+.drag-item {
+    cursor: pointer;
+
+    &.active {
+        background-color: #40a9ee;
+        color: #fff;
+    }
+}
+
+.cdk-drag-preview {
+    box-sizing: border-box;
+    box-shadow: 0 5px 5px -3px rgba(0, 0, 0, 0.2), 0 8px 10px 1px rgba(0, 0, 0, 0.14),
+        0 3px 14px 2px rgba(0, 0, 0, 0.12);
+}
+
+.cdk-drag-placeholder {
+    opacity: 0;
+}
+
+.cdk-drag-animating {
+    transition: transform 250ms cubic-bezier(0, 0, 0.2, 1);
+}
+
+.cdk-drop-list-dragging {
+    & :not(.cdk-drag-placeholder) {
+        transition: transform 250ms cubic-bezier(0, 0, 0.2, 1);
+    }
+}

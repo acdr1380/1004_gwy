@@ -1,0 +1,302 @@
+<div class="layout">
+    <!-- 系统动态 -->
+    <div class="item system-prompt">
+        <div class="header area">
+            <ng-template [ngTemplateOutlet]="titleTemplte_system"></ng-template>
+            <ng-template #titleTemplte_system>
+                <span class="title"
+                    ><i class="fa fa-volume-up fa-lg" aria-hidden="true"></i>政策</span
+                >
+            </ng-template>
+        </div>
+        <div class="containter">
+            <div class="left">
+                <div class="left-tree position_0">
+                    <nz-tree
+                        #typeTreeElement
+                        [nzSelectedKeys]="policyTypeTree.nzSelectedKeys"
+                        [nzExpandedKeys]="policyTypeTree.nzExpandedKeys"
+                        [nzData]="policyTypeTree.nodes"
+                        (nzClick)="policyTypeTree.evtActiveNode($event)"
+                        (nzExpandChange)="policyTypeTree.expandChange($event)"
+                        [nzTreeTemplate]="nzTreeTemplateSystem"
+                    >
+                        <ng-template #nzTreeTemplateSystem let-node>
+                            <span
+                                class="custom-node"
+                                [class.active]="policyTypeTree.activedNode?.key === node.key"
+                            >
+                                <i class="fa fa-sitemap" aria-hidden="true"></i>
+                                <span class="node-text">{{ node.title }}</span>
+                            </span>
+                        </ng-template>
+                    </nz-tree>
+                </div>
+            </div>
+            <div class="right">
+                <div class="containter">
+                    <ng-container *ngFor="let item of policyTable.content; let i = index">
+                        <div class="content">
+                            <span class="system-title" (click)="evtSelectorRow(item)">{{
+                                item.title
+                            }}</span>
+                            <div>
+                                <span>文号:{{ item.documentNumber }}</span>
+                                <span>时间:{{ item.addTime | date: 'yyyy-MM-dd' }}</span>
+                            </div>
+                        </div>
+                    </ng-container>
+                    <ng-container *ngIf="policyTable.content.length === 0">
+                        <div class="no-policy">
+                            <img src="assets/images/policy/meiyouzhengce.png" alt="" />
+                            <div>没有相关政策!</div>
+                        </div>
+                    </ng-container>
+                </div>
+                <div class="footer">
+                    <nz-pagination
+                        [(nzPageIndex)]="policyTable.page"
+                        [nzTotal]="policyTable.totalElements"
+                        nzShowSizeChanger
+                        [(nzPageSize)]="policyTable.size"
+                        (nzPageIndexChange)="loadSearchPolicyData()"
+                        (nzPageSizeChange)="loadSearchPolicyData()"
+                    ></nz-pagination>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- 笔记本 -->
+    <div class="right">
+        <div class="item notebook">
+            <div class="area">
+                <nz-card
+                    style="width: 100%; height: 100%"
+                    [nzBodyStyle]="{ width: '100%' }"
+                    [nzBordered]="false"
+                    [nzTitle]="titleTemplate_notebook"
+                    [nzExtra]="extraTemplate_notebook"
+                >
+                    <div class="note_content">
+                        <ng-container *ngFor="let item of noteBook.data">
+                            <div class="note-item">
+                                <span *ngIf="item.invalidEnum === 1">（已作废）</span>
+                                <a (click)="editNoteBook(item)">{{ item.title }}</a>
+                                <span class="time">{{ item.noteTime | date: 'yyyy-MM-dd' }}</span>
+                            </div>
+                        </ng-container>
+                    </div>
+                    <nz-empty *ngIf="noteBook.data.length === 0"></nz-empty>
+                </nz-card>
+                <ng-template #titleTemplate_notebook>
+                    <span class="title"
+                        ><i class="fa fa-pencil-square-o fa-lg" aria-hidden="true"></i>笔记本</span
+                    >
+                </ng-template>
+                <ng-template #extraTemplate_notebook>
+                    <span class="more">
+                        <a
+                            nzTitle="增加笔记"
+                            nzPlacement="bottom"
+                            nz-tooltip
+                            (click)="addNoteBook()"
+                            ><i class="fa fa-plus fa-lg" aria-hidden="true"></i
+                        ></a>
+                        <a nzTitle="更多" nzPlacement="bottom" nz-tooltip (click)="noteBookMore()"
+                            ><i class="fa fa-ellipsis-v fa-lg" aria-hidden="true"></i
+                        ></a>
+                    </span>
+                </ng-template>
+            </div>
+        </div>
+
+        <!-- 收藏 -->
+        <div class="item enshrine">
+            <div class="area">
+                <nz-card
+                    style="width: 100%"
+                    [nzBodyStyle]="{ width: '100%' }"
+                    [nzBordered]="false"
+                    [nzTitle]="titleTemplate_enshrine"
+                    [nzExtra]="extraTemplate_enshrine"
+                >
+                    <div class="favorites_content">
+                        <nz-tree
+                            #codeTreeElement
+                            nzAsyncData
+                            [nzData]="favoritesIfy.nodes"
+                            [nzTreeTemplate]="nzTreeTemplate"
+                            (nzClick)="favoritesIfy.evtActiveNode($event)"
+                            (nzExpandChange)="favoritesIfy.evtExpandChange($event)"
+                        >
+                            <ng-template #nzTreeTemplate let-node>
+                                <span
+                                    class="custom-node"
+                                    [class.active]="favoritesIfy.activedNode?.key === node.key"
+                                >
+                                    <ng-container
+                                        *ngIf="node.origin?.nodeType === 0; else nodeIconTemp"
+                                    >
+                                        <i
+                                            class="fa fa-{{
+                                                node.isExpanded
+                                                    ? favoritesIfy.nodeIconFolderOpen
+                                                    : favoritesIfy.nodeIconFolder
+                                            }}"
+                                            aria-hidden="true"
+                                        ></i>
+                                    </ng-container>
+                                    <ng-template #nodeIconTemp>
+                                        <i
+                                            class="fa fa-{{ favoritesIfy.nodeIconFile }}"
+                                            aria-hidden="true"
+                                        ></i>
+                                    </ng-template>
+                                    <span *ngIf="node.origin?.invalidEnum === 1">（已作废）</span>
+                                    <span class="node-text">{{ node.title }}</span>
+                                </span>
+                            </ng-template>
+                        </nz-tree>
+                    </div>
+                    <ng-container *ngIf="favoritesIfy.nodes.length === 0">
+                        <nz-empty></nz-empty>
+                    </ng-container>
+                </nz-card>
+                <ng-template #titleTemplate_enshrine>
+                    <span class="title"
+                        ><i class="fa fa-star-o fa-lg" aria-hidden="true"></i>收藏</span
+                    >
+                </ng-template>
+
+                <ng-template #extraTemplate_enshrine>
+                    <span class="more">
+                        <a nzTitle="更多" nzPlacement="bottom" nz-tooltip (click)="enshrineMore()"
+                            ><i class="fa fa-ellipsis-v fa-lg" aria-hidden="true"></i
+                        ></a>
+                    </span>
+                </ng-template>
+            </div>
+        </div>
+    </div>
+
+    <!-- 常用文号 -->
+    <!-- <div class="item frequently-refer">
+        <div class="area">
+            <nz-card
+                style="width: 100%; height: 100%;"
+                [nzBordered]="false"
+                [nzTitle]="titleTemplate_frequently"
+                [nzBodyStyle]="{ height: 'calc(100% - 56px)' }"
+            >
+                <div class="content">
+                    <ng-container *ngFor="let item of frequentlyRefer.data">
+                        <a (click)="evtLoadDocContent(item)">{{ item.documentNumber }}</a>
+                    </ng-container>
+                </div>
+                <nz-empty
+                    *ngIf="frequentlyRefer.data.length === 0"
+                    nzNotFoundFooter="您还没有常用文号！"
+                ></nz-empty>
+            </nz-card>
+            <ng-template #titleTemplate_frequently>
+                <span class="title"
+                    ><i class="fa fa-list-ol fa-lg" aria-hidden="true"></i>常用文号</span
+                >
+            </ng-template>
+        </div>
+    </div> -->
+</div>
+
+<!-- 笔记编辑字段模板 -->
+<ng-template #noteEditorTemp let-formGroup="formGroup">
+    <form nz-form nzLayout="vertical" [formGroup]="formGroup">
+        <nz-form-item>
+            <nz-form-label nzRequired nzFor="notebook_title">标题</nz-form-label>
+            <nz-form-control [nzErrorTip]="errorTpl">
+                <input
+                    nz-input
+                    id="notebook_title"
+                    formControlName="title"
+                    placeholder="请输入标题"
+                />
+
+                <ng-template #errorTpl let-control>
+                    <ng-container
+                        *ngIf="formGroup.get('title')?.dirty && formGroup.get('title')?.errors"
+                    >
+                        笔记标题不能为空。
+                    </ng-container>
+                </ng-template>
+            </nz-form-control>
+        </nz-form-item>
+
+        <nz-form-item>
+            <nz-form-label nzRequired nzFor="notebook_content">内容</nz-form-label>
+            <nz-form-control [nzErrorTip]="errorTpl">
+                <textarea
+                    rows="4"
+                    nz-input
+                    id="notebook_content"
+                    formControlName="content"
+                    placeholder="输入内容"
+                ></textarea>
+
+                <ng-template #errorTpl let-control>
+                    <ng-container
+                        *ngIf="formGroup.get('content')?.dirty && formGroup.get('content')?.errors"
+                    >
+                        笔记内容不能为空。
+                    </ng-container>
+                </ng-template>
+            </nz-form-control>
+        </nz-form-item>
+
+        <nz-form-item>
+            <nz-form-label nzFor="notebook_reference">文号</nz-form-label>
+            <nz-form-control>
+                <textarea
+                    rows="4"
+                    nz-input
+                    id="notebook_reference"
+                    formControlName="documentNumber"
+                    placeholder="输入文号"
+                ></textarea>
+            </nz-form-control>
+        </nz-form-item>
+
+        <nz-form-item>
+            <nz-form-label nzFor="notebook_comment">备注</nz-form-label>
+            <nz-form-control>
+                <textarea
+                    rows="4"
+                    nz-input
+                    id="notebook_comment"
+                    formControlName="contentNote"
+                    placeholder="输入备注"
+                ></textarea>
+            </nz-form-control>
+        </nz-form-item>
+    </form>
+</ng-template>
+
+<!-- 增加，编辑笔记抽屉 -->
+<nz-drawer
+    nzPlacement="right"
+    [nzTitle]="noteBook.title"
+    [nzWidth]="noteBook.width"
+    [nzVisible]="noteBook.visible"
+    (nzOnClose)="noteBook.close()"
+>
+    <div class="drawer_area">
+        <div class="container">
+            <ng-template
+                [ngTemplateOutlet]="noteEditorTemp"
+                [ngTemplateOutletContext]="{ formGroup: noteBook.form }"
+            >
+            </ng-template>
+        </div>
+        <div class="footer">
+            <button nz-button nzType="primary" (click)="noteBook.save()">保存</button>
+        </div>
+    </div>
+</nz-drawer>

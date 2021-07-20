@@ -1,0 +1,70 @@
+@import 'src/app/styles/layout';
+$header-height: 50px;
+$left-width: 360px;
+
+// 布局
+section.layout {
+    height: 100%;
+    display: grid;
+    grid-gap: 2px;
+    grid-template-areas:
+        'header header'
+        'aside main';
+    grid-template-columns: $left-width 1fr;
+    grid-template-rows: $header-height 1fr;
+
+    background-color: #eee;
+
+    & > * {
+        overflow: hidden;
+        height: 100%;
+        width: 100%;
+    }
+
+    & > header {
+        grid-area: header;
+        background-color: #fff;
+    }
+
+    & > main {
+        grid-area: main;
+        background-color: #fff;
+    }
+
+    & > aside {
+        grid-area: aside;
+        background-color: #fff;
+    }
+}
+
+// 页面样式
+.layout {
+    .handle {
+        line-height: $header-height;
+        padding-left: 10px;
+
+        nz-button-group {
+            margin-right: 10px;
+        }
+    }
+}
+
+// 左侧树
+.left-content {
+    height: 100%;
+    position: relative;
+
+    .find {
+        position: sticky;
+        height: $header-height + 2;
+        line-height: $header-height + 2;
+        text-align: center;
+        top: 0;
+        border-bottom: 2px solid #eee;
+    }
+
+    .tree {
+        height: calc(100% - #{$header-height});
+        overflow: auto;
+    }
+}

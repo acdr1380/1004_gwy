@@ -1,0 +1,65 @@
+<div class="layout select_org">
+    <div class="header">
+        <nz-select
+            nzPlaceHolder="选择机构分组"
+            [(ngModel)]="orgTreeIfy.group.value"
+            (ngModelChange)="orgTreeIfy.group.evtChange()"
+        >
+            <ng-container *ngFor="let item of orgTreeIfy.group.list">
+                <nz-option [nzValue]="item.value" [nzLabel]="item.label"></nz-option>
+            </ng-container>
+        </nz-select>
+    </div>
+    <div class="header person_condition" nz-row>
+        <div nz-col [nzSpan]="isLevel ? 16 : 24">
+            <nz-select
+                nzAllowClear
+                nzShowSearch
+                nzServerSearch
+                [nzShowArrow]="false"
+                nzPlaceHolder="输入查询关键字"
+                [(ngModel)]="orgTreeIfy.find.keyword"
+                (nzOpenChange)="orgTreeIfy.find.evtOpenChange($event)"
+                (nzOnSearch)="orgTreeIfy.find.evtOnSearch($event)"
+                (ngModelChange)="orgTreeIfy.find.evtChange($event)"
+            >
+                <ng-container *ngFor="let item of orgTreeIfy.find.list">
+                    <nz-option [nzValue]="item.value" [nzLabel]="item.label"></nz-option>
+                </ng-container>
+            </nz-select>
+        </div>
+        <div nz-col nzSpan="6" nzOffset="2" *ngIf="isLevel">
+            <label
+                nz-checkbox
+                [(ngModel)]="orgTreeIfy.level.yeNo"
+                (ngModelChange)="orgTreeIfy.level.evtLevelChange()"
+                >包含下层</label
+            >
+        </div>
+    </div>
+    <div class="container">
+        <cdk-virtual-scroll-viewport #scrollViewport [itemSize]="32" class="view_scroll">
+            <nz-tree
+                #orgUnitElement
+                nzAsyncData
+                [nzData]="orgTreeIfy.tree.nodes"
+                [nzTreeTemplate]="nzTreeTemplate"
+                (nzClick)="orgTreeIfy.tree.evtActiveNode($event)"
+                (nzExpandChange)="orgTreeIfy.tree.evtExpandChange($event)"
+            >
+                <ng-template #nzTreeTemplate let-node>
+                    <span
+                        class="custom-node"
+                        [class.active]="orgTreeIfy.tree.activedNode?.key === node.key"
+                    >
+                        <i
+                            class="fa fa-{{ orgTreeIfy.tree.icons[node.origin?.nodeType] }}"
+                            aria-hidden="true"
+                        ></i>
+                        <span class="node-text" [attr.title]="node.title">{{ node.title }}</span>
+                    </span>
+                </ng-template>
+            </nz-tree>
+        </cdk-virtual-scroll-viewport>
+    </div>
+</div>

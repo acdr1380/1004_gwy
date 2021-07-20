@@ -1,0 +1,119 @@
+/*导入布局样式*/
+@import 'src/app/styles/layout';
+@import 'src/app/styles/drawer';
+
+.layout {
+    .header {
+        .header-item {
+            display: inline-block;
+            min-width: 300px;
+            margin-right: 10px;
+            label,
+            dictionary-input {
+                display: inline-block;
+            }
+            input {
+                width: 250px;
+            }
+        }
+    }
+    .header-title {
+        font-size: 17px;
+        font-weight: bold;
+    }
+    .form-content {
+        padding: 10px;
+        nz-form-item {
+            display: inline-block;
+            width: 33%;
+            nz-form-label{
+                float: left;
+                width: 100px;
+            }
+            nz-form-control {
+                display: inline-block;
+                width: calc(100% - 100px);
+            }
+        }
+        nz-form-item.area{
+            width: 66%;
+        }
+    }
+    .form-contents{
+        padding: 10px;
+        nz-form-item {
+            nz-form-label{
+                float: left;
+                width: 100px;
+            }
+        }
+    }
+}
+// 人员列表
+.audit_list {
+    $item-height: 40px;
+    width: 100%;
+
+    .item {
+        height: $item-height;
+        line-height: $item-height;
+        border-bottom: 1px solid #eee;
+
+        display: flex;
+        align-items: center;
+
+        &:before {
+            content: '';
+            display: inline-block;
+            width: 3px;
+            height: $item-height;
+        }
+        &:hover {
+            color: #1890ff;
+        }
+
+        &.active {
+            background-color: #e6f7ff;
+
+            &:before {
+                background-color: #1890ff;
+            }
+        }
+
+        & > .icon {
+            width: 30px;
+            padding: 0 10px;
+
+            & .fa {
+                margin-right: 5px;
+            }
+
+            & .fa.error {
+                color: #ff4d4f;
+            }
+
+            & .fa.succeed {
+                color: #52c41a;
+            }
+
+            & .fa.stateless {
+                color: #1890ff;
+            }
+        }
+
+        & > .title {
+            flex: 1;
+            cursor: pointer;
+            padding: 0 10px;
+            height: $item-height;
+        }
+
+        & > .btns {
+            .btn {
+                padding: 4px 10px 0 10px;
+                color: #40a9ff;
+                cursor: pointer;
+            }
+        }
+    }
+}

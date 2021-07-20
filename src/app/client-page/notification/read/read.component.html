@@ -1,0 +1,216 @@
+<div class="layout" *ngIf="transpondify.loadingstatus">
+    <div class="transpond">
+        <button nz-button nzType="primary" (click)="evtTranspond()">转发</button>
+    </div>
+    <div class="doc">
+        <div class="title">{{ noticeInfo?.title }}</div>
+        <div class="time">{{ noticeInfo?.sendTime | date: 'yyyy-MM-dd HH:mm:ss' }}</div>
+        <div class="from_unit">发布单位：{{ noticeInfo?.orgName }}</div>
+        <main class="content" [innerHTML]="noticeInfo?.content | htmlApply"></main>
+
+        <div class="feedback">
+            <ng-template
+                [ngTemplateOutlet]="feedbackTemp"
+                [ngTemplateOutletContext]="{ formGroup: noticesIfy.form }"
+            >
+            </ng-template>
+
+            <!-- <div *ngIf="noticeInfo.type === 1 && !URLParams.noticeDeadline" nz-row>
+                <div nz-col nzSpan="10" nzOffset="3">
+                    <nz-alert nzType="warning" nzMessage="反馈已截止"></nz-alert>
+                </div>
+            </div> -->
+        </div>
+    </div>
+</div>
+<div *ngIf="!transpondify.loadingstatus" class="layout">
+    <ng-template [ngTemplateOutlet]="loading"></ng-template>
+</div>
+
+<ng-template #feedbackTemp let-formGroup="formGroup">
+    <form nz-form class="layout_form" [formGroup]="formGroup">
+        <nz-form-item nz-row *ngIf="noticeInfo?.noticefileList?.length > 0">
+            <nz-form-label nz-col nzSpan="3">相关附件</nz-form-label>
+            <div nz-col nzSpan="10">
+                <nz-upload
+                    [nzShowUploadList]="{ showRemoveIcon: false, showDownloadIcon: true }"
+                    [nzFileList]="noticeInfo?.noticefileList"
+                    [nzPreview]="noticeInfo?.preview"
+                >
+                </nz-upload>
+            </div>
+        </nz-form-item>
+
+        <ng-container *ngIf="noticeInfo.showType === 1">
+            <nz-form-item nz-row>
+                <nz-form-label nz-col nzSpan="3">反馈截止时间</nz-form-label>
+                <nz-form-control nz-col nzSpan="5">
+                    <nz-date-picker
+                        formControlName="endTime"
+                        nzFormat="yyyy-MM-dd HH:mm:ss"
+                    ></nz-date-picker>
+                </nz-form-control>
+            </nz-form-item>
+
+            <nz-form-item nz-row>
+                <nz-form-label nz-col nzRequired nzSpan="3">反馈内容</nz-form-label>
+                <nz-form-control nz-col nzSpan="10" nzErrorTip="反馈内容不能为空。">
+                    <textarea
+                        rows="4"
+                        nz-input
+                        formControlName="content"
+                        placeholder="输入反馈内容"
+                    ></textarea>
+                </nz-form-control>
+            </nz-form-item>
+
+            <nz-form-item nz-row>
+                <nz-form-label nz-col nzSpan="3">反馈附件</nz-form-label>
+                <div nz-col nzSpan="10">
+                    <nz-upload
+                        [nzFileList]="noticesIfy.fileList"
+                        [nzLimit]="5"
+                        [nzCustomRequest]="fileUploadify.fileCustomRequest"
+                        [nzRemove]="fileUploadify.fileRemove"
+                        [nzShowUploadList]="{ showRemoveIcon: true }"
+                        [nzPreview]="noticesIfy.preview"
+                    >
+                        <button nz-button>
+                            <span><i nz-icon nzType="upload"></i> Upload</span>
+                        </button>
+                    </nz-upload>
+                </div>
+            </nz-form-item>
+            <div *ngIf="noticeInfo.type === 0" nz-row>
+                <div nz-col nzSpan="10" nzOffset="3">
+                    <nz-alert nzType="warning" nzMessage="未反馈"></nz-alert>
+                </div>
+            </div>
+            <div *ngIf="noticeInfo.type === 1" nz-row>
+                <div nz-col nzSpan="10" nzOffset="3">
+                    <nz-alert nzType="warning" nzMessage="期限内反馈"></nz-alert>
+                </div>
+            </div>
+            <div *ngIf="noticeInfo.type === 2" nz-row>
+                <div nz-col nzSpan="10" nzOffset="3">
+                    <nz-alert nzType="warning" nzMessage="期限外反馈"></nz-alert>
+                </div>
+            </div>
+
+            <div class="btn">
+                <nz-button-group nz-col nzOffset="3">
+                    <button nz-button nzType="primary" (click)="saveOpinionData()">反馈</button>
+                </nz-button-group>
+            </div>
+        </ng-container>
+    </form>
+</ng-template>
+
+<ng-template #transpondEditForm let-formGroup="formGroup">
+    <form nz-form class="layout_form" [formGroup]="formGroup">
+        <nz-form-item nz-row>
+            <nz-form-label nz-col nzSpan="4">转发备注</nz-form-label>
+            <nz-form-control nz-col nzSpan="18">
+                <textarea rows="4" nz-input formControlName="remark"></textarea>
+            </nz-form-control>
+        </nz-form-item>
+
+        <nz-form-item nz-row>
+            <nz-form-label nz-col nzRequired nzSpan="4">转发对象</nz-form-label>
+            <nz-form-control
+                nz-col
+                nzSpan="18"
+                class="has-error"
+                nzErrorTip="通知发送对象不能为空。"
+            >
+                <nz-card [nzTitle]="sendUnitTemp">
+                    <ng-container *ngFor="let item of transpondify.sendUnits; let i = index">
+                        <nz-tag
+                            class="item"
+                            nzMode="closeable"
+                            (nzOnClose)="unitSelectorify.delSendObject(i)"
+                        >
+                            {{ item.orgName }}
+                            <ng-container *ngIf="item.includeChild">
+                                (及下层{{ item.count }}个单位)
+                            </ng-container>
+                        </nz-tag>
+                    </ng-container>
+                </nz-card>
+                <ng-template #sendUnitTemp>
+                    <nz-button-group>
+                        <button
+                            nz-button
+                            nzType="primary"
+                            nzSize="small"
+                            (click)="unitSelectorify.selectorUnit()"
+                        >
+                            选择单位
+                        </button>
+                        <button
+                            nz-button
+                            nzType="danger"
+                            nzSize="small"
+                            (click)="unitSelectorify.clearAll()"
+                        >
+                            清空发送单位
+                        </button>
+                    </nz-button-group>
+                </ng-template>
+            </nz-form-control>
+        </nz-form-item>
+    </form>
+</ng-template>
+
+<nz-drawer
+    [nzVisible]="transpondify.visible"
+    [nzPlacement]="transpondify.placement"
+    [nzTitle]="transpondify.title"
+    [nzWidth]="transpondify.width"
+    (nzOnClose)="transpondify.close()"
+>
+    <div class="drawer_area">
+        <div class="container">
+            <ng-template
+                [ngTemplateOutlet]="transpondEditForm"
+                [ngTemplateOutletContext]="{ formGroup: transpondify.form }"
+            >
+            </ng-template>
+        </div>
+        <div class="footer">
+            <nz-button-group>
+                <button nz-button nzType="primary" (click)="unitSelectorify.transpondNoticeData()">
+                    确认转发
+                </button>
+                <button nz-button nzType="default" (click)="transpondify.close()">关闭</button>
+            </nz-button-group>
+        </div>
+    </div>
+</nz-drawer>
+
+<!-- 选择单位 -->
+<select-unit-level-drawer
+    #selectOrgDrawerTemp
+    (selectedUnitChange)="unitSelectorify.evtSelected($event)"
+></select-unit-level-drawer>
+
+<ng-template #loading>
+    <div class="loading">
+        <nz-spin nzSimple></nz-spin>
+        <span>请耐心等候,正在加载中！</span>
+    </div>
+</ng-template>
+
+<!-- 在线预览附件 -->
+<gl-online-doc
+    #onlineDocOverlayElement1
+    [fileList]="noticeInfo?.noticefileList"
+    [selectedIndex]="noticeInfo?.selectedIndex"
+></gl-online-doc>
+
+<!-- 在线预览附件 -->
+<gl-online-doc
+    #onlineDocOverlayElement2
+    [fileList]="noticesIfy.fileList"
+    [selectedIndex]="noticesIfy.selectedIndex"
+></gl-online-doc>

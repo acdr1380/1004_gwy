@@ -1,0 +1,24 @@
+<!-- 字典多选 -->
+<input
+    #inputMultipleElement
+    class="putt"
+    nz-input
+    readonly
+    [value]="text"
+    [disabled]="disabled"
+    [placeholder]="placeholder"
+    (click)="dictionaryDrawerShow()"
+/>
+
+<gl-dictionary-input-multiple-drawer
+    [code]="code"
+    [filterWay]="filterWay"
+    [filterItems]="filterItems"
+    [parent]="parent"
+    [(visible)]="visible"
+    [text]="text"
+    (textChange)="dictionaryTextChange($event)"
+    [value]="value"
+    (valueChange)="dictionaryValueChange($event)"
+    (confirmChange)="evtConfirmChange()"
+></gl-dictionary-input-multiple-drawer>

@@ -1,0 +1,75 @@
+@import 'src/app/styles/layout';
+@import 'src/app/styles/drawer';
+$browser-default-font-size: 16px !default; //变量的值可以根据自己需求定义
+@function pxTorem($px) {
+    @return $px / $browser-default-font-size * 1rem;
+}
+
+.layout {
+    .self_right {
+        height: 100%;
+        overflow: auto;
+        padding: 10px 0;
+
+        [nz-col] button {
+            margin-right: 10px;
+        }
+    }
+
+    .self_left {
+        height: 100%;
+        overflow: auto;
+
+        .tab {
+            position: sticky;
+            top: 0;
+            height: 50px;
+            z-index: 1;
+            background-color: #fff;
+        }
+
+        .item {
+            border-bottom: 1px solid #eee;
+            padding: 5px 10px;
+
+            .operation {
+                text-align: right;
+                margin: 0;
+            }
+
+            &:hover {
+                background-color: #f0f8ff;
+            }
+        }
+    }
+}
+
+.position_0 {
+    position: absolute;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    left: 0;
+    margin: auto;
+}
+
+.unit-select {
+    top: pxTorem(55px);
+
+    .handler {
+        position: sticky;
+        top: 0;
+        padding: 5px 20px;
+        border-bottom: 1px solid #eee;
+    }
+
+    .tree {
+        height: calc(100% - 50px);
+        overflow: auto;
+    }
+
+    ._tree_view {
+        position: absolute;
+        top: 50px;
+    }
+}

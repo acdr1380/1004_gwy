@@ -1,0 +1,520 @@
+<div class="layout">
+    <div class="header">
+        <div class="haeder-item">
+            <label>方案类别：</label>
+            <nz-select
+                [(ngModel)]="headerIfy.B0604"
+                (ngModelChange)="jobNumberIfy.loadRows()"
+                nzAllowClear
+            >
+                <nz-option
+                    *ngFor="let item of headerIfy.B0604_list"
+                    [nzLabel]="item.label"
+                    [nzValue]="item.value"
+                >
+                </nz-option>
+            </nz-select>
+        </div>
+        <div class="haeder-item">
+            <label>岗位类别：</label>
+            <nz-select
+                [(ngModel)]="headerIfy.B0605"
+                (ngModelChange)="jobNumberIfy.loadRows()"
+                nzAllowClear
+            >
+                <nz-option
+                    *ngFor="let item of headerIfy.B0605_list"
+                    [nzLabel]="item.label"
+                    [nzValue]="item.value"
+                >
+                </nz-option>
+            </nz-select>
+        </div>
+        <div class="right">
+            <button nz-button nzType="primary" (click)="addJobNumIfy.open()">添加变动</button>
+        </div>
+    </div>
+    <div class="container">
+        <div class="view_scroll">
+            <nz-table
+                #jobNumTbl
+                nzBordered="true"
+                nzSize="small"
+                [nzData]="jobNumberIfy.rows"
+                [(nzPageSize)]="jobNumberIfy.pageSize"
+                [(nzPageIndex)]="jobNumberIfy.pageIndex"
+                [nzLoading]="jobNumberIfy.loading"
+                [nzShowSizeChanger]="true"
+                [nzPageSizeOptions]="jobNumberIfy.sizeOption"
+                [nzFrontPagination]="false"
+                [nzTotal]="jobNumberIfy.total"
+                (nzPageIndexChange)="jobNumberIfy.loadRows()"
+                (nzPageSizeChange)="jobNumberIfy.loadRows()"
+            >
+                <thead>
+                    <tr>
+                        <th nzAlign="center">方案类别</th>
+                        <th nzAlign="center">编制总数</th>
+                        <th nzAlign="center">核准基数</th>
+                        <th nzAlign="center">职数</th>
+                        <th nzAlign="center">变动类别</th>
+                        <th nzAlign="center">变动时间</th>
+                        <th nzAlign="center">附件</th>
+                        <th nzAlign="center">操作</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr *ngFor="let item of jobNumTbl.data" (dblclick)="addJobNumIfy.show(item)">
+                        <td nzAlign="center">{{ item.B0604_CN }}</td>
+                        <td nzAlign="center">{{ item.BzNum }}</td>
+                        <td nzAlign="center">{{ item.B0611 }}</td>
+                        <td nzAlign="center">{{ item.countNum }}</td>
+                        <td nzAlign="center">{{ item.B0606_CN }}</td>
+                        <td nzAlign="center">{{ item.B0602 | date: 'yyyy-MM-dd' }}</td>
+                        <td nzAlign="center">
+                            <a><i nz-icon nzType="upload" nzTheme="outline"></i></a>
+                        </td>
+                        <td nzAlign="center">
+                            <a
+                                nz-popconfirm
+                                nzPopconfirmTitle="是否确定删除？"
+                                (nzOnConfirm)="jobNumberIfy.remove(item)"
+                            >
+                                删除
+                            </a>
+                        </td>
+                    </tr>
+                </tbody>
+            </nz-table>
+        </div>
+    </div>
+</div>
+
+<!-- 添加职数抽屉 -->
+<nz-drawer
+    [nzVisible]="addJobNumIfy.visible"
+    [nzTitle]="addJobNumIfy.title"
+    [nzWidth]="addJobNumIfy.width"
+    (nzOnClose)="addJobNumIfy.close()"
+    [nzOffsetX]="choosePlanIfy.visible ? 200 : 0"
+>
+    <div class="drawer_area">
+        <div class="container">
+            <div class="div-flex">
+                <div class="div-flex-item">
+                    <div class="content">
+                        <form nz-form [formGroup]="addJobNumIfy.form">
+                            <nz-form-item>
+                                <nz-form-label nzRequired> 方案名称 </nz-form-label>
+                                <nz-form-control nzErrorTip="方案名称必填">
+                                    <input type="text" nz-input formControlName="B0601" />
+                                </nz-form-control>
+                            </nz-form-item>
+                            <nz-form-item>
+                                <nz-form-label nzRequired> 变动时间 </nz-form-label>
+                                <nz-form-control nzErrorTip="变动时间必填">
+                                    <datetime-input formControlName="B0602"></datetime-input>
+                                </nz-form-control>
+                            </nz-form-item>
+                            <nz-form-item>
+                                <nz-form-label nzRequired> 变动文号 </nz-form-label>
+                                <nz-form-control nzErrorTip="变动文号必填">
+                                    <input type="text" nz-input formControlName="B0603" />
+                                </nz-form-control>
+                            </nz-form-item>
+                            <nz-form-item>
+                                <nz-form-label nzRequired> 方案类别 </nz-form-label>
+                                <nz-form-control nzErrorTip="方案类别必填">
+                                    <dictionary-input
+                                        code="ZJC"
+                                        [(text)]="zh_CN.B0604_CN"
+                                        formControlName="B0604"
+                                    ></dictionary-input>
+                                </nz-form-control>
+                            </nz-form-item>
+                            <nz-form-item>
+                                <nz-form-label nzRequired> 岗位类别 </nz-form-label>
+                                <nz-form-control nzErrorTip="岗位类别必填">
+                                    <dictionary-input
+                                        code="ZJB"
+                                        [(text)]="zh_CN.B0605_CN"
+                                        formControlName="B0605"
+                                    ></dictionary-input>
+                                </nz-form-control>
+                            </nz-form-item>
+                            <nz-form-item>
+                                <nz-form-label nzRequired> 变动类别 </nz-form-label>
+                                <nz-form-control [style.width.px]="600">
+                                    <nz-radio-group
+                                        formControlName="B0606"
+                                        nzErrorTip="变动类别必填"
+                                        [nzDisabled]="headerIfy.B0605_list.length <= 0"
+                                    >
+                                        <label nz-radio nzValue="01">初始职数设置</label>
+                                        <label nz-radio nzValue="02">编制变动</label>
+                                        <label nz-radio nzValue="03">基数变动</label>
+                                        <label nz-radio nzValue="04">使用统筹</label>
+                                    </nz-radio-group>
+                                    <ng-container *ngIf="addJobNumIfy.isTC">
+                                        <a (click)="choosePlanIfy.open()">选择统筹计划</a>
+                                    </ng-container>
+                                    &nbsp;<a (click)="useSituationIfy.open()">{{ addJobNumIfy.TCText }}</a>
+                                </nz-form-control>
+                            </nz-form-item>
+                        </form>
+                    </div>
+                </div>
+            </div>
+            <div class="div-flex">
+                <div class="div-flex-item">
+                    <div class="header">
+                        <b>核准基数</b>
+                    </div>
+                    <div class="content">
+                        <form nz-form [formGroup]="addJobNumIfy.form">
+                            <nz-form-item>
+                                <nz-form-label> 行政编制数 </nz-form-label>
+                                <nz-form-control>
+                                    <nz-input-number formControlName="B0608"></nz-input-number>
+                                </nz-form-control>
+                            </nz-form-item>
+                            <nz-form-item>
+                                <nz-form-label [style.width.px]="120">
+                                    参公事业编制数
+                                </nz-form-label>
+                                <nz-form-control>
+                                    <nz-input-number formControlName="B0609"></nz-input-number>
+                                </nz-form-control>
+                            </nz-form-item>
+                            <nz-form-item>
+                                <nz-form-label [style.width.px]="120">
+                                    政法专项编制数
+                                </nz-form-label>
+                                <nz-form-control>
+                                    <nz-input-number formControlName="B0610"></nz-input-number>
+                                </nz-form-control>
+                            </nz-form-item>
+                            <nz-form-item>
+                                <nz-form-label> 核准基数 </nz-form-label>
+                                <nz-form-control>
+                                    <nz-input-number formControlName="B0611"></nz-input-number>
+                                </nz-form-control>
+                            </nz-form-item>
+                        </form>
+                    </div>
+                </div>
+            </div>
+            <div class="div-flex">
+                <div class="div-flex-item">
+                    <div class="header">
+                        <b>职数变动</b>
+                    </div>
+                    <div class="content">
+                        <ng-template
+                            [ngTemplateOutlet]="renderFormTemplate"
+                            [ngTemplateOutletContext]="{
+                                formGroup: addJobNumIfy.form,
+                                fields: addJobNumIfy.fields
+                            }"
+                        ></ng-template>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="footer">
+            <nz-button-group>
+                <button nz-button nzType="primary" (click)="addJobNumIfy.save()">确定</button>
+                <button nz-button nzType="default" (click)="addJobNumIfy.close()">取消</button>
+            </nz-button-group>
+        </div>
+    </div>
+</nz-drawer>
+
+<!-- 选择计划 -->
+<nz-drawer
+    [nzVisible]="choosePlanIfy.visible"
+    [nzTitle]="choosePlanIfy.title"
+    [nzWidth]="choosePlanIfy.width"
+    (nzOnClose)="choosePlanIfy.close()"
+>
+    <div class="drawer_area">
+        <div class="container">
+            <nz-radio-group [(ngModel)]="choosePlanIfy.current">
+                <label
+                    nz-radio
+                    [nzValue]="item.DATA_3001_UNIT_B06A_ID"
+                    *ngFor="let item of choosePlanIfy.list"
+                >
+                    {{ item.B06A01 }}
+                </label>
+            </nz-radio-group>
+        </div>
+        <div class="footer">
+            <nz-button-group>
+                <button nz-button nzType="primary" (click)="choosePlanIfy.enter()">确定</button>
+                <button nz-button nzType="default" (click)="choosePlanIfy.close()">取消</button>
+            </nz-button-group>
+        </div>
+    </div>
+</nz-drawer>
+
+<!-- 反查使用情况 -->
+<nz-drawer
+    [nzVisible]="useSituationIfy.visible"
+    [nzTitle]="useSituationIfy.title"
+    [nzWidth]="useSituationIfy.width"
+    (nzOnClose)="useSituationIfy.close()"
+>
+    <div class="drawer_area">
+        <div class="container">
+            <div class="view">
+                <nz-table
+                    #useOverallTbl
+                    nzBordered="true"
+                    nzSize="small"
+                    [nzData]="useSituationIfy.table.rows"
+                    [nzPageSize]="useSituationIfy.table.pageSize"
+                    [nzPageIndex]="useSituationIfy.table.pageIndex"
+                    [nzLoading]="useSituationIfy.table.loading"
+                    [nzShowSizeChanger]="true"
+                    [nzPageSizeOptions]="useSituationIfy.table.sizeOption"
+                >
+                    <thead>
+                        <tr>
+                            <th nzAlign="center">岗位类别</th>
+                            <th nzAlign="center">计划名称</th>
+                            <th nzAlign="center">统筹职级</th>
+                            <th nzAlign="center">统筹数</th>
+                            <th nzAlign="center">剩余数</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr *ngFor="let item of useOverallTbl.data">
+                            <td nzAlign="center">{{ item.B06A02_CN }}</td>
+                            <td nzAlign="center">{{ item.B06A01 }}</td>
+                            <td nzAlign="center">{{ item.B06A03_CN }}</td>
+                            <td nzAlign="center">{{ item.B06A04 }}</td>
+                            <td nzAlign="center">{{ item.B06A05 }}</td>
+                        </tr>
+                    </tbody>
+                </nz-table>
+            </div>
+        </div>
+    </div>
+</nz-drawer>
+
+<!-- 构造表单 -->
+<ng-template #renderFormTemplate let-formGroup="formGroup" let-fields="fields">
+    <form nz-form [formGroup]="formGroup">
+        <ng-container *ngFor="let field of fields">
+            <nz-form-item [style.display]="'inline-block'" *ngIf="!field.visible">
+                <nz-form-label
+                    [nzRequired]="field.SCHEME_EDIT_IS_MUST_INPUT"
+                    [style.width.px]="field.SCHEME_EDIT_LABEL_WIDTH"
+                    >{{ field.SCHEME_EDIT_DISPLAY_NAME }}
+                </nz-form-label>
+                <ng-container *ngIf="!field.SCHEME_EDIT_VIEW_TYPE; else columnViewTpl">
+                    <nz-form-control
+                        [style.display]="'inline-block'"
+                        [style.width.px]="field.SCHEME_EDIT_EDIT_WIDTH"
+                        *ngIf="field.TABLE_COLUMN_DICTIONARY_CODE !== ''"
+                        [nzErrorTip]="errorTipTemplate"
+                    >
+                        <dictionary-input
+                            [code]="field.TABLE_COLUMN_DICTIONARY_CODE"
+                            [(text)]="zh_CN[field.TABLE_COLUMN_CODE + '_CN']"
+                            [formControlName]="field.TABLE_COLUMN_CODE"
+                        ></dictionary-input>
+                    </nz-form-control>
+                    <nz-form-control
+                        [style.display]="'inline-block'"
+                        [style.width.px]="field.SCHEME_EDIT_EDIT_WIDTH"
+                        [nzErrorTip]="errorTipTemplate"
+                        *ngIf="
+                            field.TABLE_COLUMN_TYPE === 2 &&
+                            field.TABLE_COLUMN_DICTIONARY_CODE === ''
+                        "
+                    >
+                        <input nz-input [formControlName]="field.TABLE_COLUMN_CODE" />
+                    </nz-form-control>
+                    <nz-form-control
+                        [style.display]="'inline-block'"
+                        [style.width.px]="field.SCHEME_EDIT_EDIT_WIDTH"
+                        [nzErrorTip]="errorTipTemplate"
+                        *ngIf="field.TABLE_COLUMN_TYPE === 5"
+                    >
+                        <nz-select
+                            [style.width.px]="field.SCHEME_EDIT_EDIT_WIDTH"
+                            [formControlName]="field.TABLE_COLUMN_CODE"
+                        >
+                            <nz-option nzLabel="是" [nzValue]="true"> </nz-option>
+                            <nz-option nzLabel="否" [nzValue]="false"> </nz-option>
+                        </nz-select>
+                    </nz-form-control>
+                    <nz-form-control
+                        [style.display]="'inline-block'"
+                        [style.width.px]="field.SCHEME_EDIT_EDIT_WIDTH"
+                        [nzErrorTip]="errorTipTemplate"
+                        *ngIf="
+                            field.TABLE_COLUMN_TYPE === 4 &&
+                            field.TABLE_COLUMN_DICTIONARY_CODE === ''
+                        "
+                    >
+                        <nz-date-picker
+                            [style.width.px]="field.SCHEME_EDIT_EDIT_WIDTH"
+                            [formControlName]="field.TABLE_COLUMN_CODE"
+                        >
+                        </nz-date-picker>
+                    </nz-form-control>
+                    <nz-form-control
+                        [style.display]="'inline-block'"
+                        [style.width.px]="field.SCHEME_EDIT_EDIT_WIDTH"
+                        [nzErrorTip]="errorTipTemplate"
+                        *ngIf="field.TABLE_COLUMN_TYPE === 6"
+                    >
+                        <textarea
+                            nz-input
+                            [style.width.px]="field.SCHEME_EDIT_EDIT_WIDTH"
+                            rows="6"
+                            [formControlName]="field.TABLE_COLUMN_CODE"
+                        ></textarea>
+                    </nz-form-control>
+                    <nz-form-control
+                        [style.display]="'inline-block'"
+                        [style.width.px]="field.SCHEME_EDIT_EDIT_WIDTH"
+                        [nzErrorTip]="errorTipTemplate"
+                        *ngIf="
+                            field.TABLE_COLUMN_TYPE === 3 &&
+                            field.TABLE_COLUMN_DICTIONARY_CODE === ''
+                        "
+                    >
+                        <ng-container [ngSwitch]="field.TABLE_COLUMN_CODE">
+                            <ng-container *ngSwitchCase="'B0503'">
+                                <nz-date-picker
+                                    nzMode="year"
+                                    [style.width.px]="field.SCHEME_EDIT_EDIT_WIDTH"
+                                    [formControlName]="field.TABLE_COLUMN_CODE"
+                                ></nz-date-picker>
+                            </ng-container>
+                            <ng-container *ngSwitchCase="'PLAN_YEAR'">
+                                <nz-date-picker
+                                    nzMode="year"
+                                    [style.width.px]="field.SCHEME_EDIT_EDIT_WIDTH"
+                                    [formControlName]="field.TABLE_COLUMN_CODE"
+                                ></nz-date-picker>
+                            </ng-container>
+                            <ng-container *ngSwitchCase="'PLAN_TYPE'">
+                                <nz-select
+                                    [style.width.px]="field.SCHEME_EDIT_EDIT_WIDTH"
+                                    [formControlName]="field.TABLE_COLUMN_CODE"
+                                >
+                                    <nz-option
+                                        *ngFor="let item of PlanTypeEnum_CN"
+                                        [nzLabel]="item.text"
+                                        [nzValue]="item.value"
+                                    >
+                                    </nz-option>
+                                </nz-select>
+                            </ng-container>
+                            <ng-container *ngSwitchDefault>
+                                <nz-input-number
+                                    [style.width.px]="field.SCHEME_EDIT_EDIT_WIDTH"
+                                    [formControlName]="field.TABLE_COLUMN_CODE"
+                                ></nz-input-number>
+                            </ng-container>
+                        </ng-container>
+                    </nz-form-control>
+                </ng-container>
+
+                <ng-template #columnViewTpl>
+                    <ng-container [ngSwitch]="field.SCHEME_EDIT_VIEW_TYPE">
+                        <ng-container *ngSwitchCase="SchemeEditViewType.TEXT">
+                            <nz-form-control
+                                [style.display]="'inline-block'"
+                                [style.width.px]="field.SCHEME_EDIT_EDIT_WIDTH"
+                                [nzErrorTip]="errorTipTemplate"
+                            >
+                                <input nz-input [formControlName]="field.TABLE_COLUMN_CODE" />
+                            </nz-form-control>
+                        </ng-container>
+                        <ng-container *ngSwitchCase="SchemeEditViewType.INT">
+                            <nz-form-control
+                                [style.display]="'inline-block'"
+                                [style.width.px]="field.SCHEME_EDIT_EDIT_WIDTH"
+                                [nzErrorTip]="errorTipTemplate"
+                            >
+                                <nz-input-number
+                                    [style.width.px]="field.SCHEME_EDIT_EDIT_WIDTH"
+                                    [formControlName]="field.TABLE_COLUMN_CODE"
+                                ></nz-input-number>
+                            </nz-form-control>
+                        </ng-container>
+                        <ng-container *ngSwitchCase="SchemeEditViewType.DATE">
+                            <nz-form-control
+                                [style.display]="'inline-block'"
+                                [style.width.px]="field.SCHEME_EDIT_EDIT_WIDTH"
+                                [nzErrorTip]="errorTipTemplate"
+                            >
+                                <nz-date-picker
+                                    [style.width.px]="field.SCHEME_EDIT_EDIT_WIDTH"
+                                    [formControlName]="field.TABLE_COLUMN_CODE"
+                                >
+                                </nz-date-picker>
+                            </nz-form-control>
+                        </ng-container>
+                        <ng-container *ngSwitchCase="SchemeEditViewType.MEMO">
+                            <nz-form-control
+                                [style.display]="'inline-block'"
+                                [style.width.px]="field.SCHEME_EDIT_EDIT_WIDTH"
+                                [nzErrorTip]="errorTipTemplate"
+                            >
+                                <textarea
+                                    nz-input
+                                    [style.width.px]="field.SCHEME_EDIT_EDIT_WIDTH"
+                                    [style.height.px]="150"
+                                    [formControlName]="field.TABLE_COLUMN_CODE"
+                                ></textarea>
+                            </nz-form-control>
+                        </ng-container>
+                        <ng-container *ngSwitchDefault>
+                            <nz-form-control
+                                [style.display]="'inline-block'"
+                                [style.width.px]="field.SCHEME_EDIT_EDIT_WIDTH"
+                                [nzErrorTip]="errorTipTemplate"
+                            >
+                                <input nz-input [formControlName]="field.TABLE_COLUMN_CODE" />
+                            </nz-form-control>
+                        </ng-container>
+                    </ng-container>
+                </ng-template>
+                <ng-template #errorTipTemplate let-control="control">
+                    <ng-container
+                        *ngIf="formGroup.get(field.TABLE_COLUMN_CODE)?.hasError('maxlength')"
+                    >
+                        {{ field.SCHEME_EDIT_DISPLAY_NAME }}长度不能超过{{
+                            field.TABLE_COLUMN_LENGTH
+                        }}位!
+                    </ng-container>
+                    <ng-container
+                        *ngIf="formGroup.get(field.TABLE_COLUMN_CODE)?.hasError('required')"
+                    >
+                        {{ field.SCHEME_EDIT_DISPLAY_NAME }}不能为空!
+                    </ng-container>
+                    <ng-container
+                        *ngIf="formGroup.get(field.TABLE_COLUMN_CODE)?.hasError('pattern')"
+                    >
+                        {{ field.SCHEME_EDIT_DISPLAY_NAME }}字段类型不匹配!
+                    </ng-container>
+                    <ng-container
+                        *ngIf="formGroup.get(field.TABLE_COLUMN_CODE)?.hasError('customError')"
+                    >
+                        {{ formGroup.get(field.TABLE_COLUMN_CODE)?.getError('msg') || '异常错误!' }}
+                    </ng-container>
+                    <ng-container *ngIf="formGroup.get(field.TABLE_COLUMN_CODE).hasError('msg')">
+                        {{ formGroup.get(field.TABLE_COLUMN_CODE).getError('msg') || '异常错误。' }}
+                    </ng-container>
+                </ng-template>
+            </nz-form-item>
+        </ng-container>
+    </form>
+</ng-template>

@@ -1,0 +1,25 @@
+@import 'src/app/styles/layout';
+@import 'src/app/styles/drawer';
+
+nz-select {
+    width: 100%;
+}
+nz-table{
+    width: 100%;
+}
+.layout {
+    .header {
+        padding: 0 10px;
+    }
+    .tabset {
+        display: flex;
+        justify-content: center;
+    }
+    .tree_search{
+        padding: 0 5px;
+        div{
+            padding: 0 5px;
+            white-space: nowrap;
+        }
+    }
+}

@@ -1,0 +1,15 @@
+import { Component, OnInit } from '@angular/core';
+
+@Component({
+  selector: 'gl-usage-view',
+  templateUrl: './usage-view.component.html',
+  styleUrls: ['./usage-view.component.scss']
+})
+export class UsageViewComponent implements OnInit {
+
+  constructor() { }
+
+  ngOnInit(): void {
+  }
+
+}

@@ -1,0 +1,20 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+    <head>
+        <meta charset="utf-8" />
+        <title>加载中……</title>
+        <base href="/" />
+        <meta name="viewport" content="width=device-width, initial-scale=1" />
+        <link rel="icon" type="image/x-icon" href="favicon.ico" />
+        <link rel="stylesheet" href="assets/jexcel/jexcel_v4.css" type="text/css" />
+        <script src="assets/jexcel/jexcel_v4.js"></script>
+
+        <script src="assets/jexcel/jsuites_v2.js"></script>
+        <link rel="stylesheet" href="assets/jexcel//jsuites_v2.css" type="text/css" />
+
+        <script src="assets/jexcel/xlsx.js"></script>
+    </head>
+    <body>
+        <gl-root></gl-root>
+    </body>
+</html>

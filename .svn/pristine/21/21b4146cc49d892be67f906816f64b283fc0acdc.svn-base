@@ -1,0 +1,307 @@
+<div class="layout self_layout" [class.full_screen]="isFullScreen">
+    <!-- <div class="header">
+        <nz-tabset
+            [nzTabBarStyle]="{ 'margin.px': 0, 'height.px': 50, 'padding-top': '3px' }"
+            [(nzSelectedIndex)]="formListIfy.selectedIndex"
+            (nzSelectChange)="formListIfy.evtChange($event)"
+        >
+            <ng-container *ngFor="let item of formListIfy.list">
+                <nz-tab [nzTitle]="item.name"></nz-tab>
+            </ng-container>
+        </nz-tabset>
+    </div> -->
+    <div class="header">
+        <div class="form_list_tab">
+            <nz-tabset
+                [nzTabBarStyle]="{ 'margin.px': 0, 'height.px': 50 }"
+                [(nzSelectedIndex)]="formListIfy.selectedIndex"
+                (nzSelectChange)="formListIfy.evtChange($event)"
+            >
+                <ng-container *ngFor="let item of formListIfy.list">
+                    <nz-tab [nzTitle]="item.name"></nz-tab>
+                </ng-container>
+            </nz-tabset>
+        </div>
+
+        <div class="right">
+            <button
+                nz-button
+                nzType="link"
+                nz-tooltip
+                nzTooltipTitle="流程图"
+                (click)="wfInfoDrawer.show('step')"
+            >
+                <i nz-icon nzType="cluster"></i>
+            </button>
+            <button
+                nz-button
+                nzType="link"
+                nz-tooltip
+                nzTooltipTitle="流程跟踪"
+                (click)="wfInfoDrawer.show('opertail')"
+            >
+                <i nz-icon nzType="deployment-unit"></i>
+            </button>
+            <button
+                nz-button
+                nzType="link"
+                nz-tooltip
+                nzTooltipTitle="全屏"
+                (click)="fullScreenSwith()"
+            >
+                <i nz-icon nzType="fullscreen"></i>
+            </button>
+        </div>
+    </div>
+    <div class="container">
+        <ng-template [ngTemplateOutlet]="personAuditFormElement"></ng-template>
+    </div>
+</div>
+
+<!-- 流程图和步骤列表抽屉 -->
+<salary-inner-transfer-wfinfo-drawer
+    #wfInfoDrawerElement
+    [type]="wfInfoDrawer.sign"
+    [isChange]="wfInfoDrawer.changeStatus"
+    [jobStepInfo]="jobStepInfo"
+></salary-inner-transfer-wfinfo-drawer>
+
+<ng-template #personAuditFormElement>
+    <div class="layout page_view">
+        <div class="right_hang">
+            <ng-container *ngFor="let item of showPersonInfoIfy.list">
+                <div class="btn" *ngIf="item.status" (click)="showPersonInfoIfy.showContent(item)">
+                    <div class="icon"><i nz-icon [nzType]="item.icon"></i></div>
+                    <div>{{ item.label }}</div>
+                </div>
+            </ng-container>
+        </div>
+        <div class="container">
+            <div class="left self_left" *ngIf="formListIfy.status">
+                <div class="find">
+                    <nz-select
+                        [ngStyle]="{ 'width.px': personListIfy.find.searchWidth || 160 }"
+                        nzShowSearch
+                        nzServerSearch
+                        nzAllowClear
+                        [nzPlaceHolder]="personListIfy.find.placeholder || '请输入关键字搜索'"
+                        [nzShowArrow]="false"
+                        [nzFilterOption]="personListIfy.find.nzFilterOption"
+                        [(ngModel)]="personListIfy.find.searchKey"
+                        (ngModelChange)="personListIfy.find.change($event)"
+                        (nzOnSearch)="personListIfy.find.search($event)"
+                        (nzOpenChange)="personListIfy.find.evtOpenChange($event)"
+                    >
+                        <ng-container *ngFor="let item of personListIfy.find.list">
+                            <nz-option [nzLabel]="item.text" [nzValue]="item.keyId"> </nz-option>
+                        </ng-container>
+                    </nz-select>
+                </div>
+                <div class="find" *ngIf="jobStepInfo?.stepId !== 'start' && canEdit">
+                    <div class="batch_audit">
+                        <button nz-button nzType="primary" (click)="personListIfy.evtBatchAudit()">
+                            批量审批
+                        </button>
+                    </div>
+                </div>
+                <div class="tree">
+                    <cdk-virtual-scroll-viewport
+                        #scrollViewPersonList
+                        [itemSize]="40"
+                        class="view_scroll audit_list"
+                    >
+                        <ng-container
+                            *ngFor="
+                                let item of personListIfy.paginateIfy.pagePsnList;
+                                let i = index
+                            "
+                        >
+                            <div
+                                class="item"
+                                [class.active]="item === personListIfy.viewSelectedPsnData"
+                                (click)="personListIfy.evtSelectedPerson(item)"
+                            >
+                                <div class="icon">
+                                    <ng-container [ngSwitch]="item?.auditState">
+                                        <ng-template ngSwitchDefault>
+                                            <i class="fa fa-pencil-square-o stateless"></i>
+                                        </ng-template>
+                                        <ng-template [ngSwitchCase]="1">
+                                            <i class="fa fa-check-circle-o succeed"></i>
+                                        </ng-template>
+                                        <ng-template [ngSwitchCase]="0">
+                                            <i class="fa fa-times-circle-o error"></i>
+                                        </ng-template>
+                                    </ng-container>
+                                </div>
+                                <div class="title">{{ item.text }}</div>
+                                <div class="btns" *ngIf="canEdit">
+                                    <div
+                                        *ngIf="jobStepInfo.stepId !== 'start'"
+                                        class="btn danger"
+                                        (click)="personListIfy.evtAuditPerson(item)"
+                                    >
+                                        <!-- 审批 -->
+                                        <i
+                                            class="opreate_icon"
+                                            nz-icon
+                                            [nzType]="'profile'"
+                                            nz-tooltip
+                                            nzTooltipTitle="审批"
+                                        ></i>
+                                    </div>
+                                    <div
+                                        *ngIf="
+                                            jobStepInfo?.parentJobStepId &&
+                                            jobStepInfo?.parentJobStepId !== '-1' &&
+                                            jobStepInfo?.stepId === 'start'
+                                        "
+                                        class="btn danger"
+                                        (click)="personListIfy.evtViewAudit(item, i)"
+                                    >
+                                        <!-- 批复结果 -->
+                                        <i
+                                            class="opreate_icon"
+                                            nz-icon
+                                            [nzType]="'eye'"
+                                            nz-tooltip
+                                            nzTooltipTitle="查看审批"
+                                        ></i>
+                                    </div>
+                                </div>
+                            </div>
+                        </ng-container>
+                    </cdk-virtual-scroll-viewport>
+                </div>
+
+                <div class="find bottom">
+                    <nz-pagination
+                        nzSimple
+                        nzHideOnSinglePage
+                        [(nzPageIndex)]="personListIfy.paginateIfy.pageIndex"
+                        [nzTotal]="personListIfy.list.length"
+                        [(nzPageSize)]="personListIfy.paginateIfy.pageSize"
+                        (nzPageIndexChange)="personListIfy.paginateIfy.pageChange()"
+                    ></nz-pagination>
+                </div>
+            </div>
+            <div class="right">
+                <div class="layout">
+                    <!-- 1：表册 -->
+                    <div class="container">
+                        <div class="lay form_lyt">
+                            <excel-control
+                                #personSalaryExcelElement
+                                [permission]="formListIfy.permission"
+                                [params]="formListIfy.params"
+                            ></excel-control>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</ng-template>
+
+<!-- 人员审批 -->
+<nz-drawer
+    [nzVisible]="auditPersonIfy.visible"
+    [nzTitle]="auditPersonIfy.title"
+    [nzWidth]="auditPersonIfy.width"
+    (nzOnClose)="auditPersonIfy.close()"
+>
+    <div class="drawer_area">
+        <div class="container">
+            <form nz-form [formGroup]="auditPersonIfy.form">
+                <nz-form-item>
+                    <nz-form-label nzRequired>审核结果</nz-form-label>
+                    <nz-form-control nzHasFeedback>
+                        <nz-radio-group formControlName="auditState">
+                            <label nz-radio [nzValue]="1">审批通过</label>
+                            <label nz-radio [nzValue]="0">审批不通过</label>
+                        </nz-radio-group>
+                    </nz-form-control>
+                </nz-form-item>
+                <nz-form-item *ngIf="auditPersonIfy.form.get('auditState').value === 0">
+                    <nz-form-label nzRequired>审核意见</nz-form-label>
+                    <nz-form-control nzHasFeedback>
+                        <textarea rows="4" nz-input formControlName="auditStateDesc"></textarea>
+                    </nz-form-control>
+                </nz-form-item>
+            </form>
+            <button
+                nz-button
+                nzType="primary"
+                [disabled]="false"
+                (click)="auditPersonIfy.evtSaveAudit()"
+            >
+                保存
+            </button>
+        </div>
+    </div>
+</nz-drawer>
+
+<!-- 退回审批信息 -->
+<nz-drawer
+    nzPlacement="right"
+    [nzVisible]="personAuditViewIfy.visible"
+    [nzWidth]="personAuditViewIfy.width"
+    [nzTitle]="personAuditViewIfy.title"
+    (nzOnClose)="personAuditViewIfy.close()"
+>
+    <div class="drawer_area">
+        <div class="container">
+            <div class="view_scroll person_audit_list">
+                <ng-container *ngFor="let item of personAuditViewIfy.personList">
+                    <div class="item">
+                        <div class="a_info">
+                            <span>{{ item.auditDate }}</span>
+                            <span
+                                ><b>{{ item.orgName }}</b></span
+                            >
+                            <span>{{ item.userName }}批复：</span>
+                        </div>
+                        <div class="a_result">
+                            <span>{{ item.auditState === 0 ? '审批不通过' : '审批通过' }}，</span>
+                            <span>{{ item.auditStateDesc }}</span>
+                        </div>
+                    </div>
+                </ng-container>
+            </div>
+        </div>
+        <div class="footer">
+            <button nz-button (click)="personAuditViewIfy.close()">关闭</button>
+        </div>
+    </div>
+</nz-drawer>
+
+<!-- 人员附件 -->
+<nz-drawer
+    nzPlacement="right"
+    [nzVisible]="personAnnexIfy.visible"
+    [nzWidth]="personAnnexIfy.width"
+    [nzTitle]="personAnnexIfy.title"
+    (nzOnClose)="personAnnexIfy.close()"
+>
+    <div class="drawer_area">
+        <div class="container">
+            <nz-upload
+                class="upload-list-inline"
+                nzMultiple
+                nzListType="picture"
+                [nzShowButton]="false"
+                [nzShowUploadList]="{ showRemoveIcon: false }"
+                [(nzFileList)]="personAnnexIfy.fileList"
+                [nzPreview]="personAnnexIfy.preview"
+            >
+            </nz-upload>
+        </div>
+    </div>
+</nz-drawer>
+
+<!-- 在线预览附件 -->
+<gl-online-doc
+    #onlineDocOverlayElement
+    [fileList]="personAnnexIfy.fileList"
+    [selectedIndex]="personAnnexIfy.selectedIndex"
+></gl-online-doc>

@@ -1,0 +1,216 @@
+import { Router } from '@angular/router';
+import { FormGroup, Validators, FormControl } from '@angular/forms';
+import {
+    Component,
+    OnInit,
+    ViewChild,
+    ElementRef,
+    AfterViewInit,
+    Input,
+    Output,
+    EventEmitter,
+    ChangeDetectorRef,
+} from '@angular/core';
+import { JobStepInfo } from 'app/workflow/db/JobStepInfo';
+import { WorkflowService } from 'app/workflow/workflow.service';
+import { WfDataChangeTypeEnum } from 'app/workflow/enums/WfDataChangeTypeEnum';
+import { OnlineDocComponent } from 'app/components/online-doc/online-doc.component';
+import { CommonService } from 'app/util/common.service';
+import { SalaryGz07DrawerComponent } from 'app/components/salary-gz07/salary-gz07-drawer/salary-gz07-drawer.component';
+import { ColumnTypeEnum } from 'app/entity/enums/ColumnTypeEnum';
+import { Base64 } from 'js-base64';
+import { OperSelectPersonComponent } from 'app/components/oper-select-person/oper-select-person.component';
+import { CdkVirtualScrollViewport } from '@angular/cdk/scrolling';
+import { JobStepStateEnum } from 'app/workflow/enums/JobStepStateEnum';
+import { LoadingService } from 'app/components/loading/loading.service';
+import { NzMessageService } from 'ng-zorro-antd/message';
+import { NzModalService } from 'ng-zorro-antd/modal';
+import { WfTableHelper } from 'app/util/classes/wf-table-helper';
+
+declare global {
+    interface Window {
+        /**
+         * 个人工资信息详细窗口
+         */
+        winOperSalaryInfoDlg: any;
+    }
+}
+
+@Component({
+    selector: 'salary-allowance-change-table',
+    templateUrl: './allowance-change-table.component.html',
+    styleUrls: ['./allowance-change-table.component.scss']
+})
+export class AllowanceChangeTableComponent implements OnInit, AfterViewInit {
+
+    isFullScreen = false;
+    columnType = ColumnTypeEnum;
+    canEdit = false;
+    /**
+     * 业务信息
+     */
+    _jobStepInfo: JobStepInfo;
+    @Input()
+    set jobStepInfo(v) {
+        if (v) {
+            this.canEdit = v.jobStepState === JobStepStateEnum.PROCESSING;
+            this._jobStepInfo = v;
+            this.loadPersonTable();
+        }
+    }
+    get jobStepInfo() {
+        return this._jobStepInfo;
+    }
+
+    @ViewChild('personTableElement', { static: false }) personTableElement: ElementRef;
+
+    @ViewChild('operSelectPerson', { static: false }) operSelectPerson: OperSelectPersonComponent;
+
+    /**
+     * 人员相关
+     */
+    personSelectIfy = {
+        filterParmas: {
+            A0151S: ['1', '5', '6'],
+        },
+        psnKeyIds: <any>[],
+        evtSelectPerson: () => {
+            this.operSelectPerson.show();
+        },
+        isChange: null,
+        evtChange: () => {
+            this.loadPersonTable();
+        },
+        psnDataChange: data => {
+            // 撤选人员参数为keyId，导人参数为数组
+            if (typeof data === 'string') {
+                // 删除禁选人员中的已撤选人员
+                const index = this.personSelectIfy.psnKeyIds.findIndex(keyId => data === keyId);
+                this.personSelectIfy.psnKeyIds.splice(index, 1);
+                this.personSelectIfy.psnKeyIds = [...this.personSelectIfy.psnKeyIds];
+                return;
+            }
+            this.personSelectIfy.psnKeyIds = [];
+            this.personSelectIfy.psnKeyIds = data.map(
+                psn => psn[`${this.tableHelper.getTableCode('A01')}_ID`]
+            );
+        },
+    };
+
+    /**
+     * 步骤流程图
+     */
+    flowChart = {
+        visible: false,
+        title: '业务路线图',
+        height: 220,
+        close: () => (this.flowChart.visible = false),
+        open: () => {
+            this.flowChart.visible = true;
+            // 加载步骤信息
+            this.flowChart.loadOperStepData();
+        },
+        /**
+         * 路线图总数据
+         */
+        operStepList: [],
+        loadOperStepData: () => {
+            if (this.flowChart.operStepList.length > 0) {
+                return;
+            }
+            this.workflowService
+                .getOperStepList(this.jobStepInfo.wfId)
+                .subscribe(stepInfo => (this.flowChart.operStepList = stepInfo));
+        },
+        /**
+         * 获得当前步骤
+         */
+        evtGetStepIndex: (): number => {
+            if (this.jobStepInfo && this.flowChart.operStepList.length > 0) {
+                const index = this.flowChart.operStepList.findIndex(
+                    item => item.stepId === this.jobStepInfo.stepId
+                );
+                return index;
+            }
+            return 0;
+        },
+    };
+
+    /**
+     * 业务跟踪-办理历史
+     */
+    tailAfterOper = {
+        title: '业务跟踪',
+        width: 480,
+        visible: false,
+        close: () => (this.tailAfterOper.visible = false),
+        open: () => {
+            this.tailAfterOper.visible = true;
+            // 加载办理历史，流程跟踪
+            this.tailAfterOper.loadTailAfterList();
+        },
+        /*
+         * 审批历史
+         */
+        tailAfterList: [],
+        loadTailAfterList: () => {
+            if (this.tailAfterOper.tailAfterList.length > 0) {
+                return;
+            }
+            this.workflowService
+                .selectListByWfTracking(this.jobStepInfo.jobId)
+                .subscribe(result => (this.tailAfterOper.tailAfterList = result));
+        },
+    };
+
+    @ViewChild('salaryGZ07Element', { static: false }) salaryGZ07Element: SalaryGz07DrawerComponent;
+
+    /**
+     * 数据校验内容显示
+     */
+    dataVerificationIfy = {
+        visible: false,
+        width: 500,
+        close: () => {
+            this.dataVerificationIfy.visible = false;
+        },
+        open: () => {
+            this.dataVerificationIfy.visible = true;
+        },
+
+        list: [],
+    };
+
+
+    constructor(
+        private cdr: ChangeDetectorRef,
+        private workflowService: WorkflowService,
+        private modalService: NzModalService,
+        private commonService: CommonService,
+        private router: Router,
+        private message: NzMessageService,
+        private loading: LoadingService,
+        private tableHelper: WfTableHelper
+    ) { }
+
+    ngOnInit() { }
+
+    ngAfterViewInit() {
+
+    }
+
+    private loadPersonTable() {
+        const data = {
+            jobId: this.jobStepInfo.jobId,
+            jobStepId: this.jobStepInfo.jobStepId,
+        };
+        this.workflowService.getWfListData(data).subscribe(result => {
+            // this.personTableIfy.data = result;
+            this.personSelectIfy.psnDataChange(result);
+        });
+    }
+
+    fullScreenSwith() {
+        this.isFullScreen = !this.isFullScreen;
+    }
+}

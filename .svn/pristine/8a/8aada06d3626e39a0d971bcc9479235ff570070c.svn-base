@@ -1,0 +1,246 @@
+<div class="layout">
+    <div class="container">
+        <div class="left">
+            <div class="layout">
+                <div class="header detail-info">
+                    <div><span>当前单位：</span>{{ monthState.unitName }}</div>
+                    <div>
+                        <span>当前月份：</span
+                        >{{ distributeService.year + '-' + distributeService.monthStr }}
+                    </div>
+                </div>
+                <div class="header">
+                    <span>年份：</span>
+                    <nz-select
+                        [(ngModel)]="monthState.year"
+                        (ngModelChange)="monthState.yearChange($event)"
+                        [style.width.px]="80"
+                    >
+                        <nz-option
+                            *ngFor="let y of distributeService.yearRange"
+                            [nzValue]="y"
+                            [nzLabel]="y"
+                        ></nz-option>
+                    </nz-select>
+                </div>
+                <div class="container">
+                    <div class="view_scroll">
+                        <gl-month-state-info
+                            #monthStateTemp
+                            [year]="monthState.year"
+                            [month]="monthState.month"
+                            [unitId]="monthState.unitId"
+                            [CanDistribute]="false"
+                            (click)="monthState.selectorRow($event)"
+                        ></gl-month-state-info>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="right">
+            <div class="layout">
+                <div class="header">
+                    <div class="right">
+                        <button nz-button nzType="primary" (click)="detailTable.updateAndReturn()">
+                            保存并返回
+                        </button>
+                        <button nz-button class="header-item">excel导入</button>
+                        <button
+                            nz-button
+                            class="header-item"
+                            [disabled]="!detailTable.data.length"
+                            (click)="detailTable.getLastMonthGZ6126()"
+                        >
+                            取上月扣发数
+                        </button>
+                        <button nz-button class="header-item">导出数据</button>
+                    </div>
+                </div>
+                <div class="container">
+                    <div class="view_scroll">
+                        <div [style.padding.px]="10">
+                            <nz-table
+                                #Table
+                                nzBordered="true"
+                                nzSize="small"
+                                [nzWidthConfig]="detailTable.widthConfig"
+                                [nzData]="detailTable.data"
+                                [nzLoading]="detailTable.loading"
+                                [nzShowSizeChanger]="true"
+                                [nzPageSizeOptions]="[10, 15, 20, 25, 30]"
+                                [nzScroll]="detailTable.scroll"
+                            >
+                                <!-- (nzPageIndexChange)="salaryTable.indexChange($event)"
+                                (nzPageSizeChange)="salaryTable.sizeChange($event)" -->
+                                <thead>
+                                    <tr>
+                                        <th nzAlign="center" rowSpan="2" nzLeft>序号</th>
+                                        <th rowSpan="2" nzLeft>姓名</th>
+                                        <th nzAlign="center" rowSpan="2">身份证号码</th>
+                                        <th rowSpan="2">发放年月</th>
+                                        <th colSpan="2">基本工资</th>
+                                        <th colSpan="13">津补贴</th>
+                                        <th colSpan="7">一次性发放项目</th>
+                                        <th>扣发</th>
+                                        <th colSpan="2">扣款</th>
+                                        <th>应发合计</th>
+                                        <th nzAlign="center" rowSpan="2" nzRight>操作</th>
+                                    </tr>
+                                    <tr>
+                                        <th>职务工资</th>
+                                        <th>级别工资</th>
+                                        <!-- <th>地方规范性津补贴</th> -->
+                                        <th>住宅电话补贴</th>
+                                        <th>移动电话补贴</th>
+                                        <th>在京补贴</th>
+                                        <th>保留补贴</th>
+                                        <th>提租补贴</th>
+                                        <th>津贴补贴</th>
+                                        <th>交通补贴</th>
+                                        <th>车改补贴</th>
+                                        <th>艰苦边远地区津贴</th>
+                                        <th>防暑降温费</th>
+                                        <th>独生子女父母奖励</th>
+                                        <th>奶费</th>
+                                        <th>婴幼儿补贴</th>
+                                        <th>取暖补贴</th>
+                                        <th>年终一次性奖金</th>
+                                        <th>考核奖励</th>
+                                        <th>及时奖励</th>
+                                        <th>未休年休假补贴</th>
+                                        <th>住房补贴</th>
+                                        <th>物业补贴</th>
+                                        <th>补扣发</th>
+                                        <th>养老保险</th>
+                                        <th>职业年金</th>
+                                        <th>合计</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr
+                                        *ngFor="let item of Table.data; let i = index"
+                                        class="editable-row"
+                                    >
+                                        <td nzAlign="center" nzLeft>{{ i + 1 }}</td>
+                                        <td nzLeft>{{ item.allValues.A0101 }}</td>
+                                        <td nzAlign="center">
+                                            {{ item.allValues.A0184 }}
+                                        </td>
+                                        <td>{{ item.allValues.GZ6102 | date: 'yyyy-MM' }}</td>
+                                        <td>{{ item.allValues.GZ6103 }}</td>
+                                        <td>{{ item.allValues.GZ6104 }}</td>
+                                        <!-- <td>{{ item.allValues.GZ6105 }}</td> -->
+                                        <td>{{ item.allValues.GZ6106 }}</td>
+                                        <td>{{ item.allValues.GZ6107 }}</td>
+                                        <td>{{ item.allValues.GZ6108 }}</td>
+                                        <td>{{ item.allValues.GZ6108 }}</td>
+                                        <td>{{ item.allValues.GZ6110 }}</td>
+                                        <td>{{ item.allValues.GZ6111 }}</td>
+                                        <td>{{ item.allValues.GZ6112 }}</td>
+                                        <td>{{ item.allValues.GZ6113 }}</td>
+                                        <td>{{ item.allValues.GZ6114 }}</td>
+                                        <td>{{ item.allValues.GZ6115 }}</td>
+                                        <td>{{ item.allValues.GZ6116 }}</td>
+                                        <td>{{ item.allValues.GZ6117 }}</td>
+                                        <td>{{ item.allValues.GZ6118 }}</td>
+                                        <!-- <td>{{ item.allValues.GZ6119 }}</td> -->
+                                        <td>
+                                            <input
+                                                type="number"
+                                                nz-input
+                                                [(ngModel)]="item.allValues.GZ6119"
+                                                (blur)="detailTable.edit(item.allValues)"
+                                            />
+                                        </td>
+                                        <td>
+                                            <input
+                                                type="number"
+                                                nz-input
+                                                [(ngModel)]="item.allValues.GZ6120"
+                                                (blur)="detailTable.edit(item.allValues)"
+                                            />
+                                        </td>
+                                        <td>
+                                            <input
+                                                type="number"
+                                                nz-input
+                                                [(ngModel)]="item.allValues.GZ6121"
+                                                (blur)="detailTable.edit(item.allValues)"
+                                            />
+                                        </td>
+                                        <td>
+                                            <input
+                                                type="number"
+                                                nz-input
+                                                [(ngModel)]="item.allValues.GZ6122"
+                                                (blur)="detailTable.edit(item.allValues)"
+                                            />
+                                        </td>
+                                        <td>
+                                            <input
+                                                type="number"
+                                                nz-input
+                                                [(ngModel)]="item.allValues.GZ6123"
+                                                (blur)="detailTable.edit(item.allValues)"
+                                            />
+                                        </td>
+                                        <td>
+                                            <input
+                                                type="number"
+                                                nz-input
+                                                [(ngModel)]="item.allValues.GZ6124"
+                                                (blur)="detailTable.edit(item.allValues)"
+                                            />
+                                        </td>
+                                        <td>
+                                            <input
+                                                type="number"
+                                                nz-input
+                                                [(ngModel)]="item.allValues.GZ6125"
+                                                (blur)="detailTable.edit(item.allValues)"
+                                            />
+                                        </td>
+                                        <td>
+                                            <input
+                                                type="number"
+                                                nz-input
+                                                [(ngModel)]="item.allValues.GZ6126"
+                                                (blur)="detailTable.edit(item.allValues)"
+                                            />
+                                        </td>
+                                        <td>
+                                            <input
+                                                type="number"
+                                                nz-input
+                                                [(ngModel)]="item.allValues.GZ6127"
+                                                (blur)="detailTable.edit(item.allValues)"
+                                            />
+                                        </td>
+                                        <td>
+                                            <input
+                                                type="number"
+                                                nz-input
+                                                [(ngModel)]="item.allValues.GZ6128"
+                                                (blur)="detailTable.edit(item.allValues)"
+                                            />
+                                        </td>
+                                        <td>{{ item.allValues.GZ6129 }}</td>
+                                        <td nzAlign="center" nzRight>
+                                            <button
+                                                nz-button
+                                                nzType="link"
+                                                (click)="detailTable.delete(item.allValues)"
+                                            >
+                                                删除
+                                            </button>
+                                        </td>
+                                    </tr>
+                                </tbody>
+                            </nz-table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

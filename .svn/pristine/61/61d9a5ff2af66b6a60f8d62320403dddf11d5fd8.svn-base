@@ -1,0 +1,25 @@
+<!-- 字典选择器 -->
+<input
+    #inputElement
+    class="putt"
+    nz-input
+    readonly
+    [value]="text"
+    [disabled]="disabled"
+    [placeholder]="placeholder"
+    (click)="dictionaryDrawerShow()"
+/>
+
+<dictionary-drawer
+    #dictionaryDrawerElement
+    [code]="code"
+    [filterWay]="filterWay"
+    [filterItems]="filterItems"
+    [parent]="parent"
+    [(visible)]="visible"
+    [text]="text"
+    (textChange)="dictionaryTextChange($event)"
+    [value]="value"
+    (valueChange)="dictionaryValueChange($event)"
+    (confirmChange)="evtConfirmChange()"
+></dictionary-drawer>

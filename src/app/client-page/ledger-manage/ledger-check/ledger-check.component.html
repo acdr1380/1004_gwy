@@ -1,0 +1,288 @@
+<div class="layout">
+    <div class="header btn-wrapper">
+        <div class="org-select-wrap">
+            <button nz-button [nzType]="'primary'" (click)="selectOrgDrawer.open()">
+                切换单位
+            </button>
+            <div class="selected-org">
+                <span class="label-item">当前单位:</span>
+                <span>{{ currentOrg.activedNode.title }}</span>
+            </div>
+        </div>
+    </div>
+    <div class="container check-wrapper">
+        <div class="check-list">
+            <div class="table-wrap" #tblWrap>
+                <nz-table
+                    #checkListTableEl
+                    nzVirtualScroll
+                    nzShowSizeChanger
+                    nzBordered
+                    nzSize="small"
+                    [nzShowTotal]="totalTemplate"
+                    [nzVirtualItemSize]="38"
+                    [nzVirtualMinBufferPx]="checkListTableOp.BufferPx"
+                    [nzVirtualMaxBufferPx]="checkListTableOp.BufferPx"
+                    [nzScroll]="checkListTableOp.scroll"
+                    [nzLoading]="checkListTableOp.isLoading"
+                    [nzFrontPagination]="true"
+                    [nzPageSize]="30"
+                    [nzPageSizeOptions]="[7, 10, 20, 50]"
+                    [nzData]="checkListTableOp.pageData"
+                    (nzPageIndexChange)="checkListTableOp.loadData()"
+                    (nzPageSizeChange)="checkListTableOp.pageSizeChange()"
+                >
+                    <thead>
+                        <tr>
+                            <th nzWidth="80px">校验类别</th>
+                            <th nzWidth="80px">姓名</th>
+                            <th nzWidth="500px">校验信息</th>
+                            <th>影响账本</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <ng-template nz-virtual-scroll let-data let-index="index">
+                            <tr (dblclick)="checkListTableOp.viewDetails(data)">
+                                <td>
+                                    {{ data.infoType_CN }}
+                                </td>
+                                <td>
+                                    {{ data.keyName }}
+                                </td>
+                                <td>
+                                    {{ data.result }}
+                                </td>
+                                <td>
+                                    {{ data.ledgerName }}
+                                </td>
+                            </tr>
+                        </ng-template>
+                    </tbody>
+                </nz-table>
+                <ng-template #totalTemplate> 总人数：{{ checkListTableOp.psnCount }}</ng-template>
+            </div>
+        </div>
+        <div class="check-details">
+            <nz-collapse [nzBordered]="false">
+                <nz-collapse-panel
+                    #p
+                    *ngFor="let panel of checkListTableOp.ledgerList; let i = index"
+                    [nzHeader]="collapseHeaderTemp"
+                    [nzActive]="true"
+                    [ngStyle]="{
+                        background: '#eee',
+                        borderRadius: '4px',
+                        marginBottom: '10px',
+                        border: '0px'
+                    }"
+                    [nzExpandedIcon]="'double-right'"
+                >
+                    <div class="ledger-tbl" *ngIf="ledgerDetailsOp.tables[panel.value]">
+                        <ng-template
+                            [ngTemplateOutlet]="ledgerTableTemp"
+                            [ngTemplateOutletContext]="{
+                                tableInfo: ledgerDetailsOp.tables[panel.value],
+                                value: panel.value
+                            }"
+                        ></ng-template>
+                    </div>
+                    <ng-template
+                        *ngIf="checkListTableOp.ledgerList.length > 0"
+                        #expandedIcon
+                        let-active
+                    >
+                        {{ active }}
+                        <i
+                            nz-icon
+                            nzType="caret-right"
+                            class="ant-collapse-arrow"
+                            [nzRotate]="p.nzActive ? 90 : -90"
+                        ></i>
+                    </ng-template>
+
+                    <!-- 折叠面板头部内容 -->
+                    <ng-template #collapseHeaderTemp>
+                        <div>
+                            {{ panel.text + '账本'
+                            }}<a
+                                style="margin-left: 10px"
+                                (click)="ledgerDetailsOp.addLedger($event, panel.value)"
+                                >添加</a
+                            >
+                        </div>
+                    </ng-template>
+                </nz-collapse-panel>
+            </nz-collapse>
+        </div>
+    </div>
+</div>
+
+<!--添加记录抽屉-->
+<nz-drawer
+    [nzVisible]="addRecordDrawer.visible"
+    [nzWidth]="addRecordDrawer.width"
+    [nzTitle]="addRecordDrawer.title"
+    (nzOnClose)="addRecordDrawer.close()"
+>
+    <div class="drawer_area add-record-wrapper">
+        <div class="layout container">
+            <div class="container">
+                <div class="right right-main">
+                    <div class="container">
+                        <div class="form-wrap">
+                            <ng-template
+                                [ngTemplateOutlet]="editFormTemp"
+                                [ngTemplateOutletContext]="{
+                                    formGroup: addRecordDrawer.formGroup,
+                                    fields: addRecordDrawer.fields,
+                                    formData: ledgerDetailsOp.editRowData
+                                }"
+                            ></ng-template>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="footer">
+            <button nz-button nzType="primary" (click)="addRecordDrawer.save()">保存</button>
+            <button nz-button nzType="default" (click)="addRecordDrawer.close()">关闭</button>
+        </div>
+    </div>
+</nz-drawer>
+<!-- 账本详情表格 -->
+<ng-template #ledgerTableTemp let-tableInfo="tableInfo" let-TABLE_NAME="value">
+    <nz-table
+        #ledgerTable
+        nzBordered
+        nzSize="small"
+        nzShowPagination="false"
+        [nzFrontPagination]="false"
+        [nzData]="tableInfo.result"
+        [nzTotal]="tableInfo.totalCount"
+        [(nzPageSize)]="tableInfo.pageSize"
+        [nzLoading]="tableInfo.isLoading"
+        [nzScroll]="tableInfo.scroll"
+    >
+        <thead>
+            <tr>
+                <th [nzWidth]="'100px'">操作</th>
+                <ng-container *ngFor="let item of tableInfo.tblCols">
+                    <ng-container *ngIf="item.isFixed; then fixedTh; else scrollTh"> </ng-container>
+                    <ng-template #fixedTh>
+                        <th
+                            [nzWidth]="item.width + 'px'"
+                            [nzAlign]="'center'"
+                            [nzLeft]="item.left + 'px'"
+                        >
+                            {{ item.text }}
+                        </th>
+                    </ng-template>
+                    <ng-template #scrollTh>
+                        <th [nzWidth]="item.width + 'px'" [nzAlign]="'center'">
+                            {{ item.text }}
+                        </th>
+                    </ng-template>
+                </ng-container>
+            </tr>
+        </thead>
+        <tbody class="tbl-body">
+            <tr *ngFor="let data of ledgerTable.data">
+                <td class="edit-col">
+                    <a (click)="ledgerDetailsOp.editLedger(TABLE_NAME, data)">编辑</a
+                    ><a (click)="ledgerDetailsOp.deleteLedgerData(TABLE_NAME, data)">删除</a>
+                </td>
+                <ng-container *ngFor="let colItem of tableInfo.tblCols">
+                    <ng-container *ngIf="colItem.isFixed; then fixedTd; else scrollTd">
+                    </ng-container>
+                    <ng-template #fixedTd>
+                        <td [nzAlign]="'center'" [nzLeft]="colItem.left + 'px'">
+                            <ng-template [ngTemplateOutlet]="tdTemplate"></ng-template>
+                        </td>
+                    </ng-template>
+                    <ng-template #scrollTd>
+                        <td [nzAlign]="'center'">
+                            <ng-template [ngTemplateOutlet]="tdTemplate"></ng-template>
+                        </td>
+                    </ng-template>
+                    <ng-template #tdTemplate>
+                        <ng-container [ngSwitch]="colItem.ItemType">
+                            <ng-container *ngSwitchCase="'C'">
+                                {{ data[colItem.field + '_CN'] }}
+                            </ng-container>
+                            <ng-container *ngSwitchCase="'D'">
+                                {{ data[colItem.field] | date: 'yyyy-MM-dd' }}
+                            </ng-container>
+                            <ng-container *ngSwitchDefault>
+                                {{ data[colItem.field] }}
+                            </ng-container>
+                        </ng-container>
+                    </ng-template>
+                </ng-container>
+            </tr>
+        </tbody>
+    </nz-table>
+</ng-template>
+
+<!-- 表单模板 -->
+<ng-template #editFormTemp let-formGroup="formGroup" let-fields="fields" let-data="formData">
+    <form nz-form [formGroup]="formGroup" [nzLayout]="'horizontal'">
+        <ng-container *ngFor="let field of fields">
+            <nz-form-item>
+                <nz-form-label
+                    [nzRequired]="field.SCHEME_EDIT_IS_MUST_INPUT"
+                    [style.width]="'auto'"
+                >
+                    {{ field.SCHEME_EDIT_DISPLAY_NAME }}</nz-form-label
+                >
+                <nz-form-control>
+                    <div class="putt" [style.width]="'auto'">
+                        <ng-container
+                            *ngIf="field.TABLE_COLUMN_DICTIONARY_CODE !== ''; else exceptCode"
+                        >
+                            <dictionary-input
+                                [code]="field.TABLE_COLUMN_DICTIONARY_CODE"
+                                [formControlName]="field.TABLE_COLUMN_CODE"
+                                [text]="data[field.TABLE_COLUMN_CODE + '_CN']"
+                            >
+                            </dictionary-input>
+                        </ng-container>
+                        <ng-template #exceptCode>
+                            <ng-container *ngIf="field.TABLE_COLUMN_TYPE === columnTypeEnum.DATE">
+                                <nz-date-picker
+                                    style="width: 100%"
+                                    [formControlName]="field.TABLE_COLUMN_CODE"
+                                    [nzPlaceHolder]="'请填写' + field.SCHEME_EDIT_DISPLAY_NAME"
+                                >
+                                </nz-date-picker>
+                            </ng-container>
+                            <ng-container *ngIf="field.TABLE_COLUMN_TYPE === columnTypeEnum.CHAR">
+                                <input
+                                    nz-input
+                                    [formControlName]="field.TABLE_COLUMN_CODE"
+                                    [placeholder]="'请填写' + field.SCHEME_EDIT_DISPLAY_NAME"
+                                />
+                            </ng-container>
+                            <ng-container
+                                *ngIf="field.TABLE_COLUMN_TYPE === columnTypeEnum.VARCHAR"
+                            >
+                                <input
+                                    nz-input
+                                    [formControlName]="field.TABLE_COLUMN_CODE"
+                                    [placeholder]="'请填写' + field.SCHEME_EDIT_DISPLAY_NAME"
+                                />
+                            </ng-container>
+                            <ng-container *ngIf="field.TABLE_COLUMN_TYPE === columnTypeEnum.NUMBER">
+                                <nz-input-number
+                                    style="width: 100%"
+                                    [formControlName]="field.TABLE_COLUMN_CODE"
+                                    [nzPlaceHolder]="'请填写' + field.SCHEME_EDIT_DISPLAY_NAME"
+                                >
+                                </nz-input-number>
+                            </ng-container>
+                        </ng-template>
+                    </div>
+                </nz-form-control>
+            </nz-form-item>
+        </ng-container>
+    </form>
+</ng-template>

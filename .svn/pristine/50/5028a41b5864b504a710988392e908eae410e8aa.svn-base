@@ -1,0 +1,178 @@
+<div class="layout">
+    <div class="container">
+        <div class="view">
+            <punishment-list
+                [jobStepInfo]="jobStepInfo"
+                (auditChange)="loadOperAuditState()"
+            ></punishment-list>
+        </div>
+    </div>
+    <div class="footer foot_options">
+        <ng-container *ngIf="canEdit">
+            <button
+                nz-button
+                nzType="primary"
+                *ngIf="operAuditState !== 1"
+                [nzLoading]="operBaseOptionIfy.loading"
+                (click)="operBaseOptionIfy.evtSendBack()"
+            >
+                退回业务
+            </button>
+
+            <button
+                nz-button
+                nzType="default"
+                [nzLoading]="operBaseOptionIfy.loading"
+                (click)="operBaseOptionIfy.evtUndo()"
+            >
+                撤销草稿
+            </button>
+        </ng-container>
+        <div *ngIf="!canEdit && !URLParams?.isFinished">
+            <button nz-button nzType="default" (click)="operBaseOptionIfy.evtUndo()">
+                撤销申报
+            </button>
+        </div>
+        <ng-container *ngIf="canEdit && jobStepInfo?.stepId !== 'leader'">
+            <button
+                nz-button
+                nzType="primary"
+                *ngIf="operAuditState === 1"
+                (click)="setAuditUnitIfy.open()"
+            >
+                选择单位上报业务
+            </button>
+        </ng-container>
+        <ng-container *ngIf="canEdit && jobStepInfo?.stepId === 'leader'">
+            <button
+                nz-button
+                nzType="primary"
+                *ngIf="operAuditState === 1"
+                (click)="operBaseOptionIfy.evtArchives()"
+            >
+                归档业务
+            </button>
+        </ng-container>
+        <div class="right">
+            <button
+                nz-button
+                nzType="danger"
+                [nzLoading]="operBaseOptionIfy.loading"
+                (click)="operBaseOptionIfy.evtStop()"
+            >
+                终止业务
+            </button>
+        </div>
+    </div>
+</div>
+
+<!-- 业务流程图 -->
+<nz-drawer
+    nzPlacement="top"
+    [nzVisible]="operStepFlowIfy.visible"
+    [nzTitle]="operStepFlowIfy.title"
+    [nzHeight]="operStepFlowIfy.height"
+    (nzOnClose)="operStepFlowIfy.close()"
+>
+    <div class="drawer_area oper_step_flow">
+        <nz-steps [nzCurrent]="operStepFlowIfy.evtGetStepIndex()">
+            <ng-container *ngFor="let item of operStepFlowIfy.list">
+                <nz-step
+                    [nzTitle]="item.stepName"
+                    [nzIcon]="item.icon"
+                    [nzDescription]="item.desc || ''"
+                >
+                </nz-step>
+            </ng-container>
+        </nz-steps>
+    </div>
+</nz-drawer>
+
+<!-- 业务流程监控 -->
+<nz-drawer
+    [nzVisible]="operTailIfy.visible"
+    [nzTitle]="operTailIfy.title"
+    [nzWidth]="operTailIfy.width"
+    (nzOnClose)="operTailIfy.close()"
+>
+    <div class="drawer_area oper_tail">
+        <div class="container">
+            <nz-timeline>
+                <nz-timeline-item [nzDot]="dotTemplate"><span>业务开始</span></nz-timeline-item>
+                <ng-container *ngFor="let item of operTailIfy.list; let i = index">
+                    <nz-timeline-item [nzColor]="['red', 'blue', 'green'][i % 3]">
+                        <p>
+                            <b>{{ item.stateDesc }}</b>
+                            {{ item.auditDate | date: 'yyyy-MM-dd HH:mm' }}
+                        </p>
+                        <p>
+                            <b
+                                ><span>{{ item.contacts }}</span></b
+                            ><span> {{ item.orgName }} {{ item.contactNumber }}</span>
+                        </p>
+                        <p *ngIf="item.auditStateDesc">批复结果： {{ item.auditStateDesc }}</p>
+                    </nz-timeline-item>
+                </ng-container>
+            </nz-timeline>
+            <ng-template #dotTemplate>
+                <i nz-icon type="clock-circle-o" style="font-size: 16px"></i>
+            </ng-template>
+        </div>
+    </div>
+</nz-drawer>
+
+<!-- 上报业务，选择单位 -->
+<nz-drawer
+    [nzVisible]="setAuditUnitIfy.visible"
+    [nzTitle]="setAuditUnitIfy.title"
+    [nzWidth]="setAuditUnitIfy.width"
+    (nzOnClose)="setAuditUnitIfy.close()"
+>
+    <div class="drawer_area select_audit_unit">
+        <div class="header">
+            <nz-select
+                [ngStyle]="{ 'width.px': setAuditUnitIfy.find.searchWidth || 160 }"
+                nzShowSearch
+                nzServerSearch
+                nzAllowClear
+                [nzPlaceHolder]="setAuditUnitIfy.find.placeholder || '请输入关键字搜索'"
+                [nzShowArrow]="false"
+                [nzFilterOption]="setAuditUnitIfy.find.nzFilterOption"
+                [(ngModel)]="setAuditUnitIfy.find.searchKey"
+                (ngModelChange)="setAuditUnitIfy.find.evtModelChange($event)"
+                (nzOnSearch)="setAuditUnitIfy.find.evtSearch($event)"
+                (nzFocus)="setAuditUnitIfy.find.evtFocus()"
+            >
+                <ng-container *ngFor="let item of setAuditUnitIfy.find.list">
+                    <nz-option [nzLabel]="item.text" [nzValue]="item.value"> </nz-option>
+                </ng-container>
+            </nz-select>
+        </div>
+        <div class="container">
+            <div class="other_list">
+                <ng-container *ngFor="let item of setAuditUnitIfy.list; let i = index">
+                    <div
+                        class="item"
+                        [class.active]="i === setAuditUnitIfy.selectIndex"
+                        (click)="setAuditUnitIfy.evtSelectUnit(i)"
+                    >
+                        <div class="title">{{ item.ORG_NAME }}</div>
+                        <div class="icon" *ngIf="i === setAuditUnitIfy.selectIndex">
+                            <i class="fa fa-check"></i>
+                        </div>
+                    </div>
+                </ng-container>
+            </div>
+        </div>
+        <div class="footer">
+            <button
+                nz-button
+                nzType="primary"
+                [disabled]="!wfInfo?.reportingGroup || setAuditUnitIfy.selectIndex === -1"
+                (click)="setAuditUnitIfy.evtSubmit()"
+            >
+                上报业务
+            </button>
+        </div>
+    </div>
+</nz-drawer>

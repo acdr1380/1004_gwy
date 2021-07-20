@@ -1,0 +1,181 @@
+@import 'src/app/styles/drawer';
+
+.layout {
+    height: 100%;
+    display: flex;
+    flex-wrap: wrap;
+    overflow: auto;
+    .item {
+        width: 70%;
+        .area {
+            background-color: #fff;
+            height: 100%;
+            width: 100%;
+            position: relative;
+
+            .title {
+                font-size: 16px;
+                color: #4099ff;
+
+                i {
+                    margin-right: 5px;
+                }
+            }
+
+            .more a {
+                margin-right: 15px;
+            }
+
+            .content {
+                padding: 5px 5px 0 0;
+                overflow-y: auto;
+            }
+        }
+    }
+    .system-prompt {
+        background-color: #fff;
+        .header {
+            width: 100%;
+            height: 50px;
+            display: flex;
+            align-items: center;
+            padding-left: 24px;
+            border-bottom: 1px solid #eee;
+        }
+        & > .containter {
+            height: calc(100% - 50px);
+            display: flex;
+            .left {
+                width: 220px;
+                height: 100%;
+                position: relative;
+                border-right: 1px solid #eee;
+                overflow: auto;
+                .left-tree {
+                    position: absolute;
+                    left: 0;
+                }
+            }
+            .right {
+                width: calc(100% - 220px);
+                display: flex;
+                flex-direction: column;
+                .containter {
+                    width: 100%;
+                    height: 100%;
+                    overflow: auto;
+                    padding: 0 20px;
+                    & > .content {
+                        border-bottom: 1px solid #eee;
+                        padding: 10px 0;
+                        & > span {
+                            font-size: 16px;
+                        }
+                        div {
+                            display: flex;
+                            justify-content: space-between;
+                            span {
+                                color: #666666;
+                            }
+                        }
+                    }
+                }
+                .footer {
+                    height: 50px;
+                    border-top: 1px solid #eee;
+                    display: flex;
+                    align-items: center;
+                    flex-direction: row-reverse;
+                }
+            }
+        }
+    }
+    & > .right {
+        width: 30%;
+        display: flex;
+        flex-direction: column;
+        border-left: 10px solid #eee;
+        .notebook {
+            width: 100%;
+            height: 100%;
+            border-bottom: 10px solid #eee;
+            .note_content {
+                height: calc(100% - 57px);
+                padding-right: 5px;
+                overflow: auto;
+            }
+
+            .note-item {
+                border-bottom: 1px solid #eee;
+                height: 40px;
+                line-height: 40px;
+
+                .time {
+                    float: right;
+                }
+            }
+        }
+
+        .enshrine {
+            width: 100%;
+            height: 100%;
+            .favorites_content {
+                height: calc(100% - 56px);
+                padding-right: 5px;
+                overflow: auto;
+            }
+        }
+    }
+
+    .frequently-refer {
+        grid-column-start: 1;
+        grid-column-end: 3;
+        grid-row: 3;
+
+        .content {
+            display: flex;
+            flex-wrap: wrap;
+
+            a {
+                margin-right: 40px;
+            }
+        }
+    }
+}
+
+.node-text {
+    outline: none;
+}
+
+.time-line {
+    cursor: pointer;
+    margin: 0;
+    margin-top: 10px;
+    font-weight: bold;
+}
+
+.system-title:hover {
+    color: #4099ff;
+    cursor: pointer;
+}
+.no-policy {
+    width: 100%;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+@media (max-width: 1350px) {
+    .layout {
+        .item,
+        .right {
+            width: 100% !important;
+            height: 100%;
+            border-left: 0px;
+            .notebook {
+                border-top: 10px solid #eee;
+            }
+        }
+    }
+}

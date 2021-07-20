@@ -1,0 +1,25 @@
+@import 'src/app/styles/_layout';
+
+.excel_control {
+    .container {
+        .view_scroll {
+            padding: 20px;
+        }
+    }
+}
+
+.diagonal {
+    position: absolute;
+    width: 1px;
+    // height: 114px;
+    top: 0;
+    left: 0;
+    background-color: black;
+    display: block;
+    // transform: rotate(-63deg);
+    transform-origin: top;
+}
+
+.loading {
+    position: absolute;
+}

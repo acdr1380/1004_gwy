@@ -1,0 +1,49 @@
+<!-- <input
+    #dataTimeInputElement
+    nz-input
+    [ngModel]="value"
+    [disabled]="disabled"
+    [placeholder]="placeholder"
+    (blur)="formatDataTime($event)"
+    (keyup)="keyUp($event)"
+/> -->
+
+<nz-input-group [nzSuffix]="suffixIcon">
+    <input
+        #datetimeInputElement
+        nz-input
+        [ngModel]="value"
+        [disabled]="disabled"
+        [placeholder]="placeholder"
+        (blur)="blur($event)"
+        (keyup)="keyUp($event)"
+    />
+</nz-input-group>
+<ng-template #suffixIcon>
+    <i nz-icon nzType="calendar" class="calendar-btn" (click)="showCalendar()"></i>
+</ng-template>
+
+<ng-template cdk-portal #overlayConnectTemplate="cdkPortal">
+    <div [style.width.px]="width" class="calendar">
+        <nz-calendar
+            [nzFullscreen]="false"
+            [ngModel]="value"
+            (nzSelectChange)="calendarSelectChange($event)"
+        ></nz-calendar>
+        <div class="footer">
+            <nz-button-group nzSize="small">
+                <button nz-button nzType="primary" (click)="today()">今天</button>
+            </nz-button-group>
+
+            <div class="right">
+                <nz-button-group nzSize="small">
+                    <ng-container *ngFor="let item of rangesList">
+                        <button nz-button (click)="calendarSelectChange(item.date, true)">
+                            {{ item.label }}
+                        </button>
+                    </ng-container>
+                </nz-button-group>
+            </div>
+        </div>
+    </div>
+</ng-template>

@@ -1,0 +1,620 @@
+<div class="layout" [class.full_screen]="isFullScreen">
+    <div class="header">
+        <!-- 选择方案 -->
+        <ng-container>
+            <button nz-button nzType="primary" (click)="jobScheme.open()">
+                选择方案
+            </button>
+        </ng-container>
+
+        <!-- 右侧按钮 -->
+        <div class="right">
+            <button
+                nz-button
+                nzType="link"
+                nz-tooltip
+                nzTooltipTitle="流程图"
+                (click)="flowChart.open()"
+            >
+                <i nz-icon nzType="cluster"></i>
+            </button>
+            <button
+                nz-button
+                nzType="link"
+                nz-tooltip
+                nzTooltipTitle="流程跟踪"
+                (click)="tailAfterOper.open()"
+            >
+                <i nz-icon nzType="deployment-unit"></i>
+            </button>
+            <button
+                nz-button
+                nzType="link"
+                nz-tooltip
+                nzTooltipTitle="全屏"
+                (click)="fullScreenSwith()"
+            >
+                <i nz-icon nzType="fullscreen"></i>
+            </button>
+        </div>
+    </div>
+
+    <!-- 方案标签 -->
+    <div class="header">
+        <nz-tabset 
+            [nzTabBarStyle]="{ 'margin.px': 0, 'height.px': 50}"
+            [(nzSelectedIndex)]="jobSchemeTabs.currentIndex"
+            nzType="editable-card"
+            nzHideAdd
+            (nzClose)="jobSchemeTabs.closeTab($event)"
+            (nzSelectedIndexChange)="jobSchemeTabs.SelectedIndexChange($event)">
+            <nz-tab 
+                *ngFor="let tab of jobScheme.checkedList; let i = index" 
+                [nzClosable]="true"
+                [nzTitle]="tab.B0601">
+            </nz-tab>
+        </nz-tabset>
+    </div>
+
+    <!-- 选择职级 -->
+    <div class="header">
+        <button class="mr20" nz-button nzType="primary" (click)="jobSchemeTabs.show.open()">
+            查看方案
+        </button>
+        <span>选择要晋升的职级：</span>
+        <nz-select
+            class="select_job mr20"
+            nzMode="multiple"
+            nzPlaceHolder="请选择职级范围"
+            [(ngModel)]="selectJob.listOfSelectedValue"
+            >
+            <nz-option *ngFor="let item of selectJob.listOfOption" [nzLabel]="item.text" [nzValue]="item.value"></nz-option>
+        </nz-select>
+
+        <button nz-button nzType="primary" (click)="selectJob.save()">
+            保存
+        </button>
+
+        <ng-container *ngIf="selectJob.listOfSelectedData?.length > 0">
+            <a nz-button nzType="link">
+                {{ selectJob.listOfSelectedData[0].text }}职数无空缺
+            </a>
+        </ng-container>
+    </div>
+    <div class="container" #personTableElement>
+        <div class="left left_width">
+            <!-- 标签 -->
+            <div class="find">
+                <nz-tabset [nzTabBarStyle]="{ 'margin.px': 0, 'height.px': 50}">
+                    <nz-tab nzTitle="可晋升"></nz-tab>
+                    <nz-tab nzTitle="不可晋升"></nz-tab>
+                </nz-tabset>
+            </div>
+            <!-- 人员列表 -->
+            <div class="tree">
+                <cdk-virtual-scroll-viewport
+                    #scrollViewPersonList
+                    [itemSize]="40"
+                    class="view_scroll audit_list"
+                >
+                    <ng-container *ngFor="let item of personTable.personList; let i = index">
+                        <div
+                            class="item"
+                            [class.active]="item === personTable.selectedPerson"
+                            (click)="personTable.evtSelectedPerson(item)"
+                        >
+                            <div class="title">
+                                {{
+                                    (personTable.pagination.pageIndex - 1) *
+                                        personTable.pagination.pageSize +
+                                        (i + 1)
+                                }}.{{ item.text }}
+                                <i 
+                                    class="delete_icon" 
+                                    nz-icon 
+                                    nzType="minus-square" 
+                                    nzTheme="outline"
+                                    (click)="personTable.deletePerson(item)">
+                                </i>
+                            </div>
+                        </div>
+                    </ng-container>
+                </cdk-virtual-scroll-viewport>
+            </div>
+        </div>
+        <div class="right">
+            <div class="layout">
+                <div class="header">
+                    <button class="mr20" nz-button nzType="primary" (click)="personSelectIfy.evtSelectPerson()">
+                        选人
+                    </button>
+                    <button nz-button nzType="primary" (click)="batchRise.open()">
+                        批量晋升
+                    </button>
+                </div>
+                <div class="header">
+                    <nz-tabset 
+                        [nzTabBarStyle]="{ 'margin.px': 0, 'height.px': 50}"
+                        [(nzSelectedIndex)]="personInfoTabs.currentIndex"
+                        (nzSelectedIndexChange)="personInfoTabs.SelectedIndexChange($event)">
+                        <ng-container *ngFor="let item of personInfoTabs.tabsList">
+                            <nz-tab [nzTitle]="item.text"></nz-tab>
+                        </ng-container>
+                    </nz-tabset>
+                </div>
+                <div class="container">
+                    <div class="view_scroll tbl">
+                        <ng-container *ngIf="personInfoTabs.currentTableCode && personInfoTabs.currentTableCode !== 'DATA_3001_PERSON_A05'">
+                            <div>
+                                <button nz-button nzType="primary" (click)="personInfoEdit.add()">
+                                    添加
+                                </button>
+                            </div>
+                        </ng-container>
+                        
+                        <div class="table_top">
+                            <nz-table 
+                                *ngIf="personInfoTabs.currentTableCode"
+                                #basicTable 
+                                [nzData]="personTable.list"
+                                [nzBordered]="true">
+                                <thead>
+                                    <tr>
+                                        <ng-container *ngIf="personInfoTabs.currentTableCode === 'DATA_3001_PERSON_A74'">
+                                            <th nzAlign="center">状态</th>
+                                        </ng-container>
+
+                                        <ng-container *ngFor="let head of personTable.tableHeader">
+                                            <th>{{ head.SCHEME_HEADER_DISPLAY_NAME }}</th>
+                                        </ng-container>
+
+                                        <ng-container *ngIf="personInfoTabs.currentTableCode !== 'DATA_3001_PERSON_A05'">
+                                            <th nzAlign="center">操作</th>
+                                        </ng-container>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr *ngFor="let data of basicTable.data; let i = index">
+                                        <ng-container *ngIf="personInfoTabs.currentTableCode === 'DATA_3001_PERSON_A74'">
+                                            <td nzAlign="center">增加</td>
+                                        </ng-container>
+                                        <ng-container *ngFor="let item of personTable.tableHeader">
+                                            <td>
+                                                <ng-container *ngIf="item.TABLE_COLUMN_TYPE === 4; else elseTemplateInput">
+                                                    {{ data[item.TABLE_COLUMN_CODE] | date: 'yyyy-MM-dd' }}
+                                                </ng-container>
+                                                <ng-template #elseTemplateInput>
+                                                    {{ item.TABLE_COLUMN_DICTIONARY_CODE
+                                                    ? data[item.TABLE_COLUMN_CODE+'_CN']
+                                                    : data[item.TABLE_COLUMN_CODE]
+                                                    }}
+                                                </ng-template>
+                                            </td>
+                                        </ng-container>
+                                        <ng-container *ngIf="personInfoTabs.currentTableCode.includes('A74')">
+                                            <td nzAlign="center">
+                                                <a nz-button nzType="link" (click)="personInfoEdit.edit(data)">修改</a>
+                                            </td>
+                                        </ng-container>
+                                        <ng-container *ngIf="personInfoTabs.currentTableCode.includes('A05G') || personInfoTabs.currentTableCode.includes('A17')">
+                                            <ng-container *ngIf="basicTable.data.length - 1 === i; else elseTableTemplate">
+                                                <td nzAlign="center">
+                                                    <a nz-button nzType="link" (click)="personInfoEdit.edit(data)">修改</a>
+                                                </td>
+                                            </ng-container>
+                                            
+                                            <ng-template #elseTableTemplate>
+                                                <td nzAlign="center">查看</td>
+                                            </ng-template>
+                                        </ng-container>
+                                    </tr>
+                                </tbody>
+                            </nz-table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- 业务流程图 -->
+<nz-drawer
+    nzPlacement="top"
+    [nzVisible]="flowChart.visible"
+    [nzTitle]="flowChart.title"
+    [nzHeight]="flowChart.height"
+    (nzOnClose)="flowChart.close()"
+>
+    <div class="drawer_area oper_step_flow">
+        <nz-steps [nzCurrent]="flowChart.evtGetStepIndex()">
+            <ng-container *ngFor="let item of flowChart.operStepList">
+                <nz-step
+                    [nzTitle]="item.stepName"
+                    [nzIcon]="item.icon"
+                    [nzDescription]="item.desc || ''"
+                >
+                </nz-step>
+            </ng-container>
+        </nz-steps>
+    </div>
+</nz-drawer>
+
+<!-- 办理历史 -->
+<nz-drawer
+    [nzVisible]="tailAfterOper.visible"
+    [nzTitle]="tailAfterOper.title"
+    [nzWidth]="tailAfterOper.width"
+    (nzOnClose)="tailAfterOper.close()"
+>
+    <div class="drawer_area oper_tail">
+        <div class="container">
+            <nz-timeline>
+                <nz-timeline-item [nzDot]="dotTemplate"><span>业务开始</span></nz-timeline-item>
+                <ng-container *ngFor="let item of tailAfterOper.tailAfterList; let i = index">
+                    <nz-timeline-item [nzColor]="['red', 'blue', 'green'][i % 3]">
+                        <p>
+                            <b>{{ item.stateDesc }}</b>
+                            {{ item.auditDate | date: 'yyyy-MM-dd HH:mm' }}
+                        </p>
+                        <p>
+                            <b
+                                ><span>{{ item.contacts }}</span></b
+                            ><span> {{ item.orgName }} {{ item.contactNumber }}</span>
+                        </p>
+                        <p *ngIf="item.auditStateDesc">批复结果： {{ item.auditStateDesc }}</p>
+                    </nz-timeline-item>
+                </ng-container>
+            </nz-timeline>
+            <ng-template #dotTemplate>
+                <i nz-icon type="clock-circle-o" style="font-size: 16px"></i>
+            </ng-template>
+        </div>
+    </div>
+</nz-drawer>
+
+<!-- 选择人员 -->
+<oper-select-person
+    #operSelectPerson
+    [jobStepInfo]="jobStepInfo"
+    [filterParmas]="personSelectIfy.filterParmas"
+    (selectedChange)="personSelectIfy.evtChange($event)"
+    [disabledList]="personSelectIfy.psnKeyIds"
+></oper-select-person>
+
+<!-- 增加或修改界面 -->
+<ng-container *ngIf="personInfoEdit.visible">
+    <nz-drawer
+        [nzTitle]="personInfoEdit.title"
+        [nzVisible]="personInfoEdit.visible"
+        [nzWidth]="personInfoEdit.width"
+        (nzOnClose)="personInfoEdit.close()"
+    >
+        <div class="drawer_area">
+            <div class="container edit_all">
+                <div class="layout">
+                    <div class="container">
+                        <div class="view_scroll">
+                            <form nz-form [formGroup]="personInfoEdit.form" nzLayout="vertical">
+                                <ng-container *ngFor="let field of personTable.tableHeader">
+                                    <nz-form-item *ngIf="!field.visible">
+                                        <nz-form-label [nzRequired]="field.SCHEME_EDIT_IS_MUST_INPUT">
+                                            {{ field.SCHEME_HEADER_DISPLAY_NAME }}
+                                        </nz-form-label>
+                            
+                                        <nz-form-control [nzErrorTip]="errorTpl">
+                                            <ng-container *ngIf="field.TABLE_COLUMN_DICTIONARY_CODE; else elseTempElement">
+                                                <dictionary-input [code]="field.TABLE_COLUMN_DICTIONARY_CODE"
+                                                    [(text)]="personInfoEdit.form[field.TABLE_COLUMN_CODE + '_CN']"
+                                                    [placeholder]="'请填写' + field.SCHEME_HEADER_DISPLAY_NAME"
+                                                    [formControlName]="field.TABLE_COLUMN_CODE">
+                                                </dictionary-input>
+                                            </ng-container>
+                            
+                                            <ng-template #elseTempElement>
+                                                <ng-container [ngSwitch]="field.TABLE_COLUMN_TYPE">
+                                                    <ng-template [ngSwitchCase]="columnType.DATE">
+                                                        <datetime-input [formControlName]="field.TABLE_COLUMN_CODE"
+                                                            [placeholder]="'请填写' + field.SCHEME_HEADER_DISPLAY_NAME"></datetime-input>
+                                                    </ng-template>
+                                                    <ng-template [ngSwitchCase]="columnType.NUMBER">
+                                                        <nz-input-number [formControlName]="field.TABLE_COLUMN_CODE"
+                                                            [nzPlaceHolder]="'请填写' + field.SCHEME_HEADER_DISPLAY_NAME">
+                                                        </nz-input-number>
+                                                    </ng-template>
+                                                    <ng-template [ngSwitchCase]="columnType.CLOB">
+                                                        <textarea nz-input [formControlName]="field.TABLE_COLUMN_CODE" rows="4"></textarea>
+                                                    </ng-template>
+                                                    <ng-template ngSwitchDefault>
+                                                        <input [formControlName]="field.TABLE_COLUMN_CODE" nz-input
+                                                            [placeholder]="'请填写' + field.SCHEME_HEADER_DISPLAY_NAME" />
+                                                    </ng-template>
+                                                </ng-container>
+                                            </ng-template>
+                                        </nz-form-control>
+                                        <ng-template #errorTpl let-control>
+                                            <ng-container *ngIf="control.hasError('required')">
+                                                请填写{{ field.SCHEME_HEADER_DISPLAY_NAME }}。
+                                            </ng-container>
+                                            <ng-container *ngIf="control.hasError('msg')">
+                                                {{ control?.getError('msg') || '异常错误。' }}
+                                            </ng-container>
+                                        </ng-template>
+                                    </nz-form-item>
+                                </ng-container>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="footer">
+                <button
+                    nz-button
+                    nzType="primary"
+                    [nzLoading]="personInfoEdit.loading"
+                    (click)="personInfoEdit.save()"
+                >
+                    保存
+                </button>
+            </div>
+        </div>
+    </nz-drawer>
+</ng-container>
+
+<!-- 选择职数方案 -->
+<nz-drawer
+    [nzClosable]="true"
+    [nzVisible]="jobScheme.visible"
+    nzPlacement="right"
+    nzTitle="上传附件材料"
+    [nzWidth]="jobScheme.width"
+    (nzOnClose)="jobScheme.close()"
+>
+    <div class="drawer_area">
+        <div class="container">
+            <nz-table 
+                #jobSchemeTable 
+                [nzData]="jobScheme.tableList"
+                [nzFrontPagination]="false"
+                [nzTotal]="jobScheme.total"
+                [(nzPageIndex)]="jobScheme.pageIndex"
+                [nzPageSize]="jobScheme.pageSize"
+                (nzPageIndexChange)="jobScheme.pageIndexChange()"
+                [nzLoading]="jobScheme.tableLoading">
+                <thead>
+                    <tr>
+                        <th 
+                            [nzChecked]="jobScheme.checked" 
+                            [nzIndeterminate]="jobScheme.indeterminate" 
+                            (nzCheckedChange)="jobScheme.onAllChecked($event)">
+                        </th>
+                        <th>方案名称</th>
+                        <th>方案类别</th>
+                        <th>岗位类别</th>
+                        <th>变动时间</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr *ngFor="let data of jobSchemeTable.data; let i = index">
+                        <td
+                            [(nzChecked)]="data.checked"
+                            (nzCheckedChange)="jobScheme.onItemChecked(data, $event)"
+                        ></td>
+                        <td>{{data.B0601}}</td>
+                        <td>{{data.B0604_CN}}</td>
+                        <td>{{data.B0605_CN}}</td>
+                        <td>{{data.B0602 | date: 'yyyy-MM-dd'}}</td>
+                    </tr>
+                </tbody>
+            </nz-table>
+        </div>
+        <div class="footer">
+            <button nz-button nzType="primary" [nzLoading]="jobScheme.loading" (click)="jobScheme.save()">
+                保存
+            </button>
+        </div>
+    </div>
+</nz-drawer>
+
+<!-- 查看方案 -->
+<nz-drawer
+    [nzClosable]="true"
+    [nzVisible]="jobSchemeTabs.show.visible"
+    nzPlacement="right"
+    nzTitle="查看方案"
+    [nzWidth]="jobSchemeTabs.show.width"
+    (nzOnClose)="jobSchemeTabs.show.close()"
+>
+    <div class="drawer_area">
+        <div class="container">
+            <form nz-form [formGroup]="jobSchemeTabs.show.form" nzLayout="vertical">
+                <nz-form-item>
+                    <nz-form-label>方案名称</nz-form-label>
+                    <nz-form-control>
+                        <input nz-input formControlName="B0601">
+                    </nz-form-control>
+                </nz-form-item>
+                <nz-form-item>
+                    <nz-form-label>方案类别</nz-form-label>
+                    <nz-form-control>
+                        <input nz-input formControlName="B0604_CN">
+                    </nz-form-control>
+                </nz-form-item>
+                <nz-form-item>
+                    <nz-form-label>岗位类别</nz-form-label>
+                    <nz-form-control>
+                        <input nz-input formControlName="B0605_CN">
+                    </nz-form-control>
+                </nz-form-item>
+                <nz-form-item>
+                    <nz-form-label>人数</nz-form-label>
+                    <nz-form-control>
+                        <input nz-input formControlName="maxNumber">
+                    </nz-form-control>
+                </nz-form-item>
+            </form>
+        </div>
+    </div>
+</nz-drawer>
+
+<!-- 批量晋升 -->
+<nz-drawer
+    [nzTitle]="batchRise.title"
+    [nzVisible]="batchRise.visible"
+    [nzWidth]="batchRise.width"
+    (nzOnClose)="batchRise.close()"
+>
+    <div class="drawer_area">
+        <div class="container edit_all">
+            <div class="layout">
+                <div class="container">
+                    <div class="left">
+                        <div class="find">
+                            <nz-select
+                                [ngStyle]="{
+                                    'width.px': 160
+                                }"
+                                nzShowSearch
+                                nzServerSearch
+                                nzAllowClear
+                                [nzPlaceHolder]="'请输入关键字搜索'"
+                                [nzShowArrow]="false"
+                                [nzFilterOption]="batchRise.find.nzFilterOption"
+                                [(ngModel)]="batchRise.find.searchKey"
+                                (ngModelChange)="batchRise.find.change($event)"
+                                (nzOnSearch)="batchRise.find.search($event)"
+                            >
+                                <ng-container *ngFor="let item of batchRise.find.list">
+                                    <nz-option [nzLabel]="item.text" [nzValue]="item.keyId">
+                                    </nz-option>
+                                </ng-container>
+                            </nz-select>
+                        </div>
+                        <div class="tree">
+                            <cdk-virtual-scroll-viewport
+                                #scrolleditAllElement
+                                [itemSize]="40"
+                                class="view_scroll"
+                            >
+                                <div
+                                    class="edit_all_item"
+                                    *ngFor="let item of personTable.personList; let i = index"
+                                    [class.active]="batchRise.find.selectedIndex === i"
+                                >
+                                    <label nz-checkbox [(ngModel)]="item.check">{{
+                                        item.A0101
+                                    }}</label>
+                                </div>
+                            </cdk-virtual-scroll-viewport>
+                        </div>
+                    </div>
+                    <div class="right">
+                        <div class="view_scroll">
+                            <form nz-form [formGroup]="batchRise.form" nzLayout="vertical">
+                                <ng-container *ngFor="let field of batchRise.systemSchemeEdit">
+                                    <nz-form-item *ngIf="!field.visible">
+                                        <nz-form-label [nzRequired]="field.SCHEME_EDIT_IS_MUST_INPUT">
+                                            {{ field.SCHEME_EDIT_DISPLAY_NAME }}
+                                        </nz-form-label>
+                            
+                                        <nz-form-control [nzErrorTip]="batchErrorTpl">
+                                            <ng-container *ngIf="field.TABLE_COLUMN_DICTIONARY_CODE; else elseBatchElement">
+                                                <dictionary-input [code]="field.TABLE_COLUMN_DICTIONARY_CODE"
+                                                    [(text)]="batchRise.form[field.TABLE_COLUMN_CODE + '_CN']"
+                                                    [placeholder]="'请填写' + field.SCHEME_EDIT_DISPLAY_NAME"
+                                                    [formControlName]="field.TABLE_COLUMN_CODE">
+                                                </dictionary-input>
+                                            </ng-container>
+                            
+                                            <ng-template #elseBatchElement>
+                                                <ng-container [ngSwitch]="field.TABLE_COLUMN_TYPE">
+                                                    <ng-template [ngSwitchCase]="columnType.DATE">
+                                                        <datetime-input [formControlName]="field.TABLE_COLUMN_CODE"
+                                                            [placeholder]="'请填写' + field.SCHEME_EDIT_DISPLAY_NAME"></datetime-input>
+                                                    </ng-template>
+                                                    <ng-template [ngSwitchCase]="columnType.NUMBER">
+                                                        <nz-input-number [formControlName]="field.TABLE_COLUMN_CODE"
+                                                            [nzPlaceHolder]="'请填写' + field.SCHEME_EDIT_DISPLAY_NAME">
+                                                        </nz-input-number>
+                                                    </ng-template>
+                                                    <ng-template [ngSwitchCase]="columnType.CLOB">
+                                                        <textarea nz-input [formControlName]="field.TABLE_COLUMN_CODE" rows="4"></textarea>
+                                                    </ng-template>
+                                                    <ng-template ngSwitchDefault>
+                                                        <input [formControlName]="field.TABLE_COLUMN_CODE" nz-input
+                                                            [placeholder]="'请填写' + field.SCHEME_EDIT_DISPLAY_NAME" />
+                                                    </ng-template>
+                                                </ng-container>
+                                            </ng-template>
+                                        </nz-form-control>
+                                        <ng-template #batchErrorTpl let-control>
+                                            <ng-container *ngIf="control.hasError('required')">
+                                                请填写{{ field.SCHEME_EDIT_DISPLAY_NAME }}。
+                                            </ng-container>
+                                            <ng-container *ngIf="control.hasError('msg')">
+                                                {{ control?.getError('msg') || '异常错误。' }}
+                                            </ng-container>
+                                        </ng-template>
+                                    </nz-form-item>
+                                </ng-container>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="footer">
+            <button
+                nz-button
+                nzType="primary"
+                [nzLoading]="batchRise.loading"
+                (click)="batchRise.save()"
+            >
+                保存
+            </button>
+        </div>
+    </div>
+</nz-drawer>
+
+<!-- 上传附件 -->
+<nz-drawer
+    [nzClosable]="true"
+    [nzVisible]="uploaddrawerify.visible"
+    nzPlacement="right"
+    nzTitle="上传附件材料"
+    [nzWidth]="uploaddrawerify.width"
+    (nzOnClose)="uploaddrawerify.close()"
+>
+    <div class="drawer_area">
+        <div class="container">
+            <button nz-button style="margin-right: 10px" (click)="uploaddrawerify.camera()">
+                <i nz-icon nzType="camera" nzTheme="outline"></i>拍照上传
+            </button>
+            <nz-upload
+                nzMultiple
+                nzListType="picture"
+                [nzFileList]="uploaddrawerify.uploadIfy.list"
+                [nzCustomRequest]="uploaddrawerify.uploadIfy.fileCustomRequest"
+                [nzRemove]="uploaddrawerify.uploadIfy.fileRemove"
+                [nzPreview]="uploaddrawerify.uploadIfy.preview"
+                [nzShowUploadList]="{ showRemoveIcon: canEdit }"
+                [nzShowButton]="canEdit"
+            >
+                <button nz-button>
+                    <span><i nz-icon nzType="upload"></i>上传附件</span>
+                </button>
+            </nz-upload>
+        </div>
+    </div>
+    <gl-camera-czur
+        #cameraCZURElement
+        (takedFormDataChange)="uploaddrawerify.takedChange($event)"
+    ></gl-camera-czur>
+</nz-drawer>
+
+<!-- 在线预览附件 -->
+<gl-online-doc
+    #onlineDocOverlayElement
+    [fileList]="uploaddrawerify.uploadIfy.list"
+    [selectedIndex]="uploaddrawerify.uploadIfy.selectedIndex"
+></gl-online-doc>

@@ -1,0 +1,102 @@
+@import 'src/app/styles/layout';
+@import 'src/app/styles/drawer';
+
+.tbl {
+    padding: 10px;
+}
+.drawer_area {
+    .edit_all {
+        padding: 0;
+        padding-top: 1px;
+
+        .layout {
+            .left {
+                width: 220px;
+            }
+            .view_scroll {
+                padding: 10px 20px;
+
+                .edit_all_item {
+                    height: 30px;
+                    line-height: 30px;
+                    padding: 0 10px;
+
+                    &.active {
+                        background-color: #e6ffea;
+                    }
+                }
+            }
+        }
+    }
+}
+.oper_step_flow {
+    height: 120px;
+    padding: 40px 10px 0 10px;
+    margin: 20px;
+
+    background-color: #f0f8ff;
+    border: 1px solid #cce8ff;
+}
+
+.full_screen {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    margin: auto;
+    z-index: 99;
+}
+
+:host ::ng-deep {
+    .ant-table {
+        .col_width_format {
+            visibility: collapse;
+        }
+
+        tr.odd {
+            td {
+                background-color: #fafafa;
+            }
+        }
+        tr:hover {
+            td:not(.edit) {
+                background: #fff;
+            }
+        }
+        tr.odd:hover {
+            td {
+                background-color: #fafafa;
+            }
+        }
+        td.edit {
+            background-color: #f0f3ff !important;
+            cursor: pointer;
+        }
+        tr.changeed {
+            td {
+                font-weight: bold;
+            }
+        }
+    }
+}
+
+tr.change {
+    font-weight: bold;
+    color: #000;
+}
+
+.difference {
+    float: right;
+    color: #4bb317;
+
+    &.event {
+        color: #1890ff;
+        padding: 0 8px;
+    }
+}
+@media screen and (max-width: 1280px) {
+    .form_list_tab {
+        width: 600px;
+    }
+}

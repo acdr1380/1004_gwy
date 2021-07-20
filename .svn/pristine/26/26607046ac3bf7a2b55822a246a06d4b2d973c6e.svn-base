@@ -1,0 +1,107 @@
+export default {
+    value: 'DATA_PERSON_BBP09',
+    text: '奖励',
+    ledgerChildField: 'BBP0901',
+    childTabItemID: 'BBP0901',
+    childTabCodeID: 'BB014',
+    LedgerDateOrderItemID: 'BBP0907',
+    tblCols: [
+        {
+            text: '序号',
+            field: 'ROWNUM_',
+            dbfield: true,
+            width: 50,
+            isFixed: true,
+            SetID: 'A01',
+            ItemType: 'N'
+        },
+        {
+            text: '单位',
+            field: 'A0195',
+            dbfield: true,
+            width: 220,
+            isFixed: true,
+            SetID: 'A01',
+            ItemType: 'C'
+        }, {
+            text: '姓名',
+            field: 'A0101',
+            dbfield: true,
+            width: 100,
+            isFixed: true,
+            SetID: 'A01',
+            ItemType: 'S',
+        }, {
+            text: '身份证号',
+            field: 'A0184',
+            dbfield: true,
+            width: 150,
+            isFixed: true,
+            SetID: 'A01',
+            coldataAlign: 'left',
+            align: 'center',
+            ItemType: 'S'
+        }, {
+            text: '人员类别',
+            field: 'A0160',
+            dbfield: true,
+            width: 100,
+            SetID: 'A01',
+            ItemType: 'C',
+            isFilter: true,
+            CodeID: 'STATUS'
+        }, {
+            text: '奖励项目',
+            field: 'BBP0901',
+            dbfield: true,
+            width: 100,
+            SetID: 'BBP09',
+            IsEdit: true,
+            isFilter: true,
+            ItemType: 'C',
+            CodeID: 'BB014'
+        }, {
+            text: '批准时间',
+            field: 'BBP0907',
+            dbfield: true,
+            width: 100,
+            SetID: 'BBP09',
+            IsEdit: true,
+            ItemType: 'D',
+            isOrder: true,
+        }, {
+            text: '奖励时职务层次',
+            field: 'BBP0902',
+            dbfield: true,
+            width: 200,
+            SetID: 'BBP09',
+            ItemType: 'C',
+            IsEdit: true,
+            isFilter: true,
+            CodeID: 'BB003'
+        },
+        {
+            text: '批准机关级别',
+            field: 'BBP0905',
+            dbfield: true,
+            width: 110,
+            SetID: 'BBP09',
+            ItemType: 'C',
+            IsEdit: true,
+            isFilter: true,
+            CodeID: 'ZB03G'
+        },
+        {
+            text: '批准机关性质',
+            field: 'BBP0906',
+            dbfield: true,
+            width: 110,
+            SetID: 'BBP09',
+            ItemType: 'C',
+            IsEdit: true,
+            isFilter: true,
+            CodeID: 'XZ34'
+        }
+    ]
+};
+

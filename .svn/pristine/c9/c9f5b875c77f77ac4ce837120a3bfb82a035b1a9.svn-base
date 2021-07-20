@@ -1,0 +1,9 @@
+<div class="layout">
+    <div class="header">
+        <b>{{ URLParams.name }} 的工资信息</b>
+    </div>
+    <div class="container">
+        <!-- 人员工资信息 -->
+        <oper-salary-info #operSalaryInfoDrawerElement [params]="URLParams"></oper-salary-info>
+    </div>
+</div>

@@ -1,0 +1,18 @@
+import { Injectable } from '@angular/core';
+
+@Injectable({
+    providedIn: 'root',
+})
+export class SalaryOtherReduceService {
+    /**
+     * 业务编码
+     */
+    public wfId = 'salary_other_reduce';
+
+    /**
+     * 业务名称
+     */
+    public wfName = '其他减员工资业务';
+
+    constructor() {}
+}

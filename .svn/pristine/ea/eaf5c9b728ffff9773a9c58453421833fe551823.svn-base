@@ -1,0 +1,81 @@
+@import 'src/app/styles/layout';
+
+.paging {
+    border-top: 1px solid #eee;
+    border-bottom: none !important;
+}
+
+.layout {
+    .container {
+        .person_list {
+            width: 200px;
+        }
+    }
+}
+
+.wh_100 {
+    width: 100%;
+}
+.mg_lr_10 {
+    margin: 0 10px;
+}
+
+// 人员列表
+.audit_list {
+    $item-height: 40px;
+
+    width: 100%;
+
+    .item {
+        height: $item-height;
+        line-height: $item-height;
+        border-bottom: 1px solid #eee;
+
+        display: flex;
+        align-items: center;
+
+        &:before {
+            content: '';
+            display: inline-block;
+            width: 3px;
+            height: $item-height;
+        }
+        &:hover {
+            color: #1890ff;
+        }
+
+        &.active {
+            background-color: #e6f7ff;
+
+            &:before {
+                background-color: #1890ff;
+            }
+        }
+
+        & > .title {
+            flex: 1;
+            cursor: pointer;
+            padding: 0 10px;
+        }
+    }
+}
+
+@media screen and (max-width: 1440px) {
+    .layout {
+        .container {
+            .person_list {
+                width: 180px;
+            }
+        }
+    }
+}
+
+@media screen and (max-width: 1280px) {
+    .person_conent {
+        overflow: auto;
+
+        & > .layout {
+            min-width: 1280px;
+        }
+    }
+}

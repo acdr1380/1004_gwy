@@ -1,0 +1,101 @@
+<!-- 显示字段调整 -->
+<nz-drawer
+    [nzVisible]="headFieldsAdjustIfy.visible"
+    nzPlacement="right"
+    [nzTitle]="headFieldsAdjustIfy.title"
+    [nzWidth]="headFieldsAdjustIfy.width"
+    (nzOnClose)="headFieldsAdjustIfy.close()"
+>
+    <div class="drawer_area set_fields_adjust">
+        <div class="header">
+            <nz-button-group>
+                <button nz-button nzType="primary" (click)="headFieldsAdjustIfy.save()">
+                    完成调整
+                </button>
+                <button nz-button nzType="default" (click)="headFieldsAdjustIfy.close()">
+                    关闭
+                </button>
+            </nz-button-group>
+        </div>
+
+        <div class="container">
+            <div class="left-main">
+                <div class="adjust_fields">
+                    <div class="title">备选指标</div>
+                    <div class="list">
+                        <nz-tree
+                            #typeTreeElement
+                            [nzData]="headFieldsAdjustIfy.alternativeTree.nodes"
+                            (nzClick)="headFieldsAdjustIfy.alternativeTree.evtActiveNode($event)"
+                            (nzDblClick)="
+                                headFieldsAdjustIfy.alternativeTree.evtDblActiveNode($event)
+                            "
+                            [nzTreeTemplate]="nzTreeTemplate"
+                        >
+                            <ng-template #nzTreeTemplate let-node>
+                                <span
+                                    class="custom-node"
+                                    [class.active]="
+                                        headFieldsAdjustIfy.alternativeTree.activedNode?.key ===
+                                        node.key
+                                    "
+                                >
+                                    <i
+                                        class="fa fa-{{
+                                            headFieldsAdjustIfy.alternativeTree.icons[
+                                                node.origin?.nodeType
+                                            ]
+                                        }}"
+                                        aria-hidden="true"
+                                    ></i>
+                                    <span class="node-text">{{ node.title }}</span>
+                                </span>
+                            </ng-template>
+                        </nz-tree>
+                    </div>
+                </div>
+            </div>
+            <div class="aside">
+                <button nz-button nzType="primary" (click)="headFieldsAdjustIfy.evtChoose()">
+                    选择
+                </button>
+            </div>
+            <div class="right-main">
+                <div class="selected">
+                    <div class="title">已选指标</div>
+                    <div class="list" *ngIf="headFieldsAdjustIfy.selectedIfy.list.length > 0">
+                        <div
+                            cdkDropList
+                            class="drag-list"
+                            (cdkDropListDropped)="headFieldsAdjustIfy.selectedIfy.drop($event)"
+                        >
+                            <div
+                                class="drag-item selected-table"
+                                *ngFor="
+                                    let item of headFieldsAdjustIfy.selectedIfy.list;
+                                    let i = index
+                                "
+                                cdkDragLockAxis="y"
+                                cdkDrag
+                            >
+                                {{ item?.SCHEME_HEADER_DISPLAY_NAME }}
+                                <ng-container *ngIf="item.TABLE_COLUMN_CODE !== 'A0101'">
+                                    <div
+                                        class="close position_0"
+                                        title="撤选"
+                                        (click)="headFieldsAdjustIfy.selectedIfy.delete(item, i)"
+                                    >
+                                        <i class="fa fa-times" aria-hidden="true"></i>
+                                    </div>
+                                    <div class="drag-handle position_0" cdkDragHandle>
+                                        <i class="fa fa-arrows" aria-hidden="true"></i>
+                                    </div>
+                                </ng-container>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</nz-drawer>

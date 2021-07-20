@@ -1,0 +1,172 @@
+import { Component, Input, OnInit } from '@angular/core';
+import { FormControl, FormGroup, Validators } from '@angular/forms';
+import { LoadingService } from 'app/components/loading/loading.service';
+import { WfTableHelper } from 'app/util/classes/wf-table-helper';
+import { CommonService } from 'app/util/common.service';
+import { NzMessageService } from 'ng-zorro-antd/message';
+import { NzTreeNode } from 'ng-zorro-antd/tree';
+import { JobManagementService } from '../job-management.service';
+
+@Component({
+    selector: 'gl-job-number-view',
+    templateUrl: './job-number-view.component.html',
+    styleUrls: ['./job-number-view.component.scss'],
+})
+export class JobNumberViewComponent implements OnInit {
+    /** 当前选中的机构节点 */
+    private _node: NzTreeNode;
+    @Input() set node(v) {
+        if (v) {
+            this._node = v;
+            this.jobNumberIfy.loadRows();
+        }
+    }
+    get node() {
+        return this._node;
+    }
+
+    zh_CN = <any>{};
+
+    /** 顶部字段条件 */
+    headerIfy = {
+        zh_CN: <any>{},
+        B0604: null,
+        B0604_list: [],
+        B0605: null,
+        B0605_list: [],
+    };
+
+    /** 职数表格 */
+    jobNumberIfy = {
+        rows: [],
+        pageIndex: 1,
+        pageSize: 10,
+        sizeOption: [10, 15, 20, 25, 30],
+        loading: false,
+        loadRows: () => {
+            const param = {
+                B0604: this.headerIfy.B0604,
+                B0605: this.headerIfy.B0605,
+            };
+            param[this.tableHeleper.getTableCode('B06')+'_B01_ID'] = this.node.origin.ORG_B01_ID;
+            this.jobNumberIfy.loading = true;
+            this.service.getJobNumDate(param).subscribe(res => {
+                this.jobNumberIfy.loading = false;
+
+                this.jobNumberIfy.rows= res;
+            });
+        },
+    };
+
+    /** 添加职数抽屉 */
+    addJobNumIfy = {
+        visible: false,
+        title: '添加职数信息',
+        width: 900,
+        open: async () => {
+            // const data = this.headerIfy.form.getRawValue();
+            // this.addJobNumIfy.form.reset(data);
+            // this.zh_CN = this.headerIfy.zh_CN;
+
+            if (!this.node) {
+                this.message.warning('请先选择单位！')
+                return;
+            }
+
+            await this.getFields();
+            this.addJobNumIfy.visible = true;
+        },
+        close: () => {
+            this.addJobNumIfy.visible = false;
+            this.addJobNumIfy.form.reset({ B0606: '01' });
+            this.zh_CN = {};
+        },
+
+        form: new FormGroup({
+            B0601: new FormControl(null, Validators.required), // 方案名称
+            B0602: new FormControl(null, Validators.required), // 变动时间
+            B0603: new FormControl(null, Validators.required), // 变动文号
+            B0604: new FormControl(null), // 方案类别
+            B0605: new FormControl(null, Validators.required), // 岗位类别
+            B0606: new FormControl('01', Validators.required), // 变动类别
+
+            B0608: new FormControl(null),
+            B0609: new FormControl(null),
+            B0610: new FormControl(null),
+            B0611: new FormControl(null),
+        }),
+
+        fields: [],
+        save: () => {
+            if (!this.commonService.formVerify(this.addJobNumIfy.form)) {
+                return;
+            }
+            const param = {
+                ...this.addJobNumIfy.form.getRawValue(),
+            };
+            param[this.tableHeleper.getTableCode('B06')+"_B01_ID"] = this.node.origin.ORG_B01_ID;
+
+            const _loading = this.loading.show();
+            this.service.postInsertJobNum(param).subscribe(res => {
+                _loading.close();
+                if (res.code === 0) {
+                    this.jobNumberIfy.rows = [...this.jobNumberIfy.rows, res.data];
+                    this.addJobNumIfy.close();
+                }
+            });
+        },
+    };
+
+    constructor(
+        private service: JobManagementService,
+        private commonService: CommonService,
+        private loading: LoadingService,
+        private tableHeleper: WfTableHelper,
+        private message: NzMessageService,
+    ) {}
+
+    ngOnInit(): void {}
+
+    /**
+     * 获取界面方案,并构造表单
+     */
+    async getFields() {
+        const _loading = this.loading.show();
+        const scheme = await this.getSchemeContent();
+        this.render(scheme, this.addJobNumIfy.fields, this.addJobNumIfy.form);
+        _loading.close();
+    }
+    /**
+     * 取界面方案字段
+     */
+    private async getSchemeContent() {
+        const scheme = 'job_management_01';
+        return await this.commonService.getFieldSchemeConent(scheme).toPromise();
+    }
+
+    /**
+     * 根据界面方案构建表单
+     * @param scheme 界面方案
+     * @param fields 字段数组
+     */
+    private render(scheme: any, fields: Array<any>, form: FormGroup) {
+        scheme.systemSchemeEdit.forEach(field => {
+            form.addControl(
+                field.TABLE_COLUMN_CODE,
+                new FormControl(
+                    { value: null, disabled: field.SCHEME_EDIT_IS_READONLY },
+                    [
+                        field.SCHEME_EDIT_IS_MUST_INPUT ? Validators.required : null,
+                        field.SCHEME_EDIT_CHECK_SCRIPT
+                            ? this.commonService.buildValidatorsFn(
+                                  field,
+                                  field.SCHEME_EDIT_CHECK_SCRIPT
+                              )
+                            : null,
+                    ].filter(s => s)
+                )
+            );
+            fields.push(field);
+        });
+    }
+}

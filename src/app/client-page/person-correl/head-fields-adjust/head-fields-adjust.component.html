@@ -1,0 +1,101 @@
+<!-- 显示字段调整 -->
+<nz-drawer
+    [nzVisible]="headFieldsAdjustIfy.visible"
+    nzPlacement="right"
+    [nzTitle]="headFieldsAdjustIfy.title"
+    [nzWidth]="headFieldsAdjustIfy.width"
+    (nzOnClose)="headFieldsAdjustIfy.close()"
+>
+    <div class="drawer_area set_fields_adjust">
+        <div class="header">
+            <nz-button-group>
+                <button nz-button nzType="primary" (click)="headFieldsAdjustIfy.save()">
+                    完成调整
+                </button>
+                <button nz-button nzType="default" (click)="headFieldsAdjustIfy.close()">
+                    关闭
+                </button>
+            </nz-button-group>
+        </div>
+
+        <div class="container table_header_field">
+            <div class="left_main">
+                <div class="adjust_fields">
+                    <div class="title">
+                        <nz-input-group
+                            class="search_put"
+                            nzAddOnBefore="备选指标"
+                            [nzSuffix]="suffixIconSearch"
+                        >
+                            <input
+                                type="text"
+                                nz-input
+                                [(ngModel)]="headFieldsAdjustIfy.searchValue"
+                                placeholder="输入关键字搜索"
+                            />
+                        </nz-input-group>
+                        <ng-template #suffixIconSearch>
+                            <i nz-icon nzType="search"></i>
+                        </ng-template>
+                    </div>
+                    <div class="list">
+                        <nz-tree
+                            #typeTreeElement
+                            [nzShowIcon]="true"
+                            [nzSearchValue]="headFieldsAdjustIfy.searchValue"
+                            [nzData]="headFieldsAdjustIfy.alternativeTree.nodes"
+                            (nzClick)="headFieldsAdjustIfy.alternativeTree.evtActiveNode($event)"
+                            (nzDblClick)="
+                                headFieldsAdjustIfy.alternativeTree.evtDblActiveNode($event)
+                            "
+                        >
+                        </nz-tree>
+                    </div>
+                </div>
+            </div>
+            <div class="aside">
+                <button nz-button nzType="primary" (click)="headFieldsAdjustIfy.evtChoose()">
+                    选择
+                </button>
+            </div>
+            <div class="right_main">
+                <div class="selected">
+                    <div class="title">已选指标</div>
+                    <div class="list" *ngIf="headFieldsAdjustIfy.selectedIfy.list.length > 0">
+                        <div
+                            cdkDropList
+                            class="drag-list"
+                            (cdkDropListDropped)="headFieldsAdjustIfy.selectedIfy.drop($event)"
+                        >
+                            <ng-container *ngFor="let item of headFieldsAdjustIfy.selectedIfy.list">
+                                <div
+                                    class="drag-item selected-table"
+                                    cdkDragLockAxis="y"
+                                    cdkDrag
+                                    *ngIf="item.TABLE_COLUMN_CODE !== 'A0101'; else elseTemp"
+                                >
+                                    {{ item?.SCHEME_HEADER_DISPLAY_NAME }}
+                                    <div
+                                        class="close position_0"
+                                        title="撤选"
+                                        (click)="headFieldsAdjustIfy.selectedIfy.delete(item, i)"
+                                    >
+                                        <i class="fa fa-times" aria-hidden="true"></i>
+                                    </div>
+                                    <div class="drag-handle position_0" cdkDragHandle>
+                                        <i class="fa fa-arrows" aria-hidden="true"></i>
+                                    </div>
+                                </div>
+                                <ng-template #elseTemp>
+                                    <div class="drag-item selected-table">
+                                        {{ item?.SCHEME_HEADER_DISPLAY_NAME }}
+                                    </div>
+                                </ng-template>
+                            </ng-container>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</nz-drawer>

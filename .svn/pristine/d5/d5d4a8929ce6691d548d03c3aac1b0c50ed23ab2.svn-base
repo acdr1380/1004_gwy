@@ -1,0 +1,678 @@
+<html xmlns:o="urn:schemas-microsoft-com:office:office"
+xmlns:x="urn:schemas-microsoft-com:office:excel"
+xmlns="http://www.w3.org/TR/REC-html40">
+
+<head>
+<meta http-equiv=Content-Type content="text/html; charset=utf-8">
+<meta name=ProgId content=Excel.Sheet>
+<meta name=Generator content="Microsoft Excel 14">
+<link rel=File-List href="上年度考核为基本和不称职人员表v1.files/filelist.xml">
+<style id="上年度公务员年度考核为基本称职和不称职等次人员追踪情况汇总表v1_12421_Styles">
+<!--table
+	{mso-displayed-decimal-separator:"\.";
+	mso-displayed-thousand-separator:"\,";}
+.font512421
+	{color:windowtext;
+	font-size:9.0pt;
+	font-weight:400;
+	font-style:normal;
+	text-decoration:none;
+	font-family:宋体;
+	mso-generic-font-family:auto;
+	mso-font-charset:134;}
+.xl1512421
+	{padding-top:1px;
+	padding-right:1px;
+	padding-left:1px;
+	mso-ignore:padding;
+	color:windowtext;
+	font-size:12.0pt;
+	font-weight:400;
+	font-style:normal;
+	text-decoration:none;
+	font-family:宋体;
+	mso-generic-font-family:auto;
+	mso-font-charset:134;
+	mso-number-format:General;
+	text-align:general;
+	vertical-align:middle;
+	mso-background-source:auto;
+	mso-pattern:auto;
+	white-space:nowrap;}
+.xl6512421
+	{padding-top:1px;
+	padding-right:1px;
+	padding-left:1px;
+	mso-ignore:padding;
+	color:red;
+	font-size:12.0pt;
+	font-weight:400;
+	font-style:normal;
+	text-decoration:none;
+	font-family:宋体;
+	mso-generic-font-family:auto;
+	mso-font-charset:134;
+	mso-number-format:General;
+	text-align:general;
+	vertical-align:middle;
+	mso-background-source:auto;
+	mso-pattern:auto;
+	white-space:nowrap;}
+.xl6612421
+	{padding-top:1px;
+	padding-right:1px;
+	padding-left:1px;
+	mso-ignore:padding;
+	color:windowtext;
+	font-size:20.0pt;
+	font-weight:400;
+	font-style:normal;
+	text-decoration:none;
+	font-family:黑体, monospace;
+	mso-font-charset:134;
+	mso-number-format:General;
+	text-align:center;
+	vertical-align:middle;
+	mso-background-source:auto;
+	mso-pattern:auto;
+	white-space:nowrap;}
+.xl6712421
+	{padding-top:1px;
+	padding-right:1px;
+	padding-left:1px;
+	mso-ignore:padding;
+	color:windowtext;
+	font-size:14.0pt;
+	font-weight:400;
+	font-style:normal;
+	text-decoration:none;
+	font-family:黑体, monospace;
+	mso-font-charset:134;
+	mso-number-format:General;
+	text-align:right;
+	vertical-align:middle;
+	border-top:none;
+	border-right:none;
+	border-bottom:.5pt solid windowtext;
+	border-left:none;
+	mso-background-source:auto;
+	mso-pattern:auto;
+	white-space:nowrap;}
+.xl6812421
+	{padding-top:1px;
+	padding-right:1px;
+	padding-left:1px;
+	mso-ignore:padding;
+	color:windowtext;
+	font-size:14.0pt;
+	font-weight:400;
+	font-style:normal;
+	text-decoration:none;
+	font-family:黑体, monospace;
+	mso-font-charset:134;
+	mso-number-format:General;
+	text-align:center;
+	vertical-align:middle;
+	border:.5pt solid windowtext;
+	mso-background-source:auto;
+	mso-pattern:auto;
+	white-space:normal;}
+.xl6912421
+	{padding-top:1px;
+	padding-right:1px;
+	padding-left:1px;
+	mso-ignore:padding;
+	color:windowtext;
+	font-size:12.0pt;
+	font-weight:400;
+	font-style:normal;
+	text-decoration:none;
+	font-family:黑体, monospace;
+	mso-font-charset:134;
+	mso-number-format:General;
+	text-align:center;
+	vertical-align:middle;
+	border:.5pt solid windowtext;
+	mso-background-source:auto;
+	mso-pattern:auto;
+	white-space:normal;}
+.xl7012421
+	{padding-top:1px;
+	padding-right:1px;
+	padding-left:1px;
+	mso-ignore:padding;
+	color:windowtext;
+	font-size:12.0pt;
+	font-weight:400;
+	font-style:normal;
+	text-decoration:none;
+	font-family:黑体, monospace;
+	mso-font-charset:134;
+	mso-number-format:General;
+	text-align:general;
+	vertical-align:middle;
+	mso-background-source:auto;
+	mso-pattern:auto;
+	white-space:normal;}
+.xl7112421
+	{padding-top:1px;
+	padding-right:1px;
+	padding-left:1px;
+	mso-ignore:padding;
+	color:windowtext;
+	font-size:14.0pt;
+	font-weight:400;
+	font-style:normal;
+	text-decoration:none;
+	font-family:黑体, monospace;
+	mso-font-charset:134;
+	mso-number-format:General;
+	text-align:general;
+	vertical-align:middle;
+	mso-background-source:auto;
+	mso-pattern:auto;
+	white-space:nowrap;}
+.xl7212421
+	{padding-top:1px;
+	padding-right:1px;
+	padding-left:1px;
+	mso-ignore:padding;
+	color:black;
+	font-size:22.0pt;
+	font-weight:700;
+	font-style:normal;
+	text-decoration:none;
+	font-family:华文中宋;
+	mso-generic-font-family:auto;
+	mso-font-charset:134;
+	mso-number-format:General;
+	text-align:general;
+	vertical-align:middle;
+	mso-background-source:auto;
+	mso-pattern:auto;
+	white-space:nowrap;}
+.xl7312421
+	{padding-top:1px;
+	padding-right:1px;
+	padding-left:1px;
+	mso-ignore:padding;
+	color:windowtext;
+	font-size:20.0pt;
+	font-weight:400;
+	font-style:normal;
+	text-decoration:none;
+	font-family:黑体, monospace;
+	mso-font-charset:134;
+	mso-number-format:General;
+	text-align:general;
+	vertical-align:middle;
+	mso-background-source:auto;
+	mso-pattern:auto;
+	white-space:nowrap;}
+.xl7412421
+	{padding-top:1px;
+	padding-right:1px;
+	padding-left:1px;
+	mso-ignore:padding;
+	color:windowtext;
+	font-size:12.0pt;
+	font-weight:400;
+	font-style:normal;
+	text-decoration:none;
+	font-family:黑体, monospace;
+	mso-font-charset:134;
+	mso-number-format:General;
+	text-align:center;
+	vertical-align:middle;
+	border-top:.5pt solid black;
+	border-right:.5pt solid black;
+	border-bottom:.5pt solid black;
+	border-left:none;
+	mso-background-source:auto;
+	mso-pattern:auto;
+	white-space:normal;}
+.xl7512421
+	{padding-top:1px;
+	padding-right:1px;
+	padding-left:1px;
+	mso-ignore:padding;
+	color:windowtext;
+	font-size:12.0pt;
+	font-weight:400;
+	font-style:normal;
+	text-decoration:none;
+	font-family:宋体;
+	mso-generic-font-family:auto;
+	mso-font-charset:134;
+	mso-number-format:General;
+	text-align:general;
+	vertical-align:middle;
+	mso-background-source:auto;
+	mso-pattern:auto;
+	white-space:normal;}
+.xl7612421
+	{padding-top:1px;
+	padding-right:1px;
+	padding-left:1px;
+	mso-ignore:padding;
+	color:windowtext;
+	font-size:14.0pt;
+	font-weight:400;
+	font-style:normal;
+	text-decoration:none;
+	font-family:黑体, monospace;
+	mso-font-charset:134;
+	mso-number-format:General;
+	text-align:center;
+	vertical-align:middle;
+	border-top:none;
+	border-right:none;
+	border-bottom:.5pt solid windowtext;
+	border-left:.5pt solid windowtext;
+	mso-background-source:auto;
+	mso-pattern:auto;
+	white-space:normal;}
+.xl7712421
+	{padding-top:1px;
+	padding-right:1px;
+	padding-left:1px;
+	mso-ignore:padding;
+	color:windowtext;
+	font-size:14.0pt;
+	font-weight:400;
+	font-style:normal;
+	text-decoration:none;
+	font-family:黑体, monospace;
+	mso-font-charset:134;
+	mso-number-format:General;
+	text-align:center;
+	vertical-align:middle;
+	border-top:none;
+	border-right:.5pt solid windowtext;
+	border-bottom:.5pt solid windowtext;
+	border-left:none;
+	mso-background-source:auto;
+	mso-pattern:auto;
+	white-space:normal;}
+.xl7812421
+	{padding-top:1px;
+	padding-right:1px;
+	padding-left:1px;
+	mso-ignore:padding;
+	color:windowtext;
+	font-size:14.0pt;
+	font-weight:400;
+	font-style:normal;
+	text-decoration:none;
+	font-family:黑体, monospace;
+	mso-font-charset:134;
+	mso-number-format:General;
+	text-align:center;
+	vertical-align:middle;
+	border-top:none;
+	border-right:none;
+	border-bottom:.5pt solid windowtext;
+	border-left:none;
+	mso-background-source:auto;
+	mso-pattern:auto;
+	white-space:normal;}
+.xl7912421
+	{padding-top:1px;
+	padding-right:1px;
+	padding-left:1px;
+	mso-ignore:padding;
+	color:windowtext;
+	font-size:14.0pt;
+	font-weight:400;
+	font-style:normal;
+	text-decoration:none;
+	font-family:黑体, monospace;
+	mso-font-charset:134;
+	mso-number-format:General;
+	text-align:center;
+	vertical-align:middle;
+	border-top:none;
+	border-right:.5pt solid windowtext;
+	border-bottom:none;
+	border-left:.5pt solid windowtext;
+	mso-background-source:auto;
+	mso-pattern:auto;
+	white-space:normal;}
+.xl8012421
+	{padding-top:1px;
+	padding-right:1px;
+	padding-left:1px;
+	mso-ignore:padding;
+	color:windowtext;
+	font-size:14.0pt;
+	font-weight:400;
+	font-style:normal;
+	text-decoration:none;
+	font-family:黑体, monospace;
+	mso-font-charset:134;
+	mso-number-format:General;
+	text-align:center;
+	vertical-align:middle;
+	border-top:none;
+	border-right:.5pt solid windowtext;
+	border-bottom:.5pt solid windowtext;
+	border-left:.5pt solid windowtext;
+	mso-background-source:auto;
+	mso-pattern:auto;
+	white-space:normal;}
+.xl8112421
+	{padding-top:1px;
+	padding-right:1px;
+	padding-left:1px;
+	mso-ignore:padding;
+	color:windowtext;
+	font-size:14.0pt;
+	font-weight:400;
+	font-style:normal;
+	text-decoration:none;
+	font-family:黑体, monospace;
+	mso-font-charset:134;
+	mso-number-format:General;
+	text-align:center;
+	vertical-align:middle;
+	border-top:none;
+	border-right:.5pt solid black;
+	border-bottom:.5pt solid black;
+	border-left:none;
+	mso-background-source:auto;
+	mso-pattern:auto;
+	white-space:normal;}
+.xl8212421
+	{padding-top:1px;
+	padding-right:1px;
+	padding-left:1px;
+	mso-ignore:padding;
+	color:windowtext;
+	font-size:14.0pt;
+	font-weight:400;
+	font-style:normal;
+	text-decoration:none;
+	font-family:黑体, monospace;
+	mso-font-charset:134;
+	mso-number-format:General;
+	text-align:center;
+	vertical-align:middle;
+	border-top:.5pt solid black;
+	border-right:.5pt solid black;
+	border-bottom:.5pt solid black;
+	border-left:none;
+	mso-background-source:auto;
+	mso-pattern:auto;
+	white-space:normal;}
+.xl8312421
+	{padding-top:1px;
+	padding-right:1px;
+	padding-left:1px;
+	mso-ignore:padding;
+	color:black;
+	font-size:22.0pt;
+	font-weight:700;
+	font-style:normal;
+	text-decoration:none;
+	font-family:华文中宋;
+	mso-generic-font-family:auto;
+	mso-font-charset:134;
+	mso-number-format:General;
+	text-align:center;
+	vertical-align:middle;
+	mso-background-source:auto;
+	mso-pattern:auto;
+	white-space:nowrap;}
+.xl8412421
+	{padding-top:1px;
+	padding-right:1px;
+	padding-left:1px;
+	mso-ignore:padding;
+	color:windowtext;
+	font-size:14.0pt;
+	font-weight:400;
+	font-style:normal;
+	text-decoration:none;
+	font-family:黑体, monospace;
+	mso-font-charset:134;
+	mso-number-format:General;
+	text-align:left;
+	vertical-align:middle;
+	border-top:none;
+	border-right:none;
+	border-bottom:.5pt solid windowtext;
+	border-left:none;
+	mso-background-source:auto;
+	mso-pattern:auto;
+	white-space:normal;}
+.xl8512421
+	{padding-top:1px;
+	padding-right:1px;
+	padding-left:1px;
+	mso-ignore:padding;
+	color:windowtext;
+	font-size:14.0pt;
+	font-weight:400;
+	font-style:normal;
+	text-decoration:none;
+	font-family:黑体, monospace;
+	mso-font-charset:134;
+	mso-number-format:General;
+	text-align:left;
+	vertical-align:middle;
+	border-top:none;
+	border-right:none;
+	border-bottom:.5pt solid windowtext;
+	border-left:none;
+	mso-background-source:auto;
+	mso-pattern:auto;
+	white-space:nowrap;}
+ruby
+	{ruby-align:left;}
+rt
+	{color:windowtext;
+	font-size:9.0pt;
+	font-weight:400;
+	font-style:normal;
+	text-decoration:none;
+	font-family:宋体;
+	mso-generic-font-family:auto;
+	mso-font-charset:134;
+	mso-char-type:none;}
+-->
+</style>
+</head>
+
+<body>
+<!--[if !excel]>　　<![endif]-->
+<!--下列信息由 Microsoft Excel 的发布为网页向导生成。-->
+<!--如果同一条目从 Excel 中重新发布，则所有位于 DIV 标记之间的信息均将被替换。-->
+<!----------------------------->
+<!--“从 EXCEL 发布网页”向导开始-->
+<!----------------------------->
+
+<div id="上年度公务员年度考核为基本称职和不称职等次人员追踪情况汇总表v1_12421" align=center
+x:publishsource="Excel">
+
+<table border=0 cellpadding=0 cellspacing=0 width=1157 style='border-collapse:
+ collapse;table-layout:fixed;width:870pt'>
+ <col width=7 style='mso-width-source:userset;mso-width-alt:224;width:5pt'>
+ <col width=182 style='mso-width-source:userset;mso-width-alt:5824;width:137pt'>
+ <col width=78 style='mso-width-source:userset;mso-width-alt:2496;width:59pt'>
+ <col width=125 style='mso-width-source:userset;mso-width-alt:4000;width:94pt'>
+ <col width=51 style='mso-width-source:userset;mso-width-alt:1632;width:38pt'>
+ <col width=69 style='mso-width-source:userset;mso-width-alt:2208;width:52pt'>
+ <col width=62 span=2 style='mso-width-source:userset;mso-width-alt:1984;
+ width:47pt'>
+ <col width=52 style='mso-width-source:userset;mso-width-alt:1664;width:39pt'>
+ <col width=65 style='mso-width-source:userset;mso-width-alt:2080;width:49pt'>
+ <col width=188 style='mso-width-source:userset;mso-width-alt:6016;width:141pt'>
+ <col width=72 span=3 style='width:54pt'>
+ <tr height=72 style='mso-height-source:userset;height:54.6pt'>
+  <td height=72 class=xl1512421 width=7 style='height:54.6pt;width:5pt'></td>
+  <td colspan=10 class=xl8312421 width=934 style='width:703pt'>上年度公务员年度考核为基本称职和不称职等次人员追踪情况汇总表</td>
+  <td class=xl7212421 width=72 style='width:54pt'></td>
+  <td class=xl7212421 width=72 style='width:54pt'></td>
+  <td class=xl7212421 width=72 style='width:54pt'></td>
+ </tr>
+ <tr height=34 style='height:25.5pt'>
+  <td height=34 class=xl1512421 style='height:25.5pt'></td>
+  <td colspan=10 class=xl6612421>（年度）</td>
+  <td class=xl7312421></td>
+  <td class=xl7312421></td>
+  <td class=xl7312421></td>
+ </tr>
+ <tr height=24 style='mso-height-source:userset;height:18.6pt'>
+  <td height=24 class=xl1512421 style='height:18.6pt'></td>
+  <td class=xl6612421></td>
+  <td class=xl6612421></td>
+  <td class=xl6612421></td>
+  <td class=xl6612421></td>
+  <td class=xl6612421></td>
+  <td class=xl6612421></td>
+  <td class=xl6612421></td>
+  <td class=xl6612421></td>
+  <td class=xl6612421></td>
+  <td class=xl6612421></td>
+  <td class=xl7312421></td>
+  <td class=xl7312421></td>
+  <td class=xl7312421></td>
+ </tr>
+ <tr class=xl6512421 height=33 style='mso-height-source:userset;height:25.15pt'>
+  <td height=33 class=xl6512421 style='height:25.15pt'></td>
+  <td class=xl6712421>填报单位（盖章）：</td>
+  <td colspan=5 class=xl8412421 width=385 style='width:290pt'>　</td>
+  <td colspan=2 class=xl6712421>填表时间：</td>
+  <td colspan=2 class=xl8512421>　</td>
+  <td class=xl6512421></td>
+  <td class=xl6512421></td>
+  <td class=xl6512421></td>
+ </tr>
+ <tr height=51 style='mso-height-source:userset;height:38.45pt'>
+  <td height=51 class=xl1512421 style='height:38.45pt'></td>
+  <td rowspan=2 class=xl7912421 width=182 style='border-bottom:.5pt solid black;
+  width:137pt'>工作单位</td>
+  <td rowspan=2 class=xl7912421 width=78 style='border-bottom:.5pt solid black;
+  width:59pt'>姓名</td>
+  <td rowspan=2 class=xl7912421 width=125 style='border-bottom:.5pt solid black;
+  width:94pt'>职务（职级）</td>
+  <td colspan=2 class=xl7612421 width=120 style='border-right:.5pt solid black;
+  border-left:none;width:90pt'>上年度考核<br>
+    结<span style='mso-spacerun:yes'>  </span>果</td>
+  <td colspan=4 class=xl7612421 width=241 style='border-right:.5pt solid black;
+  border-left:none;width:182pt'>本年度考核结果</td>
+  <td rowspan=2 class=xl8112421 width=188 style='width:141pt'>本年度考核结果说明</td>
+  <td class=xl1512421></td>
+  <td class=xl1512421></td>
+  <td class=xl1512421></td>
+ </tr>
+ <tr height=50 style='mso-height-source:userset;height:37.9pt'>
+  <td height=50 class=xl1512421 style='height:37.9pt'></td>
+  <td class=xl6812421 width=51 style='border-top:none;border-left:none;
+  width:38pt'>基本称职</td>
+  <td class=xl6812421 width=69 style='border-top:none;border-left:none;
+  width:52pt'>不称职</td>
+  <td class=xl6812421 width=62 style='border-top:none;border-left:none;
+  width:47pt'>优秀</td>
+  <td class=xl6812421 width=62 style='border-top:none;border-left:none;
+  width:47pt'>称职</td>
+  <td class=xl6812421 width=52 style='border-top:none;border-left:none;
+  width:39pt'>基本称职</td>
+  <td class=xl6812421 width=65 style='border-top:none;border-left:none;
+  width:49pt'>不称职</td>
+  <td class=xl1512421></td>
+  <td class=xl1512421></td>
+  <td class=xl1512421></td>
+ </tr>
+ <tr height=40 style='mso-height-source:userset;height:30.0pt'>
+  <td height=40 class=xl1512421 style='height:30.0pt'></td>
+  <td class=xl6912421 width=182 style='border-top:none;width:137pt'>　</td>
+  <td class=xl6912421 width=78 style='border-top:none;border-left:none;
+  width:59pt'>　</td>
+  <td class=xl6912421 width=125 style='border-top:none;border-left:none;
+  width:94pt'>　</td>
+  <td class=xl6912421 width=51 style='border-top:none;border-left:none;
+  width:38pt'>　</td>
+  <td class=xl6912421 width=69 style='border-top:none;border-left:none;
+  width:52pt'>　</td>
+  <td class=xl6912421 width=62 style='border-top:none;border-left:none;
+  width:47pt'>　</td>
+  <td class=xl6912421 width=62 style='border-top:none;border-left:none;
+  width:47pt'>　</td>
+  <td class=xl6912421 width=52 style='border-top:none;border-left:none;
+  width:39pt'>　</td>
+  <td class=xl6912421 width=65 style='border-top:none;border-left:none;
+  width:49pt'>　</td>
+  <td class=xl7412421 width=188 style='border-top:none;width:141pt'>　</td>
+  <td class=xl1512421></td>
+  <td class=xl1512421></td>
+  <td class=xl1512421></td>
+ </tr>
+ <tr height=23 style='mso-height-source:userset;height:17.25pt'>
+  <td height=23 class=xl1512421 style='height:17.25pt'></td>
+  <td class=xl7012421 width=182 style='width:137pt'></td>
+  <td class=xl7012421 width=78 style='width:59pt'></td>
+  <td class=xl7012421 width=125 style='width:94pt'></td>
+  <td class=xl7012421 width=51 style='width:38pt'></td>
+  <td class=xl7012421 width=69 style='width:52pt'></td>
+  <td class=xl7012421 width=62 style='width:47pt'></td>
+  <td class=xl7012421 width=62 style='width:47pt'></td>
+  <td class=xl7012421 width=52 style='width:39pt'></td>
+  <td class=xl7012421 width=65 style='width:49pt'></td>
+  <td class=xl7012421 width=188 style='width:141pt'></td>
+  <td class=xl7512421 width=72 style='width:54pt'></td>
+  <td class=xl7512421 width=72 style='width:54pt'></td>
+  <td class=xl7512421 width=72 style='width:54pt'></td>
+ </tr>
+ <tr height=34 style='mso-height-source:userset;height:25.5pt'>
+  <td height=34 class=xl1512421 style='height:25.5pt'></td>
+  <td colspan=10 class=xl7012421 width=934 style='width:703pt'>说明：1．“本年度考核结果说明”要充分详实，表述正确，若需要可另附纸说明。</td>
+  <td class=xl1512421></td>
+  <td class=xl1512421></td>
+  <td class=xl1512421></td>
+ </tr>
+ <tr height=25 style='height:18.75pt'>
+  <td height=25 class=xl1512421 style='height:18.75pt'></td>
+  <td class=xl7112421></td>
+  <td class=xl7112421></td>
+  <td class=xl7112421></td>
+  <td class=xl7112421></td>
+  <td class=xl7112421></td>
+  <td class=xl7112421></td>
+  <td class=xl7112421></td>
+  <td class=xl7112421></td>
+  <td class=xl7112421></td>
+  <td class=xl7112421></td>
+  <td class=xl1512421></td>
+  <td class=xl1512421></td>
+  <td class=xl1512421></td>
+ </tr>
+ <![if supportMisalignedColumns]>
+ <tr height=0 style='display:none'>
+  <td width=7 style='width:5pt'></td>
+  <td width=182 style='width:137pt'></td>
+  <td width=78 style='width:59pt'></td>
+  <td width=125 style='width:94pt'></td>
+  <td width=51 style='width:38pt'></td>
+  <td width=69 style='width:52pt'></td>
+  <td width=62 style='width:47pt'></td>
+  <td width=62 style='width:47pt'></td>
+  <td width=52 style='width:39pt'></td>
+  <td width=65 style='width:49pt'></td>
+  <td width=188 style='width:141pt'></td>
+  <td width=72 style='width:54pt'></td>
+  <td width=72 style='width:54pt'></td>
+  <td width=72 style='width:54pt'></td>
+ </tr>
+ <![endif]>
+</table>
+
+</div>
+
+
+<!----------------------------->
+<!--“从 EXCEL 发布网页”向导结束-->
+<!----------------------------->
+</body>
+
+</html>

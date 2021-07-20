@@ -1,0 +1,47 @@
+<div class="layout">
+    <div class="anquan"></div>
+
+    <div class="liuxing liuxing1 liuxingFla1"></div>
+    <div class="liuxing liuxing2 liuxingFla2"></div>
+    <div class="liuxing liuxing3 liuxingFla3"></div>
+    <div class="liuxing liuxing4 liuxingFla4"></div>
+
+    <div class="top_logo">
+        <span class="logo_pic"></span>
+        <span>{{ projectName }}</span>
+    </div>
+
+    <form class="login-form" [formGroup]="validateForm" (submit)="submitForm()">
+        <div class="form-group">
+            <input
+                type="text"
+                class="form-control"
+                placeholder="账号"
+                name="username"
+                formControlName="userAccount"
+            />
+            <div class="form-group-border"></div>
+            <i class="fa fa-user"></i>
+        </div>
+        <div class="form-group help">
+            <input
+                [type]="isPasswordEye === false ? 'password' : 'text'"
+                class="form-control"
+                placeholder="密码"
+                name="password"
+                formControlName="password"
+            />
+            <div class="form-group-border"></div>
+            <i class="fa fa-lock"></i>
+            <i
+                class="fa fa-eye"
+                [class]="isPasswordEye === false ? 'fa fa-eye' : 'fa fa-eye-slash'"
+                (click)="isPasswordEye = !isPasswordEye"
+            ></i>
+        </div>
+        <div class="forget_butt">
+            <button type="submit" class="btn btn-default" #loginBtn>登录</button>
+        </div>
+    </form>
+    <span class="version">{{ version }}</span>
+</div>

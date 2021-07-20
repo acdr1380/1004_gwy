@@ -1,0 +1,37 @@
+import { Injectable } from '@angular/core';
+import { HttpClient, HttpParams } from '@angular/common/http';
+import { NzMessageService } from 'ng-zorro-antd/message';
+import { R } from 'app/entity/vo/R';
+import { tap, filter, map } from 'rxjs/operators';
+
+@Injectable({
+    providedIn: 'root',
+})
+export class SalaryAllowanceChangeService {
+    /**
+     * 业务编码
+     */
+    public wfId = 'salary_allowance_change';
+
+    /**
+     * 业务名称
+     */
+    public wfName = '津补贴变动工资业务(事业)';
+
+    constructor(private http: HttpClient, private message: NzMessageService) {}
+    /**
+     * 获取津补贴业务信息
+     */
+    getWfData(data: any) {
+        const url = `api/gl-1002-workflow-salary/v1/workflow/job/wf/data/getWfData`;
+        return this.http.post<R>(url, data).pipe(
+            tap(json => {
+                if (json.code !== 0) {
+                    this.message.warning(json.msg);
+                }
+            }),
+            filter(json => json.code === 0),
+            map(json => json.data)
+        );
+    }
+}

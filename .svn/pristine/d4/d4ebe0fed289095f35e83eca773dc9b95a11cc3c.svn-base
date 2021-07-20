@@ -1,0 +1,295 @@
+<!-- 人员条件 -->
+<div class="parent">
+    <div class="header-condition">
+        <div nz-row>
+            <div nz-col nzSpan="6">
+                <button nz-button nzType="primary" class="header-item" (click)="openOrgDra()">
+                    选择单位
+                </button>
+                <div class="header-item">
+                    <label>
+                        当前单位：<b>{{ headerConditionIfy.unit?.ORG_NAME || '未选择单位' }}</b>
+                    </label>
+                </div>
+                <div class="header-item">
+                    <label
+                        nz-checkbox
+                        [(ngModel)]="headerConditionIfy.isInclude"
+                        (ngModelChange)="loadPageData()"
+                    >
+                        包含下层
+                    </label>
+                </div>
+            </div>
+            <form
+                class="view"
+                nz-form
+                [formGroup]="headerConditionIfy.form"
+                [style.display]="'contents'"
+            >
+                <div nz-col nzSpan="6">
+                    <nz-form-item>
+                        <nz-form-label>招录年份</nz-form-label>
+                        <nz-form-control>
+                            <nz-date-picker
+                                [style.width.px]="180"
+                                nzMode="year"
+                                formControlName="A3702"
+                            ></nz-date-picker>
+                        </nz-form-control>
+                    </nz-form-item>
+                </div>
+                <div nz-col nzSpan="6">
+                    <nz-form-item>
+                        <nz-form-label>招录身份</nz-form-label>
+                        <nz-form-control>
+                            <dictionary-input
+                                code="CAD"
+                                [(text)]="zh_CN['A3708_CN']"
+                                formControlName="A3708"
+                            ></dictionary-input>
+                        </nz-form-control>
+                    </nz-form-item>
+                </div>
+                <div nz-col nzSpan="6" [hidden]="hide">
+                    <nz-form-item>
+                        <nz-form-label>招录类别</nz-form-label>
+                        <nz-form-control>
+                            <dictionary-input
+                                code="ZZ03"
+                                [(text)]="zh_CN['A3704_CN']"
+                                formControlName="A3704"
+                            ></dictionary-input>
+                        </nz-form-control>
+                    </nz-form-item>
+                </div>
+                <div nz-col nzSpan="6" [hidden]="hide">
+                    <nz-form-item>
+                        <nz-form-label>生源地</nz-form-label>
+                        <nz-form-control>
+                            <dictionary-input
+                                code="ZZ01"
+                                [(text)]="zh_CN['A3701_CN']"
+                                formControlName="A3701"
+                            ></dictionary-input>
+                        </nz-form-control>
+                    </nz-form-item>
+                </div>
+                <div nz-col nzSpan="6" [hidden]="hide">
+                    <nz-form-item>
+                        <nz-form-label>招录区县</nz-form-label>
+                        <nz-form-control>
+                            <dictionary-input
+                                code="ZZ05"
+                                [(text)]="zh_CN['A3703_CN']"
+                                formControlName="A3703"
+                            ></dictionary-input>
+                        </nz-form-control>
+                    </nz-form-item>
+                </div>
+                <div nz-col nzSpan="6" [hidden]="hide">
+                    <nz-form-item>
+                        <nz-form-label>招录院校</nz-form-label>
+                        <nz-form-control>
+                            <input type="text" nz-input formControlName="A3705" />
+                        </nz-form-control>
+                    </nz-form-item>
+                </div>
+                <div nz-col nzSpan="6" [hidden]="hide">
+                    <nz-form-item>
+                        <nz-form-label>招录学历</nz-form-label>
+                        <nz-form-control>
+                            <dictionary-input
+                                code="GB4658"
+                                [(text)]="zh_CN['A3707_CN']"
+                                formControlName="A3707"
+                            ></dictionary-input>
+                        </nz-form-control>
+                    </nz-form-item>
+                </div>
+                <div nz-col nzSpan="6" [hidden]="hide">
+                    <nz-form-item>
+                        <nz-form-label>招录专业</nz-form-label>
+                        <nz-form-control>
+                            <input type="text" nz-input formControlName="A3706" />
+                        </nz-form-control>
+                    </nz-form-item>
+                </div>
+                <div nz-col nzSpan="6" [hidden]="hide">
+                    <nz-form-item>
+                        <nz-form-label>院校标识</nz-form-label>
+                        <nz-form-control [style.max-width.%]="100">
+                            <nz-checkbox-group formControlName="A3709"> </nz-checkbox-group>
+                        </nz-form-control>
+                    </nz-form-item>
+                </div>
+                <div nz-col nzSpan="6" [hidden]="hide">
+                    <nz-form-item>
+                        <nz-form-label>双一流标识</nz-form-label>
+                        <nz-form-control [style.max-width.%]="100">
+                            <nz-checkbox-group formControlName="A3710"> </nz-checkbox-group>
+                        </nz-form-control>
+                    </nz-form-item>
+                </div>
+                <div nz-col nzSpan="6" style="text-align: right">
+                    <!-- <button nz-button (click)="headerConditionIfy.reset()">重置</button> -->
+                    <button nz-button nzType="text" class="header-icon" (click)="toggleClick()">
+                        {{ hide ? '展开' : '收起' }}
+                        <i nz-icon nzType="{{ hide ? 'down' : 'up' }}"></i>
+                    </button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+<div class="layout">
+    <!-- 人员库 -->
+    <div class="header">
+        <nz-tabset
+            [nzSelectedIndex]="pClassIfy.index"
+            (nzSelectedIndexChange)="pClassIfy.indexChange($event)"
+            [nzTabBarStyle]="{ 'margin.px': 0, 'height.px': 50 }"
+            [nzTabBarExtraContent]="TabBarExtra"
+        >
+            <nz-tab *ngFor="let item of pClassIfy.list" [nzTitle]="item.text"></nz-tab>
+        </nz-tabset>
+        <!-- 图标按钮以及搜索框 -->
+        <ng-template #TabBarExtra>
+            <i
+                nz-icon
+                class="opreate_icon header-item"
+                nz-tooltip
+                nzTooltipTitle="添加系统内人员"
+                nzType="border-outer"
+                nzTheme="outline"
+                (click)="showSelectPerosn()"
+            ></i>
+            <i
+                nz-icon
+                class="opreate_icon header-item"
+                nz-tooltip
+                nzTooltipTitle="添加系统外人员"
+                nzType="border-inner"
+                nzTheme="outline"
+                (click)="showInfo()"
+            ></i>
+            <i
+                nz-icon
+                class="opreate_icon header-item"
+                nz-tooltip
+                nzTooltipTitle="下载表册"
+                nzType="download"
+                nzTheme="outline"
+                (click)="downFile()"
+            ></i>
+            <i
+                nz-icon
+                class="opreate_icon header-item"
+                nz-tooltip
+                nzTooltipTitle="设置显示列"
+                nzType="setting"
+                nzTheme="outline"
+                (click)="showFileds()"
+            ></i>
+            <input
+                type="text"
+                nz-input
+                [style.width.px]="150"
+                [placeholder]="pClassIfy.find.placeholder"
+                [(ngModel)]="pClassIfy.find.searchKey"
+                (ngModelChange)="pClassIfy.find.change($event)"
+            />
+        </ng-template>
+    </div>
+    <!-- 人员分类 -->
+    <div class="header">
+        <nz-radio-group
+            [ngModel]="personnelCategoryIfy.value"
+            (ngModelChange)="personnelCategoryIfy.valueChange($event)"
+            nzButtonStyle="solid"
+        >
+            <label
+                *ngFor="let item of personnelCategoryIfy.list"
+                nz-radio-button
+                [nzValue]="item.code"
+            >
+                {{ item.text + '(' + item.Totalcount + ')' }}
+            </label>
+        </nz-radio-group>
+    </div>
+    <div class="container">
+        <div class="view">
+            <ng-template [ngTemplateOutlet]="perosnTableTemp"></ng-template>
+        </div>
+    </div>
+</div>
+
+<!-- 人员表 -->
+<ng-template #perosnTableTemp>
+    <nz-table
+        #personTable
+        nzSize="small"
+        nzBordered="true"
+        [nzData]="personTableIfy.rows"
+        [(nzPageSize)]="personTableIfy.pageSize"
+        [(nzPageIndex)]="personTableIfy.pageIndex"
+        [nzShowSizeChanger]="true"
+        [nzPageSizeOptions]="[10, 15, 20, 25, 30]"
+        [nzFrontPagination]="false"
+        [nzTotal]="personTableIfy.total"
+        [nzLoading]="personTableIfy.loading"
+    >
+        <thead>
+            <tr>
+                <th nzAlign="center" *ngFor="let item of personTableIfy.fields">
+                    {{ item.SCHEME_EDIT_DISPLAY_NAME }}
+                </th>
+                <th nzAlign="center">操作</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr *ngFor="let item of personTable.data">
+                <td nzAlign="center" *ngFor="let field of personTableIfy.fields">
+                    <ng-container [ngSwitch]="item.TABLE_COLUMN_TYPE">
+                        <ng-container *ngSwitchCase="ColumnTypeEnum.DATE">
+                            {{ item[field.TABLE_COLUMN_CODE] | date: 'yyyy-MM-dd' }}
+                        </ng-container>
+                        <ng-container *ngSwitchDefault>
+                            {{
+                                item[field.TABLE_COLUMN_CODE + '_CN'] ||
+                                    item[field.TABLE_COLUMN_CODE]
+                            }}
+                        </ng-container>
+                    </ng-container>
+                </td>
+                <td nzAlign="center">
+                    <a (click)="personTableIfy.editor(item)">编辑信息</a>
+                    <nz-divider nzType="vertical"></nz-divider>
+                    <a (click)="personTableIfy.delete(item)">删除</a>
+                </td>
+            </tr>
+        </tbody>
+    </nz-table>
+</ng-template>
+
+<!-- 选择单位 -->
+<select-org-drawer
+    #selectedOrgView
+    [isLevel]="headerConditionIfy.isInclude"
+    (affirmSelectedChange)="selectOrgChange($event)"
+></select-org-drawer>
+
+<!-- 选人 -->
+<oper-select-person
+    #selectPerson
+    [isImportSelf]="true"
+    (selectedChange)="importPerson($event)"
+></oper-select-person>
+
+<!-- 设置字段 -->
+<gl-setting-field
+    #settingFild
+    [session]="session"
+    [fields]="personTableIfy.fields"
+    (fieldItemChange)="filesChange($event)"
+></gl-setting-field>

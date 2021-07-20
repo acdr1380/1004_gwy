@@ -1,0 +1,73 @@
+import { FormPageService } from './form-page.service';
+import { Component, OnInit } from '@angular/core';
+import { Title } from '@angular/platform-browser';
+import { ActivatedRoute, ParamMap } from '@angular/router';
+import { CommonService } from 'app/util/common.service';
+import { environment } from 'environments/environment';
+import { Base64 } from 'js-base64';
+import { WfTableHelper } from 'app/util/classes/wf-table-helper';
+
+@Component({
+    selector: 'gl-form-page',
+    templateUrl: './form-page.component.html',
+    styleUrls: ['./form-page.component.scss'],
+})
+export class FormPageComponent implements OnInit {
+    URLParams;
+
+    /**
+     * 人员其他信息
+     */
+    personOtherIfy = {
+        list: [],
+
+        key: 'person_other',
+        _init: async () => {
+            const result = await this.commonService
+                .getFieldSchemeConent(this.personOtherIfy.key)
+                .toPromise();
+            this.personOtherIfy.list = result.systemSchemeEdit;
+            this.personOtherIfy.loadData();
+        },
+        data: {},
+        loadData: () => {
+            const params: any = {};
+            params.$QUERY_FIELDS$ = this.personOtherIfy.list
+                .map(item => item.TABLE_COLUMN_CODE)
+                .join(',');
+            const key = `${this.tableHelper.getTableCode('A01')}_ID`;
+            params[key] = this.URLParams[key];
+            this.service.selectPersonOtherInfo(params).subscribe(result => {
+                this.personOtherIfy.data = result;
+            });
+        },
+    };
+
+    constructor(
+        private title: Title,
+        private activatedRoute: ActivatedRoute,
+        private commonService: CommonService,
+        private service: FormPageService,
+        private tableHelper: WfTableHelper
+    ) {}
+
+    ngOnInit() {
+        this.title.setTitle(environment.config.PROJECT_NAME);
+        this.initRouterParams();
+    }
+
+    /**
+     * 解析路由参数
+     */
+    initRouterParams() {
+        // 获取路由参数
+        this.activatedRoute.paramMap.subscribe(async (params: ParamMap) => {
+            // 判断路由参数是否存在
+            if (params.has('GL')) {
+                this.URLParams = JSON.parse(Base64.decode(params.get('GL')));
+
+                this.personOtherIfy._init();
+            }
+        });
+    }
+}

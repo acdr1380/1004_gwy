@@ -1,0 +1,2008 @@
+﻿<html xmlns:o="urn:schemas-microsoft-com:office:office"
+xmlns:x="urn:schemas-microsoft-com:office:excel"
+xmlns="http://www.w3.org/TR/REC-html40">
+
+<head>
+<meta http-equiv=Content-Type content="text/html; charset=gb2312">
+<meta name=ProgId content=Excel.Sheet>
+<meta name=Generator content="Microsoft Excel 14">
+<link rel=File-List href="事业单位人员结构统计表_0.files/filelist.xml">
+<style id="202010122956436_27700_Styles">
+<!--table
+	{mso-displayed-decimal-separator:"\.";
+	mso-displayed-thousand-separator:"\,";}
+.xl1527700
+	{padding-top:1px;
+	padding-right:1px;
+	padding-left:1px;
+	mso-ignore:padding;
+	color:windowtext;
+	font-size:10.0pt;
+	font-weight:400;
+	font-style:normal;
+	text-decoration:none;
+	font-family:Arial, sans-serif;
+	mso-font-charset:0;
+	mso-number-format:General;
+	text-align:general;
+	vertical-align:bottom;
+	mso-background-source:auto;
+	mso-pattern:auto;
+	white-space:nowrap;}
+.xl6527700
+	{padding-top:1px;
+	padding-right:1px;
+	padding-left:1px;
+	mso-ignore:padding;
+	color:windowtext;
+	font-size:10.0pt;
+	font-weight:400;
+	font-style:normal;
+	text-decoration:none;
+	font-family:宋体;
+	mso-generic-font-family:auto;
+	mso-font-charset:134;
+	mso-number-format:General;
+	text-align:center;
+	vertical-align:middle;
+	border:.5pt solid windowtext;
+	mso-background-source:auto;
+	mso-pattern:auto;
+	white-space:normal;}
+.xl6627700
+	{padding-top:1px;
+	padding-right:1px;
+	padding-left:1px;
+	mso-ignore:padding;
+	color:windowtext;
+	font-size:8.0pt;
+	font-weight:400;
+	font-style:normal;
+	text-decoration:none;
+	font-family:宋体;
+	mso-generic-font-family:auto;
+	mso-font-charset:134;
+	mso-number-format:General;
+	text-align:center;
+	vertical-align:middle;
+	border:.5pt solid windowtext;
+	mso-background-source:auto;
+	mso-pattern:auto;
+	white-space:normal;}
+.xl6727700
+	{padding-top:1px;
+	padding-right:1px;
+	padding-left:1px;
+	mso-ignore:padding;
+	color:windowtext;
+	font-size:10.0pt;
+	font-weight:400;
+	font-style:normal;
+	text-decoration:none;
+	font-family:宋体;
+	mso-generic-font-family:auto;
+	mso-font-charset:134;
+	mso-number-format:General;
+	text-align:center;
+	vertical-align:middle;
+	border:.5pt solid windowtext;
+	mso-background-source:auto;
+	mso-pattern:auto;
+	white-space:nowrap;}
+.xl6827700
+	{padding-top:1px;
+	padding-right:1px;
+	padding-left:1px;
+	mso-ignore:padding;
+	color:windowtext;
+	font-size:9.0pt;
+	font-weight:400;
+	font-style:normal;
+	text-decoration:none;
+	font-family:宋体;
+	mso-generic-font-family:auto;
+	mso-font-charset:134;
+	mso-number-format:General;
+	text-align:center;
+	vertical-align:middle;
+	border:.5pt solid windowtext;
+	mso-background-source:auto;
+	mso-pattern:auto;
+	white-space:normal;}
+.xl6927700
+	{padding-top:1px;
+	padding-right:1px;
+	padding-left:1px;
+	mso-ignore:padding;
+	color:windowtext;
+	font-size:10.0pt;
+	font-weight:700;
+	font-style:normal;
+	text-decoration:none;
+	font-family:宋体;
+	mso-generic-font-family:auto;
+	mso-font-charset:134;
+	mso-number-format:General;
+	text-align:center;
+	vertical-align:middle;
+	border:.5pt solid windowtext;
+	mso-background-source:auto;
+	mso-pattern:auto;
+	white-space:nowrap;}
+.xl7027700
+	{padding-top:1px;
+	padding-right:1px;
+	padding-left:1px;
+	mso-ignore:padding;
+	color:windowtext;
+	font-size:10.0pt;
+	font-weight:700;
+	font-style:normal;
+	text-decoration:none;
+	font-family:宋体;
+	mso-generic-font-family:auto;
+	mso-font-charset:134;
+	mso-number-format:General;
+	text-align:center;
+	vertical-align:middle;
+	border-top:.5pt solid windowtext;
+	border-right:none;
+	border-bottom:.5pt solid windowtext;
+	border-left:none;
+	mso-background-source:auto;
+	mso-pattern:auto;
+	white-space:nowrap;}
+.xl7127700
+	{padding-top:1px;
+	padding-right:1px;
+	padding-left:1px;
+	mso-ignore:padding;
+	color:windowtext;
+	font-size:10.0pt;
+	font-weight:700;
+	font-style:normal;
+	text-decoration:none;
+	font-family:宋体;
+	mso-generic-font-family:auto;
+	mso-font-charset:134;
+	mso-number-format:General;
+	text-align:center;
+	vertical-align:middle;
+	border-top:.5pt solid windowtext;
+	border-right:.5pt solid windowtext;
+	border-bottom:.5pt solid windowtext;
+	border-left:none;
+	mso-background-source:auto;
+	mso-pattern:auto;
+	white-space:nowrap;}
+.xl7227700
+	{padding-top:1px;
+	padding-right:1px;
+	padding-left:1px;
+	mso-ignore:padding;
+	color:windowtext;
+	font-size:8.0pt;
+	font-weight:400;
+	font-style:normal;
+	text-decoration:none;
+	font-family:宋体;
+	mso-generic-font-family:auto;
+	mso-font-charset:134;
+	mso-number-format:General;
+	text-align:left;
+	vertical-align:middle;
+	border:.5pt solid windowtext;
+	mso-background-source:auto;
+	mso-pattern:auto;
+	white-space:normal;}
+.xl7327700
+	{padding-top:1px;
+	padding-right:1px;
+	padding-left:1px;
+	mso-ignore:padding;
+	color:windowtext;
+	font-size:7.0pt;
+	font-weight:400;
+	font-style:normal;
+	text-decoration:none;
+	font-family:宋体;
+	mso-generic-font-family:auto;
+	mso-font-charset:134;
+	mso-number-format:General;
+	text-align:center;
+	vertical-align:middle;
+	border:.5pt solid windowtext;
+	mso-background-source:auto;
+	mso-pattern:auto;
+	white-space:nowrap;}
+.xl7427700
+	{padding-top:1px;
+	padding-right:1px;
+	padding-left:1px;
+	mso-ignore:padding;
+	color:windowtext;
+	font-size:7.0pt;
+	font-weight:400;
+	font-style:normal;
+	text-decoration:none;
+	font-family:宋体;
+	mso-generic-font-family:auto;
+	mso-font-charset:134;
+	mso-number-format:General;
+	text-align:center;
+	vertical-align:middle;
+	border:.5pt solid windowtext;
+	mso-background-source:auto;
+	mso-pattern:auto;
+	white-space:normal;}
+.xl7527700
+	{padding-top:1px;
+	padding-right:1px;
+	padding-left:1px;
+	mso-ignore:padding;
+	color:windowtext;
+	font-size:18.0pt;
+	font-weight:700;
+	font-style:normal;
+	text-decoration:none;
+	font-family:宋体;
+	mso-generic-font-family:auto;
+	mso-font-charset:134;
+	mso-number-format:General;
+	text-align:center;
+	vertical-align:middle;
+	mso-background-source:auto;
+	mso-pattern:auto;
+	white-space:nowrap;}
+ruby
+	{ruby-align:left;}
+rt
+	{color:windowtext;
+	font-size:9.0pt;
+	font-weight:400;
+	font-style:normal;
+	text-decoration:none;
+	font-family:宋体;
+	mso-generic-font-family:auto;
+	mso-font-charset:134;
+	mso-char-type:none;}
+-->
+</style>
+</head>
+
+<body>
+<!--[if !excel]>　　<![endif]-->
+<!--下列信息由 Microsoft Excel 的发布为网页向导生成。-->
+<!--如果同一条目从 Excel 中重新发布，则所有位于 DIV 标记之间的信息均将被替换。-->
+<!----------------------------->
+<!--“从 EXCEL 发布网页”向导开始-->
+<!----------------------------->
+
+<div id="202010122956436_27700" align=center x:publishsource="Excel">
+
+<table border=0 cellpadding=0 cellspacing=0 width=880 style='border-collapse:
+ collapse;table-layout:fixed;width:660pt'>
+ <col width=20 style='mso-width-source:userset;mso-width-alt:731;width:15pt'>
+ <col width=35 style='mso-width-source:userset;mso-width-alt:1280;width:26pt'>
+ <col width=84 style='mso-width-source:userset;mso-width-alt:3072;width:63pt'>
+ <col width=21 style='mso-width-source:userset;mso-width-alt:768;width:16pt'>
+ <col width=40 span=18 style='mso-width-source:userset;mso-width-alt:1462;
+ width:30pt'>
+ <tr height=53 style='mso-height-source:userset;height:39.95pt'>
+  <td colspan=22 rowspan=2 height=70 class=xl7527700 width=880
+  style='height:52.7pt;width:660pt'>事业单位工作人员基本情况</td>
+ </tr>
+ <tr height=17 style='height:12.75pt'>
+ </tr>
+ <tr height=24 style='mso-height-source:userset;height:18.0pt'>
+  <td colspan=3 rowspan=4 height=89 class=xl6527700 width=139 style='height:
+  66.75pt;width:104pt'>项<span style='mso-spacerun:yes'>&nbsp;&nbsp;&nbsp;&nbsp;
+  </span>目</td>
+  <td rowspan=4 class=xl6527700 width=21 style='width:16pt'>序<br>
+    <br>
+    号</td>
+  <td colspan=2 class=xl6927700 style='border-left:none'>性别</td>
+  <td colspan=4 class=xl7027700 style='border-right:.5pt solid black'>　</td>
+  <td colspan=5 class=xl6927700 style='border-left:none'>学<span
+  style='mso-spacerun:yes'>&nbsp; </span>历</td>
+  <td colspan=7 class=xl6927700 style='border-left:none'>年<span
+  style='mso-spacerun:yes'>&nbsp; </span>龄</td>
+ </tr>
+ <tr height=24 style='mso-height-source:userset;height:18.0pt'>
+  <td rowspan=3 height=65 class=xl6627700 width=40 style='height:48.75pt;
+  border-top:none;width:30pt'>男</td>
+  <td rowspan=3 class=xl6627700 width=40 style='border-top:none;width:30pt'>女</td>
+  <td rowspan=3 class=xl6627700 width=40 style='border-top:none;width:30pt'>少数<br>
+    民族</td>
+  <td rowspan=3 class=xl6627700 width=40 style='border-top:none;width:30pt'>中共<br>
+    党员</td>
+  <td rowspan=3 class=xl6627700 width=40 style='border-top:none;width:30pt'>博<br>
+    士</td>
+  <td rowspan=3 class=xl6627700 width=40 style='border-top:none;width:30pt'>硕<br>
+    士</td>
+  <td rowspan=3 class=xl6627700 width=40 style='border-top:none;width:30pt'>研<br>
+    究<br>
+    生</td>
+  <td rowspan=3 class=xl6627700 width=40 style='border-top:none;width:30pt'>大学<br>
+    <br>
+    本科</td>
+  <td rowspan=3 class=xl6627700 width=40 style='border-top:none;width:30pt'>大学<br>
+    <br>
+    专科</td>
+  <td rowspan=3 class=xl6627700 width=40 style='border-top:none;width:30pt'>中<br>
+    <br>
+    专</td>
+  <td rowspan=3 class=xl6627700 width=40 style='border-top:none;width:30pt'>高中<br>
+    及<br>
+    以下</td>
+  <td rowspan=3 class=xl6627700 width=40 style='border-top:none;width:30pt'>35岁<br>
+    及<br>
+    以下</td>
+  <td rowspan=3 class=xl6627700 width=40 style='border-top:none;width:30pt'>36岁<br>
+    至<br>
+    40岁</td>
+  <td rowspan=3 class=xl6627700 width=40 style='border-top:none;width:30pt'>41岁<br>
+    至<br>
+    45岁</td>
+  <td rowspan=3 class=xl6627700 width=40 style='border-top:none;width:30pt'>46岁<br>
+    至<br>
+    50岁</td>
+  <td rowspan=3 class=xl6627700 width=40 style='border-top:none;width:30pt'>51岁<br>
+    至<br>
+    54岁</td>
+  <td rowspan=3 class=xl6627700 width=40 style='border-top:none;width:30pt'>55岁<br>
+    至<br>
+    59岁</td>
+  <td rowspan=3 class=xl6627700 width=40 style='border-top:none;width:30pt'>60岁及以上</td>
+ </tr>
+ <tr height=24 style='mso-height-source:userset;height:18.0pt'>
+ </tr>
+ <tr height=17 style='mso-height-source:userset;height:12.75pt'>
+ </tr>
+ <tr height=17 style='mso-height-source:userset;height:12.75pt'>
+  <td colspan=3 height=17 class=xl6727700 style='height:12.75pt'>甲</td>
+  <td class=xl6727700 style='border-top:none;border-left:none'>乙</td>
+  <td class=xl6527700 width=40 style='border-top:none;border-left:none;
+  width:30pt'>1</td>
+  <td class=xl6527700 width=40 style='border-top:none;border-left:none;
+  width:30pt'>2</td>
+  <td class=xl6527700 width=40 style='border-top:none;border-left:none;
+  width:30pt'>3</td>
+  <td class=xl6527700 width=40 style='border-top:none;border-left:none;
+  width:30pt'>4</td>
+  <td class=xl6527700 width=40 style='border-top:none;border-left:none;
+  width:30pt'>5</td>
+  <td class=xl6527700 width=40 style='border-top:none;border-left:none;
+  width:30pt'>6</td>
+  <td class=xl6727700 style='border-top:none;border-left:none'>8</td>
+  <td class=xl6727700 style='border-top:none;border-left:none'>9</td>
+  <td class=xl6727700 style='border-top:none;border-left:none'>10</td>
+  <td class=xl6727700 style='border-top:none;border-left:none'>11</td>
+  <td class=xl6727700 style='border-top:none;border-left:none'>12</td>
+  <td class=xl6727700 style='border-top:none;border-left:none'>13</td>
+  <td class=xl6727700 style='border-top:none;border-left:none'>14</td>
+  <td class=xl6727700 style='border-top:none;border-left:none'>15</td>
+  <td class=xl6727700 style='border-top:none;border-left:none'>16</td>
+  <td class=xl6727700 style='border-top:none;border-left:none'>17</td>
+  <td class=xl6727700 style='border-top:none;border-left:none'>18</td>
+  <td class=xl6727700 style='border-top:none;border-left:none'>19</td>
+ </tr>
+ <tr height=19 style='mso-height-source:userset;height:14.25pt'>
+  <td rowspan=12 height=228 class=xl6627700 width=20 style='height:171.0pt;
+  border-top:none;width:15pt'>管<br>
+    理<br>
+    人<br>
+    员</td>
+  <td colspan=2 class=xl7227700 width=119 style='border-left:none;width:89pt'>其中：1、女</td>
+  <td class=xl6827700 width=21 style='border-top:none;border-left:none;
+  width:16pt'>1</td>
+  <td class=xl6627700 width=40 style='border-top:none;border-left:none;
+  width:30pt'>　</td>
+  <td class=xl6627700 width=40 style='border-top:none;border-left:none;
+  width:30pt'>　</td>
+  <td class=xl6627700 width=40 style='border-top:none;border-left:none;
+  width:30pt'>　</td>
+  <td class=xl6627700 width=40 style='border-top:none;border-left:none;
+  width:30pt'>　</td>
+  <td class=xl6627700 width=40 style='border-top:none;border-left:none;
+  width:30pt'>　</td>
+  <td class=xl6627700 width=40 style='border-top:none;border-left:none;
+  width:30pt'>　</td>
+  <td class=xl6627700 width=40 style='border-top:none;border-left:none;
+  width:30pt'>　</td>
+  <td class=xl6627700 width=40 style='border-top:none;border-left:none;
+  width:30pt'>　</td>
+  <td class=xl6627700 width=40 style='border-top:none;border-left:none;
+  width:30pt'>　</td>
+  <td class=xl6627700 width=40 style='border-top:none;border-left:none;
+  width:30pt'>　</td>
+  <td class=xl6627700 width=40 style='border-top:none;border-left:none;
+  width:30pt'>　</td>
+  <td class=xl6627700 width=40 style='border-top:none;border-left:none;
+  width:30pt'>　</td>
+  <td class=xl6627700 width=40 style='border-top:none;border-left:none;
+  width:30pt'>　</td>
+  <td class=xl6627700 width=40 style='border-top:none;border-left:none;
+  width:30pt'>　</td>
+  <td class=xl6627700 width=40 style='border-top:none;border-left:none;
+  width:30pt'>　</td>
+  <td class=xl6627700 width=40 style='border-top:none;border-left:none;
+  width:30pt'>　</td>
+  <td class=xl6627700 width=40 style='border-top:none;border-left:none;
+  width:30pt'>　</td>
+  <td class=xl6627700 width=40 style='border-top:none;border-left:none;
+  width:30pt'>　</td>
+ </tr>
+ <tr height=19 style='mso-height-source:userset;height:14.25pt'>
+  <td colspan=2 height=19 class=xl7227700 width=119 style='height:14.25pt;
+  border-left:none;width:89pt'><span
+  style='mso-spacerun:yes'>&nbsp;&nbsp;&nbsp;&nbsp; </span>2、少数民族</td>
+  <td class=xl6827700 width=21 style='border-top:none;border-left:none;
+  width:16pt'>2</td>
+  <td class=xl6627700 width=40 style='border-top:none;border-left:none;
+  width:30pt'>　</td>
+  <td class=xl6627700 width=40 style='border-top:none;border-left:none;
+  width:30pt'>　</td>
+  <td class=xl6627700 width=40 style='border-top:none;border-left:none;
+  width:30pt'>　</td>
+  <td class=xl6627700 width=40 style='border-top:none;border-left:none;
+  width:30pt'>　</td>
+  <td class=xl6627700 width=40 style='border-top:none;border-left:none;
+  width:30pt'>　</td>
+  <td class=xl6627700 width=40 style='border-top:none;border-left:none;
+  width:30pt'>　</td>
+  <td class=xl6627700 width=40 style='border-top:none;border-left:none;
+  width:30pt'>　</td>
+  <td class=xl6627700 width=40 style='border-top:none;border-left:none;
+  width:30pt'>　</td>
+  <td class=xl6627700 width=40 style='border-top:none;border-left:none;
+  width:30pt'>　</td>
+  <td class=xl6627700 width=40 style='border-top:none;border-left:none;
+  width:30pt'>　</td>
+  <td class=xl6627700 width=40 style='border-top:none;border-left:none;
+  width:30pt'>　</td>
+  <td class=xl6627700 width=40 style='border-top:none;border-left:none;
+  width:30pt'>　</td>
+  <td class=xl6627700 width=40 style='border-top:none;border-left:none;
+  width:30pt'>　</td>
+  <td class=xl6627700 width=40 style='border-top:none;border-left:none;
+  width:30pt'>　</td>
+  <td class=xl6627700 width=40 style='border-top:none;border-left:none;
+  width:30pt'>　</td>
+  <td class=xl6627700 width=40 style='border-top:none;border-left:none;
+  width:30pt'>　</td>
+  <td class=xl6627700 width=40 style='border-top:none;border-left:none;
+  width:30pt'>　</td>
+  <td class=xl6627700 width=40 style='border-top:none;border-left:none;
+  width:30pt'>　</td>
+ </tr>
+ <tr height=19 style='mso-height-source:userset;height:14.25pt'>
+  <td colspan=2 height=19 class=xl7227700 width=119 style='height:14.25pt;
+  border-left:none;width:89pt'>一级职员（部级正职）</td>
+  <td class=xl6827700 width=21 style='border-top:none;border-left:none;
+  width:16pt'>3</td>
+  <td class=xl6627700 width=40 style='border-top:none;border-left:none;
+  width:30pt'>　</td>
+  <td class=xl6627700 width=40 style='border-top:none;border-left:none;
+  width:30pt'>　</td>
+  <td class=xl6627700 width=40 style='border-top:none;border-left:none;
+  width:30pt'>　</td>
+  <td class=xl6627700 width=40 style='border-top:none;border-left:none;
+  width:30pt'>　</td>
+  <td class=xl6627700 width=40 style='border-top:none;border-left:none;
+  width:30pt'>　</td>
+  <td class=xl6627700 width=40 style='border-top:none;border-left:none;
+  width:30pt'>　</td>
+  <td class=xl6627700 width=40 style='border-top:none;border-left:none;
+  width:30pt'>　</td>
+  <td class=xl6627700 width=40 style='border-top:none;border-left:none;
+  width:30pt'>　</td>
+  <td class=xl6627700 width=40 style='border-top:none;border-left:none;
+  width:30pt'>　</td>
+  <td class=xl6627700 width=40 style='border-top:none;border-left:none;
+  width:30pt'>　</td>
+  <td class=xl6627700 width=40 style='border-top:none;border-left:none;
+  width:30pt'>　</td>
+  <td class=xl6627700 width=40 style='border-top:none;border-left:none;
+  width:30pt'>　</td>
+  <td class=xl6627700 width=40 style='border-top:none;border-left:none;
+  width:30pt'>　</td>
+  <td class=xl6627700 width=40 style='border-top:none;border-left:none;
+  width:30pt'>　</td>
+  <td class=xl6627700 width=40 style='border-top:none;border-left:none;
+  width:30pt'>　</td>
+  <td class=xl6627700 width=40 style='border-top:none;border-left:none;
+  width:30pt'>　</td>
+  <td class=xl6627700 width=40 style='border-top:none;border-left:none;
+  width:30pt'>　</td>
+  <td class=xl6627700 width=40 style='border-top:none;border-left:none;
+  width:30pt'>　</td>
+ </tr>
+ <tr height=19 style='mso-height-source:userset;height:14.25pt'>
+  <td colspan=2 height=19 class=xl7227700 width=119 style='height:14.25pt;
+  border-left:none;width:89pt'>二级职员（部级副职）</td>
+  <td class=xl6827700 width=21 style='border-top:none;border-left:none;
+  width:16pt'>4</td>
+  <td class=xl6627700 width=40 style='border-top:none;border-left:none;
+  width:30pt'>　</td>
+  <td class=xl6627700 width=40 style='border-top:none;border-left:none;
+  width:30pt'>　</td>
+  <td class=xl6627700 width=40 style='border-top:none;border-left:none;
+  width:30pt'>　</td>
+  <td class=xl6627700 width=40 style='border-top:none;border-left:none;
+  width:30pt'>　</td>
+  <td class=xl6627700 width=40 style='border-top:none;border-left:none;
+  width:30pt'>　</td>
+  <td class=xl6627700 width=40 style='border-top:none;border-left:none;
+  width:30pt'>　</td>
+  <td class=xl6627700 width=40 style='border-top:none;border-left:none;
+  width:30pt'>　</td>
+  <td class=xl6627700 width=40 style='border-top:none;border-left:none;
+  width:30pt'>　</td>
+  <td class=xl6627700 width=40 style='border-top:none;border-left:none;
+  width:30pt'>　</td>
+  <td class=xl6627700 width=40 style='border-top:none;border-left:none;
+  width:30pt'>　</td>
+  <td class=xl6627700 width=40 style='border-top:none;border-left:none;
+  width:30pt'>　</td>
+  <td class=xl6627700 width=40 style='border-top:none;border-left:none;
+  width:30pt'>　</td>
+  <td class=xl6627700 width=40 style='border-top:none;border-left:none;
+  width:30pt'>　</td>
+  <td class=xl6627700 width=40 style='border-top:none;border-left:none;
+  width:30pt'>　</td>
+  <td class=xl6627700 width=40 style='border-top:none;border-left:none;
+  width:30pt'>　</td>
+  <td class=xl6627700 width=40 style='border-top:none;border-left:none;
+  width:30pt'>　</td>
+  <td class=xl6627700 width=40 style='border-top:none;border-left:none;
+  width:30pt'>　</td>
+  <td class=xl6627700 width=40 style='border-top:none;border-left:none;
+  width:30pt'>　</td>
+ </tr>
+ <tr height=19 style='mso-height-source:userset;height:14.25pt'>
+  <td colspan=2 height=19 class=xl7227700 width=119 style='height:14.25pt;
+  border-left:none;width:89pt'>三级职员（厅级正职）</td>
+  <td class=xl6827700 width=21 style='border-top:none;border-left:none;
+  width:16pt'>5</td>
+  <td class=xl6627700 width=40 style='border-top:none;border-left:none;
+  width:30pt'>　</td>
+  <td class=xl6627700 width=40 style='border-top:none;border-left:none;
+  width:30pt'>　</td>
+  <td class=xl6627700 width=40 style='border-top:none;border-left:none;
+  width:30pt'>　</td>
+  <td class=xl6627700 width=40 style='border-top:none;border-left:none;
+  width:30pt'>　</td>
+  <td class=xl6627700 width=40 style='border-top:none;border-left:none;
+  width:30pt'>　</td>
+  <td class=xl6627700 width=40 style='border-top:none;border-left:none;
+  width:30pt'>　</td>
+  <td class=xl6627700 width=40 style='border-top:none;border-left:none;
+  width:30pt'>　</td>
+  <td class=xl6627700 width=40 style='border-top:none;border-left:none;
+  width:30pt'>　</td>
+  <td class=xl6627700 width=40 style='border-top:none;border-left:none;
+  width:30pt'>　</td>
+  <td class=xl6627700 width=40 style='border-top:none;border-left:none;
+  width:30pt'>　</td>
+  <td class=xl6627700 width=40 style='border-top:none;border-left:none;
+  width:30pt'>　</td>
+  <td class=xl6627700 width=40 style='border-top:none;border-left:none;
+  width:30pt'>　</td>
+  <td class=xl6627700 width=40 style='border-top:none;border-left:none;
+  width:30pt'>　</td>
+  <td class=xl6627700 width=40 style='border-top:none;border-left:none;
+  width:30pt'>　</td>
+  <td class=xl6627700 width=40 style='border-top:none;border-left:none;
+  width:30pt'>　</td>
+  <td class=xl6627700 width=40 style='border-top:none;border-left:none;
+  width:30pt'>　</td>
+  <td class=xl6627700 width=40 style='border-top:none;border-left:none;
+  width:30pt'>　</td>
+  <td class=xl6627700 width=40 style='border-top:none;border-left:none;
+  width:30pt'>　</td>
+ </tr>
+ <tr height=19 style='mso-height-source:userset;height:14.25pt'>
+  <td colspan=2 height=19 class=xl7227700 width=119 style='height:14.25pt;
+  border-left:none;width:89pt'>四级职员（厅级副职）</td>
+  <td class=xl6827700 width=21 style='border-top:none;border-left:none;
+  width:16pt'>6</td>
+  <td class=xl6627700 width=40 style='border-top:none;border-left:none;
+  width:30pt'>　</td>
+  <td class=xl6627700 width=40 style='border-top:none;border-left:none;
+  width:30pt'>　</td>
+  <td class=xl6627700 width=40 style='border-top:none;border-left:none;
+  width:30pt'>　</td>
+  <td class=xl6627700 width=40 style='border-top:none;border-left:none;
+  width:30pt'>　</td>
+  <td class=xl6627700 width=40 style='border-top:none;border-left:none;
+  width:30pt'>　</td>
+  <td class=xl6627700 width=40 style='border-top:none;border-left:none;
+  width:30pt'>　</td>
+  <td class=xl6627700 width=40 style='border-top:none;border-left:none;
+  width:30pt'>　</td>
+  <td class=xl6627700 width=40 style='border-top:none;border-left:none;
+  width:30pt'>　</td>
+  <td class=xl6627700 width=40 style='border-top:none;border-left:none;
+  width:30pt'>　</td>
+  <td class=xl6627700 width=40 style='border-top:none;border-left:none;
+  width:30pt'>　</td>
+  <td class=xl6627700 width=40 style='border-top:none;border-left:none;
+  width:30pt'>　</td>
+  <td class=xl6627700 width=40 style='border-top:none;border-left:none;
+  width:30pt'>　</td>
+  <td class=xl6627700 width=40 style='border-top:none;border-left:none;
+  width:30pt'>　</td>
+  <td class=xl6627700 width=40 style='border-top:none;border-left:none;
+  width:30pt'>　</td>
+  <td class=xl6627700 width=40 style='border-top:none;border-left:none;
+  width:30pt'>　</td>
+  <td class=xl6627700 width=40 style='border-top:none;border-left:none;
+  width:30pt'>　</td>
+  <td class=xl6627700 width=40 style='border-top:none;border-left:none;
+  width:30pt'>　</td>
+  <td class=xl6627700 width=40 style='border-top:none;border-left:none;
+  width:30pt'>　</td>
+ </tr>
+ <tr height=19 style='mso-height-source:userset;height:14.25pt'>
+  <td colspan=2 height=19 class=xl7227700 width=119 style='height:14.25pt;
+  border-left:none;width:89pt'>五级职员（处级正职）</td>
+  <td class=xl6827700 width=21 style='border-top:none;border-left:none;
+  width:16pt'>7</td>
+  <td class=xl6627700 width=40 style='border-top:none;border-left:none;
+  width:30pt'>　</td>
+  <td class=xl6627700 width=40 style='border-top:none;border-left:none;
+  width:30pt'>　</td>
+  <td class=xl6627700 width=40 style='border-top:none;border-left:none;
+  width:30pt'>　</td>
+  <td class=xl6627700 width=40 style='border-top:none;border-left:none;
+  width:30pt'>　</td>
+  <td class=xl6627700 width=40 style='border-top:none;border-left:none;
+  width:30pt'>　</td>
+  <td class=xl6627700 width=40 style='border-top:none;border-left:none;
+  width:30pt'>　</td>
+  <td class=xl6627700 width=40 style='border-top:none;border-left:none;
+  width:30pt'>　</td>
+  <td class=xl6627700 width=40 style='border-top:none;border-left:none;
+  width:30pt'>　</td>
+  <td class=xl6627700 width=40 style='border-top:none;border-left:none;
+  width:30pt'>　</td>
+  <td class=xl6627700 width=40 style='border-top:none;border-left:none;
+  width:30pt'>　</td>
+  <td class=xl6627700 width=40 style='border-top:none;border-left:none;
+  width:30pt'>　</td>
+  <td class=xl6627700 width=40 style='border-top:none;border-left:none;
+  width:30pt'>　</td>
+  <td class=xl6627700 width=40 style='border-top:none;border-left:none;
+  width:30pt'>　</td>
+  <td class=xl6627700 width=40 style='border-top:none;border-left:none;
+  width:30pt'>　</td>
+  <td class=xl6627700 width=40 style='border-top:none;border-left:none;
+  width:30pt'>　</td>
+  <td class=xl6627700 width=40 style='border-top:none;border-left:none;
+  width:30pt'>　</td>
+  <td class=xl6627700 width=40 style='border-top:none;border-left:none;
+  width:30pt'>　</td>
+  <td class=xl6627700 width=40 style='border-top:none;border-left:none;
+  width:30pt'>　</td>
+ </tr>
+ <tr height=19 style='mso-height-source:userset;height:14.25pt'>
+  <td colspan=2 height=19 class=xl7227700 width=119 style='height:14.25pt;
+  border-left:none;width:89pt'>六级职员（处级副职）</td>
+  <td class=xl6827700 width=21 style='border-top:none;border-left:none;
+  width:16pt'>8</td>
+  <td class=xl6627700 width=40 style='border-top:none;border-left:none;
+  width:30pt'>　</td>
+  <td class=xl6627700 width=40 style='border-top:none;border-left:none;
+  width:30pt'>　</td>
+  <td class=xl6627700 width=40 style='border-top:none;border-left:none;
+  width:30pt'>　</td>
+  <td class=xl6627700 width=40 style='border-top:none;border-left:none;
+  width:30pt'>　</td>
+  <td class=xl6627700 width=40 style='border-top:none;border-left:none;
+  width:30pt'>　</td>
+  <td class=xl6627700 width=40 style='border-top:none;border-left:none;
+  width:30pt'>　</td>
+  <td class=xl6627700 width=40 style='border-top:none;border-left:none;
+  width:30pt'>　</td>
+  <td class=xl6627700 width=40 style='border-top:none;border-left:none;
+  width:30pt'>　</td>
+  <td class=xl6627700 width=40 style='border-top:none;border-left:none;
+  width:30pt'>　</td>
+  <td class=xl6627700 width=40 style='border-top:none;border-left:none;
+  width:30pt'>　</td>
+  <td class=xl6627700 width=40 style='border-top:none;border-left:none;
+  width:30pt'>　</td>
+  <td class=xl6627700 width=40 style='border-top:none;border-left:none;
+  width:30pt'>　</td>
+  <td class=xl6627700 width=40 style='border-top:none;border-left:none;
+  width:30pt'>　</td>
+  <td class=xl6627700 width=40 style='border-top:none;border-left:none;
+  width:30pt'>　</td>
+  <td class=xl6627700 width=40 style='border-top:none;border-left:none;
+  width:30pt'>　</td>
+  <td class=xl6627700 width=40 style='border-top:none;border-left:none;
+  width:30pt'>　</td>
+  <td class=xl6627700 width=40 style='border-top:none;border-left:none;
+  width:30pt'>　</td>
+  <td class=xl6627700 width=40 style='border-top:none;border-left:none;
+  width:30pt'>　</td>
+ </tr>
+ <tr height=19 style='mso-height-source:userset;height:14.25pt'>
+  <td colspan=2 height=19 class=xl7227700 width=119 style='height:14.25pt;
+  border-left:none;width:89pt'>七级职员（科级正职）</td>
+  <td class=xl6827700 width=21 style='border-top:none;border-left:none;
+  width:16pt'>9</td>
+  <td class=xl6627700 width=40 style='border-top:none;border-left:none;
+  width:30pt'>　</td>
+  <td class=xl6627700 width=40 style='border-top:none;border-left:none;
+  width:30pt'>　</td>
+  <td class=xl6627700 width=40 style='border-top:none;border-left:none;
+  width:30pt'>　</td>
+  <td class=xl6627700 width=40 style='border-top:none;border-left:none;
+  width:30pt'>　</td>
+  <td class=xl6627700 width=40 style='border-top:none;border-left:none;
+  width:30pt'>　</td>
+  <td class=xl6627700 width=40 style='border-top:none;border-left:none;
+  width:30pt'>　</td>
+  <td class=xl6627700 width=40 style='border-top:none;border-left:none;
+  width:30pt'>　</td>
+  <td class=xl6627700 width=40 style='border-top:none;border-left:none;
+  width:30pt'>　</td>
+  <td class=xl6627700 width=40 style='border-top:none;border-left:none;
+  width:30pt'>　</td>
+  <td class=xl6627700 width=40 style='border-top:none;border-left:none;
+  width:30pt'>　</td>
+  <td class=xl6627700 width=40 style='border-top:none;border-left:none;
+  width:30pt'>　</td>
+  <td class=xl6627700 width=40 style='border-top:none;border-left:none;
+  width:30pt'>　</td>
+  <td class=xl6627700 width=40 style='border-top:none;border-left:none;
+  width:30pt'>　</td>
+  <td class=xl6627700 width=40 style='border-top:none;border-left:none;
+  width:30pt'>　</td>
+  <td class=xl6627700 width=40 style='border-top:none;border-left:none;
+  width:30pt'>　</td>
+  <td class=xl6627700 width=40 style='border-top:none;border-left:none;
+  width:30pt'>　</td>
+  <td class=xl6627700 width=40 style='border-top:none;border-left:none;
+  width:30pt'>　</td>
+  <td class=xl6627700 width=40 style='border-top:none;border-left:none;
+  width:30pt'>　</td>
+ </tr>
+ <tr height=19 style='mso-height-source:userset;height:14.25pt'>
+  <td colspan=2 height=19 class=xl7227700 width=119 style='height:14.25pt;
+  border-left:none;width:89pt'>八级职员（科级副职）</td>
+  <td class=xl6827700 width=21 style='border-top:none;border-left:none;
+  width:16pt'>10</td>
+  <td class=xl6627700 width=40 style='border-top:none;border-left:none;
+  width:30pt'>　</td>
+  <td class=xl6627700 width=40 style='border-top:none;border-left:none;
+  width:30pt'>　</td>
+  <td class=xl6627700 width=40 style='border-top:none;border-left:none;
+  width:30pt'>　</td>
+  <td class=xl6627700 width=40 style='border-top:none;border-left:none;
+  width:30pt'>　</td>
+  <td class=xl6627700 width=40 style='border-top:none;border-left:none;
+  width:30pt'>　</td>
+  <td class=xl6627700 width=40 style='border-top:none;border-left:none;
+  width:30pt'>　</td>
+  <td class=xl6627700 width=40 style='border-top:none;border-left:none;
+  width:30pt'>　</td>
+  <td class=xl6627700 width=40 style='border-top:none;border-left:none;
+  width:30pt'>　</td>
+  <td class=xl6627700 width=40 style='border-top:none;border-left:none;
+  width:30pt'>　</td>
+  <td class=xl6627700 width=40 style='border-top:none;border-left:none;
+  width:30pt'>　</td>
+  <td class=xl6627700 width=40 style='border-top:none;border-left:none;
+  width:30pt'>　</td>
+  <td class=xl6627700 width=40 style='border-top:none;border-left:none;
+  width:30pt'>　</td>
+  <td class=xl6627700 width=40 style='border-top:none;border-left:none;
+  width:30pt'>　</td>
+  <td class=xl6627700 width=40 style='border-top:none;border-left:none;
+  width:30pt'>　</td>
+  <td class=xl6627700 width=40 style='border-top:none;border-left:none;
+  width:30pt'>　</td>
+  <td class=xl6627700 width=40 style='border-top:none;border-left:none;
+  width:30pt'>　</td>
+  <td class=xl6627700 width=40 style='border-top:none;border-left:none;
+  width:30pt'>　</td>
+  <td class=xl6627700 width=40 style='border-top:none;border-left:none;
+  width:30pt'>　</td>
+ </tr>
+ <tr height=19 style='mso-height-source:userset;height:14.25pt'>
+  <td colspan=2 height=19 class=xl7227700 width=119 style='height:14.25pt;
+  border-left:none;width:89pt'>九级职员（科员）</td>
+  <td class=xl6827700 width=21 style='border-top:none;border-left:none;
+  width:16pt'>11</td>
+  <td class=xl6627700 width=40 style='border-top:none;border-left:none;
+  width:30pt'>　</td>
+  <td class=xl6627700 width=40 style='border-top:none;border-left:none;
+  width:30pt'>　</td>
+  <td class=xl6627700 width=40 style='border-top:none;border-left:none;
+  width:30pt'>　</td>
+  <td class=xl6627700 width=40 style='border-top:none;border-left:none;
+  width:30pt'>　</td>
+  <td class=xl6627700 width=40 style='border-top:none;border-left:none;
+  width:30pt'>　</td>
+  <td class=xl6627700 width=40 style='border-top:none;border-left:none;
+  width:30pt'>　</td>
+  <td class=xl6627700 width=40 style='border-top:none;border-left:none;
+  width:30pt'>　</td>
+  <td class=xl6627700 width=40 style='border-top:none;border-left:none;
+  width:30pt'>　</td>
+  <td class=xl6627700 width=40 style='border-top:none;border-left:none;
+  width:30pt'>　</td>
+  <td class=xl6627700 width=40 style='border-top:none;border-left:none;
+  width:30pt'>　</td>
+  <td class=xl6627700 width=40 style='border-top:none;border-left:none;
+  width:30pt'>　</td>
+  <td class=xl6627700 width=40 style='border-top:none;border-left:none;
+  width:30pt'>　</td>
+  <td class=xl6627700 width=40 style='border-top:none;border-left:none;
+  width:30pt'>　</td>
+  <td class=xl6627700 width=40 style='border-top:none;border-left:none;
+  width:30pt'>　</td>
+  <td class=xl6627700 width=40 style='border-top:none;border-left:none;
+  width:30pt'>　</td>
+  <td class=xl6627700 width=40 style='border-top:none;border-left:none;
+  width:30pt'>　</td>
+  <td class=xl6627700 width=40 style='border-top:none;border-left:none;
+  width:30pt'>　</td>
+  <td class=xl6627700 width=40 style='border-top:none;border-left:none;
+  width:30pt'>　</td>
+ </tr>
+ <tr height=19 style='mso-height-source:userset;height:14.25pt'>
+  <td colspan=2 height=19 class=xl7227700 width=119 style='height:14.25pt;
+  border-left:none;width:89pt'>十级职员（办事员）</td>
+  <td class=xl6827700 width=21 style='border-top:none;border-left:none;
+  width:16pt'>12</td>
+  <td class=xl6627700 width=40 style='border-top:none;border-left:none;
+  width:30pt'>　</td>
+  <td class=xl6627700 width=40 style='border-top:none;border-left:none;
+  width:30pt'>　</td>
+  <td class=xl6627700 width=40 style='border-top:none;border-left:none;
+  width:30pt'>　</td>
+  <td class=xl6627700 width=40 style='border-top:none;border-left:none;
+  width:30pt'>　</td>
+  <td class=xl6627700 width=40 style='border-top:none;border-left:none;
+  width:30pt'>　</td>
+  <td class=xl6627700 width=40 style='border-top:none;border-left:none;
+  width:30pt'>　</td>
+  <td class=xl6627700 width=40 style='border-top:none;border-left:none;
+  width:30pt'>　</td>
+  <td class=xl6627700 width=40 style='border-top:none;border-left:none;
+  width:30pt'>　</td>
+  <td class=xl6627700 width=40 style='border-top:none;border-left:none;
+  width:30pt'>　</td>
+  <td class=xl6627700 width=40 style='border-top:none;border-left:none;
+  width:30pt'>　</td>
+  <td class=xl6627700 width=40 style='border-top:none;border-left:none;
+  width:30pt'>　</td>
+  <td class=xl6627700 width=40 style='border-top:none;border-left:none;
+  width:30pt'>　</td>
+  <td class=xl6627700 width=40 style='border-top:none;border-left:none;
+  width:30pt'>　</td>
+  <td class=xl6627700 width=40 style='border-top:none;border-left:none;
+  width:30pt'>　</td>
+  <td class=xl6627700 width=40 style='border-top:none;border-left:none;
+  width:30pt'>　</td>
+  <td class=xl6627700 width=40 style='border-top:none;border-left:none;
+  width:30pt'>　</td>
+  <td class=xl6627700 width=40 style='border-top:none;border-left:none;
+  width:30pt'>　</td>
+  <td class=xl6627700 width=40 style='border-top:none;border-left:none;
+  width:30pt'>　</td>
+ </tr>
+ <tr height=19 style='mso-height-source:userset;height:14.25pt'>
+  <td rowspan=17 height=323 class=xl6627700 width=20 style='height:242.25pt;
+  border-top:none;width:15pt'>专<br>
+    业<br>
+    技<br>
+    术<br>
+    人<br>
+    员</td>
+  <td colspan=2 class=xl7327700 style='border-left:none'>其中：1、在管理岗位工作的</td>
+  <td class=xl6827700 width=21 style='border-top:none;border-left:none;
+  width:16pt'>13</td>
+  <td class=xl6627700 width=40 style='border-top:none;border-left:none;
+  width:30pt'>　</td>
+  <td class=xl6627700 width=40 style='border-top:none;border-left:none;
+  width:30pt'>　</td>
+  <td class=xl6627700 width=40 style='border-top:none;border-left:none;
+  width:30pt'>　</td>
+  <td class=xl6627700 width=40 style='border-top:none;border-left:none;
+  width:30pt'>　</td>
+  <td class=xl6627700 width=40 style='border-top:none;border-left:none;
+  width:30pt'>　</td>
+  <td class=xl6627700 width=40 style='border-top:none;border-left:none;
+  width:30pt'>　</td>
+  <td class=xl6627700 width=40 style='border-top:none;border-left:none;
+  width:30pt'>　</td>
+  <td class=xl6627700 width=40 style='border-top:none;border-left:none;
+  width:30pt'>　</td>
+  <td class=xl6627700 width=40 style='border-top:none;border-left:none;
+  width:30pt'>　</td>
+  <td class=xl6627700 width=40 style='border-top:none;border-left:none;
+  width:30pt'>　</td>
+  <td class=xl6627700 width=40 style='border-top:none;border-left:none;
+  width:30pt'>　</td>
+  <td class=xl6627700 width=40 style='border-top:none;border-left:none;
+  width:30pt'>　</td>
+  <td class=xl6627700 width=40 style='border-top:none;border-left:none;
+  width:30pt'>　</td>
+  <td class=xl6627700 width=40 style='border-top:none;border-left:none;
+  width:30pt'>　</td>
+  <td class=xl6627700 width=40 style='border-top:none;border-left:none;
+  width:30pt'>　</td>
+  <td class=xl6627700 width=40 style='border-top:none;border-left:none;
+  width:30pt'>　</td>
+  <td class=xl6627700 width=40 style='border-top:none;border-left:none;
+  width:30pt'>　</td>
+  <td class=xl6627700 width=40 style='border-top:none;border-left:none;
+  width:30pt'>　</td>
+ </tr>
+ <tr height=19 style='mso-height-source:userset;height:14.25pt'>
+  <td colspan=2 height=19 class=xl7427700 width=119 style='height:14.25pt;
+  border-left:none;width:89pt'><span style='mso-spacerun:yes'>&nbsp;&nbsp;
+  </span>2、具有职业资格的</td>
+  <td class=xl6827700 width=21 style='border-top:none;border-left:none;
+  width:16pt'>14</td>
+  <td class=xl6627700 width=40 style='border-top:none;border-left:none;
+  width:30pt'>　</td>
+  <td class=xl6627700 width=40 style='border-top:none;border-left:none;
+  width:30pt'>　</td>
+  <td class=xl6627700 width=40 style='border-top:none;border-left:none;
+  width:30pt'>　</td>
+  <td class=xl6627700 width=40 style='border-top:none;border-left:none;
+  width:30pt'>　</td>
+  <td class=xl6627700 width=40 style='border-top:none;border-left:none;
+  width:30pt'>　</td>
+  <td class=xl6627700 width=40 style='border-top:none;border-left:none;
+  width:30pt'>　</td>
+  <td class=xl6627700 width=40 style='border-top:none;border-left:none;
+  width:30pt'>　</td>
+  <td class=xl6627700 width=40 style='border-top:none;border-left:none;
+  width:30pt'>　</td>
+  <td class=xl6627700 width=40 style='border-top:none;border-left:none;
+  width:30pt'>　</td>
+  <td class=xl6627700 width=40 style='border-top:none;border-left:none;
+  width:30pt'>　</td>
+  <td class=xl6627700 width=40 style='border-top:none;border-left:none;
+  width:30pt'>　</td>
+  <td class=xl6627700 width=40 style='border-top:none;border-left:none;
+  width:30pt'>　</td>
+  <td class=xl6627700 width=40 style='border-top:none;border-left:none;
+  width:30pt'>　</td>
+  <td class=xl6627700 width=40 style='border-top:none;border-left:none;
+  width:30pt'>　</td>
+  <td class=xl6627700 width=40 style='border-top:none;border-left:none;
+  width:30pt'>　</td>
+  <td class=xl6627700 width=40 style='border-top:none;border-left:none;
+  width:30pt'>　</td>
+  <td class=xl6627700 width=40 style='border-top:none;border-left:none;
+  width:30pt'>　</td>
+  <td class=xl6627700 width=40 style='border-top:none;border-left:none;
+  width:30pt'>　</td>
+ </tr>
+ <tr height=19 style='mso-height-source:userset;height:14.25pt'>
+  <td colspan=2 height=19 class=xl7227700 width=119 style='height:14.25pt;
+  border-left:none;width:89pt'><span
+  style='mso-spacerun:yes'>&nbsp;&nbsp;&nbsp; </span>3、女</td>
+  <td class=xl6827700 width=21 style='border-top:none;border-left:none;
+  width:16pt'>15</td>
+  <td class=xl6627700 width=40 style='border-top:none;border-left:none;
+  width:30pt'>　</td>
+  <td class=xl6627700 width=40 style='border-top:none;border-left:none;
+  width:30pt'>　</td>
+  <td class=xl6627700 width=40 style='border-top:none;border-left:none;
+  width:30pt'>　</td>
+  <td class=xl6627700 width=40 style='border-top:none;border-left:none;
+  width:30pt'>　</td>
+  <td class=xl6627700 width=40 style='border-top:none;border-left:none;
+  width:30pt'>　</td>
+  <td class=xl6627700 width=40 style='border-top:none;border-left:none;
+  width:30pt'>　</td>
+  <td class=xl6627700 width=40 style='border-top:none;border-left:none;
+  width:30pt'>　</td>
+  <td class=xl6627700 width=40 style='border-top:none;border-left:none;
+  width:30pt'>　</td>
+  <td class=xl6627700 width=40 style='border-top:none;border-left:none;
+  width:30pt'>　</td>
+  <td class=xl6627700 width=40 style='border-top:none;border-left:none;
+  width:30pt'>　</td>
+  <td class=xl6627700 width=40 style='border-top:none;border-left:none;
+  width:30pt'>　</td>
+  <td class=xl6627700 width=40 style='border-top:none;border-left:none;
+  width:30pt'>　</td>
+  <td class=xl6627700 width=40 style='border-top:none;border-left:none;
+  width:30pt'>　</td>
+  <td class=xl6627700 width=40 style='border-top:none;border-left:none;
+  width:30pt'>　</td>
+  <td class=xl6627700 width=40 style='border-top:none;border-left:none;
+  width:30pt'>　</td>
+  <td class=xl6627700 width=40 style='border-top:none;border-left:none;
+  width:30pt'>　</td>
+  <td class=xl6627700 width=40 style='border-top:none;border-left:none;
+  width:30pt'>　</td>
+  <td class=xl6627700 width=40 style='border-top:none;border-left:none;
+  width:30pt'>　</td>
+ </tr>
+ <tr height=19 style='mso-height-source:userset;height:14.25pt'>
+  <td colspan=2 height=19 class=xl7227700 width=119 style='height:14.25pt;
+  border-left:none;width:89pt'><span
+  style='mso-spacerun:yes'>&nbsp;&nbsp;&nbsp; </span>4、少数民族</td>
+  <td class=xl6827700 width=21 style='border-top:none;border-left:none;
+  width:16pt'>16</td>
+  <td class=xl6627700 width=40 style='border-top:none;border-left:none;
+  width:30pt'>　</td>
+  <td class=xl6627700 width=40 style='border-top:none;border-left:none;
+  width:30pt'>　</td>
+  <td class=xl6627700 width=40 style='border-top:none;border-left:none;
+  width:30pt'>　</td>
+  <td class=xl6627700 width=40 style='border-top:none;border-left:none;
+  width:30pt'>　</td>
+  <td class=xl6627700 width=40 style='border-top:none;border-left:none;
+  width:30pt'>　</td>
+  <td class=xl6627700 width=40 style='border-top:none;border-left:none;
+  width:30pt'>　</td>
+  <td class=xl6627700 width=40 style='border-top:none;border-left:none;
+  width:30pt'>　</td>
+  <td class=xl6627700 width=40 style='border-top:none;border-left:none;
+  width:30pt'>　</td>
+  <td class=xl6627700 width=40 style='border-top:none;border-left:none;
+  width:30pt'>　</td>
+  <td class=xl6627700 width=40 style='border-top:none;border-left:none;
+  width:30pt'>　</td>
+  <td class=xl6627700 width=40 style='border-top:none;border-left:none;
+  width:30pt'>　</td>
+  <td class=xl6627700 width=40 style='border-top:none;border-left:none;
+  width:30pt'>　</td>
+  <td class=xl6627700 width=40 style='border-top:none;border-left:none;
+  width:30pt'>　</td>
+  <td class=xl6627700 width=40 style='border-top:none;border-left:none;
+  width:30pt'>　</td>
+  <td class=xl6627700 width=40 style='border-top:none;border-left:none;
+  width:30pt'>　</td>
+  <td class=xl6627700 width=40 style='border-top:none;border-left:none;
+  width:30pt'>　</td>
+  <td class=xl6627700 width=40 style='border-top:none;border-left:none;
+  width:30pt'>　</td>
+  <td class=xl6627700 width=40 style='border-top:none;border-left:none;
+  width:30pt'>　</td>
+ </tr>
+ <tr height=19 style='mso-height-source:userset;height:14.25pt'>
+  <td rowspan=7 height=133 class=xl6627700 width=35 style='height:99.75pt;
+  border-top:none;width:26pt'>高级岗位</td>
+  <td class=xl6627700 width=84 style='border-top:none;border-left:none;
+  width:63pt'>一级</td>
+  <td class=xl6827700 width=21 style='border-top:none;border-left:none;
+  width:16pt'>17</td>
+  <td class=xl6627700 width=40 style='border-top:none;border-left:none;
+  width:30pt'>　</td>
+  <td class=xl6627700 width=40 style='border-top:none;border-left:none;
+  width:30pt'>　</td>
+  <td class=xl6627700 width=40 style='border-top:none;border-left:none;
+  width:30pt'>　</td>
+  <td class=xl6627700 width=40 style='border-top:none;border-left:none;
+  width:30pt'>　</td>
+  <td class=xl6627700 width=40 style='border-top:none;border-left:none;
+  width:30pt'>　</td>
+  <td class=xl6627700 width=40 style='border-top:none;border-left:none;
+  width:30pt'>　</td>
+  <td class=xl6627700 width=40 style='border-top:none;border-left:none;
+  width:30pt'>　</td>
+  <td class=xl6627700 width=40 style='border-top:none;border-left:none;
+  width:30pt'>　</td>
+  <td class=xl6627700 width=40 style='border-top:none;border-left:none;
+  width:30pt'>　</td>
+  <td class=xl6627700 width=40 style='border-top:none;border-left:none;
+  width:30pt'>　</td>
+  <td class=xl6627700 width=40 style='border-top:none;border-left:none;
+  width:30pt'>　</td>
+  <td class=xl6627700 width=40 style='border-top:none;border-left:none;
+  width:30pt'>　</td>
+  <td class=xl6627700 width=40 style='border-top:none;border-left:none;
+  width:30pt'>　</td>
+  <td class=xl6627700 width=40 style='border-top:none;border-left:none;
+  width:30pt'>　</td>
+  <td class=xl6627700 width=40 style='border-top:none;border-left:none;
+  width:30pt'>　</td>
+  <td class=xl6627700 width=40 style='border-top:none;border-left:none;
+  width:30pt'>　</td>
+  <td class=xl6627700 width=40 style='border-top:none;border-left:none;
+  width:30pt'>　</td>
+  <td class=xl6627700 width=40 style='border-top:none;border-left:none;
+  width:30pt'>　</td>
+ </tr>
+ <tr height=19 style='mso-height-source:userset;height:14.25pt'>
+  <td height=19 class=xl6627700 width=84 style='height:14.25pt;border-top:none;
+  border-left:none;width:63pt'>二级</td>
+  <td class=xl6827700 width=21 style='border-top:none;border-left:none;
+  width:16pt'>18</td>
+  <td class=xl6627700 width=40 style='border-top:none;border-left:none;
+  width:30pt'>　</td>
+  <td class=xl6627700 width=40 style='border-top:none;border-left:none;
+  width:30pt'>　</td>
+  <td class=xl6627700 width=40 style='border-top:none;border-left:none;
+  width:30pt'>　</td>
+  <td class=xl6627700 width=40 style='border-top:none;border-left:none;
+  width:30pt'>　</td>
+  <td class=xl6627700 width=40 style='border-top:none;border-left:none;
+  width:30pt'>　</td>
+  <td class=xl6627700 width=40 style='border-top:none;border-left:none;
+  width:30pt'>　</td>
+  <td class=xl6627700 width=40 style='border-top:none;border-left:none;
+  width:30pt'>　</td>
+  <td class=xl6627700 width=40 style='border-top:none;border-left:none;
+  width:30pt'>　</td>
+  <td class=xl6627700 width=40 style='border-top:none;border-left:none;
+  width:30pt'>　</td>
+  <td class=xl6627700 width=40 style='border-top:none;border-left:none;
+  width:30pt'>　</td>
+  <td class=xl6627700 width=40 style='border-top:none;border-left:none;
+  width:30pt'>　</td>
+  <td class=xl6627700 width=40 style='border-top:none;border-left:none;
+  width:30pt'>　</td>
+  <td class=xl6627700 width=40 style='border-top:none;border-left:none;
+  width:30pt'>　</td>
+  <td class=xl6627700 width=40 style='border-top:none;border-left:none;
+  width:30pt'>　</td>
+  <td class=xl6627700 width=40 style='border-top:none;border-left:none;
+  width:30pt'>　</td>
+  <td class=xl6627700 width=40 style='border-top:none;border-left:none;
+  width:30pt'>　</td>
+  <td class=xl6627700 width=40 style='border-top:none;border-left:none;
+  width:30pt'>　</td>
+  <td class=xl6627700 width=40 style='border-top:none;border-left:none;
+  width:30pt'>　</td>
+ </tr>
+ <tr height=19 style='mso-height-source:userset;height:14.25pt'>
+  <td height=19 class=xl6627700 width=84 style='height:14.25pt;border-top:none;
+  border-left:none;width:63pt'>三级</td>
+  <td class=xl6827700 width=21 style='border-top:none;border-left:none;
+  width:16pt'>19</td>
+  <td class=xl6627700 width=40 style='border-top:none;border-left:none;
+  width:30pt'>　</td>
+  <td class=xl6627700 width=40 style='border-top:none;border-left:none;
+  width:30pt'>　</td>
+  <td class=xl6627700 width=40 style='border-top:none;border-left:none;
+  width:30pt'>　</td>
+  <td class=xl6627700 width=40 style='border-top:none;border-left:none;
+  width:30pt'>　</td>
+  <td class=xl6627700 width=40 style='border-top:none;border-left:none;
+  width:30pt'>　</td>
+  <td class=xl6627700 width=40 style='border-top:none;border-left:none;
+  width:30pt'>　</td>
+  <td class=xl6627700 width=40 style='border-top:none;border-left:none;
+  width:30pt'>　</td>
+  <td class=xl6627700 width=40 style='border-top:none;border-left:none;
+  width:30pt'>　</td>
+  <td class=xl6627700 width=40 style='border-top:none;border-left:none;
+  width:30pt'>　</td>
+  <td class=xl6627700 width=40 style='border-top:none;border-left:none;
+  width:30pt'>　</td>
+  <td class=xl6627700 width=40 style='border-top:none;border-left:none;
+  width:30pt'>　</td>
+  <td class=xl6627700 width=40 style='border-top:none;border-left:none;
+  width:30pt'>　</td>
+  <td class=xl6627700 width=40 style='border-top:none;border-left:none;
+  width:30pt'>　</td>
+  <td class=xl6627700 width=40 style='border-top:none;border-left:none;
+  width:30pt'>　</td>
+  <td class=xl6627700 width=40 style='border-top:none;border-left:none;
+  width:30pt'>　</td>
+  <td class=xl6627700 width=40 style='border-top:none;border-left:none;
+  width:30pt'>　</td>
+  <td class=xl6627700 width=40 style='border-top:none;border-left:none;
+  width:30pt'>　</td>
+  <td class=xl6627700 width=40 style='border-top:none;border-left:none;
+  width:30pt'>　</td>
+ </tr>
+ <tr height=19 style='mso-height-source:userset;height:14.25pt'>
+  <td height=19 class=xl6627700 width=84 style='height:14.25pt;border-top:none;
+  border-left:none;width:63pt'>四级</td>
+  <td class=xl6827700 width=21 style='border-top:none;border-left:none;
+  width:16pt'>20</td>
+  <td class=xl6627700 width=40 style='border-top:none;border-left:none;
+  width:30pt'>　</td>
+  <td class=xl6627700 width=40 style='border-top:none;border-left:none;
+  width:30pt'>　</td>
+  <td class=xl6627700 width=40 style='border-top:none;border-left:none;
+  width:30pt'>　</td>
+  <td class=xl6627700 width=40 style='border-top:none;border-left:none;
+  width:30pt'>　</td>
+  <td class=xl6627700 width=40 style='border-top:none;border-left:none;
+  width:30pt'>　</td>
+  <td class=xl6627700 width=40 style='border-top:none;border-left:none;
+  width:30pt'>　</td>
+  <td class=xl6627700 width=40 style='border-top:none;border-left:none;
+  width:30pt'>　</td>
+  <td class=xl6627700 width=40 style='border-top:none;border-left:none;
+  width:30pt'>　</td>
+  <td class=xl6627700 width=40 style='border-top:none;border-left:none;
+  width:30pt'>　</td>
+  <td class=xl6627700 width=40 style='border-top:none;border-left:none;
+  width:30pt'>　</td>
+  <td class=xl6627700 width=40 style='border-top:none;border-left:none;
+  width:30pt'>　</td>
+  <td class=xl6627700 width=40 style='border-top:none;border-left:none;
+  width:30pt'>　</td>
+  <td class=xl6627700 width=40 style='border-top:none;border-left:none;
+  width:30pt'>　</td>
+  <td class=xl6627700 width=40 style='border-top:none;border-left:none;
+  width:30pt'>　</td>
+  <td class=xl6627700 width=40 style='border-top:none;border-left:none;
+  width:30pt'>　</td>
+  <td class=xl6627700 width=40 style='border-top:none;border-left:none;
+  width:30pt'>　</td>
+  <td class=xl6627700 width=40 style='border-top:none;border-left:none;
+  width:30pt'>　</td>
+  <td class=xl6627700 width=40 style='border-top:none;border-left:none;
+  width:30pt'>　</td>
+ </tr>
+ <tr height=19 style='mso-height-source:userset;height:14.25pt'>
+  <td height=19 class=xl6627700 width=84 style='height:14.25pt;border-top:none;
+  border-left:none;width:63pt'>五级</td>
+  <td class=xl6827700 width=21 style='border-top:none;border-left:none;
+  width:16pt'>21</td>
+  <td class=xl6627700 width=40 style='border-top:none;border-left:none;
+  width:30pt'>　</td>
+  <td class=xl6627700 width=40 style='border-top:none;border-left:none;
+  width:30pt'>　</td>
+  <td class=xl6627700 width=40 style='border-top:none;border-left:none;
+  width:30pt'>　</td>
+  <td class=xl6627700 width=40 style='border-top:none;border-left:none;
+  width:30pt'>　</td>
+  <td class=xl6627700 width=40 style='border-top:none;border-left:none;
+  width:30pt'>　</td>
+  <td class=xl6627700 width=40 style='border-top:none;border-left:none;
+  width:30pt'>　</td>
+  <td class=xl6627700 width=40 style='border-top:none;border-left:none;
+  width:30pt'>　</td>
+  <td class=xl6627700 width=40 style='border-top:none;border-left:none;
+  width:30pt'>　</td>
+  <td class=xl6627700 width=40 style='border-top:none;border-left:none;
+  width:30pt'>　</td>
+  <td class=xl6627700 width=40 style='border-top:none;border-left:none;
+  width:30pt'>　</td>
+  <td class=xl6627700 width=40 style='border-top:none;border-left:none;
+  width:30pt'>　</td>
+  <td class=xl6627700 width=40 style='border-top:none;border-left:none;
+  width:30pt'>　</td>
+  <td class=xl6627700 width=40 style='border-top:none;border-left:none;
+  width:30pt'>　</td>
+  <td class=xl6627700 width=40 style='border-top:none;border-left:none;
+  width:30pt'>　</td>
+  <td class=xl6627700 width=40 style='border-top:none;border-left:none;
+  width:30pt'>　</td>
+  <td class=xl6627700 width=40 style='border-top:none;border-left:none;
+  width:30pt'>　</td>
+  <td class=xl6627700 width=40 style='border-top:none;border-left:none;
+  width:30pt'>　</td>
+  <td class=xl6627700 width=40 style='border-top:none;border-left:none;
+  width:30pt'>　</td>
+ </tr>
+ <tr height=19 style='mso-height-source:userset;height:14.25pt'>
+  <td height=19 class=xl6627700 width=84 style='height:14.25pt;border-top:none;
+  border-left:none;width:63pt'>六级</td>
+  <td class=xl6827700 width=21 style='border-top:none;border-left:none;
+  width:16pt'>22</td>
+  <td class=xl6627700 width=40 style='border-top:none;border-left:none;
+  width:30pt'>　</td>
+  <td class=xl6627700 width=40 style='border-top:none;border-left:none;
+  width:30pt'>　</td>
+  <td class=xl6627700 width=40 style='border-top:none;border-left:none;
+  width:30pt'>　</td>
+  <td class=xl6627700 width=40 style='border-top:none;border-left:none;
+  width:30pt'>　</td>
+  <td class=xl6627700 width=40 style='border-top:none;border-left:none;
+  width:30pt'>　</td>
+  <td class=xl6627700 width=40 style='border-top:none;border-left:none;
+  width:30pt'>　</td>
+  <td class=xl6627700 width=40 style='border-top:none;border-left:none;
+  width:30pt'>　</td>
+  <td class=xl6627700 width=40 style='border-top:none;border-left:none;
+  width:30pt'>　</td>
+  <td class=xl6627700 width=40 style='border-top:none;border-left:none;
+  width:30pt'>　</td>
+  <td class=xl6627700 width=40 style='border-top:none;border-left:none;
+  width:30pt'>　</td>
+  <td class=xl6627700 width=40 style='border-top:none;border-left:none;
+  width:30pt'>　</td>
+  <td class=xl6627700 width=40 style='border-top:none;border-left:none;
+  width:30pt'>　</td>
+  <td class=xl6627700 width=40 style='border-top:none;border-left:none;
+  width:30pt'>　</td>
+  <td class=xl6627700 width=40 style='border-top:none;border-left:none;
+  width:30pt'>　</td>
+  <td class=xl6627700 width=40 style='border-top:none;border-left:none;
+  width:30pt'>　</td>
+  <td class=xl6627700 width=40 style='border-top:none;border-left:none;
+  width:30pt'>　</td>
+  <td class=xl6627700 width=40 style='border-top:none;border-left:none;
+  width:30pt'>　</td>
+  <td class=xl6627700 width=40 style='border-top:none;border-left:none;
+  width:30pt'>　</td>
+ </tr>
+ <tr height=19 style='mso-height-source:userset;height:14.25pt'>
+  <td height=19 class=xl6627700 width=84 style='height:14.25pt;border-top:none;
+  border-left:none;width:63pt'>七级</td>
+  <td class=xl6827700 width=21 style='border-top:none;border-left:none;
+  width:16pt'>23</td>
+  <td class=xl6627700 width=40 style='border-top:none;border-left:none;
+  width:30pt'>　</td>
+  <td class=xl6627700 width=40 style='border-top:none;border-left:none;
+  width:30pt'>　</td>
+  <td class=xl6627700 width=40 style='border-top:none;border-left:none;
+  width:30pt'>　</td>
+  <td class=xl6627700 width=40 style='border-top:none;border-left:none;
+  width:30pt'>　</td>
+  <td class=xl6627700 width=40 style='border-top:none;border-left:none;
+  width:30pt'>　</td>
+  <td class=xl6627700 width=40 style='border-top:none;border-left:none;
+  width:30pt'>　</td>
+  <td class=xl6627700 width=40 style='border-top:none;border-left:none;
+  width:30pt'>　</td>
+  <td class=xl6627700 width=40 style='border-top:none;border-left:none;
+  width:30pt'>　</td>
+  <td class=xl6627700 width=40 style='border-top:none;border-left:none;
+  width:30pt'>　</td>
+  <td class=xl6627700 width=40 style='border-top:none;border-left:none;
+  width:30pt'>　</td>
+  <td class=xl6627700 width=40 style='border-top:none;border-left:none;
+  width:30pt'>　</td>
+  <td class=xl6627700 width=40 style='border-top:none;border-left:none;
+  width:30pt'>　</td>
+  <td class=xl6627700 width=40 style='border-top:none;border-left:none;
+  width:30pt'>　</td>
+  <td class=xl6627700 width=40 style='border-top:none;border-left:none;
+  width:30pt'>　</td>
+  <td class=xl6627700 width=40 style='border-top:none;border-left:none;
+  width:30pt'>　</td>
+  <td class=xl6627700 width=40 style='border-top:none;border-left:none;
+  width:30pt'>　</td>
+  <td class=xl6627700 width=40 style='border-top:none;border-left:none;
+  width:30pt'>　</td>
+  <td class=xl6627700 width=40 style='border-top:none;border-left:none;
+  width:30pt'>　</td>
+ </tr>
+ <tr height=19 style='mso-height-source:userset;height:14.25pt'>
+  <td rowspan=3 height=57 class=xl6627700 width=35 style='height:42.75pt;
+  border-top:none;width:26pt'>中级岗位</td>
+  <td class=xl6627700 width=84 style='border-top:none;border-left:none;
+  width:63pt'>八级</td>
+  <td class=xl6827700 width=21 style='border-top:none;border-left:none;
+  width:16pt'>24</td>
+  <td class=xl6627700 width=40 style='border-top:none;border-left:none;
+  width:30pt'>　</td>
+  <td class=xl6627700 width=40 style='border-top:none;border-left:none;
+  width:30pt'>　</td>
+  <td class=xl6627700 width=40 style='border-top:none;border-left:none;
+  width:30pt'>　</td>
+  <td class=xl6627700 width=40 style='border-top:none;border-left:none;
+  width:30pt'>　</td>
+  <td class=xl6627700 width=40 style='border-top:none;border-left:none;
+  width:30pt'>　</td>
+  <td class=xl6627700 width=40 style='border-top:none;border-left:none;
+  width:30pt'>　</td>
+  <td class=xl6627700 width=40 style='border-top:none;border-left:none;
+  width:30pt'>　</td>
+  <td class=xl6627700 width=40 style='border-top:none;border-left:none;
+  width:30pt'>　</td>
+  <td class=xl6627700 width=40 style='border-top:none;border-left:none;
+  width:30pt'>　</td>
+  <td class=xl6627700 width=40 style='border-top:none;border-left:none;
+  width:30pt'>　</td>
+  <td class=xl6627700 width=40 style='border-top:none;border-left:none;
+  width:30pt'>　</td>
+  <td class=xl6627700 width=40 style='border-top:none;border-left:none;
+  width:30pt'>　</td>
+  <td class=xl6627700 width=40 style='border-top:none;border-left:none;
+  width:30pt'>　</td>
+  <td class=xl6627700 width=40 style='border-top:none;border-left:none;
+  width:30pt'>　</td>
+  <td class=xl6627700 width=40 style='border-top:none;border-left:none;
+  width:30pt'>　</td>
+  <td class=xl6627700 width=40 style='border-top:none;border-left:none;
+  width:30pt'>　</td>
+  <td class=xl6627700 width=40 style='border-top:none;border-left:none;
+  width:30pt'>　</td>
+  <td class=xl6627700 width=40 style='border-top:none;border-left:none;
+  width:30pt'>　</td>
+ </tr>
+ <tr height=19 style='mso-height-source:userset;height:14.25pt'>
+  <td height=19 class=xl6627700 width=84 style='height:14.25pt;border-top:none;
+  border-left:none;width:63pt'>九级</td>
+  <td class=xl6827700 width=21 style='border-top:none;border-left:none;
+  width:16pt'>25</td>
+  <td class=xl6627700 width=40 style='border-top:none;border-left:none;
+  width:30pt'>　</td>
+  <td class=xl6627700 width=40 style='border-top:none;border-left:none;
+  width:30pt'>　</td>
+  <td class=xl6627700 width=40 style='border-top:none;border-left:none;
+  width:30pt'>　</td>
+  <td class=xl6627700 width=40 style='border-top:none;border-left:none;
+  width:30pt'>　</td>
+  <td class=xl6627700 width=40 style='border-top:none;border-left:none;
+  width:30pt'>　</td>
+  <td class=xl6627700 width=40 style='border-top:none;border-left:none;
+  width:30pt'>　</td>
+  <td class=xl6627700 width=40 style='border-top:none;border-left:none;
+  width:30pt'>　</td>
+  <td class=xl6627700 width=40 style='border-top:none;border-left:none;
+  width:30pt'>　</td>
+  <td class=xl6627700 width=40 style='border-top:none;border-left:none;
+  width:30pt'>　</td>
+  <td class=xl6627700 width=40 style='border-top:none;border-left:none;
+  width:30pt'>　</td>
+  <td class=xl6627700 width=40 style='border-top:none;border-left:none;
+  width:30pt'>　</td>
+  <td class=xl6627700 width=40 style='border-top:none;border-left:none;
+  width:30pt'>　</td>
+  <td class=xl6627700 width=40 style='border-top:none;border-left:none;
+  width:30pt'>　</td>
+  <td class=xl6627700 width=40 style='border-top:none;border-left:none;
+  width:30pt'>　</td>
+  <td class=xl6627700 width=40 style='border-top:none;border-left:none;
+  width:30pt'>　</td>
+  <td class=xl6627700 width=40 style='border-top:none;border-left:none;
+  width:30pt'>　</td>
+  <td class=xl6627700 width=40 style='border-top:none;border-left:none;
+  width:30pt'>　</td>
+  <td class=xl6627700 width=40 style='border-top:none;border-left:none;
+  width:30pt'>　</td>
+ </tr>
+ <tr height=19 style='mso-height-source:userset;height:14.25pt'>
+  <td height=19 class=xl6627700 width=84 style='height:14.25pt;border-top:none;
+  border-left:none;width:63pt'>十级</td>
+  <td class=xl6827700 width=21 style='border-top:none;border-left:none;
+  width:16pt'>26</td>
+  <td class=xl6627700 width=40 style='border-top:none;border-left:none;
+  width:30pt'>　</td>
+  <td class=xl6627700 width=40 style='border-top:none;border-left:none;
+  width:30pt'>　</td>
+  <td class=xl6627700 width=40 style='border-top:none;border-left:none;
+  width:30pt'>　</td>
+  <td class=xl6627700 width=40 style='border-top:none;border-left:none;
+  width:30pt'>　</td>
+  <td class=xl6627700 width=40 style='border-top:none;border-left:none;
+  width:30pt'>　</td>
+  <td class=xl6627700 width=40 style='border-top:none;border-left:none;
+  width:30pt'>　</td>
+  <td class=xl6627700 width=40 style='border-top:none;border-left:none;
+  width:30pt'>　</td>
+  <td class=xl6627700 width=40 style='border-top:none;border-left:none;
+  width:30pt'>　</td>
+  <td class=xl6627700 width=40 style='border-top:none;border-left:none;
+  width:30pt'>　</td>
+  <td class=xl6627700 width=40 style='border-top:none;border-left:none;
+  width:30pt'>　</td>
+  <td class=xl6627700 width=40 style='border-top:none;border-left:none;
+  width:30pt'>　</td>
+  <td class=xl6627700 width=40 style='border-top:none;border-left:none;
+  width:30pt'>　</td>
+  <td class=xl6627700 width=40 style='border-top:none;border-left:none;
+  width:30pt'>　</td>
+  <td class=xl6627700 width=40 style='border-top:none;border-left:none;
+  width:30pt'>　</td>
+  <td class=xl6627700 width=40 style='border-top:none;border-left:none;
+  width:30pt'>　</td>
+  <td class=xl6627700 width=40 style='border-top:none;border-left:none;
+  width:30pt'>　</td>
+  <td class=xl6627700 width=40 style='border-top:none;border-left:none;
+  width:30pt'>　</td>
+  <td class=xl6627700 width=40 style='border-top:none;border-left:none;
+  width:30pt'>　</td>
+ </tr>
+ <tr height=19 style='mso-height-source:userset;height:14.25pt'>
+  <td rowspan=3 height=57 class=xl6627700 width=35 style='height:42.75pt;
+  border-top:none;width:26pt'>初级岗位</td>
+  <td class=xl6627700 width=84 style='border-top:none;border-left:none;
+  width:63pt'>十一级</td>
+  <td class=xl6827700 width=21 style='border-top:none;border-left:none;
+  width:16pt'>27</td>
+  <td class=xl6627700 width=40 style='border-top:none;border-left:none;
+  width:30pt'>　</td>
+  <td class=xl6627700 width=40 style='border-top:none;border-left:none;
+  width:30pt'>　</td>
+  <td class=xl6627700 width=40 style='border-top:none;border-left:none;
+  width:30pt'>　</td>
+  <td class=xl6627700 width=40 style='border-top:none;border-left:none;
+  width:30pt'>　</td>
+  <td class=xl6627700 width=40 style='border-top:none;border-left:none;
+  width:30pt'>　</td>
+  <td class=xl6627700 width=40 style='border-top:none;border-left:none;
+  width:30pt'>　</td>
+  <td class=xl6627700 width=40 style='border-top:none;border-left:none;
+  width:30pt'>　</td>
+  <td class=xl6627700 width=40 style='border-top:none;border-left:none;
+  width:30pt'>　</td>
+  <td class=xl6627700 width=40 style='border-top:none;border-left:none;
+  width:30pt'>　</td>
+  <td class=xl6627700 width=40 style='border-top:none;border-left:none;
+  width:30pt'>　</td>
+  <td class=xl6627700 width=40 style='border-top:none;border-left:none;
+  width:30pt'>　</td>
+  <td class=xl6627700 width=40 style='border-top:none;border-left:none;
+  width:30pt'>　</td>
+  <td class=xl6627700 width=40 style='border-top:none;border-left:none;
+  width:30pt'>　</td>
+  <td class=xl6627700 width=40 style='border-top:none;border-left:none;
+  width:30pt'>　</td>
+  <td class=xl6627700 width=40 style='border-top:none;border-left:none;
+  width:30pt'>　</td>
+  <td class=xl6627700 width=40 style='border-top:none;border-left:none;
+  width:30pt'>　</td>
+  <td class=xl6627700 width=40 style='border-top:none;border-left:none;
+  width:30pt'>　</td>
+  <td class=xl6627700 width=40 style='border-top:none;border-left:none;
+  width:30pt'>　</td>
+ </tr>
+ <tr height=19 style='mso-height-source:userset;height:14.25pt'>
+  <td height=19 class=xl6627700 width=84 style='height:14.25pt;border-top:none;
+  border-left:none;width:63pt'>十二级</td>
+  <td class=xl6827700 width=21 style='border-top:none;border-left:none;
+  width:16pt'>28</td>
+  <td class=xl6627700 width=40 style='border-top:none;border-left:none;
+  width:30pt'>　</td>
+  <td class=xl6627700 width=40 style='border-top:none;border-left:none;
+  width:30pt'>　</td>
+  <td class=xl6627700 width=40 style='border-top:none;border-left:none;
+  width:30pt'>　</td>
+  <td class=xl6627700 width=40 style='border-top:none;border-left:none;
+  width:30pt'>　</td>
+  <td class=xl6627700 width=40 style='border-top:none;border-left:none;
+  width:30pt'>　</td>
+  <td class=xl6627700 width=40 style='border-top:none;border-left:none;
+  width:30pt'>　</td>
+  <td class=xl6627700 width=40 style='border-top:none;border-left:none;
+  width:30pt'>　</td>
+  <td class=xl6627700 width=40 style='border-top:none;border-left:none;
+  width:30pt'>　</td>
+  <td class=xl6627700 width=40 style='border-top:none;border-left:none;
+  width:30pt'>　</td>
+  <td class=xl6627700 width=40 style='border-top:none;border-left:none;
+  width:30pt'>　</td>
+  <td class=xl6627700 width=40 style='border-top:none;border-left:none;
+  width:30pt'>　</td>
+  <td class=xl6627700 width=40 style='border-top:none;border-left:none;
+  width:30pt'>　</td>
+  <td class=xl6627700 width=40 style='border-top:none;border-left:none;
+  width:30pt'>　</td>
+  <td class=xl6627700 width=40 style='border-top:none;border-left:none;
+  width:30pt'>　</td>
+  <td class=xl6627700 width=40 style='border-top:none;border-left:none;
+  width:30pt'>　</td>
+  <td class=xl6627700 width=40 style='border-top:none;border-left:none;
+  width:30pt'>　</td>
+  <td class=xl6627700 width=40 style='border-top:none;border-left:none;
+  width:30pt'>　</td>
+  <td class=xl6627700 width=40 style='border-top:none;border-left:none;
+  width:30pt'>　</td>
+ </tr>
+ <tr height=19 style='mso-height-source:userset;height:14.25pt'>
+  <td height=19 class=xl6627700 width=84 style='height:14.25pt;border-top:none;
+  border-left:none;width:63pt'>十三级</td>
+  <td class=xl6827700 width=21 style='border-top:none;border-left:none;
+  width:16pt'>29</td>
+  <td class=xl6627700 width=40 style='border-top:none;border-left:none;
+  width:30pt'>　</td>
+  <td class=xl6627700 width=40 style='border-top:none;border-left:none;
+  width:30pt'>　</td>
+  <td class=xl6627700 width=40 style='border-top:none;border-left:none;
+  width:30pt'>　</td>
+  <td class=xl6627700 width=40 style='border-top:none;border-left:none;
+  width:30pt'>　</td>
+  <td class=xl6627700 width=40 style='border-top:none;border-left:none;
+  width:30pt'>　</td>
+  <td class=xl6627700 width=40 style='border-top:none;border-left:none;
+  width:30pt'>　</td>
+  <td class=xl6627700 width=40 style='border-top:none;border-left:none;
+  width:30pt'>　</td>
+  <td class=xl6627700 width=40 style='border-top:none;border-left:none;
+  width:30pt'>　</td>
+  <td class=xl6627700 width=40 style='border-top:none;border-left:none;
+  width:30pt'>　</td>
+  <td class=xl6627700 width=40 style='border-top:none;border-left:none;
+  width:30pt'>　</td>
+  <td class=xl6627700 width=40 style='border-top:none;border-left:none;
+  width:30pt'>　</td>
+  <td class=xl6627700 width=40 style='border-top:none;border-left:none;
+  width:30pt'>　</td>
+  <td class=xl6627700 width=40 style='border-top:none;border-left:none;
+  width:30pt'>　</td>
+  <td class=xl6627700 width=40 style='border-top:none;border-left:none;
+  width:30pt'>　</td>
+  <td class=xl6627700 width=40 style='border-top:none;border-left:none;
+  width:30pt'>　</td>
+  <td class=xl6627700 width=40 style='border-top:none;border-left:none;
+  width:30pt'>　</td>
+  <td class=xl6627700 width=40 style='border-top:none;border-left:none;
+  width:30pt'>　</td>
+  <td class=xl6627700 width=40 style='border-top:none;border-left:none;
+  width:30pt'>　</td>
+ </tr>
+ <tr height=19 style='mso-height-source:userset;height:14.25pt'>
+  <td rowspan=8 height=152 class=xl6627700 width=20 style='height:114.0pt;
+  border-top:none;width:15pt'>工<br>
+    勤<br>
+    技<br>
+    能<br>
+    人<br>
+    员</td>
+  <td colspan=2 class=xl7227700 width=119 style='border-left:none;width:89pt'>其中：1、女</td>
+  <td class=xl6827700 width=21 style='border-top:none;border-left:none;
+  width:16pt'>30</td>
+  <td class=xl6627700 width=40 style='border-top:none;border-left:none;
+  width:30pt'>　</td>
+  <td class=xl6627700 width=40 style='border-top:none;border-left:none;
+  width:30pt'>　</td>
+  <td class=xl6627700 width=40 style='border-top:none;border-left:none;
+  width:30pt'>　</td>
+  <td class=xl6627700 width=40 style='border-top:none;border-left:none;
+  width:30pt'>　</td>
+  <td class=xl6627700 width=40 style='border-top:none;border-left:none;
+  width:30pt'>　</td>
+  <td class=xl6627700 width=40 style='border-top:none;border-left:none;
+  width:30pt'>　</td>
+  <td class=xl6627700 width=40 style='border-top:none;border-left:none;
+  width:30pt'>　</td>
+  <td class=xl6627700 width=40 style='border-top:none;border-left:none;
+  width:30pt'>　</td>
+  <td class=xl6627700 width=40 style='border-top:none;border-left:none;
+  width:30pt'>　</td>
+  <td class=xl6627700 width=40 style='border-top:none;border-left:none;
+  width:30pt'>　</td>
+  <td class=xl6627700 width=40 style='border-top:none;border-left:none;
+  width:30pt'>　</td>
+  <td class=xl6627700 width=40 style='border-top:none;border-left:none;
+  width:30pt'>　</td>
+  <td class=xl6627700 width=40 style='border-top:none;border-left:none;
+  width:30pt'>　</td>
+  <td class=xl6627700 width=40 style='border-top:none;border-left:none;
+  width:30pt'>　</td>
+  <td class=xl6627700 width=40 style='border-top:none;border-left:none;
+  width:30pt'>　</td>
+  <td class=xl6627700 width=40 style='border-top:none;border-left:none;
+  width:30pt'>　</td>
+  <td class=xl6627700 width=40 style='border-top:none;border-left:none;
+  width:30pt'>　</td>
+  <td class=xl6627700 width=40 style='border-top:none;border-left:none;
+  width:30pt'>　</td>
+ </tr>
+ <tr height=19 style='mso-height-source:userset;height:14.25pt'>
+  <td colspan=2 height=19 class=xl7227700 width=119 style='height:14.25pt;
+  border-left:none;width:89pt'><span
+  style='mso-spacerun:yes'>&nbsp;&nbsp;&nbsp;&nbsp; </span>2、少数民族</td>
+  <td class=xl6827700 width=21 style='border-top:none;border-left:none;
+  width:16pt'>31</td>
+  <td class=xl6627700 width=40 style='border-top:none;border-left:none;
+  width:30pt'>　</td>
+  <td class=xl6627700 width=40 style='border-top:none;border-left:none;
+  width:30pt'>　</td>
+  <td class=xl6627700 width=40 style='border-top:none;border-left:none;
+  width:30pt'>　</td>
+  <td class=xl6627700 width=40 style='border-top:none;border-left:none;
+  width:30pt'>　</td>
+  <td class=xl6627700 width=40 style='border-top:none;border-left:none;
+  width:30pt'>　</td>
+  <td class=xl6627700 width=40 style='border-top:none;border-left:none;
+  width:30pt'>　</td>
+  <td class=xl6627700 width=40 style='border-top:none;border-left:none;
+  width:30pt'>　</td>
+  <td class=xl6627700 width=40 style='border-top:none;border-left:none;
+  width:30pt'>　</td>
+  <td class=xl6627700 width=40 style='border-top:none;border-left:none;
+  width:30pt'>　</td>
+  <td class=xl6627700 width=40 style='border-top:none;border-left:none;
+  width:30pt'>　</td>
+  <td class=xl6627700 width=40 style='border-top:none;border-left:none;
+  width:30pt'>　</td>
+  <td class=xl6627700 width=40 style='border-top:none;border-left:none;
+  width:30pt'>　</td>
+  <td class=xl6627700 width=40 style='border-top:none;border-left:none;
+  width:30pt'>　</td>
+  <td class=xl6627700 width=40 style='border-top:none;border-left:none;
+  width:30pt'>　</td>
+  <td class=xl6627700 width=40 style='border-top:none;border-left:none;
+  width:30pt'>　</td>
+  <td class=xl6627700 width=40 style='border-top:none;border-left:none;
+  width:30pt'>　</td>
+  <td class=xl6627700 width=40 style='border-top:none;border-left:none;
+  width:30pt'>　</td>
+  <td class=xl6627700 width=40 style='border-top:none;border-left:none;
+  width:30pt'>　</td>
+ </tr>
+ <tr height=19 style='mso-height-source:userset;height:14.25pt'>
+  <td colspan=2 height=19 class=xl7227700 width=119 style='height:14.25pt;
+  border-left:none;width:89pt'>一级岗位（高级技师）</td>
+  <td class=xl6827700 width=21 style='border-top:none;border-left:none;
+  width:16pt'>32</td>
+  <td class=xl6627700 width=40 style='border-top:none;border-left:none;
+  width:30pt'>　</td>
+  <td class=xl6627700 width=40 style='border-top:none;border-left:none;
+  width:30pt'>　</td>
+  <td class=xl6627700 width=40 style='border-top:none;border-left:none;
+  width:30pt'>　</td>
+  <td class=xl6627700 width=40 style='border-top:none;border-left:none;
+  width:30pt'>　</td>
+  <td class=xl6627700 width=40 style='border-top:none;border-left:none;
+  width:30pt'>　</td>
+  <td class=xl6627700 width=40 style='border-top:none;border-left:none;
+  width:30pt'>　</td>
+  <td class=xl6627700 width=40 style='border-top:none;border-left:none;
+  width:30pt'>　</td>
+  <td class=xl6627700 width=40 style='border-top:none;border-left:none;
+  width:30pt'>　</td>
+  <td class=xl6627700 width=40 style='border-top:none;border-left:none;
+  width:30pt'>　</td>
+  <td class=xl6627700 width=40 style='border-top:none;border-left:none;
+  width:30pt'>　</td>
+  <td class=xl6627700 width=40 style='border-top:none;border-left:none;
+  width:30pt'>　</td>
+  <td class=xl6627700 width=40 style='border-top:none;border-left:none;
+  width:30pt'>　</td>
+  <td class=xl6627700 width=40 style='border-top:none;border-left:none;
+  width:30pt'>　</td>
+  <td class=xl6627700 width=40 style='border-top:none;border-left:none;
+  width:30pt'>　</td>
+  <td class=xl6627700 width=40 style='border-top:none;border-left:none;
+  width:30pt'>　</td>
+  <td class=xl6627700 width=40 style='border-top:none;border-left:none;
+  width:30pt'>　</td>
+  <td class=xl6627700 width=40 style='border-top:none;border-left:none;
+  width:30pt'>　</td>
+  <td class=xl6627700 width=40 style='border-top:none;border-left:none;
+  width:30pt'>　</td>
+ </tr>
+ <tr height=19 style='page-break-before:always;mso-height-source:userset;
+  height:14.25pt'>
+  <td colspan=2 height=19 class=xl7227700 width=119 style='height:14.25pt;
+  border-left:none;width:89pt'>二级岗位（技师）</td>
+  <td class=xl6827700 width=21 style='border-top:none;border-left:none;
+  width:16pt'>33</td>
+  <td class=xl6627700 width=40 style='border-top:none;border-left:none;
+  width:30pt'>　</td>
+  <td class=xl6627700 width=40 style='border-top:none;border-left:none;
+  width:30pt'>　</td>
+  <td class=xl6627700 width=40 style='border-top:none;border-left:none;
+  width:30pt'>　</td>
+  <td class=xl6627700 width=40 style='border-top:none;border-left:none;
+  width:30pt'>　</td>
+  <td class=xl6627700 width=40 style='border-top:none;border-left:none;
+  width:30pt'>　</td>
+  <td class=xl6627700 width=40 style='border-top:none;border-left:none;
+  width:30pt'>　</td>
+  <td class=xl6627700 width=40 style='border-top:none;border-left:none;
+  width:30pt'>　</td>
+  <td class=xl6627700 width=40 style='border-top:none;border-left:none;
+  width:30pt'>　</td>
+  <td class=xl6627700 width=40 style='border-top:none;border-left:none;
+  width:30pt'>　</td>
+  <td class=xl6627700 width=40 style='border-top:none;border-left:none;
+  width:30pt'>　</td>
+  <td class=xl6627700 width=40 style='border-top:none;border-left:none;
+  width:30pt'>　</td>
+  <td class=xl6627700 width=40 style='border-top:none;border-left:none;
+  width:30pt'>　</td>
+  <td class=xl6627700 width=40 style='border-top:none;border-left:none;
+  width:30pt'>　</td>
+  <td class=xl6627700 width=40 style='border-top:none;border-left:none;
+  width:30pt'>　</td>
+  <td class=xl6627700 width=40 style='border-top:none;border-left:none;
+  width:30pt'>　</td>
+  <td class=xl6627700 width=40 style='border-top:none;border-left:none;
+  width:30pt'>　</td>
+  <td class=xl6627700 width=40 style='border-top:none;border-left:none;
+  width:30pt'>　</td>
+  <td class=xl6627700 width=40 style='border-top:none;border-left:none;
+  width:30pt'>　</td>
+ </tr>
+ <tr height=19 style='mso-height-source:userset;height:14.25pt'>
+  <td colspan=2 height=19 class=xl7227700 width=119 style='height:14.25pt;
+  border-left:none;width:89pt'>三级岗位（高级工）</td>
+  <td class=xl6827700 width=21 style='border-top:none;border-left:none;
+  width:16pt'>34</td>
+  <td class=xl6627700 width=40 style='border-top:none;border-left:none;
+  width:30pt'>　</td>
+  <td class=xl6627700 width=40 style='border-top:none;border-left:none;
+  width:30pt'>　</td>
+  <td class=xl6627700 width=40 style='border-top:none;border-left:none;
+  width:30pt'>　</td>
+  <td class=xl6627700 width=40 style='border-top:none;border-left:none;
+  width:30pt'>　</td>
+  <td class=xl6627700 width=40 style='border-top:none;border-left:none;
+  width:30pt'>　</td>
+  <td class=xl6627700 width=40 style='border-top:none;border-left:none;
+  width:30pt'>　</td>
+  <td class=xl6627700 width=40 style='border-top:none;border-left:none;
+  width:30pt'>　</td>
+  <td class=xl6627700 width=40 style='border-top:none;border-left:none;
+  width:30pt'>　</td>
+  <td class=xl6627700 width=40 style='border-top:none;border-left:none;
+  width:30pt'>　</td>
+  <td class=xl6627700 width=40 style='border-top:none;border-left:none;
+  width:30pt'>　</td>
+  <td class=xl6627700 width=40 style='border-top:none;border-left:none;
+  width:30pt'>　</td>
+  <td class=xl6627700 width=40 style='border-top:none;border-left:none;
+  width:30pt'>　</td>
+  <td class=xl6627700 width=40 style='border-top:none;border-left:none;
+  width:30pt'>　</td>
+  <td class=xl6627700 width=40 style='border-top:none;border-left:none;
+  width:30pt'>　</td>
+  <td class=xl6627700 width=40 style='border-top:none;border-left:none;
+  width:30pt'>　</td>
+  <td class=xl6627700 width=40 style='border-top:none;border-left:none;
+  width:30pt'>　</td>
+  <td class=xl6627700 width=40 style='border-top:none;border-left:none;
+  width:30pt'>　</td>
+  <td class=xl6627700 width=40 style='border-top:none;border-left:none;
+  width:30pt'>　</td>
+ </tr>
+ <tr height=19 style='mso-height-source:userset;height:14.25pt'>
+  <td colspan=2 height=19 class=xl7227700 width=119 style='height:14.25pt;
+  border-left:none;width:89pt'>四级岗位（中级工）</td>
+  <td class=xl6827700 width=21 style='border-top:none;border-left:none;
+  width:16pt'>35</td>
+  <td class=xl6627700 width=40 style='border-top:none;border-left:none;
+  width:30pt'>　</td>
+  <td class=xl6627700 width=40 style='border-top:none;border-left:none;
+  width:30pt'>　</td>
+  <td class=xl6627700 width=40 style='border-top:none;border-left:none;
+  width:30pt'>　</td>
+  <td class=xl6627700 width=40 style='border-top:none;border-left:none;
+  width:30pt'>　</td>
+  <td class=xl6627700 width=40 style='border-top:none;border-left:none;
+  width:30pt'>　</td>
+  <td class=xl6627700 width=40 style='border-top:none;border-left:none;
+  width:30pt'>　</td>
+  <td class=xl6627700 width=40 style='border-top:none;border-left:none;
+  width:30pt'>　</td>
+  <td class=xl6627700 width=40 style='border-top:none;border-left:none;
+  width:30pt'>　</td>
+  <td class=xl6627700 width=40 style='border-top:none;border-left:none;
+  width:30pt'>　</td>
+  <td class=xl6627700 width=40 style='border-top:none;border-left:none;
+  width:30pt'>　</td>
+  <td class=xl6627700 width=40 style='border-top:none;border-left:none;
+  width:30pt'>　</td>
+  <td class=xl6627700 width=40 style='border-top:none;border-left:none;
+  width:30pt'>　</td>
+  <td class=xl6627700 width=40 style='border-top:none;border-left:none;
+  width:30pt'>　</td>
+  <td class=xl6627700 width=40 style='border-top:none;border-left:none;
+  width:30pt'>　</td>
+  <td class=xl6627700 width=40 style='border-top:none;border-left:none;
+  width:30pt'>　</td>
+  <td class=xl6627700 width=40 style='border-top:none;border-left:none;
+  width:30pt'>　</td>
+  <td class=xl6627700 width=40 style='border-top:none;border-left:none;
+  width:30pt'>　</td>
+  <td class=xl6627700 width=40 style='border-top:none;border-left:none;
+  width:30pt'>　</td>
+ </tr>
+ <tr height=19 style='mso-height-source:userset;height:14.25pt'>
+  <td colspan=2 height=19 class=xl7227700 width=119 style='height:14.25pt;
+  border-left:none;width:89pt'>五级岗位（初级工）</td>
+  <td class=xl6827700 width=21 style='border-top:none;border-left:none;
+  width:16pt'>36</td>
+  <td class=xl6627700 width=40 style='border-top:none;border-left:none;
+  width:30pt'>　</td>
+  <td class=xl6627700 width=40 style='border-top:none;border-left:none;
+  width:30pt'>　</td>
+  <td class=xl6627700 width=40 style='border-top:none;border-left:none;
+  width:30pt'>　</td>
+  <td class=xl6627700 width=40 style='border-top:none;border-left:none;
+  width:30pt'>　</td>
+  <td class=xl6627700 width=40 style='border-top:none;border-left:none;
+  width:30pt'>　</td>
+  <td class=xl6627700 width=40 style='border-top:none;border-left:none;
+  width:30pt'>　</td>
+  <td class=xl6627700 width=40 style='border-top:none;border-left:none;
+  width:30pt'>　</td>
+  <td class=xl6627700 width=40 style='border-top:none;border-left:none;
+  width:30pt'>　</td>
+  <td class=xl6627700 width=40 style='border-top:none;border-left:none;
+  width:30pt'>　</td>
+  <td class=xl6627700 width=40 style='border-top:none;border-left:none;
+  width:30pt'>　</td>
+  <td class=xl6627700 width=40 style='border-top:none;border-left:none;
+  width:30pt'>　</td>
+  <td class=xl6627700 width=40 style='border-top:none;border-left:none;
+  width:30pt'>　</td>
+  <td class=xl6627700 width=40 style='border-top:none;border-left:none;
+  width:30pt'>　</td>
+  <td class=xl6627700 width=40 style='border-top:none;border-left:none;
+  width:30pt'>　</td>
+  <td class=xl6627700 width=40 style='border-top:none;border-left:none;
+  width:30pt'>　</td>
+  <td class=xl6627700 width=40 style='border-top:none;border-left:none;
+  width:30pt'>　</td>
+  <td class=xl6627700 width=40 style='border-top:none;border-left:none;
+  width:30pt'>　</td>
+  <td class=xl6627700 width=40 style='border-top:none;border-left:none;
+  width:30pt'>　</td>
+ </tr>
+ <tr height=19 style='mso-height-source:userset;height:14.25pt'>
+  <td colspan=2 height=19 class=xl7227700 width=119 style='height:14.25pt;
+  border-left:none;width:89pt'>普通工</td>
+  <td class=xl6827700 width=21 style='border-top:none;border-left:none;
+  width:16pt'>37</td>
+  <td class=xl6627700 width=40 style='border-top:none;border-left:none;
+  width:30pt'>　</td>
+  <td class=xl6627700 width=40 style='border-top:none;border-left:none;
+  width:30pt'>　</td>
+  <td class=xl6627700 width=40 style='border-top:none;border-left:none;
+  width:30pt'>　</td>
+  <td class=xl6627700 width=40 style='border-top:none;border-left:none;
+  width:30pt'>　</td>
+  <td class=xl6627700 width=40 style='border-top:none;border-left:none;
+  width:30pt'>　</td>
+  <td class=xl6627700 width=40 style='border-top:none;border-left:none;
+  width:30pt'>　</td>
+  <td class=xl6627700 width=40 style='border-top:none;border-left:none;
+  width:30pt'>　</td>
+  <td class=xl6627700 width=40 style='border-top:none;border-left:none;
+  width:30pt'>　</td>
+  <td class=xl6627700 width=40 style='border-top:none;border-left:none;
+  width:30pt'>　</td>
+  <td class=xl6627700 width=40 style='border-top:none;border-left:none;
+  width:30pt'>　</td>
+  <td class=xl6627700 width=40 style='border-top:none;border-left:none;
+  width:30pt'>　</td>
+  <td class=xl6627700 width=40 style='border-top:none;border-left:none;
+  width:30pt'>　</td>
+  <td class=xl6627700 width=40 style='border-top:none;border-left:none;
+  width:30pt'>　</td>
+  <td class=xl6627700 width=40 style='border-top:none;border-left:none;
+  width:30pt'>　</td>
+  <td class=xl6627700 width=40 style='border-top:none;border-left:none;
+  width:30pt'>　</td>
+  <td class=xl6627700 width=40 style='border-top:none;border-left:none;
+  width:30pt'>　</td>
+  <td class=xl6627700 width=40 style='border-top:none;border-left:none;
+  width:30pt'>　</td>
+  <td class=xl6627700 width=40 style='border-top:none;border-left:none;
+  width:30pt'>　</td>
+ </tr>
+ <![if supportMisalignedColumns]>
+ <tr height=0 style='display:none'>
+  <td width=20 style='width:15pt'></td>
+  <td width=35 style='width:26pt'></td>
+  <td width=84 style='width:63pt'></td>
+  <td width=21 style='width:16pt'></td>
+  <td width=40 style='width:30pt'></td>
+  <td width=40 style='width:30pt'></td>
+  <td width=40 style='width:30pt'></td>
+  <td width=40 style='width:30pt'></td>
+  <td width=40 style='width:30pt'></td>
+  <td width=40 style='width:30pt'></td>
+  <td width=40 style='width:30pt'></td>
+  <td width=40 style='width:30pt'></td>
+  <td width=40 style='width:30pt'></td>
+  <td width=40 style='width:30pt'></td>
+  <td width=40 style='width:30pt'></td>
+  <td width=40 style='width:30pt'></td>
+  <td width=40 style='width:30pt'></td>
+  <td width=40 style='width:30pt'></td>
+  <td width=40 style='width:30pt'></td>
+  <td width=40 style='width:30pt'></td>
+  <td width=40 style='width:30pt'></td>
+  <td width=40 style='width:30pt'></td>
+ </tr>
+ <![endif]>
+</table>
+
+</div>
+
+
+<!----------------------------->
+<!--“从 EXCEL 发布网页”向导结束-->
+<!----------------------------->
+</body>
+
+</html>

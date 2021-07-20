@@ -1,0 +1,318 @@
+<div class="layout">
+    <div class="header">
+        <nz-tabset
+            [nzTabBarExtraContent]="extraTemplate"
+            [nzTabBarStyle]="{ 'margin.px': 0, 'height.px': 50 }"
+            (nzSelectedIndexChange)="personTab.IndexChange($event)"
+            [(nzSelectedIndex)]="personTab.tabIndex"
+        >
+            <nz-tab
+                nzTitle="{{ item.name }}({{ item.count }})"
+                *ngFor="let item of personTab.tabList"
+            >
+            </nz-tab>
+        </nz-tabset>
+        <ng-template #extraTemplate>
+            <div class="right">
+                <button
+                    nz-button
+                    nzType="link"
+                    nz-tooltip
+                    nzTooltipTitle="流程图"
+                    (click)="flowChart.open()"
+                >
+                    <i nz-icon nzType="cluster"></i>
+                </button>
+                <button
+                    nz-button
+                    nzType="link"
+                    nz-tooltip
+                    nzTooltipTitle="流程跟踪"
+                    (click)="tailAfterOper.open()"
+                >
+                    <i nz-icon nzType="deployment-unit"></i>
+                </button>
+                <button
+                    nz-button
+                    nzType="link"
+                    nz-tooltip
+                    nzTooltipTitle="全屏"
+                    (click)="fullScreenSwith()"
+                >
+                    <i nz-icon nzType="fullscreen"></i>
+                </button>
+            </div>
+        </ng-template>
+    </div>
+    <div class="container">
+        <div class="layout" [class.full_screen]="isFullScreen">
+            <div class="header">
+                <nz-select
+                    [ngStyle]="{
+                        'marginLeft.px': '10',
+                        'width.px': personTableIfy.find.searchWidth || 160
+                    }"
+                    nzShowSearch
+                    nzServerSearch
+                    nzAllowClear
+                    [nzPlaceHolder]="personTableIfy.find.placeholder || '请输入关键字搜索'"
+                    [nzShowArrow]="false"
+                    [nzFilterOption]="personTableIfy.find.nzFilterOption"
+                    [(ngModel)]="personTableIfy.find.searchKey"
+                    (ngModelChange)="personTableIfy.find.change($event)"
+                    (nzOnSearch)="personTableIfy.find.search($event)"
+                >
+                    <ng-container *ngFor="let item of personTableIfy.find.list">
+                        <nz-option [nzLabel]="item.text" [nzValue]="item.keyId"> </nz-option>
+                    </ng-container>
+                </nz-select>
+            </div>
+            <div class="container" #personTableElement>
+                <div class="view tbl">
+                    <nz-table
+                        #personTblElement
+                        nzVirtualScroll
+                        [nzVirtualItemSize]="38"
+                        nzBordered
+                        nzSize="small"
+                        [(nzPageSize)]="personTableIfy.pageSize"
+                        [(nzPageIndex)]="personTableIfy.pageIndex"
+                        [nzData]="personTableIfy.data"
+                        [nzLoading]="personTableIfy.loading"
+                        [nzWidthConfig]="personTableIfy.widthConfig"
+                        [nzScroll]="personTableIfy.scrollConfig"
+                    >
+                        <thead>
+                            <tr>
+                                <th nzAlign="center" rowspan="2">序号</th>
+                                <th nzAlign="center" rowspan="2">姓名</th>
+                                <th nzAlign="center" rowspan="2">性别</th>
+                                <th nzAlign="center" rowspan="2">出生日期</th>
+                                <th nzAlign="center" rowspan="2">参加工作时间</th>
+                                <th nzAlign="center" rowspan="2">工作单位及职务</th>
+                                <th nzAlign="center" rowspan="2">职务层次</th>
+                                <th nzAlign="center" rowspan="2">现职务层次时间</th>
+                                <th nzAlign="center" rowspan="2">职级</th>
+                                <th nzAlign="center" rowspan="2">现职级时间</th>
+                                <th nzAlign="center">上传</th>
+                            </tr>
+                            <tr>
+                                <th nzAlign="center">
+                                    <a nz-button nzType="link" (click)="batchUploadFile.open()"
+                                        >批量上传</a
+                                    >
+                                </th>
+                            </tr>
+                            <tr class="col_width_format">
+                                <ng-container *ngFor="let item of personTableIfy.headArr">
+                                    <th [height]="0"></th>
+                                </ng-container>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <ng-template nz-virtual-scroll let-data let-index="index">
+                                <tr [class.active]="personTableIfy.selectedRowIndex === index">
+                                    <td nzAlign="center" nzLeft="0px">
+                                        {{
+                                            index +
+                                                1 +
+                                                (personTableIfy.pageIndex - 1) *
+                                                    personTableIfy.pageSize
+                                        }}
+                                    </td>
+                                    <td nzAlign="center" columnName="A0101" nzLeft="40px">
+                                        <a
+                                            ><b>{{ data.A0101 }}</b></a
+                                        >
+                                    </td>
+                                    <!-- 性别 -->
+                                    <td nzAlign="center" columnName="A0104">
+                                        {{ data.A0104_CN }}
+                                    </td>
+                                    <!-- 出生日期 -->
+                                    <td nzAlign="center" columnName="A0107">
+                                        {{ data.A0107 | date: 'yyyy-MM-dd' }}
+                                    </td>
+
+                                    <!-- 参加工作时间 -->
+                                    <td nzAlign="center" columnName="A0134">
+                                        {{ data.A0134 | date: 'yyyy-MM-dd' }}
+                                    </td>
+                                    <!-- 工作单位及职务 -->
+                                    <td nzAlign="left" columnName="A0192A">
+                                        {{ data.A0192A }}
+                                    </td>
+                                    <!-- 职务层次 -->
+                                    <td nzAlign="left" columnName="A0501B_CN">
+                                        {{ data.A0501B_CN }}
+                                    </td>
+                                    <!-- 现职务层次时间 -->
+                                    <td nzAlign="left" columnName="A0504">
+                                        {{ data.A0504 | date: 'yyyy-MM-dd' }}
+                                    </td>
+                                    <!-- 职级 -->
+                                    <td nzAlign="left" columnName="A05G01_CN">
+                                        {{ data.A05G01_CN }}
+                                    </td>
+                                    <!-- 现职级时间 -->
+                                    <td nzAlign="left" columnName="A05G04">
+                                        {{ data.A05G04 }}
+                                    </td>
+
+                                    <!-- 上传 -->
+                                    <td
+                                        nzAlign="center"
+                                        columnName="AnnexCount"
+                                        (click)="uploaddrawerify.open(data, index)"
+                                    >
+                                        <a *ngIf="data.EXIST_ATTACH; else fileUploadTemp"
+                                            >已有附件</a
+                                        >
+                                        <ng-template #fileUploadTemp>
+                                            <a nz-tooltip nzTooltipTitle="上传附件">
+                                                <i nz-icon nzType="upload"></i>
+                                            </a>
+                                        </ng-template>
+                                    </td>
+                                </tr>
+                            </ng-template>
+                        </tbody>
+                    </nz-table>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- 业务流程图 -->
+<nz-drawer
+    nzPlacement="top"
+    [nzVisible]="flowChart.visible"
+    [nzTitle]="flowChart.title"
+    [nzHeight]="flowChart.height"
+    (nzOnClose)="flowChart.close()"
+>
+    <div class="drawer_area oper_step_flow">
+        <nz-steps [nzCurrent]="flowChart.evtGetStepIndex()">
+            <ng-container *ngFor="let item of flowChart.operStepList">
+                <nz-step
+                    [nzTitle]="item.stepName"
+                    [nzIcon]="item.icon"
+                    [nzDescription]="item.desc || ''"
+                >
+                </nz-step>
+            </ng-container>
+        </nz-steps>
+    </div>
+</nz-drawer>
+
+<!-- 办理历史 -->
+<nz-drawer
+    [nzVisible]="tailAfterOper.visible"
+    [nzTitle]="tailAfterOper.title"
+    [nzWidth]="tailAfterOper.width"
+    (nzOnClose)="tailAfterOper.close()"
+>
+    <div class="drawer_area oper_tail">
+        <div class="container">
+            <nz-timeline>
+                <nz-timeline-item [nzDot]="dotTemplate"><span>业务开始</span></nz-timeline-item>
+                <ng-container *ngFor="let item of tailAfterOper.tailAfterList; let i = index">
+                    <nz-timeline-item [nzColor]="['red', 'blue', 'green'][i % 3]">
+                        <p>
+                            <b>{{ item.stateDesc }}</b>
+                            {{ item.auditDate | date: 'yyyy-MM-dd HH:mm' }}
+                        </p>
+                        <p>
+                            <b
+                                ><span>{{ item.contacts }}</span></b
+                            ><span> {{ item.orgName }} {{ item.contactNumber }}</span>
+                        </p>
+                        <p *ngIf="item.auditStateDesc">批复结果： {{ item.auditStateDesc }}</p>
+                    </nz-timeline-item>
+                </ng-container>
+            </nz-timeline>
+            <ng-template #dotTemplate>
+                <i nz-icon type="clock-circle-o" style="font-size: 16px"></i>
+            </ng-template>
+        </div>
+    </div>
+</nz-drawer>
+
+<!-- 上传附件 -->
+<nz-drawer
+    [nzClosable]="true"
+    [nzVisible]="uploaddrawerify.visible"
+    nzPlacement="right"
+    nzTitle="上传附件材料"
+    [nzWidth]="uploaddrawerify.width"
+    (nzOnClose)="uploaddrawerify.close()"
+>
+    <div>
+        <nz-upload
+            nzMultiple
+            nzListType="picture"
+            [nzFileList]="uploaddrawerify.uploadIfy.list"
+            [nzCustomRequest]="uploaddrawerify.uploadIfy.fileCustomRequest"
+            [nzRemove]="uploaddrawerify.uploadIfy.fileRemove"
+            [nzPreview]="uploaddrawerify.uploadIfy.preview"
+            [nzShowUploadList]="{ showRemoveIcon: canEdit }"
+            [nzShowButton]="canEdit"
+        >
+            <button nz-button>
+                <span><i nz-icon nzType="upload"></i>上传附件</span>
+            </button>
+        </nz-upload>
+    </div>
+</nz-drawer>
+
+<!-- 在线预览附件 -->
+<gl-online-doc
+    #onlineDocOverlayElement
+    [fileList]="uploaddrawerify.uploadIfy.list"
+    [selectedIndex]="uploaddrawerify.uploadIfy.selectedIndex"
+></gl-online-doc>
+
+<!-- 批量上传 -->
+<nz-drawer
+    [nzClosable]="false"
+    [nzVisible]="batchUploadFile.visible"
+    nzPlacement="right"
+    nzTitle="批量上传附件"
+    [nzWidth]="450"
+    (nzOnClose)="batchUploadFile.close()"
+>
+    <div class="drawer_area">
+        <div class="container">
+            <div style="margin-bottom: 5px">
+                <nz-list nzBordered nzSize="small">
+                    <nz-list-header>批量附件上传要求</nz-list-header>
+                    <nz-list-item *ngFor="let item of batchUploadFile.ruleData; let i = index"
+                        >{{ i + 1 }}、{{ item }}</nz-list-item
+                    >
+                </nz-list>
+            </div>
+            <nz-upload
+                nzAction="api/gl-file-service/photo/upload-zip"
+                [nzCustomRequest]="batchUploadFile.personfileCustomRequest"
+                accept="application/zip"
+                [nzShowUploadList]="false"
+            >
+                <button nz-button [nzLoading]="batchUploadFile.loading" nzType="primary">
+                    <i nz-icon nzType="upload"></i><span>批量上传附件</span>
+                </button>
+            </nz-upload>
+            <div [hidden]="batchUploadFile.resultData.length < 1" style="margin-top: 5px">
+                <nz-list nzBordered nzSize="small">
+                    <nz-list-header>批量上传附件失败文件</nz-list-header>
+                    <nz-list-item *ngFor="let item of batchUploadFile.resultData">{{
+                        item.fileName
+                    }}</nz-list-item>
+                </nz-list>
+            </div>
+        </div>
+        <div class="footer">
+            <button nz-button nzType="default" (click)="batchUploadFile.close()">关闭</button>
+        </div>
+    </div>
+</nz-drawer>

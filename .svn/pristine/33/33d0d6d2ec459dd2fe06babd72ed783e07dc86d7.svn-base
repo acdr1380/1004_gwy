@@ -1,0 +1,464 @@
+<div class="layout" [class.full_screen]="isFullScreen">
+    <div class="container">
+        <div class="left person-left">
+            <div class="find" [hidden]="!canEdit">
+                <button
+                    nz-button
+                    nzType="primary"
+                    (click)="personListIfy.evtSelectPerson()"
+                    style="width: 90%"
+                >
+                    选择人员
+                </button>
+            </div>
+            <div class="handle">
+                <nz-select
+                    [ngStyle]="{ 'width.px': personListIfy.find.searchWidth || 160 }"
+                    nzShowSearch
+                    nzServerSearch
+                    nzAllowClear
+                    [nzPlaceHolder]="personListIfy.find.placeholder || '请输入关键字搜索'"
+                    [nzShowArrow]="false"
+                    [nzFilterOption]="personListIfy.find.nzFilterOption"
+                    [(ngModel)]="personListIfy.find.searchKey"
+                    (ngModelChange)="personListIfy.find.change($event)"
+                    (nzOnSearch)="personListIfy.find.search($event)"
+                >
+                    <ng-container *ngFor="let item of personListIfy.find.list">
+                        <nz-option [nzLabel]="item.text" [nzValue]="item.keyId"> </nz-option>
+                    </ng-container>
+                </nz-select>
+            </div>
+            <div class="tree">
+                <cdk-virtual-scroll-viewport
+                    #scrollViewPersonList
+                    [itemSize]="40"
+                    class="view_scroll audit_list"
+                >
+                    <ng-container *ngFor="let item of personListIfy.list; let i = index">
+                        <div
+                            class="item"
+                            [class.active]="i === personListIfy.selectIndex"
+                            (click)="personListIfy.evtSelectedPerson(item)"
+                        >
+                            <div class="icon">
+                                <ng-container [ngSwitch]="item?.auditState">
+                                    <ng-template ngSwitchDefault>
+                                        <i class="fa fa-clock-o stateless"></i>
+                                    </ng-template>
+                                    <ng-template [ngSwitchCase]="1">
+                                        <i class="fa fa-check-circle-o succeed"></i>
+                                    </ng-template>
+                                    <ng-template [ngSwitchCase]="0">
+                                        <i class="fa fa-times-circle-o error"></i>
+                                    </ng-template>
+                                </ng-container>
+                            </div>
+                            <div class="title over-title">{{ item.text }}</div>
+                            <div class="btns" [hidden]="!canEdit">
+                                <div
+                                    class="btn danger"
+                                    (click)="personListIfy.evtDeletePerson(item)"
+                                >
+                                    撤选
+                                </div>
+                            </div>
+                        </div>
+                    </ng-container>
+                </cdk-virtual-scroll-viewport>
+            </div>
+        </div>
+        <div class="right">
+            <div class="layout">
+                <div class="header">
+                    <nz-tabset
+                        [nzTabBarExtraContent]="extraTemplate"
+                        [nzTabPosition]="'top'"
+                        [(nzSelectedIndex)]="allowanceTable.tabSelect"
+                        (nzSelectChange)="allowanceTable.tabChange()"
+                        [nzTabBarStyle]="{ 'margin.px': 0, 'height.px': 50 }"
+                    >
+                        <nz-tab *ngFor="let tab of allowanceTable.tabList" [nzTitle]="tab.name">
+                        </nz-tab>
+                    </nz-tabset>
+                    <ng-template #extraTemplate>
+                        <button
+                            nz-button
+                            nzType="link"
+                            nz-tooltip
+                            nzTooltipTitle="流程图"
+                            (click)="flowChart.open()"
+                        >
+                            <i nz-icon nzType="cluster"></i>
+                        </button>
+                        <button
+                            nz-button
+                            nzType="link"
+                            nz-tooltip
+                            nzTooltipTitle="流程跟踪"
+                            (click)="tailAfterOper.open()"
+                        >
+                            <i nz-icon nzType="deployment-unit"></i>
+                        </button>
+                        <button
+                            nz-button
+                            nzType="link"
+                            nz-tooltip
+                            nzTooltipTitle="全屏"
+                            (click)="fullScreenSwith()"
+                        >
+                            <i nz-icon nzType="fullscreen"></i>
+                        </button>
+                    </ng-template>
+                </div>
+                <div
+                    class="container table-container"
+                    *ngFor="let item of allowanceTable.tabList; let i = index"
+                    [hidden]="allowanceTable.tabSelect !== i"
+                >
+                    <ng-template [ngTemplateOutlet]="item?.temp"> </ng-template>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<ng-template #allowanceTemplate>
+    <!-- 津补贴业务表格 -->
+    <nz-table
+        #personTblElement
+        nzBordered
+        nzSize="small"
+        [nzData]="allowanceTable.JBT_TABLE_FIELDS"
+        style="width: 100%; margin: 5px"
+    >
+        <thead>
+            <tr>
+                <th nzAlign="center" colspan="6">
+                    变动前津补贴合计:{{
+                        allowanceTable.personData?.GZDA0724
+                            ? allowanceTable.personData?.GZDA0724
+                            : 0
+                    }}
+                    ,变动后津补贴合计:{{
+                        allowanceTable.personData?.NewGZDA0724
+                            ? allowanceTable.personData?.NewGZDA0724
+                            : 0
+                    }},本次变动增资额合计:{{
+                        allowanceTable.personData?.NewGZDA0742
+                            ? allowanceTable.personData?.NewGZDA0742
+                            : 0
+                    }}
+                </th>
+            </tr>
+            <tr>
+                <th nzAlign="center" rowspan="2">项目</th>
+                <th nzAlign="center" rowspan="2">类型</th>
+                <th nzAlign="center">变动前</th>
+                <th nzAlign="center">变动后</th>
+                <th nzAlign="center" rowspan="2" columnName="xxxx(字段名)_DIFF">增资额</th>
+                <th nzAlign="center" rowspan="2">操作</th>
+            </tr>
+
+            <tr>
+                <th nzAlign="center" columnName="GZDA07(B01)">金额</th>
+                <th nzAlign="center" columnName="NewGZDA07(B01)">金额</th>
+            </tr>
+            <!-- <tr class="col_width_format">
+                <ng-container *ngFor="let item of personTableIfy.headArr">
+                    <th [height]="0"></th>
+                </ng-container>
+            </tr> -->
+        </thead>
+        <tbody>
+            <tr *ngFor="let item of personTblElement.data; let i = index">
+                <!-- 变动前OLD字段 -->
+                <!-- 项目 -->
+                <td nzAlign="center" [attr.rowName]="item.TABLE_COLUMN_CODE">
+                    {{ item.TABLE_COLUMN_NAME }}
+                </td>
+                <!-- 类型 -->
+                <ng-container
+                    *ngIf="item.IS_SHOW_TYPE === 0 || item.IS_SHOW_TYPE === 1; else elseTemplate"
+                >
+                    <td nzAlign="center">{{ item.IS_SHOW_TYPE ? '标准' : '计算' }}</td>
+                </ng-container>
+                <ng-template #elseTemplate>
+                    <td nzAlign="center"></td>
+                </ng-template>
+
+                <!-- 金额 -->
+                <td nzAlign="center">
+                    {{ allowanceTable.personData[item.TABLE_COLUMN_CODE] }}
+                </td>
+                <!-- 变动后非OLD字段 -->
+                <!-- 金额 -->
+                <td nzAlign="center">
+                    {{ allowanceTable.personData['New' + item.TABLE_COLUMN_CODE] }}
+                </td>
+                <!-- 增资额 -->
+                <td nzAlign="center">
+                    {{ allowanceTable.personData['New' + item.TABLE_COLUMN_CODE + '_DIFF'] }}
+                </td>
+                <td nzAlign="center">
+                    <a (click)="allowanceTable.edit(item)">编辑</a>
+                </td>
+            </tr>
+        </tbody>
+    </nz-table>
+</ng-template>
+<!-- 抽屉编辑 -->
+<allow-edit
+    #allowEditComponent
+    [status]="allowanceTable.status"
+    [person]="personListIfy.list[personListIfy.selectIndex]"
+    [jobStepInfo]="jobStepInfo"
+    (calculateChange)="personListIfy.calculateChange()"
+></allow-edit>
+<!-- 业务流程图 -->
+<nz-drawer
+    nzPlacement="top"
+    [nzVisible]="flowChart.visible"
+    [nzTitle]="flowChart.title"
+    [nzHeight]="flowChart.height"
+    (nzOnClose)="flowChart.close()"
+>
+    <div class="drawer_area oper_step_flow">
+        <nz-steps [nzCurrent]="flowChart.evtGetStepIndex()">
+            <ng-container *ngFor="let item of flowChart.operStepList">
+                <nz-step
+                    [nzTitle]="item.stepName"
+                    [nzIcon]="item.icon"
+                    [nzDescription]="item.desc || ''"
+                >
+                </nz-step>
+            </ng-container>
+        </nz-steps>
+    </div>
+</nz-drawer>
+
+<!-- 办理历史 -->
+<nz-drawer
+    [nzVisible]="tailAfterOper.visible"
+    [nzTitle]="tailAfterOper.title"
+    [nzWidth]="tailAfterOper.width"
+    (nzOnClose)="tailAfterOper.close()"
+>
+    <div class="drawer_area oper_tail">
+        <div class="container">
+            <nz-timeline>
+                <nz-timeline-item [nzDot]="dotTemplate"><span>业务开始</span></nz-timeline-item>
+                <ng-container *ngFor="let item of tailAfterOper.tailAfterList; let i = index">
+                    <nz-timeline-item [nzColor]="['red', 'blue', 'green'][i % 3]">
+                        <p>
+                            <b>{{ item.stateDesc }}</b>
+                            {{ item.auditDate | date: 'yyyy-MM-dd HH:mm' }}
+                        </p>
+                        <p>
+                            <b
+                                ><span>{{ item.contacts }}</span></b
+                            ><span> {{ item.orgName }} {{ item.contactNumber }}</span>
+                        </p>
+                        <p *ngIf="item.auditStateDesc">批复结果： {{ item.auditStateDesc }}</p>
+                    </nz-timeline-item>
+                </ng-container>
+            </nz-timeline>
+            <ng-template #dotTemplate>
+                <i nz-icon type="clock-circle-o" style="font-size: 16px"></i>
+            </ng-template>
+        </div>
+    </div>
+</nz-drawer>
+
+<!-- 选择人员 -->
+<oper-select-person
+    #operSelectPerson
+    [jobStepInfo]="jobStepInfo"
+    [filterParmas]="personListIfy.filterParmas"
+    (selectedChange)="personListIfy.evtChange()"
+    [disabledList]="personListIfy.psnKeyId"
+>
+</oper-select-person>
+
+<!-- 在线预览附件 -->
+<gl-online-doc
+    #onlineDocOverlayElement
+    [fileList]="operPersonFileIfy.list"
+    [selectedIndex]="operPersonFileIfy.selectedIndex"
+></gl-online-doc>
+
+<!-- 工资变迁 -->
+<!-- <salary-gz07-drawer
+    #salaryGZ07Element
+    [jobStepInfo]="jobStepInfo"
+    [keyId]="personTableIfy.selectedKeyId"
+></salary-gz07-drawer> -->
+
+<ng-template #salaryTemplate>
+    <div class="layout">
+        <div class="header">
+            <nz-tabset
+                [nzTabPosition]="'top'"
+                [nzType]="'card'"
+                [(nzSelectedIndex)]="allowanceTable.salaryTab.tabSelect"
+                (nzSelectChange)="allowanceTable.salaryTab.salarySelectChange()"
+                [nzTabBarStyle]="{ 'margin.px': 0, 'height.px': 50 }"
+            >
+                <nz-tab *ngFor="let tab of allowanceTable.salaryTab.tabList" [nzTitle]="tab.name">
+                </nz-tab>
+            </nz-tabset>
+        </div>
+        <div
+            class="container table-container"
+            *ngFor="let item of allowanceTable.salaryTab.tabList; let i = index"
+            [hidden]="allowanceTable.salaryTab.tabSelect !== i"
+            style="margin: 5px"
+        >
+            <ng-template
+                [ngTemplateOutlet]="item?.temp"
+                [ngTemplateOutletContext]="allowanceTable.evtGetTempOutParams(item)"
+            >
+            </ng-template>
+        </div>
+    </div>
+</ng-template>
+
+<!-- GZDA07 -->
+<ng-template #GZDA07Temp let-TABLE_CODE="TABLE_CODE" let-fields="fields" let-tableData="tableData">
+    <table class="custom_table">
+        <tbody>
+            <ng-container *ngFor="let row of fields">
+                <tr>
+                    <ng-container *ngFor="let item of row">
+                        <td class="label" [attr.columnName]="item.TABLE_COLUMN_CODE">
+                            {{ item.TABLE_COLUMN_NAME }}
+                        </td>
+                        <td class="value">
+                            <ng-container
+                                *ngIf="item.TABLE_COLUMN_DICTIONARY_CODE; else elseGeneralTemplate"
+                            >
+                                {{ tableData[item.TABLE_COLUMN_CODE + '_CN'] || '' }}
+                            </ng-container>
+                            <ng-template #elseGeneralTemplate>
+                                <ng-container
+                                    *ngIf="item.TABLE_COLUMN_CODE !== 'GZDA0705_GZDA0712'"
+                                >
+                                    <ng-container
+                                        *ngIf="item.TABLE_COLUMN_TYPE !== 4; else elseTemplate"
+                                    >
+                                        {{ tableData[item.TABLE_COLUMN_CODE] || '' }}
+                                    </ng-container>
+                                    <ng-template #elseTemplate>
+                                        {{
+                                            tableData[item.TABLE_COLUMN_CODE]
+                                                | date: 'yyyy-MM-dd' || ''
+                                        }}
+                                    </ng-template>
+                                </ng-container>
+
+                                <ng-container
+                                    *ngIf="item.TABLE_COLUMN_CODE === 'GZDA0705_GZDA0712'"
+                                >
+                                    {{ tableData['GZDA0705_CN'] }} {{ tableData['GZDA0712_CN'] }}
+                                </ng-container>
+                            </ng-template>
+                        </td>
+                    </ng-container>
+                </tr>
+            </ng-container>
+        </tbody>
+    </table>
+</ng-template>
+<!-- 除GZDA07之外的子集 -->
+<ng-template #GZTableTemp let-TABLE_CODE="TABLE_CODE" let-fields="fields" let-tableData="tableData">
+    <div>
+        <nz-table
+            #basicTable
+            [nzData]="tableData"
+            nzBordered
+            nzShowSizeChanger
+            [nzPageSizeOptions]="[5, 10, 15, 20]"
+        >
+            <thead>
+                <tr>
+                    <ng-container *ngFor="let item of fields">
+                        <th
+                            class="label"
+                            [attr.columnName]="item.TABLE_COLUMN_CODE"
+                            [nzAlign]="'center'"
+                        >
+                            {{ item.TABLE_COLUMN_NAME }}
+                        </th>
+                    </ng-container>
+                </tr>
+            </thead>
+            <tbody>
+                <tr *ngFor="let row of basicTable.data; let i = index">
+                    <td [nzAlign]="'center'">{{ i + 1 }}</td>
+                    <ng-container *ngFor="let item of fields; index as j">
+                        <td
+                            *ngIf="j > 0"
+                            class="value"
+                            [attr.columnName]="item.TABLE_COLUMN_CODE"
+                            [nzAlign]="'center'"
+                        >
+                            <ng-container
+                                *ngIf="
+                                    item.TABLE_COLUMN_DICTIONARY_CODE;
+                                    else elseGZDA07ChildTemplate
+                                "
+                            >
+                                {{ row[item.TABLE_COLUMN_CODE + '_CN'] || '' }}
+                            </ng-container>
+                            <ng-template #elseGZDA07ChildTemplate>
+                                <ng-container
+                                    *ngIf="item.TABLE_COLUMN_TYPE !== 4; else elseTemplate"
+                                >
+                                    {{ row[item.TABLE_COLUMN_CODE] || '' }}
+                                </ng-container>
+                                <ng-template #elseTemplate>
+                                    {{ row[item.TABLE_COLUMN_CODE] | date: 'yyyy-MM-dd' || '' }}
+                                </ng-template>
+                            </ng-template>
+                        </td>
+                    </ng-container>
+                </tr>
+            </tbody>
+        </nz-table>
+    </div>
+</ng-template>
+<!-- 人员附件 -->
+<ng-template #personFileTemplate>
+    <div class="layout">
+        <div class="header">
+            <h3>请上传资料文件</h3>
+        </div>
+        <div class="container" style="margin: 5px">
+            <div class="person_file_tbl view_scroll">
+                <div class="file_type_list">
+                    <ng-container *ngFor="let data of operPersonFileIfy.data">
+                        <div class="title">
+                            <span class="must" *ngIf="data.isMustInput">*</span>{{ data.annexName }}
+                        </div>
+                        <div class="file_list" style="width: 200px">
+                            <nz-upload
+                                class="upload-list-inline"
+                                nzMultiple
+                                nzListType="picture"
+                                [nzData]="data"
+                                [(nzFileList)]="data.fileList"
+                                [nzCustomRequest]="operPersonFileIfy.fileCustomRequest"
+                                [nzRemove]="operPersonFileIfy.fileRemove"
+                                [nzShowUploadList]="{ showRemoveIcon: canEdit }"
+                                [nzPreview]="operPersonFileIfy.preview"
+                                [nzShowButton]="canEdit"
+                                [nzDisabled]="personListIfy.list.length === 0"
+                            >
+                                <button nz-button><i nz-icon nzType="upload"></i>上传附件</button>
+                            </nz-upload>
+                        </div>
+                    </ng-container>
+                </div>
+            </div>
+        </div>
+    </div>
+</ng-template>

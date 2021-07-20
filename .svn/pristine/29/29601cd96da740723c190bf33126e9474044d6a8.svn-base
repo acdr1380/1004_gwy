@@ -1,0 +1,285 @@
+import { Component, OnInit, Input, ViewChild, Output, EventEmitter } from '@angular/core';
+import { WfDataChangeTypeEnum } from 'app/workflow/enums/WfDataChangeTypeEnum';
+import { JobStepInfo } from 'app/workflow/db/JobStepInfo';
+import { WorkflowService } from 'app/workflow/workflow.service';
+import { OnlineDocComponent } from 'app/components/online-doc/online-doc.component';
+import { SalaryCivliInnerTransferService } from '../salary-civli-inner-transfer.service';
+
+import * as moment from 'moment';
+import { AllowFields } from '../allowance-field/fields';
+import { NzModalService } from 'ng-zorro-antd/modal';
+import { JobStepStateEnum } from 'app/workflow/enums/JobStepStateEnum';
+@Component({
+    // tslint:disable-next-line:component-selector
+    selector: 'allow-edit',
+    templateUrl: './inner-allow-edit.component.html',
+    styleUrls: ['./inner-allow-edit.component.scss'],
+})
+export class InnerAllowEditComponent implements OnInit {
+    constructor(
+        private workflowService: WorkflowService,
+        private modalService: NzModalService,
+        private parentService: SalaryCivliInnerTransferService
+    ) {}
+
+    /**
+     * 业务是否可编辑
+     */
+    canEdit = false;
+
+    /**
+     * 业务信息
+     */
+    _jobStepInfo: JobStepInfo;
+    @Input()
+    set jobStepInfo(v) {
+        if (v) {
+            this._jobStepInfo = v;
+            this.canEdit = v.jobStepState === JobStepStateEnum.PROCESSING;
+        }
+    }
+    get jobStepInfo() {
+        return this._jobStepInfo;
+    }
+
+    /**
+     * 业务信息
+     */
+    _personKeyId: any;
+    @Input()
+    set personKeyId(v) {
+        if (v) {
+            this._personKeyId = v;
+            this.getWfData();
+        }
+    }
+    get personKeyId() {
+        return this._personKeyId;
+    }
+
+    /**
+     * 点击表格弹出对应弹窗的标志
+     */
+    _status;
+    @Input() set status(data) {
+        this._status = data;
+        if (data) {
+            const { TABLE_COLUMN_NAME, SON_TABLE_FIELD, IS_SHOW_TYPE } = data;
+
+            this.disable = !!IS_SHOW_TYPE;
+            this.editDrawer.title = TABLE_COLUMN_NAME;
+            if (IS_SHOW_TYPE) {
+                this.editDrawer.headerList = AllowFields[SON_TABLE_FIELD];
+            } else {
+                this.editDrawer.headerList = AllowFields[SON_TABLE_FIELD].filter(
+                    v => !v.IS_STANDARD
+                );
+            }
+            this.editDrawer.widthConfig = Array(this.editDrawer.headerList.length + 1).fill(
+                '100px'
+            );
+            this.editDrawer.scrollConfig.x = (this.editDrawer.headerList.length + 1) * 100 + 'px';
+            this.getWfData();
+        }
+    }
+    get status() {
+        return this._status;
+    }
+    disable: Boolean = false;
+
+    @Output() calculateChange = new EventEmitter<any>();
+    @ViewChild('onlineDocOverlayElement', { static: false })
+    onlineDocOverlayElement: OnlineDocComponent;
+    /**
+     * 编辑抽屉
+     */
+    editDrawer = {
+        visible: false,
+        loading: false,
+        width: 600,
+        data: [],
+        totalData: null,
+        title: '',
+        selectIndex: -1,
+        headerList: [],
+        widthConfig: [],
+        scrollConfig: { x: '1000px', y: '450px' },
+        open: () => {
+            this.editDrawer.visible = true;
+        },
+        close: () => {
+            this.editDrawer.visible = false;
+            // this.calculateChange.emit();
+        },
+        // 保存
+        saveAllowanceTable: () => {
+            this.editDrawer.loading = true;
+            const saveData = this.editDrawer.data.filter(
+                v => v.changeState === 0 || v.changeState === 1
+            );
+            const { TABLE_COLUMN_CODE, SON_TABLE_FIELD } = this.status;
+            const paramsArr = [];
+            saveData.map(v => {
+                if (SON_TABLE_FIELD === 'GZ21A') {
+                    v.GZ21A03 = TABLE_COLUMN_CODE.substr(6);
+                }
+                const params = {
+                    keyId: this.personKeyId,
+                    childId: v.childId ? v.childId : -1,
+                    jobId: this.jobStepInfo.jobId,
+                    jobStepId: this.jobStepInfo.jobStepId,
+                    jobDataId: this.jobStepInfo.jobDataId,
+                    changeType: v.childId ? WfDataChangeTypeEnum.MODIFY : WfDataChangeTypeEnum.ADD,
+                    tableId: `DATA_1002_PERSON_${SON_TABLE_FIELD}`,
+                    data: v,
+                };
+                paramsArr.push(params);
+            });
+            this.workflowService.saveMultipleTableData(paramsArr).subscribe(result => {
+                this.editDrawer.loading = false;
+                this.getWfData();
+            });
+        },
+
+        // 删除
+        deleteData: (data, index) => {
+            if (!data.childId) {
+                this.editDrawer.data.splice(index);
+                this.editDrawer.data = [...this.editDrawer.data];
+                return;
+            }
+            this.modalService.confirm({
+                nzTitle: '系统提示?',
+                nzContent: `<b style="color: red;">确定要删除当前这条记录吗？</b>`,
+                nzOkText: '确定',
+                nzOkType: 'danger',
+                nzOnOk: () => {
+                    const { SON_TABLE_FIELD } = this.status;
+                    const tableId = `DATA_1002_PERSON_${SON_TABLE_FIELD}`;
+                    const dataArray = [
+                        {
+                            childId: data.childId,
+                            keyId: this.personKeyId,
+                            jobId: this.jobStepInfo.jobId,
+                            jobStepId: this.jobStepInfo.jobStepId,
+                            jobDataId: this.jobStepInfo.jobDataId,
+                            changeType: WfDataChangeTypeEnum.DELETE,
+                            tableId: tableId,
+                        },
+                    ];
+                    this.workflowService.deleteTableData(dataArray).subscribe(() => {
+                        this.editDrawer.data.splice(index, 1);
+                        this.editDrawer.data = [...this.editDrawer.data];
+                    });
+                },
+                nzCancelText: '取消',
+                nzOnCancel: () => console.log('Cancel'),
+            });
+        },
+
+        /**
+         * 计算
+         */
+        calculation: async () => {
+            const params = {
+                jobId: this.jobStepInfo.jobId,
+                jobStepId: this.jobStepInfo.jobStepId,
+                keyIds: [this.personKeyId],
+            };
+            const list = await this.workflowService.dataVerification(params).toPromise();
+            if (!list || list.length > 0) {
+                this.dataVerificationIfy.list = list;
+                this.dataVerificationIfy.open();
+                return;
+            }
+            this.editDrawer.loading = true;
+            const par = {
+                jobId: this.jobStepInfo.jobId,
+                jobStepId: this.jobStepInfo.jobStepId,
+                handlerIds: ['601'],
+                keyIds: [this.personKeyId],
+            };
+            this.workflowService.salaryCivilCalculation(par).subscribe(result => {
+                this.editDrawer.loading = false;
+                this.calculateChange.emit();
+                this.editDrawer.totalData = null;
+                this.getWfData();
+            });
+        },
+
+        // 添加
+        add: () => {
+            const obj = { changeState: 0 };
+            this.editDrawer.headerList.forEach(v => {
+                obj[v.TABLE_COLUMN_CODE] = '';
+            });
+            this.editDrawer.data.push(obj);
+            this.editDrawer.data = [...this.editDrawer.data];
+        },
+    };
+    /**
+     * 数据校验内容显示
+     */
+    dataVerificationIfy = {
+        visible: false,
+        width: 500,
+        close: () => {
+            this.dataVerificationIfy.visible = false;
+        },
+        open: () => {
+            this.dataVerificationIfy.visible = true;
+        },
+
+        list: [],
+    };
+    ngOnInit() {}
+    // 显示
+    show() {
+        this.editDrawer.open();
+    }
+    /**
+     * 获取子集数据
+     */
+    getWfData() {
+        if (!this.status) {
+            return;
+        }
+        this.editDrawer.loading = true;
+        const { SON_TABLE_FIELD, TABLE_COLUMN_CODE } = this.status;
+        const tableId = `DATA_1002_PERSON_${SON_TABLE_FIELD}`;
+        const data = {
+            jobId: this.jobStepInfo.jobId,
+            jobStepId: this.jobStepInfo.jobStepId,
+            childFields: {
+                [tableId]: [],
+            },
+            keyIds: [this.personKeyId],
+        };
+        const dateTime = this.editDrawer.headerList.filter(v => v.TABLE_COLUMN_TYPE === 4);
+        this.workflowService.getPsnList(this.parentService.wfId, data).subscribe(result => {
+            this.editDrawer.loading = false;
+            if (result[tableId]) {
+                // 全部数据
+                this.editDrawer.data = result[tableId].map(v => {
+                    v.childId = v[`${tableId}_ID`];
+                    dateTime.forEach(item => {
+                        if (item.TABLE_COLUMN_TYPE === 4 && v[item.TABLE_COLUMN_CODE]) {
+                            v[item.TABLE_COLUMN_CODE] = moment(
+                                v[item.TABLE_COLUMN_CODE],
+                                'YYYYMMDD'
+                            ).format('YYYY-MM-DD');
+                        }
+                    });
+                    return v;
+                });
+                if (SON_TABLE_FIELD === 'GZ21A') {
+                    this.editDrawer.data = this.editDrawer.data.filter(
+                        v => v.GZ21A03 === TABLE_COLUMN_CODE.substr(6)
+                    );
+                }
+            } else {
+                this.editDrawer.data = [];
+            }
+        });
+    }
+}

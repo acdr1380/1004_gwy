@@ -1,0 +1,61 @@
+$browser-default-font-size: 16px !default; //变量的值可以根据自己需求定义
+
+@function pxTorem($px) {
+    @return $px / $browser-default-font-size * 1rem;
+}
+
+.layout {
+    height: 100%;
+    background-color: #fff;
+    overflow: auto;
+    position: relative;
+    .handle {
+        height: pxTorem(60px);
+        line-height: pxTorem(60px);
+        padding: 0 pxTorem(10px);
+        border-bottom: 1px solid #eee;
+    }
+
+    .content {
+        padding: pxTorem(10px);
+    }
+
+    .reading_state {
+        padding-left: 10px;
+        margin-bottom: 10px;
+        display: flex;
+        & > div {
+            margin-right: 20px;
+        }
+    }
+    .loadingcon {
+        position: absolute;
+        z-index: 10000;
+        left: 750px;
+        top: 80px;
+        top: 42%;
+        left: 45%;
+        .loading {
+            background-color: rgba($color: #fff, $alpha: 0.9);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            flex-direction: column;
+            padding-bottom: 40px;
+        }
+    }
+}
+.read_content {
+    nz-table {
+        td {
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+        }
+    }
+}
+::ng-deep {
+    nz-table .ant-table table {
+        table-layout: fixed;
+    }
+}

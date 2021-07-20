@@ -1,0 +1,258 @@
+<!-- 普通子集录入 -->
+<nz-drawer
+    [nzOffsetX]="setChildTableIfy.childEditIfy.visible ? 100 : 0"
+    nzPlacement="right"
+    [nzVisible]="setChildTableIfy.visible"
+    [nzWidth]="setChildTableIfy.width"
+    [nzTitle]="setChildTableIfy.title"
+    (nzOnClose)="setChildTableIfy.close()"
+>
+    <div class="drawer_area child_editor">
+        <!-- <div
+            class="header"
+            *ngIf="
+                setChildTableIfy.editSet?.systemSchemeTable.TABLE_CODE !==
+                setChildTableIfy.editSet?.systemSchemeTable.TABLE_PARENT_CODES
+            "
+        >
+            <nz-button-group>
+                <button nz-button nzType="primary" (click)="setChildTableIfy.evtAdd()">增加</button>
+                <button
+                    nz-button
+                    nzType="default"
+                    [disabled]="setChildTableIfy.selectRowIndex === -1"
+                    (click)="setChildTableIfy.evtEdit()"
+                >
+                    编辑
+                </button>
+                <button
+                    nz-button
+                    nzType="danger"
+                    [disabled]="setChildTableIfy.selectRowIndex === -1"
+                    (click)="setChildTableIfy.evtDelete()"
+                >
+                    删除
+                </button>
+            </nz-button-group>
+
+            <div class="right">
+                <nz-button-group>
+                    <button
+                        nz-button
+                        nzType="default"
+                        [disabled]="setChildTableIfy.selectRowIndex === -1"
+                        (click)="setChildTableIfy.evtMove(0)"
+                    >
+                        <i nz-icon nzType="up"></i>上移
+                    </button>
+                    <button
+                        nz-button
+                        nzType="default"
+                        [disabled]="setChildTableIfy.selectRowIndex === -1"
+                        (click)="setChildTableIfy.evtMove(1)"
+                    >
+                        <i nz-icon nzType="down"></i>下移
+                    </button>
+                </nz-button-group>
+            </div>
+        </div> -->
+        <ng-container *ngFor="let item of chemeDataList?.systemSchemeList">
+            <div
+                *ngIf="
+                    item.systemSchemeTable.TABLE_CODE !== item.systemSchemeTable.TABLE_PARENT_CODES
+                "
+                class="container"
+                [hidden]="
+                    item.systemSchemeTable?.SCHEME_TABLE_TABLE_ID !==
+                    setChildTableIfy.editSet?.systemSchemeTable.SCHEME_TABLE_TABLE_ID
+                "
+            >
+                <ng-template
+                    [ngTemplateOutlet]="chileTableElement"
+                    [ngTemplateOutletContext]="{
+                        tableData: item.tableData,
+                        headerList: setChildTableIfy.editSet?.systemSchemeHeader
+                    }"
+                ></ng-template>
+            </div>
+        </ng-container>
+        <div class="footer">
+            <nz-button-group>
+                <button nz-button nzType="default" (click)="setChildTableIfy.close()">关闭</button>
+            </nz-button-group>
+        </div>
+    </div>
+</nz-drawer>
+
+<!-- 子集列表显示 -->
+<ng-template #chileTableElement let-tableData="tableData" let-headerList="headerList">
+    <nz-table
+        #chileSetTable
+        nzSize="small"
+        nzBordered
+        [nzData]="tableData"
+        [(nzPageSize)]="setChildTableIfy.pageSize"
+        [(nzPageIndex)]="setChildTableIfy.pageIndex"
+        (nzPageIndexChange)="setChildTableIfy.evtPageChange()"
+    >
+        <thead>
+            <tr>
+                <th nzWidth="50px" *ngIf="outputPermission[setChildTableIfy.config.tableCode]">
+                    输出
+                </th>
+                <ng-container *ngFor="let item of headerList">
+                    <th [nzWidth]="item.SCHEME_HEADER_DISPLAY_WIDTH">
+                        {{ item.SCHEME_HEADER_DISPLAY_NAME }}
+                    </th>
+                </ng-container>
+            </tr>
+        </thead>
+        <tbody>
+            <ng-container *ngFor="let data of chileSetTable.data; let i = index">
+                <tr
+                    [class.active]="setChildTableIfy.selectRowIndex === i"
+                    (click)="setChildTableIfy.evtSelectRow(i)"
+                    (dblclick)="setChildTableIfy.evtEdit()"
+                >
+                    <td
+                        *ngIf="outputPermission[setChildTableIfy.config.tableCode]"
+                        nzShowCheckbox
+                        [(nzChecked)]="data[outputPermission[setChildTableIfy.config.tableCode]]"
+                        (nzCheckedChange)="evtOutputChange($event, data)"
+                    ></td>
+                    <ng-container *ngFor="let item of headerList">
+                        <td [style.width.px]="item.SCHEME_HEADER_DISPLAY_WIDTH">
+                            <ng-container
+                                *ngIf="
+                                    item.TABLE_COLUMN_TYPE === columnType.DATE;
+                                    else elseTemplate
+                                "
+                            >
+                                {{ data[item.TABLE_COLUMN_CODE] | date: 'yyyy-MM-dd' }}
+                            </ng-container>
+                            <ng-template #elseTemplate>
+                                {{
+                                    item.TABLE_COLUMN_DICTIONARY_CODE
+                                        ? data[item.TABLE_COLUMN_CODE + '_CN']
+                                        : data[item.TABLE_COLUMN_CODE]
+                                }}
+                            </ng-template>
+                        </td>
+                    </ng-container>
+                </tr>
+            </ng-container>
+        </tbody>
+    </nz-table>
+</ng-template>
+
+<!-- 子集编辑抽屉 -->
+<nz-drawer
+    nzPlacement="right"
+    [nzVisible]="setChildTableIfy.childEditIfy.visible"
+    [nzWidth]="setChildTableIfy.childEditIfy.width"
+    [nzTitle]="setChildTableIfy.childEditIfy.title"
+    (nzOnClose)="setChildTableIfy.childEditIfy.close()"
+>
+    <div class="drawer_area">
+        <ng-container *ngFor="let item of chemeDataList?.systemSchemeList">
+            <div
+                class="container"
+                [hidden]="
+                    item.systemSchemeTable?.SCHEME_TABLE_TABLE_ID !==
+                    setChildTableIfy.editSet?.systemSchemeTable.SCHEME_TABLE_TABLE_ID
+                "
+            >
+                <ng-template
+                    [ngTemplateOutlet]="item.drawerTemp"
+                    [ngTemplateOutletContext]="
+                        setChildTableIfy.childEditIfy.evtGetTempOutParams(item)
+                    "
+                ></ng-template>
+            </div>
+        </ng-container>
+        <div class="footer">
+            <button nz-button nzType="primary" (click)="setChildTableIfy.childEditIfy.evtSave()">
+                保存
+            </button>
+        </div>
+    </div>
+</nz-drawer>
+
+<!-- 构造编辑字段 -->
+<ng-template
+    #inputEditElement
+    let-formGroup="formGroup"
+    let-fields="fields"
+    let-inline="inline"
+    let-formData="formData"
+>
+    <form nz-form [formGroup]="formGroup">
+        <ng-container *ngFor="let field of fields">
+            <nz-form-item [style.display]="inline && 'inline-block'">
+                <nz-form-label
+                    [nzRequired]="field.SCHEME_EDIT_IS_MUST_INPUT"
+                    [style.width.px]="inline && field.SCHEME_EDIT_LABEL_WIDTH"
+                    [style.float]="inline && 'left'"
+                >
+                    {{ field.SCHEME_EDIT_DISPLAY_NAME }}
+                </nz-form-label>
+
+                <nz-form-control
+                    [style.display]="inline && 'inline-block'"
+                    [style.width.px]="inline && field.SCHEME_EDIT_EDIT_WIDTH"
+                    [nzErrorTip]="errorTpl"
+                >
+                    <ng-container *ngIf="field.TABLE_COLUMN_DICTIONARY_CODE; else elseTempElement">
+                        <gl-dictionary-input
+                            [code]="field.TABLE_COLUMN_DICTIONARY_CODE"
+                            [(text)]="formData[field.TABLE_COLUMN_CODE + '_CN']"
+                            [placeholder]="'请填写' + field.SCHEME_EDIT_DISPLAY_NAME"
+                            [formControlName]="field.TABLE_COLUMN_CODE"
+                        >
+                        </gl-dictionary-input>
+                    </ng-container>
+
+                    <ng-template #elseTempElement>
+                        <ng-container *ngIf="field.TABLE_COLUMN_TYPE === columnType.DATE">
+                            <nz-date-picker
+                                [formControlName]="field.TABLE_COLUMN_CODE"
+                                [nzPlaceHolder]="'请填写' + field.SCHEME_EDIT_DISPLAY_NAME"
+                            >
+                            </nz-date-picker>
+                        </ng-container>
+                        <ng-container *ngIf="field.TABLE_COLUMN_TYPE === columnType.VARCHAR">
+                            <input
+                                nz-input
+                                [formControlName]="field.TABLE_COLUMN_CODE"
+                                [placeholder]="'请填写' + field.SCHEME_EDIT_DISPLAY_NAME"
+                            />
+                        </ng-container>
+                        <ng-container *ngIf="field.TABLE_COLUMN_TYPE === columnType.NUMBER">
+                            <nz-input-number
+                                [formControlName]="field.TABLE_COLUMN_CODE"
+                                [nzPlaceHolder]="'请填写' + field.SCHEME_EDIT_DISPLAY_NAME"
+                            >
+                            </nz-input-number>
+                        </ng-container>
+                        <ng-container *ngIf="field.TABLE_COLUMN_TYPE === columnType.CLOB">
+                            <textarea
+                                nz-input
+                                [formControlName]="field.TABLE_COLUMN_CODE"
+                                rows="4"
+                            ></textarea>
+                        </ng-container>
+                    </ng-template>
+
+                    <ng-template #errorTpl let-control>
+                        <ng-container *ngIf="control.hasError('required')">
+                            请填写{{ field.FIELD_EDIT_DISPLAY_NAME }}。
+                        </ng-container>
+                        <ng-container *ngIf="control.hasError('msg')">
+                            {{ control?.getError('msg') || '异常错误。' }}
+                        </ng-container>
+                    </ng-template>
+                </nz-form-control>
+            </nz-form-item>
+        </ng-container>
+    </form>
+</ng-template>

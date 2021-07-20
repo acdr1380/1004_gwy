@@ -1,0 +1,194 @@
+<nz-drawer
+    [nzClosable]="true"
+    [nzVisible]="teacherTable.visible"
+    nzPlacement="right"
+    [nzTitle]="teacherTable.title"
+    [nzWidth]="teacherTable.width"
+    (nzOnClose)="teacherTable.close()"
+>
+    <div class="drawer_area">
+        <div class="header">
+            <button nz-button nzType="primary" (click)="teacherTable.addRow()">增加</button>
+        </div>
+        <div class="container edit_tbl">
+            <div class="view_scroll">
+                <div [hidden]="currentTableCode !== 'JBT'">
+                    <nz-table
+                        #allowance
+                        [nzData]="teacherTable.data"
+                        nzBordered
+                        [nzLoading]="teacherTable.loading"
+                    >
+                        <thead>
+                            <tr>
+                                <th nzAlign="center" columnName="GZ21A01">起薪时间</th>
+                                <th nzAlign="center" class="status" columnName="GZ21A02">
+                                    办理时间
+                                </th>
+                                <th nzAlign="center" class="status" columnName="GZ21A04">
+                                    执行金额
+                                </th>
+                                <th nzAlign="center" class="status" columnName="GZ21A07_CN">
+                                    是否执行
+                                </th>
+                                <th nzAlign="center">附件</th>
+                                <th nzAlign="center" columnName="GZ21A05">变动原因</th>
+                                <th nzAlign="center">操作</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr *ngFor="let data of allowance.data; let i = index">
+                                <!-- 起薪时间 -->
+                                <td nzAlign="center" class="edit">
+                                    <input
+                                        [(ngModel)]="data.GZ21A01"
+                                        (change)="saveData(data, i)"
+                                    />
+                                </td>
+                                <!-- 办理时间 -->
+                                <td nzAlign="center" class="edit">
+                                    <input
+                                        [(ngModel)]="data.GZ21A02"
+                                        (change)="saveData(data, i)"
+                                    />
+                                </td>
+                                <!-- 执行金额 -->
+                                <td nzAlign="center" class="edit">
+                                    <input
+                                        [(ngModel)]="data.GZ21A04"
+                                        (change)="saveData(data, i)"
+                                    />
+                                </td>
+
+                                <!-- 是否执行 -->
+                                <td class="edit" nzAlign="center">
+                                    <!-- CGZZJ -->
+                                    <dictionary-input
+                                        [code]="'CGZZJ'"
+                                        [text]="data['GZ21A07' + '_CN']"
+                                        [ngModel]="data.GZ21A07"
+                                        (ngModelChange)="saveData(data, i, 'GZ21A07', $event)"
+                                    >
+                                    </dictionary-input>
+                                </td>
+
+                                <td class="edit" nzAlign="center">
+                                    <button nz-button nzSize="small" (click)="upload.open(data)">
+                                        上传附件
+                                    </button>
+                                </td>
+                                <!-- 变动原因 -->
+                                <td nzAlign="center" class="edit">
+                                    <input
+                                        [(ngModel)]="data.GZ21A05"
+                                        (change)="saveData(data, i)"
+                                    />
+                                </td>
+
+                                <td class="edit" nzAlign="center">
+                                    <a (click)="teacherTable.deleteData(data, i)">删除</a>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </nz-table>
+                </div>
+
+                <div [hidden]="currentTableCode !== 'GZA01'">
+                    <nz-table
+                        #allowance
+                        [nzData]="teacherTable.data"
+                        nzBordered
+                        [nzLoading]="teacherTable.loading"
+                    >
+                        <thead>
+                            <tr>
+                                <th nzAlign="center">起薪时间</th>
+                                <th nzAlign="center" class="status">办理时间</th>
+                                <th nzAlign="center" class="status">是否执行</th>
+                                <th nzAlign="center">附件</th>
+                                <th nzAlign="center">变动原因</th>
+                                <th nzAlign="center">操作</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr *ngFor="let data of allowance.data; let i = index">
+                                <td nzAlign="center" class="edit">
+                                    <input
+                                        [(ngModel)]="data.GZ21A01"
+                                        (change)="saveData(data, i)"
+                                    />
+                                </td>
+                                <td nzAlign="center" class="edit">
+                                    <input
+                                        [(ngModel)]="data.GZ21A02"
+                                        (change)="saveData(data, i)"
+                                    />
+                                </td>
+
+                                <td class="edit" nzAlign="center">
+                                    <!-- CGZZJ -->
+                                    <dictionary-input
+                                        [code]="'CGZZJ'"
+                                        [text]="data['GZ21A07' + '_CN']"
+                                        [ngModel]="data.GZ21A07"
+                                        (ngModelChange)="saveData(data, i, 'GZ21A07', $event)"
+                                    >
+                                    </dictionary-input>
+                                </td>
+
+                                <td class="edit" nzAlign="center">
+                                    <button nz-button nzSize="small" (click)="upload.open(data)">
+                                        上传附件
+                                    </button>
+                                </td>
+                                <td nzAlign="center" class="edit">
+                                    <input
+                                        [(ngModel)]="data.GZ21A05"
+                                        (change)="saveData(data, i)"
+                                    />
+                                </td>
+
+                                <td class="edit" nzAlign="center">
+                                    <a (click)="teacherTable.deleteData(data, i)">删除</a>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </nz-table>
+                </div>
+            </div>
+        </div>
+        <div class="footer">
+            <button nz-button nzType="default" (click)="teacherTable.close()">取消</button>
+        </div>
+    </div>
+</nz-drawer>
+<!-- 上传附件 -->
+<nz-drawer
+    [nzClosable]="true"
+    [nzVisible]="upload.visible"
+    nzPlacement="right"
+    nzTitle="上传附件材料"
+    [nzWidth]="upload.width"
+    (nzOnClose)="upload.close()"
+>
+    <div>
+        <nz-upload
+            nzMultiple
+            [nzLimit]="5"
+            [nzFileList]="upload.uploadIfy.list"
+            [nzCustomRequest]="upload.uploadIfy.fileCustomRequest"
+            [nzRemove]="upload.uploadIfy.fileRemove"
+            [nzPreview]="upload.uploadIfy.preview"
+        >
+            <button nz-button [disabled]="upload.disable">
+                <span><i nz-icon nzType="upload"></i>上传附件</span>
+            </button>
+        </nz-upload>
+    </div>
+</nz-drawer>
+<!-- 在线预览附件 -->
+<gl-online-doc
+    #onlineDocOverlayElement
+    [fileList]="upload.uploadIfy.list"
+    [selectedIndex]="upload.uploadIfy.selectedIndex"
+></gl-online-doc>

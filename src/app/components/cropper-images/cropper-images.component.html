@@ -1,0 +1,38 @@
+<div class="layout cropper_images">
+    <div class="header">
+        <nz-upload
+            [nzFileList]="uploadPhtotIfy.list"
+            [nzCustomRequest]="uploadPhtotIfy.fileCustomRequest"
+            [nzRemove]="uploadPhtotIfy.fileRemove"
+        >
+            <button nz-button>
+                <i nz-icon nzType="upload"></i>
+                <span>上传照片</span>
+            </button>
+        </nz-upload>
+    </div>
+    <div class="container">
+        <div class="left">
+            <div class="image">
+                <nz-spin nzSimple nzTip="图片上传中……" *ngIf="uploadPhtotIfy.loading"></nz-spin>
+                <img
+                    [attr.src]="uploadPhtotIfy.file?.url"
+                    (load)="imageLoaded()"
+                    (error)="imageLoadError()"
+                    alt=""
+                    #imageElement
+                />
+            </div>
+        </div>
+        <div class="right">
+            <div class="preview">
+                <div class="photo" #previewsElement title="大小: 98*121"></div>
+            </div>
+        </div>
+    </div>
+    <div class="footer">
+        <nz-button-group>
+            <button nz-button nzType="primary" (click)="evtCropperImage()">确定</button>
+        </nz-button-group>
+    </div>
+</div>

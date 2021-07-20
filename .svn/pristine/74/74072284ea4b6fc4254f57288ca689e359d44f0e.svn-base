@@ -1,0 +1,43 @@
+@import 'src/app/styles/layout';
+@import 'src/app/styles/drawer';
+
+.fixed_parent {
+    position: relative;
+    display: inline-block;
+    .fixed_right {
+        position: absolute;
+        width: 80px;
+        right: 0;
+        margin: 10px 0 0 0;
+        cursor: pointer;
+        border-collapse: collapse;
+
+        & > .fixed_item {
+            height: 80px;
+            padding: 10px 0;
+            text-align: center;
+            border: solid 1px #efefef;
+
+            & > .fixed_icon {
+                height: 29px;
+                line-height: 29px;
+            }
+
+            & > .fixed_text {
+                font-size: 16px;
+                font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue',
+                    Arial, 'Noto Sans', sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji',
+                    'Segoe UI Symbol', 'Noto Color Emoji';
+                height: 29px;
+                line-height: 29px;
+            }
+        }
+        // & > .fixed_item:last-child {
+        //     border-bottom: none;
+        // }
+        & > .fixed_item:hover {
+            color: #1890ff;
+            border-color: #1890ff;
+        }
+    }
+}
