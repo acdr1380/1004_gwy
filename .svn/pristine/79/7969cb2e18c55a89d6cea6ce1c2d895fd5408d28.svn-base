@@ -1,9 +1,0 @@
-@import 'src/app/styles/drawer';
-
-.child_editor {
-    .header {
-        .right {
-            float: right;
-        }
-    }
-}

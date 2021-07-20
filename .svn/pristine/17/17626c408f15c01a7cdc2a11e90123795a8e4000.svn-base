@@ -1,7 +1,0 @@
-@import 'src/app/styles/layout';
-.oper-search {
-    width: 300px;
-}
-.view_scroll {
-    padding: 10px;
-}

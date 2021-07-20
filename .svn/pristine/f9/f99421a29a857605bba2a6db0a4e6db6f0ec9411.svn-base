@@ -1,7 +1,0 @@
-@import 'src/app/styles/_drawer';
-
-.drawer_area {
-    .container {
-        padding: 0;
-    }
-}

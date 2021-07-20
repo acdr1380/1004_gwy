@@ -1,9 +1,0 @@
-.pointer {
-    cursor: pointer;
-}
-.green {
-    color: green;
-}
-.gray {
-    color: gray;
-}
